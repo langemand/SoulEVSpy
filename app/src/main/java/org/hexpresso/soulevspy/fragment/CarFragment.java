@@ -22,7 +22,9 @@ public class CarFragment extends ListFragment {
 
         getActivity().setTitle(R.string.action_car_information);
 
-        KiaVinParser vin = new KiaVinParser(getContext(), "KNDJX3AEXG7123456");
+        String vinStr = getArguments().getString("VIN");
+
+        KiaVinParser vin = new KiaVinParser(getContext(), vinStr); //"KNDJX3AEXG7123456");
 
         mItems.add(new ListViewItem("Vehicle Identification Number", vin.getVIN()));
         mItems.add(new ListViewItem("Brand", vin.getBrand()));

@@ -155,6 +155,23 @@ public class Protocol {
     }
 
     /**
+     * Initialize ELM327 device
+     */
+    public synchronized void init() {
+        addCommand(new org.hexpresso.elm327.commands.protocol.ResetAllCommand());
+        addCommand(new org.hexpresso.elm327.commands.protocol.EchoCommand(false));
+        addCommand(new org.hexpresso.elm327.commands.protocol.LinefeedsCommand(false));
+        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
+        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AR"));
+        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AL"));
+        addCommand(new org.hexpresso.elm327.commands.protocol.HeadersCommand(true));
+        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT S1"));
+        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand(false));
+        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
+//        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT sh 7e4"));
+    }
+
+    /**
      * Stops the protocol
      */
     public synchronized void stop() {

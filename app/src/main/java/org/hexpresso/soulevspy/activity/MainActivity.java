@@ -136,12 +136,18 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         break;
                     case Car:
                         fragment = new CarFragment();
+                        Bundle args = new Bundle();
+                        args.putString("VIN", mDevice.mVehicleIdentifierNumberCommand.getValue());
+                        fragment.setArguments(args);
                         break;
                     case Dashboard:
                         fragment = new DashboardFragment();
                         break;
                     case Battery:
                         fragment = new BatteryFragment();
+                        Bundle batteryArgs = new Bundle();
+                        batteryArgs.putDouble("SOC", mDevice.mBatteryManagementSystemCommand.getStateOfCharge());
+                        fragment.setArguments(batteryArgs);
                         break;
                     case Settings:
                         intent = new Intent(MainActivity.this, SettingsActivity.class);

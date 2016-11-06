@@ -9,5 +9,6 @@ public class ResetAllCommand extends AbstractCommand {
 
     public ResetAllCommand() {
         super("AT Z");
+        mResponseTimeDelay = 500;
     }
 }

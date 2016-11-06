@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.util.Log;
+
 /**
  * The AbstractCommand class represents an ELM327 command.
  * <p/>
@@ -21,7 +23,7 @@ import java.io.OutputStream;
 public abstract class AbstractCommand implements Command {
 
     protected String mCommand = null;                          // ELM327 command
-    protected long mResponseTimeDelay = 200;                   // Time delay before receiving the response, in milliseconds
+    protected long mResponseTimeDelay = 10;                   // Time delay before receiving the response, in milliseconds
     protected Response mResponse = new Response();             // Response object
 
     private long mRunStartTimestamp;                           // Timestamp before sending the command
@@ -63,6 +65,7 @@ public abstract class AbstractCommand implements Command {
     @Override
     public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException {
 
+        Log.d(AbstractCommand.class.getSimpleName(), "Enter execute");
         // Send the command
         mRunStartTimestamp = System.currentTimeMillis();
         send(out);
@@ -73,6 +76,7 @@ public abstract class AbstractCommand implements Command {
         // Receive the response
         receive(in);
         mRunEndTimestamp = System.currentTimeMillis();
+        Log.d(AbstractCommand.class.getSimpleName(), "Exit execute");
     }
 
     /**
@@ -83,6 +87,7 @@ public abstract class AbstractCommand implements Command {
      */
     protected void send(OutputStream out) throws IOException, InterruptedException {
         final String command = mCommand + '\r';
+        Log.d(AbstractCommand.class.getSimpleName(), "send command: " + command);
         out.write(command.getBytes());
         out.flush();
     }
@@ -93,10 +98,12 @@ public abstract class AbstractCommand implements Command {
      */
     protected void receive(InputStream in) throws IOException {
         // Receive the response from the stream
+        Log.d(AbstractCommand.class.getSimpleName(), "Enter receive");
         readRawData(in);
 
         // Check for errors
         checkForErrors();
+        Log.d(AbstractCommand.class.getSimpleName(), "Exit receive");
     }
 
     protected void readRawData(InputStream in) throws IOException {
@@ -131,6 +138,8 @@ public abstract class AbstractCommand implements Command {
      * processing..
      */
         String rawResponse = res.toString();
+        Log.d("AbstractCommand", rawResponse);
+
         rawResponse = rawResponse.replaceAll("SEARCHING", "");
 
         // TODO check this

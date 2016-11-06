@@ -9,12 +9,13 @@ import org.hexpresso.elm327.io.ServiceStates;
 
 import java.io.IOException;
 import java.util.UUID;
+import android.util.Log;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-30.
  */
 public class BluetoothService extends Service {
-
+    private static final String TAG = BluetoothService.class.getSimpleName();
     // We are connecting to a Bluetooth serial board, therefore we use the well-known SPP UUID
     private static final UUID SPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
@@ -85,9 +86,11 @@ public class BluetoothService extends Service {
             mInputStream  = mBluetoothSocket.getInputStream();
             mOutputStream = mBluetoothSocket.getOutputStream();
 
-            setState(ServiceStates.STATE_CONNECTED);
+            Log.d(TAG, "Status: Bluetooth connected");
 
             startProtocol();
+
+            setState(ServiceStates.STATE_CONNECTED);
 
         } catch (IOException e) {
             disconnect();

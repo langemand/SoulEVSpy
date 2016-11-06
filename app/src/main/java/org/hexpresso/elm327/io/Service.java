@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.util.Log;
+
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-28.
  */
@@ -90,19 +92,25 @@ public abstract class Service {
 
     protected void startProtocol() {
         // TODO verify streams not null
-        if(mState == ServiceStates.STATE_CONNECTED) {
+        Log.d(Service.class.getSimpleName(), "Enter startProtocol");
+//        if(mState == ServiceStates.STATE_CONNECTED) {
             mProtocol = new Protocol();
             mProtocol.start(mInputStream, mOutputStream);
-        }
+            mProtocol.init();
+//        }
+        Log.d(Service.class.getSimpleName(), "Exit startProtocol");
     }
 
     protected void stopProtocol() {
+        Log.d(Service.class.getSimpleName(), "Enter stopProtocol");
         if(mProtocol != null) {
             mProtocol.stop();
         }
+        Log.d(Service.class.getSimpleName(), "Exit stopProtocol");
     }
 
-    Protocol getProtocol() {
+    public Protocol getProtocol() {
+        Log.d(Service.class.getSimpleName(), "getProtocol");
         return mProtocol;
     }
 

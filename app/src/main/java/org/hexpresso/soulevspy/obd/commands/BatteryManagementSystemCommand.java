@@ -12,7 +12,7 @@ import org.hexpresso.elm327.commands.filters.RemoveSpacesResponseFilter;
  */
 public class BatteryManagementSystemCommand extends AbstractCommand {
 
-    private Double stateOfCharge;
+    private Double stateOfCharge = null;
 
     /**
      * Constructor
@@ -29,9 +29,9 @@ public class BatteryManagementSystemCommand extends AbstractCommand {
      * State of Charge (%)
      */
     public double getStateOfCharge() {
-        if (stateOfCharge == null) {
+//        if (stateOfCharge == null) {
             stateOfCharge = getResponse().get(1, 1) * 0.5;
-        }
+//        }
         return stateOfCharge;
     }
 }

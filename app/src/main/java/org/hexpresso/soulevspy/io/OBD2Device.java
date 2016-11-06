@@ -10,6 +10,8 @@ import org.hexpresso.elm327.io.bluetooth.BluetoothService;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
+import org.hexpresso.elm327.commands.general.VehicleIdentifierNumberCommand;
+import org.hexpresso.soulevspy.obd.commands.BatteryManagementSystemCommand;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-03.
@@ -18,12 +20,16 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
     final BluetoothService mBluetoothService;
     final ClientSharedPreferences mSharedPreferences;
     final Context mContext;
+    public VehicleIdentifierNumberCommand mVehicleIdentifierNumberCommand = null;
+    public BatteryManagementSystemCommand mBatteryManagementSystemCommand = null;
 
     /**
      * Constructor
      * @param sharedPreferences
      */
     public OBD2Device(ClientSharedPreferences sharedPreferences) {
+        Log.d("OBD2Device", "Enter ctor");
+
         mSharedPreferences = sharedPreferences;
         mContext = sharedPreferences.getContext();
 
@@ -34,9 +40,13 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         if (mBluetoothService.isBluetoothAvailable()) {
             mBluetoothService.useSecureConnection(true);
         }
+        mVehicleIdentifierNumberCommand = new VehicleIdentifierNumberCommand();
+        mBatteryManagementSystemCommand = new BatteryManagementSystemCommand();
+        Log.d("OBD2Device", "Exit ctor");
     }
 
     public boolean connect() {
+        Log.d("OBD2Device", "Enter connect");
         boolean isDeviceValid = mBluetoothService.isBluetoothAvailable();
 
         if ( isDeviceValid ) {
@@ -68,6 +78,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
             disconnect();
         }
 
+        Log.d("OBD2Device", "Exit connect");
         return isDeviceValid;
     }
 
@@ -78,6 +89,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
 
     @Override
     public void onServiceStateChanged(ServiceStates state) {
+        Log.d("OBD2Device", "Enter onServiceStateChanged");
         String message = null;
         switch(state) {
             case STATE_CONNECTING:
@@ -85,6 +97,18 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 break;
             case STATE_CONNECTED:
                 message = "Connected";
+                Log.d("OBD2Device", "Adding VehicleIdentifierNumberCommand");
+                ((MainActivity)mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        org.hexpresso.elm327.io.Protocol protocol = mBluetoothService.getProtocol();
+                        if (protocol != null) {
+                            protocol.addCommand(mVehicleIdentifierNumberCommand);
+//                            protocol.addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT SH 7e4"));
+//                             protocol.addCommand(mBatteryManagementSystemCommand);
+                        }
+                    }
+                });
                 break;
             case STATE_DISCONNECTING:
                 message = "Disconnecting...";
@@ -106,5 +130,6 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
             }
         });
+        Log.d("OBD2Device", "Exit onServiceStateChanged");
     }
 }

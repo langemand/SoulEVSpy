@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.util.Log;
+
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-24.
  */
@@ -16,6 +18,7 @@ public class Response {
      * Constructor
      */
     Response() {
+        Log.d(Response.class.getSimpleName(), "Response() ctor");
     }
 
     /**
@@ -44,7 +47,7 @@ public class Response {
      */
     public void process() {
         if (mResponseLines == null) {
-            final String[] lines = mRawResponse.replaceAll("\\r", "").split("\\n");
+            final String[] lines = mRawResponse.split("\\r");
             mResponseLines = new ArrayList<>(Arrays.asList(lines));
         }
 
@@ -69,6 +72,7 @@ public class Response {
     }
 
     public int get(int lineIndex, int byteIndex) {
+        if (mResponseLines == null) return 0;
         final String line = mResponseLines.get(lineIndex);
         final int start = byteIndex * 2;
         return HexToInteger(line.substring(start, start + 2));

@@ -15,6 +15,7 @@ public class VehicleIdentifierNumberCommand extends AbstractCommand {
     public VehicleIdentifierNumberCommand() {
         super("09 02");
 
+        withAutoProcessResponse(true);
         // This command assumes headers are turned on!
         addResponseFilter(new RegularExpressionResponseFilter("^[0-9A-F]{3}(.*)$"));
         addResponseFilter(new RemoveSpacesResponseFilter());
