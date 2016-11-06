@@ -1,5 +1,7 @@
 # Soul EV Spy
 
+STATUS: Pre-beta development project! Not usable (yet).
+
 Soul EV Spy is an Android application that allows you to read out some useful information out of your Kia Soul EV car that you cannot access using the on-board computer or display.
 
 # Informal warning
