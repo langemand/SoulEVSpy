@@ -5,30 +5,44 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-26.
  */
-public abstract class AbstractMultiCommand implements Command {
+public abstract class AbstractMultiCommand extends AbstractCommand {
 
     private List<Command> mCommands = new ArrayList<>();
-    protected Response mRawResponse = null;                    // Raw response data (for all commands)
+//    protected Response mRawResponse = null;                    // Raw response data (for all commands)
+    boolean mTimedOut = false;
 
     @Override
-    public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException {
+    public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException, TimeoutException {
+        mTimedOut = false;
         String rawResponse = "";
-        for(Command command : mCommands) {
-            command.execute(in, out);
-            rawResponse += command.getResponse().rawResponse() + "\\n";
-        }
+        try {
+            for (Command command : mCommands) {
+                command.execute(in, out);
+                rawResponse += command.getResponse().rawResponse() + "\\r";
+            }
 
-        mRawResponse = new Response();
-        mRawResponse.setRawResponse(rawResponse);
+            mResponse.setRawResponse(rawResponse);
+        } catch (TimeoutException e) {
+            mTimedOut = true;
+        }
     }
 
-    @Override
-    public Response getResponse() {
-        return mRawResponse;
+//    @Override
+//    public Response getResponse() {
+//        return mResponse;
+//    }
+
+    public void doProcessResponse() {
+        if (!mTimedOut) {
+            for (Command command : mCommands) {
+                command.doProcessResponse();
+            }
+        }
     }
 
     protected AbstractMultiCommand addCommand(Command command) {

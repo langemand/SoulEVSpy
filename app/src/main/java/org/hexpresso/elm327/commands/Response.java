@@ -46,10 +46,8 @@ public class Response {
      * Processes the current Response object.
      */
     public void process() {
-        if (mResponseLines == null) {
-            final String[] lines = mRawResponse.split("\\r");
-            mResponseLines = new ArrayList<>(Arrays.asList(lines));
-        }
+        final String[] lines = mRawResponse.split("\\r");
+        mResponseLines = new ArrayList<>(Arrays.asList(lines));
 
         // Execute response filters (if any)
         if(mResponseFilters != null) {
@@ -72,7 +70,7 @@ public class Response {
     }
 
     public int get(int lineIndex, int byteIndex) {
-        if (mResponseLines == null) return 0;
+        if (mResponseLines == null || lineIndex >= mResponseLines.size()) return 0;
         final String line = mResponseLines.get(lineIndex);
         final int start = byteIndex * 2;
         return HexToInteger(line.substring(start, start + 2));

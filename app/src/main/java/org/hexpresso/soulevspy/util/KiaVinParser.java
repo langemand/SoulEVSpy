@@ -23,15 +23,15 @@ public class KiaVinParser {
 
 
     public KiaVinParser(Context context, String vehicleIdentificationNumber ) {
-
-        // Make sure it's in uppercase
-        vehicleIdentificationNumber = vehicleIdentificationNumber.toUpperCase();
-        if ( vehicleIdentificationNumber.length() != 17 )
+        if ( vehicleIdentificationNumber == null || vehicleIdentificationNumber.length() != 17 )
         {
             // The string must be 17 characters!
             Log.d("KiaVinParser", "Invalid String!");
             return;
         }
+
+        // Make sure it's in uppercase
+        vehicleIdentificationNumber = vehicleIdentificationNumber.toUpperCase();
 
         // World Manufacturer Identifier (WMI)
         final String wmi = vehicleIdentificationNumber.substring(0, 3);

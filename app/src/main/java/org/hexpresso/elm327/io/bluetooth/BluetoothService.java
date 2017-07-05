@@ -8,6 +8,7 @@ import org.hexpresso.elm327.io.Service;
 import org.hexpresso.elm327.io.ServiceStates;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 import android.util.Log;
 
@@ -133,6 +134,7 @@ public class BluetoothService extends Service {
                     mBluetoothSocket.close();
                 } catch (IOException e) {
                     // Do nothing
+                    e.printStackTrace();
                 }
                 mBluetoothSocket = null;
             }

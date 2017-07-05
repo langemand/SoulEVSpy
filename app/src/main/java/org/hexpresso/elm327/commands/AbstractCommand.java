@@ -1,5 +1,6 @@
 package org.hexpresso.elm327.commands;
 
+import org.hexpresso.elm327.log.CommLog;
 import org.hexpresso.elm327.exceptions.BusInitException;
 import org.hexpresso.elm327.exceptions.MisunderstoodCommandException;
 import org.hexpresso.elm327.exceptions.NoDataException;
@@ -12,7 +13,9 @@ import org.hexpresso.elm327.exceptions.UnsupportedCommandException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.TimeoutException;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 /**
@@ -23,12 +26,14 @@ import android.util.Log;
 public abstract class AbstractCommand implements Command {
 
     protected String mCommand = null;                          // ELM327 command
-    protected long mResponseTimeDelay = 10;                   // Time delay before receiving the response, in milliseconds
+    protected long mResponseTimeDelay = 1;                     // Time delay before receiving the response, in milliseconds
     protected Response mResponse = new Response();             // Response object
 
     private long mRunStartTimestamp;                           // Timestamp before sending the command
     private long mRunEndTimestamp;                             // Timestamp after receiving the command response
     private boolean mWithAutoProcessResponse = false;          //
+    private boolean mStopReadingAtLineEnd = false;             // If false, stop reading at '>', if true, at '\r'
+    private long mTimeout_ms = 1000L;                          // Input timeout
 
     /**
      * Error classes to be tested in order
@@ -52,7 +57,7 @@ public abstract class AbstractCommand implements Command {
         mCommand = command;
     }
 
-    private AbstractCommand() {
+    protected AbstractCommand() {
     }
 
     /**
@@ -63,7 +68,7 @@ public abstract class AbstractCommand implements Command {
      * @throws InterruptedException
      */
     @Override
-    public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException {
+    public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException, TimeoutException {
 
         Log.d(AbstractCommand.class.getSimpleName(), "Enter execute");
         // Send the command
@@ -73,11 +78,13 @@ public abstract class AbstractCommand implements Command {
         // Wait before trying to receive the command response
         Thread.sleep(mResponseTimeDelay);
 
-        // Receive the response
+        // Receive the response - NOTE: This will throw exception on connection error etc!
         receive(in);
         mRunEndTimestamp = System.currentTimeMillis();
         Log.d(AbstractCommand.class.getSimpleName(), "Exit execute");
     }
+
+    public void doProcessResponse() {};
 
     /**
      *
@@ -88,59 +95,20 @@ public abstract class AbstractCommand implements Command {
     protected void send(OutputStream out) throws IOException, InterruptedException {
         final String command = mCommand + '\r';
         Log.d(AbstractCommand.class.getSimpleName(), "send command: " + command);
-        out.write(command.getBytes());
+        byte[] commandBytes = command.getBytes();
+        out.write(commandBytes);
         out.flush();
+        CommLog.getInstance().log(commandBytes);
     }
 
     /**
      *
      * @param in
      */
-    protected void receive(InputStream in) throws IOException {
+    protected void receive(InputStream in) throws IOException, TimeoutException {
         // Receive the response from the stream
         Log.d(AbstractCommand.class.getSimpleName(), "Enter receive");
-        readRawData(in);
-
-        // Check for errors
-        checkForErrors();
-        Log.d(AbstractCommand.class.getSimpleName(), "Exit receive");
-    }
-
-    protected void readRawData(InputStream in) throws IOException {
-        StringBuilder res = new StringBuilder();
-
-        // read until '>' arrives OR end of stream reached
-        // TODO : Also, add a default timeout value
-        while(true)
-        {
-            final byte b = (byte)in.read();
-            if(b == -1) // -1 if the end of the stream is reached
-            {
-                // End of stream reached
-                break;
-            }
-
-            final char c = (char)b;
-            if(c == '>')
-            {
-                // read until '>' arrives
-                break;
-            }
-            res.append(c);
-        }
-
-    /*
-     * Imagine the following response 41 0c 00 0d.
-     *
-     * ELM sends strings!! So, ELM puts spaces between each "byte". And pay
-     * attention to the fact that I've put the word byte in quotes, because 41
-     * is actually TWO bytes (two chars) in the socket. So, we must do some more
-     * processing..
-     */
-        String rawResponse = res.toString();
-        Log.d("AbstractCommand", rawResponse);
-
-        rawResponse = rawResponse.replaceAll("SEARCHING", "");
+        String rawResponse = readRawData(in);
 
         // TODO check this
         //rawResponse = rawResponse.replaceAll("(BUS INIT)|(BUSINIT)|(\\.)", "");
@@ -158,6 +126,61 @@ public abstract class AbstractCommand implements Command {
         if (mWithAutoProcessResponse) {
             mResponse.process();
         }
+
+        // Check for errors
+        checkForErrors();
+        Log.d(AbstractCommand.class.getSimpleName(), "Exit receive");
+    }
+
+    protected String readRawData(InputStream in) throws IOException, TimeoutException {
+        StringBuilder res = new StringBuilder();
+        long runStartTimestamp = System.currentTimeMillis();
+
+        // read until '>' arrives OR end of stream reached
+        // TODO : Also, add a default timeout value
+        while(true)
+        {
+            if (in.available() == 0) {
+                if (runStartTimestamp + mTimeout_ms < System.currentTimeMillis()) {
+                    throw new TimeoutException("readRawData timed out while waiting for input");
+                }
+                SystemClock.sleep(1);
+                continue;
+            }
+            final byte b = (byte)in.read();
+            if(b == -1) // -1 if the end of the stream is reached
+            {
+                // End of stream reached
+                break;
+            }
+
+            final char c = (char)b;
+            res.append(c);
+            if(c == '>' && !mStopReadingAtLineEnd)
+            {
+                // read until '>' arrives
+                break;
+            }
+            if (mStopReadingAtLineEnd && c == '\r') {
+                break;
+            }
+        }
+
+    /*
+     * Imagine the following response 41 0c 00 0d.
+     *
+     * ELM sends strings!! So, ELM puts spaces between each "byte". And pay
+     * attention to the fact that I've put the word byte in quotes, because 41
+     * is actually TWO bytes (two chars) in the socket. So, we must do some more
+     * processing..
+     */
+        String rawResponse = res.toString();
+        Log.d("AbstractCommand", rawResponse);
+
+        CommLog.getInstance().log(rawResponse.getBytes());
+        rawResponse = rawResponse.replaceAll("SEARCHING", "");
+
+        return rawResponse;
     }
 
     protected void checkForErrors() {
@@ -198,5 +221,9 @@ public abstract class AbstractCommand implements Command {
     public AbstractCommand withAutoProcessResponse(boolean autoProcessResponse) {
         mWithAutoProcessResponse = autoProcessResponse;
         return this;
+    }
+
+    public void setStopReadingAtLineEnd(boolean tostop) {
+        mStopReadingAtLineEnd = tostop;
     }
 }

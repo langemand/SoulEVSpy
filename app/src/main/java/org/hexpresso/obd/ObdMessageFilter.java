@@ -11,12 +11,15 @@ public abstract class ObdMessageFilter {
     private ArrayList<ObdMessageFilterListener> mObdMessageFilterListeners = null;
 
     private ObdMessageFilter() {
-
     }
 
     protected ObdMessageFilter(String messageIdentifier) {
         mObdMessageFilterListeners = new ArrayList<>();
         mMessageIdentifier = messageIdentifier;
+    }
+
+    public String messageIdentifier() {
+        return mMessageIdentifier;
     }
 
     public void receive(String rawData)

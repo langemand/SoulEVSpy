@@ -3,6 +3,7 @@ package org.hexpresso.elm327.commands;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.TimeoutException;
 
 /**
  * The Command interface represents a command to be executed on an ELM327 device.
@@ -11,7 +12,9 @@ import java.io.OutputStream;
  */
 public interface Command {
 
-    void execute(InputStream in, OutputStream out) throws IOException, InterruptedException;
+    void execute(InputStream in, OutputStream out) throws IOException, InterruptedException, TimeoutException;
 
     Response getResponse();
+
+    void doProcessResponse();
 }

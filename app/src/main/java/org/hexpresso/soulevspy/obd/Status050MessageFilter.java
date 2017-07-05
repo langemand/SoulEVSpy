@@ -2,6 +2,8 @@ package org.hexpresso.soulevspy.obd;
 
 import org.hexpresso.obd.ObdMessageData;
 import org.hexpresso.obd.ObdMessageFilter;
+import org.hexpresso.soulevspy.R;
+import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.util.ArrayList;
 
@@ -123,6 +125,10 @@ public class Status050MessageFilter extends ObdMessageFilter {
                 mWiperSpeed = WiperSpeed.FAST;
                 break;
         }
+
+        CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
+        vals.set(vals.getPreferences().getContext().getString(R.string.col_car_lights_status), mLightsMode.toString());
+        vals.set(vals.getPreferences().getContext().getString(R.string.col_car_wipers_status), mWiperSpeed.toString());
 
         return true;
     }

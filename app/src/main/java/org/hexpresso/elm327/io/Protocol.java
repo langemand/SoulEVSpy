@@ -1,6 +1,12 @@
 package org.hexpresso.elm327.io;
 
+import android.widget.Toast;
+
 import org.hexpresso.elm327.commands.Command;
+import org.hexpresso.elm327.exceptions.ResponseException;
+import org.hexpresso.elm327.exceptions.StoppedException;
+import org.hexpresso.soulevspy.activity.MainActivity;
+import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-27.
@@ -28,6 +35,8 @@ public class Protocol {
     private InputStream mInputStream = null;
     private OutputStream mOutputStream = null;
 
+    private String mStatus = new String();
+
     public Protocol() {
 
         // Thread used to execute ELM327 commands
@@ -37,6 +46,7 @@ public class Protocol {
                 executeMessages();
             }
         });
+        mExecutionThread.setName("BluetoothProtocolExecutionThread");
 
         // Thread used to process the received messages
         mProcessingThread = new Thread(new Runnable() {
@@ -45,6 +55,7 @@ public class Protocol {
                 processReceivedMessages();
             }
         });
+        mProcessingThread.setName("BluetoothProtocolProcessingThread");
     }
 
     /**
@@ -68,6 +79,10 @@ public class Protocol {
         return true;
     }
 
+    public int numberOfQueuedCommands() {
+        return mMessageInputQueue.size();
+    }
+
     /**
      * Adds the specified Message to the processing queue.
      * @param message Message to add
@@ -76,7 +91,7 @@ public class Protocol {
         try {
             mMessageOutputQueue.put(message);
         } catch (InterruptedException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -94,13 +109,41 @@ public class Protocol {
                 message.setState(Message.State.EXECUTING);
 
                 // TODO PEM : check for errors
-                message.getCommand().execute(mInputStream, mOutputStream);
+                try {
+                    message.getCommand().execute(mInputStream, mOutputStream);
+                } catch (TimeoutException e) {
+                    // How to handle this...
+                }
 
                 message.setState(Message.State.FINISHED);
             } catch (InterruptedException e) {
                 mExecutionThread.interrupt();
+                mStatus = e.getMessage();
             } catch (IOException e) {
-
+// Ignore?
+                // TODO : This is just for a test!
+//                final String err = "IOexception: " + e.toString();
+//                ((MainActivity)CurrentValuesSingleton.getInstance().getPreferences().getContext()).runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(CurrentValuesSingleton.getInstance().getPreferences().getContext(), err, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+                mExecutionThread.interrupt();
+                mStatus = e.getMessage();
+            } catch (StoppedException e) {
+                int a = 7; // for having a place to set a breakpoint...
+                // Shall this be ignored?
+            } catch (ResponseException e) {
+//                final String err = "ResponseException: " + e.toString();
+//                ((MainActivity)CurrentValuesSingleton.getInstance().getPreferences().getContext()).runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(CurrentValuesSingleton.getInstance().getPreferences().getContext(), err, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+                mExecutionThread.interrupt();
+                mStatus = e.getMessage();
             }
 
             if(message != null) {
@@ -121,8 +164,7 @@ public class Protocol {
 
             try {
                 message = mMessageOutputQueue.take();
-
-                // TODO Call ProcessResponse method (add it to the Command class).
+                message.getCommand().doProcessResponse();
 
                 // Notify registered MessageReceivedListener objects
                 for (Iterator<MessageReceivedListener> i=mMessageReceivedListeners.iterator(); i.hasNext(); ) {
@@ -158,14 +200,15 @@ public class Protocol {
      * Initialize ELM327 device
      */
     public synchronized void init() {
+//        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT I"));
         addCommand(new org.hexpresso.elm327.commands.protocol.ResetAllCommand());
         addCommand(new org.hexpresso.elm327.commands.protocol.EchoCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.LinefeedsCommand(false));
-        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
+//        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AR"));
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AL"));
         addCommand(new org.hexpresso.elm327.commands.protocol.HeadersCommand(true));
-        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT S1"));
+//        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT S1"));
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT sh 7e4"));
@@ -185,6 +228,12 @@ public class Protocol {
 
         mInputStream = null;
         mOutputStream = null;
+    }
+
+    public synchronized String setStatus(String newStatus) {
+        String ret = new String(mStatus);
+        mStatus = newStatus;
+        return ret;
     }
 
     /**

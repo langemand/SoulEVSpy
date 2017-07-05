@@ -9,4 +9,5 @@ public class OBDPrintSpacesCommand extends AbstractCommand {
     public OBDPrintSpacesCommand(boolean isOn) {
         super("AT S" + (isOn ? "1" : "0"));
     }
+    public void doProcessResponse() {}
 }

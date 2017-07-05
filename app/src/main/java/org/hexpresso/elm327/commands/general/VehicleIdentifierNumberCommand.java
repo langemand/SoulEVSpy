@@ -4,6 +4,7 @@ import org.hexpresso.elm327.commands.AbstractCommand;
 import org.hexpresso.elm327.commands.Response;
 import org.hexpresso.elm327.commands.filters.RegularExpressionResponseFilter;
 import org.hexpresso.elm327.commands.filters.RemoveSpacesResponseFilter;
+import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-29.
@@ -19,6 +20,10 @@ public class VehicleIdentifierNumberCommand extends AbstractCommand {
         // This command assumes headers are turned on!
         addResponseFilter(new RegularExpressionResponseFilter("^[0-9A-F]{3}(.*)$"));
         addResponseFilter(new RemoveSpacesResponseFilter());
+    }
+
+    public void doProcessResponse() {
+        CurrentValuesSingleton.getInstance().set("VIN", getValue());
     }
 
     public String getValue() {

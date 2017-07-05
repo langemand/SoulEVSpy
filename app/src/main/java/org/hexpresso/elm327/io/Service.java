@@ -68,6 +68,7 @@ public abstract class Service {
                 }
             });
             notificationThread.start();
+            notificationThread.setName("BluetoothServiceNotificationThread");
         }
     }
 
@@ -79,6 +80,7 @@ public abstract class Service {
             try {
                 mInputStream.close();
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -86,6 +88,7 @@ public abstract class Service {
             try {
                 mOutputStream.close();
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

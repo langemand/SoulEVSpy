@@ -11,4 +11,5 @@ public class OBDAllowLongMessagesCommand extends AbstractCommand {
     public OBDAllowLongMessagesCommand() {
         super("AT AL");
     }
+    public void doProcessResponse() {}
 }

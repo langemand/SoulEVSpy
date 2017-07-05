@@ -77,7 +77,7 @@ public class BatteryManagementSystemParser {
         //public double stateOfHealth;                            // %
 
         public double batteryDcVoltage;                         // V
-        //public double batteryCurrent;                           // A
+        public double batteryCurrent;                           // A
 
         public double availableChargePower;                     // kW
         public double availableDischargePower;                  // kW
@@ -89,6 +89,8 @@ public class BatteryManagementSystemParser {
         public double accumulativeDischargePower;               // kWh
 
         public int    accumulativeOperatingTime;                // Sec
+
+        public int    driveMotorSpeed;                          // RPM
 
         public int    batteryInletTemperature;                  // °C
         public int    batteryMaxTemperature;                    // °C
@@ -127,7 +129,6 @@ public class BatteryManagementSystemParser {
 
         // Other
         public int    airbagHwireDuty;                          // %
-        public int    driveMotorSpeed;                          // RPM
         //public double inverterCapacitorVoltage;                 // V
 
 
@@ -177,7 +178,7 @@ public class BatteryManagementSystemParser {
         bmsData.batteryDcVoltage = ( ( HexToInteger(line22.get(1) ) << 8) + HexToInteger(line22.get(2)) ) * 0.1;
         bmsData.maxCellVoltage = HexToInteger(line23.get(5)) * 0.02;
         bmsData.minCellVoltage = HexToInteger(line24.get(0)) * 0.02;
-        //bmsData.batteryCurrent = ( (data.getDataByte("21", 6) << 8) + (data.getDataByte("22", 0) )) * 0.1;
+        bmsData.batteryCurrent = ( (HexToInteger(line21.get(6)) << 8) + (HexToInteger(line22.get(0) ))) * 0.1;
         bmsData.availableChargePower = ( ( HexToInteger(line21.get(1) ) << 8) + HexToInteger(line21.get(2)) ) * 0.01;
         bmsData.availableDischargePower = ( ( HexToInteger(line21.get(3) ) << 8) + HexToInteger(line21.get(4)) ) * 0.01;
         bmsData.auxiliaryBatteryVoltage = HexToInteger(line24.get(4)) * 0.1;
@@ -219,6 +220,9 @@ public class BatteryManagementSystemParser {
                                               ( HexToInteger(line27.get(3) ) ) );
 
         bmsData.driveMotorSpeed = ( ( HexToInteger(line28.get(0) ) << 8) + HexToInteger(line28.get(1)) ); // Could be also 2-3
+        if (bmsData.driveMotorSpeed > 0x8000)
+            bmsData.driveMotorSpeed = 0x10000 - bmsData.driveMotorSpeed;
+
         return true;
     }
 
@@ -400,7 +404,7 @@ public class BatteryManagementSystemParser {
 
         public ParsedRawData(String rawData) {
             // Split all strings on newlines
-            final String [] lines = rawData.replaceAll("\\r", "").split("\\n");
+            final String [] lines = rawData.split("\\r");
 
             // Parse all lines
             for (String s: lines ) {

@@ -10,4 +10,5 @@ public class OBDAutomaticallyReceiveCommand extends AbstractCommand {
     public OBDAutomaticallyReceiveCommand() {
         super("AT AR");
     }
+    public void doProcessResponse() {}
 }

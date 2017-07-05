@@ -9,6 +9,7 @@ import org.hexpresso.soulevspy.obd.EstimatedRangeMessageFilter;
 import org.hexpresso.soulevspy.obd.ParkingBrakeMessageFilter;
 import org.hexpresso.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import org.hexpresso.soulevspy.obd.Status050MessageFilter;
+import org.hexpresso.soulevspy.obd.Status55DMessageFilter;
 import org.hexpresso.soulevspy.obd.TireRotationSpeedMessageFilter;
 
 import java.util.ArrayList;
@@ -102,18 +103,18 @@ public class ObdMessageDataTest extends AndroidTestCase {
         filter.addObdMessageFilterListener(new ObdMessageFilter.ObdMessageFilterListener() {
             @Override
             public void onMessageReceived(ObdMessageFilter messageFilter) {
-                assertTrue( messageFilter instanceof  TireRotationSpeedMessageFilter);
+                assertTrue(messageFilter instanceof TireRotationSpeedMessageFilter);
 
-                double speed = ((TireRotationSpeedMessageFilter)messageFilter).getLeftFrontSpeedKmH();
+                double speed = ((TireRotationSpeedMessageFilter) messageFilter).getLeftFrontSpeedKmH();
                 assertEquals(testDoubleValue1, speed);
 
-                speed = ((TireRotationSpeedMessageFilter)messageFilter).getRightFrontSpeedKmH();
+                speed = ((TireRotationSpeedMessageFilter) messageFilter).getRightFrontSpeedKmH();
                 assertEquals(testDoubleValue2, speed);
 
-                speed = ((TireRotationSpeedMessageFilter)messageFilter).getLeftBackSpeedKmH();
+                speed = ((TireRotationSpeedMessageFilter) messageFilter).getLeftBackSpeedKmH();
                 assertEquals(testDoubleValue3, speed);
 
-                speed = ((TireRotationSpeedMessageFilter)messageFilter).getRightBackSpeedKmH();
+                speed = ((TireRotationSpeedMessageFilter) messageFilter).getRightBackSpeedKmH();
                 assertEquals(testDoubleValue4, speed);
             }
         });
@@ -175,7 +176,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
             public void onMessageReceived(ObdMessageFilter messageFilter) {
                 assertTrue(messageFilter instanceof Status050MessageFilter);
 
-                Status050MessageFilter f = (Status050MessageFilter)messageFilter;
+                Status050MessageFilter f = (Status050MessageFilter) messageFilter;
 
                 assertEquals(lightsMode, f.getLightsMode());
                 assertEquals(turnSignal, f.getTurnSignalStatus());
@@ -208,7 +209,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
             public void onMessageReceived(ObdMessageFilter messageFilter) {
                 assertTrue(messageFilter instanceof BatteryChargingMessageFilter);
 
-                BatteryChargingMessageFilter f = (BatteryChargingMessageFilter)messageFilter;
+                BatteryChargingMessageFilter f = (BatteryChargingMessageFilter) messageFilter;
 
                 assertEquals(testBoolean, f.getIsCharging());
                 assertEquals(chargerType, f.getConnectedChargerType());
@@ -225,5 +226,16 @@ public class ObdMessageDataTest extends AndroidTestCase {
         chargerType = BatteryChargingMessageFilter.ConnectedChargerType.J1772;
         testDoubleValue1 = 6.6015625;
         filter.receive("581 00 00 00 09 00 0E 9A 06");
+    }
+
+    public void test55DMessageFilter() {
+        Status55DMessageFilter filter = new Status55DMessageFilter();
+
+        filter.receive("55D 55 80 36 DC 1D 50 00 00");
+
+
+        filter.receive("55D 4B 80 34 DC 1D 50 00 00 <DATA ERROR");
+
+        filter.receive("55D 10 81 3D DC 1D 50 00 00");
     }
 }

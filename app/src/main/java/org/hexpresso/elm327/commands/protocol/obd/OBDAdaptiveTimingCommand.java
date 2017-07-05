@@ -10,4 +10,5 @@ public class OBDAdaptiveTimingCommand extends AbstractCommand {
     public OBDAdaptiveTimingCommand(final OBDAdaptiveTimingModes mode) {
         super("AT AT" + mode.getValue());
     }
+    public void doProcessResponse() {}
 }

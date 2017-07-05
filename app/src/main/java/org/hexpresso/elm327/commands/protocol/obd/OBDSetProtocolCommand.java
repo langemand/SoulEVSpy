@@ -10,4 +10,5 @@ public class OBDSetProtocolCommand extends AbstractCommand {
     public OBDSetProtocolCommand(final OBDProtocols protocol) {
         super("AT SP " + protocol.getValue());
     }
+    public void doProcessResponse() {}
 }

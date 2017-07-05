@@ -4,6 +4,8 @@
     <!-- Navigation Drawer -->
     <string name="action_bluetooth">Bluetooth device</string>
     <string name="action_car_information">Car information</string>
+    <string name="action_advisor">Advisor</string>
+    <string name="action_ldc">DC-DC 12 V converter</string>
     <string name="action_dashboard">Dashboard</string>
     <string name="action_dtc">DTC codes</string>
     <string name="action_battery">Battery</string>
@@ -31,6 +33,9 @@
     <string name="title_pref_bluetooth">Bluetooth</string>
     <string name="pref_bluetooth_device">Bluetooth device</string>
     <string name="pref_bluetooth_device_summary">Select an ELM327 Bluetooth device</string>
+    <string name="pref_auto_reconnect">Reconnect automatically</string>
+    <string name="pref_scan_interval">Interval between scans (seconds)</string>
+    <string name="pref_default_scan_interval">3.0</string>
 
     <string name="title_pref_about">About</string>
     <string name="pref_licenses">Open source licenses</string>
@@ -57,4 +62,64 @@
     <string name="car_plant_gwangju">Gwangju</string>
     <string name="car_plant_seosan">Seosan</string>
     <string name="car_south_korea">South Korea</string>
+
+    <!-- Data column labels -->
+    <string name="col_system_scan_start_time_ms">system.scan_start_time_ms</string>
+    <string name="col_system_scan_end_time_ms">system.scan_end_time_ms</string>
+    <string name="col_system_status">system.status</string>
+    <string name="col_VIN">VIN</string>
+    <string name="col_route_time_s">route.time_s</string>
+    <string name="col_route_lat_deg">route.lat_deg</string>
+    <string name="col_route_lng_deg">route.lng_deg</string>
+    <string name="col_route_elevation_m">route.elevation_m</string>
+    <string name="col_route_speed_mps">route.speed_mps</string>
+
+    <string name="col_car_ambient_C">car.ambient_C</string>
+    <string name="col_car_speed_kph">car.speed_kph</string>
+    <string name="col_car_odo_km">car.odo_km</string>
+    <string name="col_car_lights_status">car.lights</string>
+    <string name="col_car_wipers_status">car.wipers</string>
+
+    <string name="col_ldc_enabled">ldc.is_enabled</string>
+    <string name="col_ldc_out_DC_voltage_V">ldc.out_DC_V</string>
+    <string name="col_ldc_out_DC_current_A">ldc.out_DC_A</string>
+    <string name="col_ldc_in_DC_voltage_V">ldc.in_DC_V</string>
+    <string name="col_ldc_temperature_C">ldc.temperature_C</string>
+
+    <string name="col_battery_is_charging">battery.is_charging</string>
+    <string name="col_battery_ChaDeMo_is_plugged">battery.ChaDeMo_is_plugged</string>
+    <string name="col_battery_J1772_is_plugged">battery.J1772_is_plugged</string>
+    <string name="col_battery_SOC">battery.SOC_pct</string>
+    <string name="col_battery_display_SOC">battery.SOC_display_pct</string>
+    <string name="col_battery_decimal_SOC">battery.SOC_decimal_pct</string>
+    <string name="col_battery_precise_SOC">battery.SOC_precise_pct</string>
+    <string name="col_battery_DC_current_A">battery.DC_current_A</string>
+    <string name="col_battery_DC_voltage_V">battery.DC_V</string>
+    <string name="col_battery_available_charge_power_kW">battery.available_charge_power_kW</string>
+    <string name="col_battery_available_discharge_power_kW">battery.available_discharge_power_kW</string>
+    <string name="col_battery_accumulative_charge_current_Ah">battery.accumulative_charge_current_Ah</string>
+    <string name="col_battery_accumulative_discharge_current_Ah">battery.accumulative_discharge_current_Ah</string>
+    <string name="col_battery_accumulative_charge_power_kWh">battery.accumulative_charge_power_kWh</string>
+    <string name="col_battery_accumulative_discharge_power_kWh">battery.accumulative_discharge_power_kWh</string>
+    <string name="col_battery_accumulative_operating_time_s">battery.accumulative_operating_time_s</string>
+    <string name="col_battery_drive_motor_rpm">battery.drive_motor_speed_rpm</string>
+    <string name="col_battery_inlet_temperature_C">battery.inlet_temperature_C</string>
+    <string name="col_battery_max_temperature_C">battery.max_temperature_C</string>
+    <string name="col_battery_min_temperature_C">battery.min_temperature_C</string>
+    <string name="col_battery_heat1_temperature_C">battery.heat1_temperature_C</string>
+    <string name="col_battery_heat2_temperature_C">battery.heat2_temperature_C</string>
+    <string name="col_battery_module_temperature">battery.module_temperature</string>
+    <string name="col_battery_cell_voltage">battery.cell_voltage</string>
+    <string name="col_battery_max_cell_voltage_V">battery.max_cell_voltage_V</string>
+    <string name="col_battery_max_cell_voltage_n">battery.max_cell_voltage_n</string>
+    <string name="col_battery_min_cell_voltage_V">battery.min_cell_voltage_V</string>
+    <string name="col_battery_min_cell_voltage_n">battery.min_cell_voltage_n</string>
+    <string name="col_battery_max_cell_detoriation_pct">battery.max_cell_detoriation_pct</string>
+    <string name="col_battery_max_cell_detoriation_n">battery.max_cell_detoriation_n</string>
+    <string name="col_battery_min_cell_detoriation_pct">battery.min_cell_detoriation_pct</string>
+    <string name="col_battery_min_cell_detoriation_n">battery.min_cell_detoriation_n</string>
+    <string name="col_battery_auxiliaryVoltage_V">battery.auxiliaryVoltage_V</string>
+    <string name="col_battery_fan_status">battery.fan_status</string>
+    <string name="col_battery_fan_feedback_signal">battery.fan_feedback_signal</string>
+    <string name="col_battery_airbag_hwire_duty">battery.airbag_hwire_duty</string>
 </resources>

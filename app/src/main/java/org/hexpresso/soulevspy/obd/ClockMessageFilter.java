@@ -2,6 +2,7 @@ package org.hexpresso.soulevspy.obd;
 
 import org.hexpresso.obd.ObdMessageData;
 import org.hexpresso.obd.ObdMessageFilter;
+import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +39,7 @@ public class ClockMessageFilter extends ObdMessageFilter {
                                       minute,
                                       second);
 
+        CurrentValuesSingleton.getInstance().set("Car.timestamp", mTime.toString());
         return true;
     }
 

@@ -33,6 +33,16 @@
             android:title="@string/pref_bluetooth_device"
             android:summary="@string/pref_bluetooth_device_summary"
             android:dialogTitle="@string/pref_bluetooth_device" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/key_check_auto_reconnect"
+            android:title="@string/pref_auto_reconnect" />
+        <EditTextPreference
+            android:defaultValue="@string/pref_default_scan_interval"
+            android:key="@string/key_edit_scan_interval"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_scan_interval" />
     </PreferenceCategory>
 
     <!-- About -->

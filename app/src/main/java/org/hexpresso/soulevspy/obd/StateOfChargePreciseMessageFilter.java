@@ -2,6 +2,8 @@ package org.hexpresso.soulevspy.obd;
 
 import org.hexpresso.obd.ObdMessageData;
 import org.hexpresso.obd.ObdMessageFilter;
+import org.hexpresso.soulevspy.R;
+import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,9 @@ public class StateOfChargePreciseMessageFilter extends ObdMessageFilter {
         // Full SOC value is Little Endian on bytes 4-5
         mSOCValue = ( ( messageData.getDataByte(5) << 8 ) +
                       ( messageData.getDataByte(4) ) ) / 256.0;
+
+        CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
+        vals.set(vals.getPreferences().getContext().getString(R.string.col_battery_precise_SOC), mSOCValue);
 
         return true;
     }

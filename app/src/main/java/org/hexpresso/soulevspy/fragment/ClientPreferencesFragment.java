@@ -7,10 +7,13 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.preference.TwoStatePreference;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.webkit.WebView;
@@ -96,10 +99,17 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
                 BluetoothDevice device = bta.getRemoteDevice(btAddress);
                 btSummary = device.getName();
             } catch (IllegalArgumentException e) {
+                e.printStackTrace();
                 // Do nothing, we will set the default summary instead
             }
         }
         listPref.setSummary(btSummary);
+
+        CheckBoxPreference checkBoxPref = (CheckBoxPreference) findPreference(getString(R.string.key_check_auto_reconnect));
+        setCheckBoxPreferenceSummary(checkBoxPref, mSharedPreferences.getAutoReconnectBooleanValue());
+
+        EditTextPreference editTextPref = (EditTextPreference) findPreference(getString(R.string.key_edit_scan_interval));
+        setEditTextPreferenceSummary(editTextPref, mSharedPreferences.getScanIntervalFloatValue());
 
         // Force refresh
         //getActivity().onContentChanged();
@@ -143,6 +153,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
             version = info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             // Do nothing
+            e.printStackTrace();
         }
 
         pref.setSummary(String.format(getString(R.string.pref_about_summary), version));
@@ -154,6 +165,14 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
             final String summary = (String) pref.getEntries()[index];
             pref.setSummary(summary);
         }
+    }
+
+    private void setCheckBoxPreferenceSummary(CheckBoxPreference pref, Boolean value) {
+        pref.setChecked(value);
+    }
+
+    private void setEditTextPreferenceSummary(EditTextPreference pref, Float value) {
+        pref.setText(value.toString());
     }
 
     private void displayOpenSourceLicensesDialog() {
