@@ -26,15 +26,17 @@ public class CarFragment extends ListFragment {
 
         KiaVinParser vin = new KiaVinParser(getContext(), vinStr); //"KNDJX3AEXG7123456");
 
-        mItems.add(new ListViewItem("Vehicle Identification Number", vin.getVIN()));
-        mItems.add(new ListViewItem("Brand", vin.getBrand()));
-        mItems.add(new ListViewItem("Model", vin.getModel()));
-        mItems.add(new ListViewItem("Trim", vin.getTrim()));
-        mItems.add(new ListViewItem("Engine", vin.getEngine()));
-        mItems.add(new ListViewItem("Year", vin.getYear()));
-        mItems.add(new ListViewItem("Sequential Number", vin.getSequentialNumber()));
-        mItems.add(new ListViewItem("Production Plant", vin.getProductionPlant()));
-
+        String str = vin.getVIN();
+        mItems.add(new ListViewItem("Vehicle Identification Number", str));
+        if (str != "error") {
+            mItems.add(new ListViewItem("Brand", vin.getBrand()));
+            mItems.add(new ListViewItem("Model", vin.getModel()));
+            mItems.add(new ListViewItem("Trim", vin.getTrim()));
+            mItems.add(new ListViewItem("Engine", vin.getEngine()));
+            mItems.add(new ListViewItem("Year", vin.getYear()));
+            mItems.add(new ListViewItem("Sequential Number", vin.getSequentialNumber()));
+            mItems.add(new ListViewItem("Production Plant", vin.getProductionPlant()));
+        }
         // initialize and set the list adapter
         setListAdapter(new ListViewAdapter(getActivity(), mItems));
     }

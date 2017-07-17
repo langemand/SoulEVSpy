@@ -15,6 +15,7 @@ import org.hexpresso.elm327.io.bluetooth.BluetoothService;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.AmbientTempMessageFilter;
+import org.hexpresso.soulevspy.obd.BatteryChargingMessageFilter;
 import org.hexpresso.soulevspy.obd.EstimatedRangeMessageFilter;
 import org.hexpresso.soulevspy.obd.OdometerMessageFilter;
 import org.hexpresso.soulevspy.obd.SpeedPreciseMessageFilter;
@@ -73,10 +74,12 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         mLoopCommands.add(new FilteredMonitorCommand(new StateOfChargePreciseMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new SpeedPreciseMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new OdometerMessageFilter()));
+        mLoopCommands.add(new FilteredMonitorCommand(new BatteryChargingMessageFilter()));
+        mLoopCommands.add(new FilteredMonitorCommand(new EstimatedRangeMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new Status050MessageFilter()));
-        mLoopCommands.add(new FilteredMonitorCommand(new Status55DMessageFilter())); // No good
 
         // Note: No values extracted below - just logging interresting CAN PIDs for analysis!
+//        mLoopCommands.add(new FilteredMonitorCommand(new Status55DMessageFilter())); // No good
 //        mLoopCommands.add(new FilteredMonitorCommand(new EstimatedRangeMessageFilter()));
 //        mLoopCommands.add(new FilteredMonitorCommand(new StatusLoggingMessageFilter("202")));
 //        mLoopCommands.add(new FilteredMonitorCommand(new StatusLoggingMessageFilter("55D")));

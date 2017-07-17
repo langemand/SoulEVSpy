@@ -122,4 +122,9 @@
     <string name="col_battery_fan_status">battery.fan_status</string>
     <string name="col_battery_fan_feedback_signal">battery.fan_feedback_signal</string>
     <string name="col_battery_airbag_hwire_duty">battery.airbag_hwire_duty</string>
+
+    <string name="col_charging_power_kW">charging.power_kW</string>
+
+    <string name="col_range_estimate_km">range.estimate_km</string>
+    <string name="col_range_estimate_for_climate_km">range.estimate_for_climate_km</string>
 </resources>

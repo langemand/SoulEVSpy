@@ -8,6 +8,7 @@ import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +41,20 @@ public class AdvisoryFragment extends ListFragment implements CurrentValuesSingl
     }
 
     public void onValueChanged(String trig_key, Object value) {
-        Map<String, Object> kvals = mValues.find("log.");
-        SortedSet<String> keyset = new TreeSet<String>(kvals.keySet());
-
+//        Map<String, Object> kvals = mValues.find("log.");
+//        SortedSet<String> keyset = new TreeSet<String>(kvals.keySet());
         mItems.clear();
-        for (String key : keyset) {
-            mItems.add(new ListViewItem(key, new String(kvals.get(key).toString())));
-        }
+//        for (String key : keyset) {
+//            mItems.add(new ListViewItem(key, new String(kvals.get(key).toString())));
+//        }
+        mItems.add(new ListViewItem("Current Speed (km/h)", new String(mValues.get(R.string.col_car_speed_kph).toString())));
+
+        Double battery_precise_SOC = (Double)mValues.get(R.string.col_battery_precise_SOC);
+        mItems.add(new ListViewItem("Precise SOC (%)", new DecimalFormat("0.00").format(battery_precise_SOC)));
+
+        double battery_watts = (Double)mValues.get(R.string.col_battery_DC_current_A) * (Double)mValues.get(R.string.col_battery_DC_voltage_V);
+        mItems.add(new ListViewItem("Current energy (kW)", new DecimalFormat("0.0").format(battery_watts/1000)));
+
         // initialize and set the list adapter
         ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override

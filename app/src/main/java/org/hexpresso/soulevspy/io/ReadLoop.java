@@ -56,8 +56,14 @@ public class ReadLoop {
                 , res.getString(R.string.col_car_ambient_C)
                 , res.getString(R.string.col_car_lights_status)
                 , res.getString(R.string.col_car_wipers_status)
+                , res.getString(R.string.col_ldc_enabled)
                 , res.getString(R.string.col_ldc_out_DC_voltage_V)
                 , res.getString(R.string.col_ldc_out_DC_current_A)
+                , res.getString(R.string.col_ldc_temperature_C)
+                , res.getString(R.string.col_range_estimate_km)
+                , res.getString(R.string.col_range_estimate_for_climate_km)
+                , res.getString(R.string.col_charging_power_kW)
+                , res.getString(R.string.col_battery_is_charging)
                 , res.getString(R.string.col_battery_display_SOC)
                 , res.getString(R.string.col_battery_SOC)
                 , res.getString(R.string.col_battery_decimal_SOC)
@@ -114,26 +120,29 @@ public class ReadLoop {
     private void runCommands() {
         Resources res = mSharedPreferences.getContext().getResources();
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
+        long last_log_time = 0L;
         while (!mLoopThread.isInterrupted()) {
-            long startTime = System.currentTimeMillis();
             if (mProtocol.numberOfQueuedCommands() > 0) { // Communication issues may delay response, wait a bit in that case
                 SystemClock.sleep(100L);
             } else {
                 for (Command command : mCommands) {
                     mProtocol.addCommand(command);
                 }
-                long time_now = System.currentTimeMillis();
-                long scan_end_time = time_now;
-                if (vals.get(R.string.col_system_scan_start_time_ms) != null) {
-                    scan_end_time = (Long)vals.get(R.string.col_system_scan_start_time_ms);
+                SystemClock.sleep(2000L);
+                long scan_start_time = (Long)vals.get(R.string.col_system_scan_start_time_ms);
+                while (vals.get(R.string.col_system_scan_end_time_ms) == null ||
+                        (Long)vals.get(R.string.col_system_scan_end_time_ms) < (Long)vals.get(R.string.col_system_scan_start_time_ms) ||
+                        (Long)vals.get(R.string.col_system_scan_start_time_ms) == last_log_time) {
+                    SystemClock.sleep(100L);
                 }
-
-                long timeToWait = (long)(mSharedPreferences.getScanIntervalFloatValue()*1000) - (time_now - scan_end_time);
+                long scan_end_time = (Long)vals.get(R.string.col_system_scan_end_time_ms);
+                long time_now = System.currentTimeMillis();
+                long timeToWait = (long)(mSharedPreferences.getScanIntervalFloatValue()*1000) - (time_now - scan_start_time);
                 if (timeToWait > 0) {
                     SystemClock.sleep(timeToWait);
                 }
-                vals.set(res.getString(R.string.col_system_status), mProtocol.setStatus(""));
                 CurrentValuesSingleton.getInstance().log(mColumnsToLog);
+                last_log_time = scan_start_time;
             }
         }
     }

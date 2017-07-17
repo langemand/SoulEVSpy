@@ -54,6 +54,7 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         addResponseFilter(new RemoveSpacesResponseFilter());
     }
 
+    @Override
     public void doProcessResponse() {
         mBmsParser.parseMessage2101(mCmd2101.getResponse().rawResponse());
         mBmsParser.parseMessage2102(mCmd2102.getResponse().rawResponse());
@@ -112,7 +113,10 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         return mBatteryStateOfCharge;
     }
     public double getBatteryCurrent() {
-        double batteryCurrent = getResponse().get(1, 7);
+        int msb = getResponse().get(1, 7);
+        double batteryCurrent = msb + getResponse().get(2, 1) / 256.0;
+        if (msb > 128)
+            batteryCurrent = batteryCurrent - 256.0;
         return batteryCurrent;
     }
     public double getBatteryVoltage() {

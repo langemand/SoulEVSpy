@@ -2,6 +2,8 @@ package org.hexpresso.soulevspy.obd;
 
 import org.hexpresso.obd.ObdMessageData;
 import org.hexpresso.obd.ObdMessageFilter;
+import org.hexpresso.soulevspy.R;
+import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.util.ArrayList;
 
@@ -51,6 +53,9 @@ public class BatteryChargingMessageFilter extends ObdMessageFilter {
         // Charging power
         mChargingPowerKW = ( ( messageData.getDataByte(7) << 8 ) +
                              ( messageData.getDataByte(6) ) ) / 256.0;
+
+        CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
+        vals.set(vals.getPreferences().getContext().getString(R.string.col_charging_power_kW), mChargingPowerKW);
 
         return true;
     }

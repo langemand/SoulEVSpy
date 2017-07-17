@@ -11,7 +11,7 @@ import android.util.Log;
  */
 public class Response {
     private String            mRawResponse   = null;            // The raw ELM327 response as string
-    private List<String> mResponseLines = null;            // Each array element represents a line
+    private List<String> mResponseLines = new ArrayList<>();            // Each array element represents a line
     private List<ResponseFilter> mResponseFilters = null;  // Response filters
 
     /**
@@ -46,7 +46,7 @@ public class Response {
      * Processes the current Response object.
      */
     public void process() {
-        final String[] lines = mRawResponse.split("\\r");
+        final String[] lines = mRawResponse.split("\r");
         mResponseLines = new ArrayList<>(Arrays.asList(lines));
 
         // Execute response filters (if any)

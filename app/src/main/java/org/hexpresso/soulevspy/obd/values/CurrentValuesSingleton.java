@@ -13,8 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.locks.ReentrantLock;
@@ -27,14 +29,21 @@ public class CurrentValuesSingleton {
     public abstract interface CurrentValueListener {
         public void onValueChanged(String key, Object value);
     }
-    private static final CurrentValuesSingleton ourInstance = new CurrentValuesSingleton();
+    private static CurrentValuesSingleton ourInstance = new CurrentValuesSingleton();
     private final Map<String, Object> mValues = new HashMap<String, Object>();
     private final Map<String, List<CurrentValueListener>> mListeners = new HashMap<String, List<CurrentValueListener>>();
+    private final List<String> mColumnNamesLogged = new ArrayList<String>();
+
     private OutputStream mDataOutputStream = null;
     private ClientSharedPreferences mSharedPreferences = null;
     private final ReentrantLock mLock = new ReentrantLock();
 
     public static CurrentValuesSingleton getInstance() {
+        return ourInstance;
+    }
+
+    public static CurrentValuesSingleton reset() {
+        ourInstance = new CurrentValuesSingleton();
         return ourInstance;
     }
 
@@ -192,6 +201,14 @@ public class CurrentValuesSingleton {
                     str.append(";");
                 }
                 str.append(key);
+                mColumnNamesLogged.add(key);
+            }
+            SortedSet<String> keyset = new TreeSet<String>(mValues.keySet());
+            for (String key : keyset) {
+                if (!mColumnNamesLogged.contains(key)) {
+                    str.append(";" + key);
+                    mColumnNamesLogged.add(key);
+                }
             }
             str.append("\n");
             mDataOutputStream.write(str.toString().getBytes());
@@ -210,19 +227,13 @@ public class CurrentValuesSingleton {
                 openDataFile(columnNamesToLog);
             }
             boolean isFirst = true;
-            for (String key : columnNamesToLog) {
+            for (String key : mColumnNamesLogged) {
                 if (isFirst) {
                     isFirst = false;
                 } else {
                     str.append(";");
                 }
                 str.append(mValues.get(key));
-            }
-            SortedSet<String> keyset = new TreeSet<String>(mValues.keySet());
-            for (String key : keyset) {
-                if (key.startsWith("log")) {
-                    str.append(";" + mValues.get(key));
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -31,18 +31,19 @@ public class VehicleIdentifierNumberCommand extends AbstractCommand {
             final Response r = getResponse();
 
             StringBuilder str = new StringBuilder();
-            str.append((char)r.get(0, 5));
-            str.append((char)r.get(0, 6));
-            str.append((char)r.get(0, 7));
-            for( int line = 1; line <= 2; line++ )
-            {
-                for( int index = 1; index <= 7; index++)
-                {
-                    str.append((char)r.get(line, index));
+            try {
+                str.append((char) r.get(0, 5));
+                str.append((char) r.get(0, 6));
+                str.append((char) r.get(0, 7));
+                for (int line = 1; line <= 2; line++) {
+                    for (int index = 1; index <= 7; index++) {
+                        str.append((char) r.get(line, index));
+                    }
                 }
+                mVIN = str.toString();
+            } catch (Exception e) {
+                mVIN = "error";
             }
-
-            mVIN = str.toString();
         }
         return mVIN;
     }

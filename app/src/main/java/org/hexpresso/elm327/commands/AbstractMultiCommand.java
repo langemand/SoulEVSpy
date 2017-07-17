@@ -23,7 +23,7 @@ public abstract class AbstractMultiCommand extends AbstractCommand {
         try {
             for (Command command : mCommands) {
                 command.execute(in, out);
-                rawResponse += command.getResponse().rawResponse() + "\\r";
+                rawResponse += command.getResponse().rawResponse() + "\r";
             }
 
             mResponse.setRawResponse(rawResponse);
@@ -37,6 +37,7 @@ public abstract class AbstractMultiCommand extends AbstractCommand {
 //        return mResponse;
 //    }
 
+    @Override
     public void doProcessResponse() {
         if (!mTimedOut) {
             for (Command command : mCommands) {
