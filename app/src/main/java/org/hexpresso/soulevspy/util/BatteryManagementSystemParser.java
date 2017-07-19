@@ -181,7 +181,7 @@ public class BatteryManagementSystemParser {
         int msb = HexToInteger(line21.get(6));
         bmsData.batteryCurrent = ( (msb << 8) + (HexToInteger(line22.get(0) ))) * 0.1;
         if ((msb & 0x80) != 0) { // negative value = charging
-            bmsData.batteryCurrent = 6553.6 - bmsData.batteryCurrent;
+            bmsData.batteryCurrent = bmsData.batteryCurrent - 6553.6;
         }
         bmsData.availableChargePower = ( ( HexToInteger(line21.get(1) ) << 8) + HexToInteger(line21.get(2)) ) * 0.01;
         bmsData.availableDischargePower = ( ( HexToInteger(line21.get(3) ) << 8) + HexToInteger(line21.get(4)) ) * 0.01;

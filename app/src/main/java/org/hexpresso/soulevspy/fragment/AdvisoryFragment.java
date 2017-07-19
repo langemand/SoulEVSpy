@@ -47,13 +47,22 @@ public class AdvisoryFragment extends ListFragment implements CurrentValuesSingl
 //        for (String key : keyset) {
 //            mItems.add(new ListViewItem(key, new String(kvals.get(key).toString())));
 //        }
-        mItems.add(new ListViewItem("Current Speed (km/h)", new String(mValues.get(R.string.col_car_speed_kph).toString())));
+        Object speed = mValues.get(R.string.col_car_speed_kph);
+        if (speed != null) {
+            mItems.add(new ListViewItem("Current Speed (km/h)", new String(speed.toString())));
+        }
 
-        Double battery_precise_SOC = (Double)mValues.get(R.string.col_battery_precise_SOC);
-        mItems.add(new ListViewItem("Precise SOC (%)", new DecimalFormat("0.00").format(battery_precise_SOC)));
+        Object battery_precise_SOC = mValues.get(R.string.col_battery_precise_SOC);
+        if (battery_precise_SOC != null) {
+            mItems.add(new ListViewItem("Precise SOC (%)", new DecimalFormat("0.00").format(battery_precise_SOC)));
+        }
 
-        double battery_watts = (Double)mValues.get(R.string.col_battery_DC_current_A) * (Double)mValues.get(R.string.col_battery_DC_voltage_V);
-        mItems.add(new ListViewItem("Current energy (kW)", new DecimalFormat("0.0").format(battery_watts/1000)));
+        Double amps = (Double)mValues.get(R.string.col_battery_DC_current_A);
+        Double volts = (Double)mValues.get(R.string.col_battery_DC_voltage_V);
+        if (amps != null && volts != null) {
+            double battery_watts = amps * volts;
+            mItems.add(new ListViewItem("Current energy (kW)", new DecimalFormat("0.0").format(battery_watts / 1000)));
+        }
 
         // initialize and set the list adapter
         ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {

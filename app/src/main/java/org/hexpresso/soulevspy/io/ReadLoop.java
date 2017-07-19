@@ -73,10 +73,10 @@ public class ReadLoop {
                 , res.getString(R.string.col_battery_accumulative_operating_time_s)
                 , res.getString(R.string.col_battery_accumulative_charge_power_kWh)
                 , res.getString(R.string.col_battery_accumulative_discharge_power_kWh)
-                , res.getString(R.string.col_battery_accumulative_operating_time_s)
-                , res.getString(R.string.col_battery_is_charging)
                 , res.getString(R.string.col_battery_fan_feedback_signal)
                 , res.getString(R.string.col_battery_inlet_temperature_C)
+                , res.getString(R.string.col_battery_min_temperature_C)
+                , res.getString(R.string.col_battery_max_temperature_C)
                 , res.getString(R.string.col_battery_module_temperature) + "0_C"
                 , res.getString(R.string.col_battery_module_temperature) + "1_C"
                 , res.getString(R.string.col_battery_module_temperature) + "2_C"
@@ -85,8 +85,6 @@ public class ReadLoop {
                 , res.getString(R.string.col_battery_module_temperature) + "5_C"
                 , res.getString(R.string.col_battery_module_temperature) + "6_C"
                 , res.getString(R.string.col_battery_module_temperature) + "7_C"
-                , res.getString(R.string.col_battery_min_temperature_C)
-                , res.getString(R.string.col_battery_max_temperature_C)
                 , res.getString(R.string.col_battery_heat1_temperature_C)
                 , res.getString(R.string.col_battery_heat2_temperature_C)
                 , res.getString(R.string.col_battery_auxiliaryVoltage_V)
