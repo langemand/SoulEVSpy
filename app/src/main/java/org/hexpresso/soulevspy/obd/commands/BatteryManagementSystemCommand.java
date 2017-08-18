@@ -56,11 +56,15 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
 
     @Override
     public void doProcessResponse() {
-        mBmsParser.parseMessage2101(mCmd2101.getResponse().rawResponse());
-        mBmsParser.parseMessage2102(mCmd2102.getResponse().rawResponse());
-        mBmsParser.parseMessage2103(mCmd2103.getResponse().rawResponse());
-        mBmsParser.parseMessage2104(mCmd2104.getResponse().rawResponse());
-        mBmsParser.parseMessage2105(mCmd2105.getResponse().rawResponse());
+        boolean ok = true;
+        ok = ok && mBmsParser.parseMessage2101(mCmd2101.getResponse().rawResponse());
+        ok = ok && mBmsParser.parseMessage2102(mCmd2102.getResponse().rawResponse());
+        ok = ok && mBmsParser.parseMessage2103(mCmd2103.getResponse().rawResponse());
+        ok = ok && mBmsParser.parseMessage2104(mCmd2104.getResponse().rawResponse());
+        ok = ok && mBmsParser.parseMessage2105(mCmd2105.getResponse().rawResponse());
+        if (!ok)
+            return;
+
         BatteryManagementSystemParser.Data data = mBmsParser.getParsedData();
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
         vals.set(R.string.col_battery_is_charging, Boolean.valueOf(data.bmsIsCharging));

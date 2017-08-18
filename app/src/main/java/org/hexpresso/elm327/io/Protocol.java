@@ -37,6 +37,8 @@ public class Protocol {
 
     private String mStatus = new String();
 
+    private int mTimeoutCount = 0;
+
     public Protocol() {
 
         // Thread used to execute ELM327 commands
@@ -83,6 +85,10 @@ public class Protocol {
         return mMessageInputQueue.size();
     }
 
+    public int numberOfTimeouts() {
+        return mTimeoutCount;
+    }
+
     /**
      * Adds the specified Message to the processing queue.
      * @param message Message to add
@@ -112,7 +118,9 @@ public class Protocol {
                 try {
                     message.getCommand().execute(mInputStream, mOutputStream);
                 } catch (TimeoutException e) {
-                    // How to handle this...
+                    ++mTimeoutCount;
+                    message.setState(Message.State.ERROR_TIMEOUT);
+                    continue;
                 }
 
                 message.setState(Message.State.FINISHED);
@@ -200,7 +208,8 @@ public class Protocol {
      * Initialize ELM327 device
      */
     public synchronized void init() {
-//        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT I"));
+        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand(" ")); // Ensure monitoring is stopped, just in case
+        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT I"));
         addCommand(new org.hexpresso.elm327.commands.protocol.ResetAllCommand());
         addCommand(new org.hexpresso.elm327.commands.protocol.EchoCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.LinefeedsCommand(false));

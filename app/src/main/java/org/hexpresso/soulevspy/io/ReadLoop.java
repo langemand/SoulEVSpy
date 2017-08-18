@@ -23,22 +23,8 @@ public class ReadLoop {
     ClientSharedPreferences mSharedPreferences;
     private Protocol mProtocol;
     private ArrayList<Command> mCommands;
-//    private TriggerCommand mEndTriggerCommand;
     private Thread mLoopThread = null;
     private List<String> mColumnsToLog = null;
-//    volatile private boolean mIsScanOngoing = false;
-
-//    private class EndTriggerCallback implements TriggerCommand.Callback {
-//        ReadLoop mReadLoop;
-//        EndTriggerCallback(ReadLoop readLoop) {
-//            mReadLoop = readLoop;
-//        }
-//        public void call() {
-//            CurrentValuesSingleton.getInstance().set("system.scan_end_time_s", Double.valueOf(System.currentTimeMillis() / 1000.0));
-//            CurrentValuesSingleton.getInstance().log(mColumnsToLog);
-//            mReadLoop.scanComplete();
-//        }
-//    }
 
     public ReadLoop(ClientSharedPreferences sharedPreferences, Protocol protocol, ArrayList<Command> commands) {
         mSharedPreferences = sharedPreferences;

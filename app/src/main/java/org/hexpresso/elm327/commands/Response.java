@@ -46,7 +46,10 @@ public class Response {
      * Processes the current Response object.
      */
     public void process() {
-        final String[] lines = mRawResponse.split("\r");
+        final String[] lines;
+        if (mRawResponse == null)
+            return;
+        lines = mRawResponse.split("\r");
         mResponseLines = new ArrayList<>(Arrays.asList(lines));
 
         // Execute response filters (if any)

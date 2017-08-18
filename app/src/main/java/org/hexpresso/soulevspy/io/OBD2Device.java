@@ -167,9 +167,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                         org.hexpresso.elm327.io.Protocol protocol = mBluetoothService.getProtocol();
                         if (protocol != null) {
                             protocol.addCommand(mVehicleIdentifierNumberCommand);
-                            //if (mReadLoop == null) {
-                                mReadLoop = new ReadLoop(mSharedPreferences, protocol, mLoopCommands);
-                            //}
+                            mReadLoop = new ReadLoop(mSharedPreferences, protocol, mLoopCommands);
                             mReadLoop.start();
                         }
                     }

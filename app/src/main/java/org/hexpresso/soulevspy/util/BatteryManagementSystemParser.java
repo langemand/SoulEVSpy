@@ -412,7 +412,12 @@ public class BatteryManagementSystemParser {
 
         public ParsedRawData(String rawData) {
             // Split all strings on newlines
-            final String [] lines = rawData.split("\\r");
+            final String [] lines;
+
+            if (rawData == null)
+                return;
+
+            lines = rawData.split("\\r");
 
             // Parse all lines
             for (String s: lines ) {
