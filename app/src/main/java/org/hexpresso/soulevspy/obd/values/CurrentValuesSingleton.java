@@ -26,6 +26,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 
 public class CurrentValuesSingleton {
+    public static final String separator = ",";
     public abstract interface CurrentValueListener {
         public void onValueChanged(String key, Object value);
     }
@@ -187,7 +188,7 @@ public class CurrentValuesSingleton {
 
     private void openDataFile(List<String> columnNamesToLog) {
         // Open data file
-        final String dataFileName = "SoulData." + new SimpleDateFormat("yyyyMMdd_HHmm'.txt'").format(new Date());
+        final String dataFileName = "SoulData." + new SimpleDateFormat("yyyyMMdd_HHmm'.csv'").format(new Date());
         final File dataFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), dataFileName);
         mLock.lock();
         try {
@@ -198,15 +199,20 @@ public class CurrentValuesSingleton {
                 if (isFirst) {
                     isFirst = false;
                 } else {
-                    str.append(";");
+                    str.append(separator);
                 }
+                str.append("\"");
                 str.append(key);
+                str.append("\"");
                 mColumnNamesLogged.add(key);
             }
             SortedSet<String> keyset = new TreeSet<String>(mValues.keySet());
             for (String key : keyset) {
                 if (!mColumnNamesLogged.contains(key)) {
-                    str.append(";" + key);
+                    str.append(separator);
+                    str.append("\"");
+                    str.append(key);
+                    str.append("\"");
                     mColumnNamesLogged.add(key);
                 }
             }
@@ -231,9 +237,15 @@ public class CurrentValuesSingleton {
                 if (isFirst) {
                     isFirst = false;
                 } else {
-                    str.append(";");
+                    str.append(separator);
                 }
-                str.append(mValues.get(key));
+                Object val = mValues.get(key);
+                boolean do_quote = (val instanceof String);
+                if (do_quote)
+                    str.append("\"");
+                str.append(val);
+                if (do_quote)
+                    str.append("\"");
             }
         } catch (Exception e) {
             e.printStackTrace();
