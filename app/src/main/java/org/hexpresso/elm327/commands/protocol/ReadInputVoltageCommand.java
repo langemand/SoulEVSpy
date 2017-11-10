@@ -14,15 +14,14 @@ public class ReadInputVoltageCommand extends AbstractCommand {
     public ReadInputVoltageCommand() {
         super("AT RV");
         addResponseFilter(new RegularExpressionResponseFilter("(\\d+\\.?\\d+)V?"));
+        withAutoProcessResponse(true);
     }
 
     public double getInputVoltage() {
-        if (voltage == null) {
-            voltage = new Double(getResponse().getLines().get(0));
-        }
+        voltage = new Double(getResponse().getLines().get(0));
         return voltage;
     }
     public void doProcessResponse() {
-        CurrentValuesSingleton.getInstance().set("ELM327.Voltage", new Double(getInputVoltage()));
+        CurrentValuesSingleton.getInstance().set("ELM327.Voltage_V", new Double(getInputVoltage()));
     }
 }

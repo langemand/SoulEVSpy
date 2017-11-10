@@ -30,6 +30,7 @@ public class ReadLoop {
         mSharedPreferences = sharedPreferences;
         Resources res = mSharedPreferences.getContext().getResources();
         mColumnsToLog = Arrays.asList(res.getString(R.string.col_VIN)
+                , res.getString(R.string.col_ELM327_voltage)
                 , res.getString(R.string.col_system_scan_start_time_ms)
                 , res.getString(R.string.col_system_scan_end_time_ms)
                 , res.getString(R.string.col_route_time_s)

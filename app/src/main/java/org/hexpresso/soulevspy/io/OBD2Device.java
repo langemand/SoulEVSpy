@@ -10,6 +10,7 @@ import android.widget.Toast;
 //import org.hexpresso.elm327.log;
 import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.TimeCommand;
+import org.hexpresso.elm327.commands.protocol.ReadInputVoltageCommand;
 import org.hexpresso.elm327.io.ServiceStates;
 import org.hexpresso.elm327.io.bluetooth.BluetoothService;
 import org.hexpresso.soulevspy.R;
@@ -67,6 +68,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         }
         mVehicleIdentifierNumberCommand = new VehicleIdentifierNumberCommand();
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
+        mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BatteryManagementSystemCommand());
         mLoopCommands.add(new LowVoltageDCConverterSystemCommand());
         mLoopCommands.add(new FilteredMonitorCommand(new AmbientTempMessageFilter()));

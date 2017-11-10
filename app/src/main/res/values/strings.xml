@@ -33,7 +33,7 @@
     <string name="title_pref_bluetooth">Bluetooth</string>
     <string name="pref_bluetooth_device">Bluetooth device</string>
     <string name="pref_bluetooth_device_summary">Select an ELM327 Bluetooth device</string>
-    <string name="pref_auto_reconnect">Reconnect automatically</string>
+    <string name="pref_auto_reconnect">Connect automatically</string>
     <string name="pref_scan_interval">Interval between scans (seconds)</string>
     <string name="pref_default_scan_interval">3.0</string>
 
@@ -68,6 +68,7 @@
     <string name="col_system_scan_end_time_ms">system.scan_end_time_ms</string>
     <string name="col_system_status">system.status</string>
     <string name="col_VIN">VIN</string>
+    <string name="col_ELM327_voltage">ELM327.Voltage_V</string>
     <string name="col_route_time_s">route.time_s</string>
     <string name="col_route_lat_deg">route.lat_deg</string>
     <string name="col_route_lng_deg">route.lng_deg</string>
