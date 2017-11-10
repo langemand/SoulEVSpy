@@ -73,9 +73,12 @@ public class Response {
     }
 
     public int get(int lineIndex, int byteIndex) {
-        if (mResponseLines == null || lineIndex >= mResponseLines.size()) return 0;
+        if (mResponseLines == null || lineIndex >= mResponseLines.size())
+            throw new IndexOutOfBoundsException("Too few lines");
         final String line = mResponseLines.get(lineIndex);
         final int start = byteIndex * 2;
+        if (line.length() < start + 2)
+            throw new IndexOutOfBoundsException("Line too short");
         return HexToInteger(line.substring(start, start + 2));
     }
 
