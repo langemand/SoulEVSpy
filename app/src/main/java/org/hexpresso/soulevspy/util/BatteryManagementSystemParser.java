@@ -391,6 +391,12 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line23 = data.getData("23");
         final ArrayList<String> line24 = data.getData("24");
 
+        bmsData.batteryCellVoltage[96] = HexToInteger(line21.get(0)) * 0.02;
+        bmsData.batteryCellVoltage[97] = HexToInteger(line21.get(1)) * 0.02;
+        bmsData.batteryCellVoltage[98] = HexToInteger(line21.get(2)) * 0.02;
+        bmsData.batteryCellVoltage[99] = HexToInteger(line21.get(3)) * 0.02;
+        bmsData.batteryCellVoltage[100] = HexToInteger(line21.get(4)) * 0.02;
+
         bmsData.batteryMaxTemperature = HexToInteger(line22.get(0));
         bmsData.batteryMinTemperature = HexToInteger(line21.get(6));
         bmsData.batteryInletTemperature = HexToInteger(line21.get(5));
