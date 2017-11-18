@@ -10,6 +10,9 @@ import org.hexpresso.soulevspy.R;
  */
 public class KiaVinParser {
 
+    final static String YEARS = "EFGHJKLMNPRSTVWXY123456789";
+    final static int FIRST_YEAR = 2014;
+
     private String mVIN;
     private boolean mIsValid = false;
 
@@ -93,10 +96,10 @@ public class KiaVinParser {
 
         // Model year
         final Character year = vehicleIdentificationNumber.charAt(9);
-        if ( ( year >= 'E' ) && ( year <= 'Z' ) )
+        final int yearValue = YEARS.indexOf(year);
+        if ( yearValue != -1 )
         {
-            final int yearValue = (int)year - (int)'E' + 2014;
-            mYear = Integer.toString(yearValue);
+            mYear = Integer.toString(yearValue + FIRST_YEAR);
         } else {
             mYear = context.getString(R.string.car_unknown);
         }

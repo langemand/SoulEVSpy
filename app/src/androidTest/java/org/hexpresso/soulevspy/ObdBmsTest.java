@@ -87,7 +87,6 @@ public class ObdBmsTest extends AndroidTestCase {
         Assert.assertEquals(13, parsedData.batteryModuleTemperature[5]);
         Assert.assertEquals(12, parsedData.batteryModuleTemperature[6]);
         Assert.assertEquals(15, parsedData.batteryModuleTemperature[7]);
-        Assert.assertEquals(15, parsedData.batteryModuleTemperature[7]);
         Assert.assertEquals(52, parsedData.maxCellVoltageNo);
         Assert.assertEquals(1762.0, parsedData.accumulativeChargeCurrent);
         Assert.assertEquals(1893.6, parsedData.accumulativeDischargeCurrent, 1e-6);
@@ -97,6 +96,10 @@ public class ObdBmsTest extends AndroidTestCase {
         Assert.assertEquals(0, parsedData.driveMotorSpeed);
         Assert.assertEquals(BatteryManagementSystemParser.CoolingFanSpeeds.FAN_6TH, parsedData.fanStatus);
         Assert.assertEquals(86, parsedData.fanFeedbackSignal);
+        for (int i=0; i<101; ++i) {
+            Assert.assertEquals(3.42, parsedData.batteryCellVoltage[i]);
+        }
+
     }
 
     public void test2102() {

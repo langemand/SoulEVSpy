@@ -105,7 +105,7 @@ public class BatteryManagementSystemParser {
         public int    batteryModuleTemperature[] = new int[8];  // °C
 
         // High-Voltage Battery Cells Information
-        public double batteryCellVoltage[] = new double[96];    // V
+        public double batteryCellVoltage[] = new double[101];    // V
         //public double batteryCellVoltageDeviation;              // V
 
         public double maxCellVoltage;                           // V

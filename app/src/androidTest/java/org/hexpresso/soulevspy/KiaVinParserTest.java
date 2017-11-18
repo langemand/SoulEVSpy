@@ -37,6 +37,38 @@ public class KiaVinParserTest extends AndroidTestCase {
     private final static String VIN_2015_3798            = "KNDJX3AE2F7003798"; // 2015 Kia Soul EV Plus (kia.mycommunitycar.com)
     private final static String VIN_2015_3644            = "KNDJX3AE8F7003644"; // 2015 Kia Soul EV Plus (kia.mycommunitycar.com)
 
+    // Model year - A = 2010, B = 2011; but I, O, Q, U, Z are skipped, and after Y comes 1, 2, 3, etc
+    private final static String VIN_2014                = "KNDJX3AE1E7005477";
+    private final static String VIN_2015                = "KNDJX3AE1F7005477";
+    private final static String VIN_2016                = "KNDJX3AE1G7005477";
+    private final static String VIN_2017                = "KNDJX3AE1H7005477";
+    private final static String VIN_2018                = "KNDJX3AE1J7005477";
+    // Skip I
+    private final static String VIN_2019                = "KNDJX3AE1K7005477";
+    private final static String VIN_2020                = "KNDJX3AE1L7005477";
+    private final static String VIN_2021                = "KNDJX3AE1M7005477";
+    private final static String VIN_2022                = "KNDJX3AE1N7005477";
+    // Skip O
+    private final static String VIN_2023                = "KNDJX3AE1P7005477";
+    // Skip Q
+    private final static String VIN_2024                = "KNDJX3AE1R7005477";
+    private final static String VIN_2025                = "KNDJX3AE1S7005477";
+    private final static String VIN_2026                = "KNDJX3AE1T7005477";
+    // Skip U
+    private final static String VIN_2027                = "KNDJX3AE1V7005477";
+    private final static String VIN_2028                = "KNDJX3AE1W7005477";
+    private final static String VIN_2029                = "KNDJX3AE1X7005477";
+    private final static String VIN_2030                = "KNDJX3AE1Y7005477";
+    private final static String VIN_2031                = "KNDJX3AE117005477";
+    private final static String VIN_2032                = "KNDJX3AE127005477";
+    private final static String VIN_2033                = "KNDJX3AE137005477";
+    private final static String VIN_2034                = "KNDJX3AE147005477";
+    private final static String VIN_2035                = "KNDJX3AE157005477";
+    private final static String VIN_2036                = "KNDJX3AE167005477";
+    private final static String VIN_2037                = "KNDJX3AE177005477";
+    private final static String VIN_2038                = "KNDJX3AE187005477";
+    private final static String VIN_2039                = "KNDJX3AE197005477";
+
     // Text constants
     private final static String SOULEV_BASE       = "Base";
     private final static String SOULEV_PLUS       = "Plus/Luxury";
@@ -151,6 +183,112 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertEquals(vin.getYear(), "2017");
         Assert.assertEquals(vin.getSequentialNumber(), "123456");
         Assert.assertEquals(vin.getProductionPlant(), "Unknown (0)");
+    }
+
+    /**
+     * Model year letter doesn't use all letters of the alfabet
+     */
+    public void testModelYear() {
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2014);
+            Assert.assertEquals(vin.getYear(), "2014");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2015);
+            Assert.assertEquals(vin.getYear(), "2015");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2016);
+            Assert.assertEquals(vin.getYear(), "2016");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2017);
+            Assert.assertEquals(vin.getYear(), "2017");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2018);
+            Assert.assertEquals(vin.getYear(), "2018");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2019);
+            Assert.assertEquals(vin.getYear(), "2019");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2020);
+            Assert.assertEquals(vin.getYear(), "2020");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2021);
+            Assert.assertEquals(vin.getYear(), "2021");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2022);
+            Assert.assertEquals(vin.getYear(), "2022");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2023);
+            Assert.assertEquals(vin.getYear(), "2023");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2024);
+            Assert.assertEquals(vin.getYear(), "2024");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2025);
+            Assert.assertEquals(vin.getYear(), "2025");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2026);
+            Assert.assertEquals(vin.getYear(), "2026");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2027);
+            Assert.assertEquals(vin.getYear(), "2027");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2028);
+            Assert.assertEquals(vin.getYear(), "2028");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2029);
+            Assert.assertEquals(vin.getYear(), "2029");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2030);
+            Assert.assertEquals(vin.getYear(), "2030");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2031);
+            Assert.assertEquals(vin.getYear(), "2031");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2032);
+            Assert.assertEquals(vin.getYear(), "2032");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2033);
+            Assert.assertEquals(vin.getYear(), "2033");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2034);
+            Assert.assertEquals(vin.getYear(), "2034");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2035);
+            Assert.assertEquals(vin.getYear(), "2035");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2036);
+            Assert.assertEquals(vin.getYear(), "2036");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2037);
+            Assert.assertEquals(vin.getYear(), "2037");
+        }
+        {
+            KiaVinParser vin = new KiaVinParser(getContext(), VIN_2038);
+            Assert.assertEquals(vin.getYear(), "2038");
+        }
     }
 
     // TODO PEM : Add a parser for the 0902 message!
