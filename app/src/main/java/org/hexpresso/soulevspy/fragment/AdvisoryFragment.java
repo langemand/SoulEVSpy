@@ -1,6 +1,7 @@
 package org.hexpresso.soulevspy.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.widget.Toast;
 
@@ -68,7 +69,10 @@ public class AdvisoryFragment extends ListFragment implements CurrentValuesSingl
         ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                setListAdapter(new ListViewAdapter(getActivity(), mItems));
+                FragmentActivity activity = getActivity();
+                if (activity != null) {
+                    setListAdapter(new ListViewAdapter(getActivity(), mItems));
+                }
             }
         });
     }

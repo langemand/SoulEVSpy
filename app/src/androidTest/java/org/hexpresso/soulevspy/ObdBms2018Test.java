@@ -130,14 +130,14 @@ public class ObdBms2018Test extends AndroidTestCase {
         Assert.assertEquals(6, parsedData.batteryMinTemperature);
         Assert.assertEquals(5, parsedData.batteryInletTemperature);
         Assert.assertEquals(75, parsedData.airbagHwireDuty);
-        Assert.assertEquals(6, parsedData.heat1Temperature);
+        Assert.assertEquals(7, parsedData.heat1Temperature);
         Assert.assertEquals(6, parsedData.heat2Temperature);
 
-        Assert.assertEquals(4.0, parsedData.maxDeterioration);
-        Assert.assertEquals(7, parsedData.maxDeteriorationCellNo);
-        Assert.assertEquals(0.8, parsedData.minDeterioration);
-        Assert.assertEquals(6, parsedData.minDeteriorationCellNo);
-        Assert.assertEquals(9.5, parsedData.stateOfChargeDisplay);
+        Assert.assertEquals(0.0, parsedData.maxDeterioration);
+        Assert.assertEquals(0, parsedData.maxDeteriorationCellNo);
+        Assert.assertEquals(0.0, parsedData.minDeterioration);
+        Assert.assertEquals(0, parsedData.minDeteriorationCellNo);
+        Assert.assertEquals(61.0, parsedData.stateOfChargeDisplay);
     }
 
     public void testToString() {

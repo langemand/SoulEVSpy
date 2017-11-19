@@ -29,8 +29,8 @@ public class SpeedPreciseMessageFilterTest extends AndroidTestCase {
 
     public void testProcesses0102() {
         SpeedPreciseMessageFilter filter = new SpeedPreciseMessageFilter();
-        ObdMessageData messageData = new ObdMessageData("4F2 01 02 80 10 00 00 80 00"); // Not a valid testscase on Henrik's car!
+        ObdMessageData messageData = new ObdMessageData("4F2 20 0A 11 28 00 00 00 97"); // This testcase has been confirmed on Henrik's car!
         filter.doProcessMessage(messageData);
-        Assert.assertEquals(129.0, filter.getSpeedInKmH());
+        Assert.assertEquals(133.0, filter.getSpeedInKmH());
     }
 }
