@@ -220,7 +220,7 @@ public class Protocol {
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT S1"));
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
-//        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT sh 7e4"));
+        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT ST 80")); // Attempt to fix issue where initial 09 02 returns "NO DATA"
     }
 
     /**
