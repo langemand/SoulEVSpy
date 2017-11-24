@@ -43,10 +43,10 @@ public class Status050MessageFilter extends ObdMessageFilter {
     public Status050MessageFilter() {
         super("050");
     }
-
+// byte 1
     private static final int MASK_LIGHTS       = 0x03;
     private static final int MASK_WIPERS_INTER = 0xF0;
-
+// byte 2
     private static final int MASK_WIPERS       = 0x07;
     private static final int MASK_TURN_SIGNAL  = 0x30;
 
