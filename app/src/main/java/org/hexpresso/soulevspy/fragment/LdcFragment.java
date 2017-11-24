@@ -1,5 +1,6 @@
 package org.hexpresso.soulevspy.fragment;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 
@@ -34,8 +35,8 @@ public class LdcFragment extends ListFragment implements CurrentValuesSingleton.
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mValues.delListener(this);
+        super.onDestroy();
     }
 
     public void onValueChanged(String trig_key, Object value) {
@@ -53,7 +54,10 @@ public class LdcFragment extends ListFragment implements CurrentValuesSingleton.
         ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                setListAdapter(new ListViewAdapter(getActivity(), mItems));
+                FragmentActivity activity = getActivity();
+                if (activity != null) {
+                    setListAdapter(new ListViewAdapter(activity, mItems));
+                }
             }
         });
     }

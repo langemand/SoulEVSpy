@@ -2,6 +2,7 @@ package org.hexpresso.soulevspy.fragment;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 
 import org.hexpresso.obd.ObdMessageFilter;
@@ -44,8 +45,8 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         CurrentValuesSingleton.getInstance().delListener(this);
+        super.onDestroy();
     }
 
     public void onValueChanged(String key, Object value) {
@@ -76,7 +77,10 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
         }
         // initialize and set the list adapter
         if (mItems.size()>0) {
-            setListAdapter(new ListViewAdapter(getActivity(), mItems));
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                setListAdapter(new ListViewAdapter(activity, mItems));
+            }
         }
     }
 }

@@ -36,9 +36,8 @@ public class AdvisoryFragment extends ListFragment implements CurrentValuesSingl
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mValues.delListener(this);
-
+        super.onDestroy();
     }
 
     public void onValueChanged(String trig_key, Object value) {
@@ -71,7 +70,7 @@ public class AdvisoryFragment extends ListFragment implements CurrentValuesSingl
             public void run() {
                 FragmentActivity activity = getActivity();
                 if (activity != null) {
-                    setListAdapter(new ListViewAdapter(getActivity(), mItems));
+                    setListAdapter(new ListViewAdapter(activity, mItems));
                 }
             }
         });
