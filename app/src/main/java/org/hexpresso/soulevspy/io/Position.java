@@ -32,12 +32,14 @@ public class Position implements LocationListener {
         }
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
-        Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (loc != null) {
-            updateLocation(loc);
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (loc != null) {
+                updateLocation(loc);
+            }
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER, 3000, 10, this);
         }
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 5000, 10, this);
     }
 
     private Position() {};
