@@ -170,6 +170,11 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line27 = data.getData("27");
         final ArrayList<String> line28 = data.getData("28");
 
+        if (line21 == null || line22 == null || line23 == null || line24 == null
+                || line25 == null || line26 == null || line27 == null || line28 == null) {
+            return false;
+        }
+
         bmsData.stateOfCharge       = HexToInteger(line21.get(0)) * 0.5;
         bmsData.bmsIsCharging       = (HexToInteger(line21.get(5)) & 0x80) != 0;
         bmsData.bmsChademoIsPlugged = (HexToInteger(line21.get(5)) & 0x40) != 0;
@@ -242,6 +247,11 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line24 = data.getData("24");
         final ArrayList<String> line25 = data.getData("25");
 
+        if (line21 == null || line22 == null || line23 == null || line24 == null
+                || line25 == null) {
+            return false;
+        }
+
         // Battery Cell Voltage 01-32
         bmsData.batteryCellVoltage[0]  = HexToInteger(line21.get(0)) * 0.02;
         bmsData.batteryCellVoltage[1]  = HexToInteger(line21.get(1)) * 0.02;
@@ -291,6 +301,11 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line24 = data.getData("24");
         final ArrayList<String> line25 = data.getData("25");
 
+        if (line21 == null || line22 == null || line23 == null || line24 == null
+                || line25 == null) {
+            return false;
+        }
+
         // Battery Cell Voltage 33-64
         bmsData.batteryCellVoltage[32] = HexToInteger(line21.get(0)) * 0.02;
         bmsData.batteryCellVoltage[33] = HexToInteger(line21.get(1)) * 0.02;
@@ -339,6 +354,11 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line23 = data.getData("23");
         final ArrayList<String> line24 = data.getData("24");
         final ArrayList<String> line25 = data.getData("25");
+
+        if (line21 == null || line22 == null || line23 == null || line24 == null
+                || line25 == null) {
+            return false;
+        }
 
         // Battery Cell Voltage 65-96
         try {
@@ -391,11 +411,17 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line23 = data.getData("23");
         final ArrayList<String> line24 = data.getData("24");
 
-        bmsData.batteryCellVoltage[96] = HexToInteger(line21.get(0)) * 0.02;
-        bmsData.batteryCellVoltage[97] = HexToInteger(line21.get(1)) * 0.02;
-        bmsData.batteryCellVoltage[98] = HexToInteger(line21.get(2)) * 0.02;
-        bmsData.batteryCellVoltage[99] = HexToInteger(line21.get(3)) * 0.02;
-        bmsData.batteryCellVoltage[100] = HexToInteger(line21.get(4)) * 0.02;
+        if (line21 == null || line22 == null || line23 == null || line24 == null) {
+            return false;
+        }
+
+        if (line21.get(0) != "00") {
+            bmsData.batteryCellVoltage[96] = HexToInteger(line21.get(0)) * 0.02;
+            bmsData.batteryCellVoltage[97] = HexToInteger(line21.get(1)) * 0.02;
+            bmsData.batteryCellVoltage[98] = HexToInteger(line21.get(2)) * 0.02;
+            bmsData.batteryCellVoltage[99] = HexToInteger(line21.get(3)) * 0.02;
+            bmsData.batteryCellVoltage[100] = HexToInteger(line21.get(4)) * 0.02;
+        }
 
         bmsData.batteryMaxTemperature = HexToInteger(line22.get(0));
         bmsData.batteryMinTemperature = HexToInteger(line21.get(6));
