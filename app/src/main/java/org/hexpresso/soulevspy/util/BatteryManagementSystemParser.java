@@ -355,8 +355,7 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line24 = data.getData("24");
         final ArrayList<String> line25 = data.getData("25");
 
-        if (line21 == null || line22 == null || line23 == null || line24 == null
-                || line25 == null) {
+        if (line21 == null || line22 == null || line23 == null || line24 == null) {
             return false;
         }
 
@@ -390,10 +389,12 @@ public class BatteryManagementSystemParser {
             bmsData.batteryCellVoltage[89] = HexToInteger(line24.get(4)) * 0.02;
             bmsData.batteryCellVoltage[90] = HexToInteger(line24.get(5)) * 0.02;
             bmsData.batteryCellVoltage[91] = HexToInteger(line24.get(6)) * 0.02;
-            bmsData.batteryCellVoltage[92] = HexToInteger(line25.get(0)) * 0.02;
-            bmsData.batteryCellVoltage[93] = HexToInteger(line25.get(1)) * 0.02;
-            bmsData.batteryCellVoltage[94] = HexToInteger(line25.get(2)) * 0.02;
-            bmsData.batteryCellVoltage[95] = HexToInteger(line25.get(3)) * 0.02;
+            if (line25 != null) { // Ray EV does not have line 25
+                bmsData.batteryCellVoltage[92] = HexToInteger(line25.get(0)) * 0.02;
+                bmsData.batteryCellVoltage[93] = HexToInteger(line25.get(1)) * 0.02;
+                bmsData.batteryCellVoltage[94] = HexToInteger(line25.get(2)) * 0.02;
+                bmsData.batteryCellVoltage[95] = HexToInteger(line25.get(3)) * 0.02;
+            }
         } catch (Exception e) {
 
         }
@@ -411,7 +412,7 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line23 = data.getData("23");
         final ArrayList<String> line24 = data.getData("24");
 
-        if (line21 == null || line22 == null || line23 == null || line24 == null) {
+        if (line21 == null || line22 == null || line23 == null) {
             return false;
         }
 
@@ -429,7 +430,7 @@ public class BatteryManagementSystemParser {
         bmsData.airbagHwireDuty = HexToInteger(line23.get(4));
         bmsData.heat1Temperature = HexToInteger(line23.get(5));
         bmsData.heat2Temperature = HexToInteger(line23.get(6));
-        if (line24 != null) {
+        if (line24 != null) { // Ray EV does not have line 24
             bmsData.maxDeterioration = ((HexToInteger(line24.get(0)) << 8) + HexToInteger(line24.get(1))) * 0.1;
             bmsData.maxDeteriorationCellNo = HexToInteger(line24.get(2));
             bmsData.minDeterioration = ((HexToInteger(line24.get(3)) << 8) + HexToInteger(line24.get(4))) * 0.1;

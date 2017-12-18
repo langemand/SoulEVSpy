@@ -157,7 +157,7 @@ public class CommandTest extends AndroidTestCase {
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
         vals.setPreferences(prefs);
 
-        input = new ByteArrayInputStream((msgOk + msg2101 + msg2102 + msg2103 + msg2104 + msg2105).getBytes());
+        input = new ByteArrayInputStream((msgOk + msgOk + msg2101 + msg2102 + msg2103 + msg2104 + msg2105).getBytes());
 
         BatteryManagementSystemCommand cmd = (BatteryManagementSystemCommand) new BatteryManagementSystemCommand();
         try {
@@ -177,7 +177,7 @@ public class CommandTest extends AndroidTestCase {
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
         vals.setPreferences(prefs);
 
-        input = new ByteArrayInputStream((msgOk + ray2101 + ray2102 + ray2103 + ray2104 + ray2105).getBytes());
+        input = new ByteArrayInputStream((msgOk + msgOk + ray2101 + ray2102 + ray2103 + ray2104 + ray2105).getBytes());
 
         BatteryManagementSystemCommand cmd = (BatteryManagementSystemCommand) new BatteryManagementSystemCommand();
         try {

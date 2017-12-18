@@ -24,9 +24,9 @@ import org.hexpresso.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import org.hexpresso.soulevspy.obd.StateOfChargeWithOneDecimalMessageFilter;
 import org.hexpresso.soulevspy.obd.Status050MessageFilter;
 import org.hexpresso.soulevspy.obd.Status55DMessageFilter;
-import org.hexpresso.soulevspy.obd.StatusLoggingMessageFilter;
 import org.hexpresso.soulevspy.obd.commands.FilteredMonitorCommand;
 import org.hexpresso.soulevspy.obd.commands.LowVoltageDCConverterSystemCommand;
+import org.hexpresso.soulevspy.obd.commands.TirePressureMSCommand;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 import org.hexpresso.elm327.commands.general.VehicleIdentifierNumberCommand;
@@ -79,6 +79,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         mLoopCommands.add(new FilteredMonitorCommand(new BatteryChargingMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new EstimatedRangeMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new Status050MessageFilter()));
+        mLoopCommands.add(new TirePressureMSCommand());
 
         // Note: No values extracted below - just logging interresting CAN PIDs for analysis!
 //        mLoopCommands.add(new FilteredMonitorCommand(new Status55DMessageFilter())); // No good

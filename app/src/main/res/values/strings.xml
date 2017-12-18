@@ -6,6 +6,7 @@
     <string name="action_car_information">Car information</string>
     <string name="action_advisor">Advisor</string>
     <string name="action_ldc">DC-DC 12 V converter</string>
+    <string name="action_tires">Tire data</string>
     <string name="action_dashboard">Dashboard</string>
     <string name="action_dtc">DTC codes</string>
     <string name="action_battery">Battery</string>
@@ -128,4 +129,7 @@
 
     <string name="col_range_estimate_km">range.estimate_km</string>
     <string name="col_range_estimate_for_climate_km">range.estimate_for_climate_km</string>
+
+    <string name="col_tire_pressure">tire.pressure</string>
+    <string name="col_tire_temperature">tire.temperature</string>
 </resources>

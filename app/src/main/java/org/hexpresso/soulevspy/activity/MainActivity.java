@@ -34,6 +34,7 @@ import org.hexpresso.soulevspy.fragment.CarFragment;
 import org.hexpresso.soulevspy.fragment.DashboardFragment;
 import org.hexpresso.soulevspy.fragment.GpsFragment;
 import org.hexpresso.soulevspy.fragment.LdcFragment;
+import org.hexpresso.soulevspy.fragment.TireFragment;
 import org.hexpresso.soulevspy.io.OBD2Device;
 import org.hexpresso.soulevspy.io.Position;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         Gps,
         Dashboard,
         Battery,
+        Tires,
         DtcCodes,
         Settings,
         HelpFeedback
@@ -163,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 //                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Dashboard.ordinal()).withName(R.string.action_dashboard).withIcon(FontAwesome.Icon.faw_dashboard).withEnabled(false),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Battery.ordinal()).withName(R.string.action_battery).withIcon(FontAwesome.Icon.faw_battery_three_quarters),
 //                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.DtcCodes.ordinal()).withName(R.string.action_dtc).withIcon(FontAwesome.Icon.faw_stethoscope).withEnabled(false),
+                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Tires.ordinal()).withName(R.string.action_tires).withIcon(FontAwesome.Icon.faw_circle_o_notch),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Settings.ordinal()).withName(R.string.action_settings).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.HelpFeedback.ordinal()).withName(R.string.action_help).withIcon(GoogleMaterial.Icon.gmd_help).withEnabled(false)
@@ -250,6 +253,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 //                        }
 //                        batteryArgs.putDouble("SOC", 0.0);
 //                        fragment.setArguments(batteryArgs);
+                        break;
+                    case Tires:
+                        fragment = new TireFragment();
                         break;
                     case Settings:
                         intent = new Intent(MainActivity.this, SettingsActivity.class);

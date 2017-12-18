@@ -16,21 +16,12 @@ import java.util.List;
  */
 
 public class LowVoltageDCConverterSystemCommand extends AbstractMultiCommand {
-    private class BasicCommand extends AbstractCommand {
-        public BasicCommand(String command) {
-            super(command);
-        }
-        @Override
-        public AbstractCommand addResponseFilter(ResponseFilter filter) {
-            return super.addResponseFilter(filter);
-        }
-    }
-
     private BasicCommand mCmd2101 = null;
 
     public LowVoltageDCConverterSystemCommand() {
         mCmd2101 = new BasicCommand("21 01");
-        addCommand(new BasicCommand("AT SH 7C5"));
+        addCommand(new BasicCommand("AT SH 7DF")); //"AT SH 7C5"));
+        addCommand(new BasicCommand("AT CRA 7CD"));
         addCommand(mCmd2101);
 
         mCmd2101.addResponseFilter(new RegularExpressionResponseFilter("^7CD(.*)$"));

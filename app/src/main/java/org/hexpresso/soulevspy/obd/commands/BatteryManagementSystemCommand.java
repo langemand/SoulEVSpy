@@ -23,12 +23,6 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
     BasicCommand mCmd2104;
     BasicCommand mCmd2105;
 
-    private class BasicCommand extends AbstractCommand {
-        public BasicCommand(String command) {
-            super(command);
-        }
-    }
-
     private Double mBatteryStateOfCharge = null;
     BatteryManagementSystemParser mBmsParser = new BatteryManagementSystemParser();
     /**
@@ -41,7 +35,8 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         mCmd2104 = new BasicCommand("21 04");
         mCmd2105 = new BasicCommand("21 05");
 
-        addCommand(new BasicCommand("AT SH 7E4"));
+        addCommand(new BasicCommand("AT SH 7DF")); //"AT SH 7E4"));
+        addCommand(new BasicCommand("AT CRA 7EC"));
         addCommand(mCmd2101);
         addCommand(mCmd2102);
         addCommand(mCmd2103);
