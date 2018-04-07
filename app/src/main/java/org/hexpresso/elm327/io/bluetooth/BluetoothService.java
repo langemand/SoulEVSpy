@@ -84,7 +84,7 @@ public class BluetoothService extends Service {
             }
             mBluetoothSocket.connect();
 
-            mInputStream  = mBluetoothSocket.getInputStream();
+            mInputStream  = mBluetoothSocket.getInputStream(); // TODO: Ensure mBluetoothSocket is not null (Crashlytics #4)
             mOutputStream = mBluetoothSocket.getOutputStream();
 
             Log.d(TAG, "Status: Bluetooth connected");
