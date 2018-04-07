@@ -102,7 +102,7 @@ public class BatteryManagementSystemParser {
         //public int    isolationResistance;                      // kOhm
 
         // High-Voltage Battery Modules information
-        public int    batteryModuleTemperature[] = new int[8];  // °C
+        public int    batteryModuleTemperature[] = new int[7];  // °C
 
         // High-Voltage Battery Cells Information
         public double batteryCellVoltage[] = new double[101];    // V
@@ -199,7 +199,7 @@ public class BatteryManagementSystemParser {
         bmsData.batteryModuleTemperature[4] = HexToInteger(line23.get(0));
         bmsData.batteryModuleTemperature[5] = HexToInteger(line23.get(1));
         bmsData.batteryModuleTemperature[6] = HexToInteger(line23.get(2));
-        bmsData.batteryModuleTemperature[7] = HexToInteger(line23.get(4));
+        bmsData.batteryInletTemperature = HexToInteger(line23.get(4));
 
         bmsData.maxCellVoltageNo = HexToInteger(line23.get(6));
         bmsData.minCellVoltageNo = HexToInteger(line24.get(1));
@@ -426,7 +426,6 @@ public class BatteryManagementSystemParser {
 
         bmsData.batteryMaxTemperature = HexToInteger(line22.get(0));
         bmsData.batteryMinTemperature = HexToInteger(line21.get(6));
-        bmsData.batteryInletTemperature = HexToInteger(line21.get(5));
         bmsData.airbagHwireDuty = HexToInteger(line23.get(4));
         bmsData.heat1Temperature = HexToInteger(line23.get(5));
         bmsData.heat2Temperature = HexToInteger(line23.get(6));

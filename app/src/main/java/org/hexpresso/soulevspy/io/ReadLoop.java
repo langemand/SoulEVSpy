@@ -64,7 +64,6 @@ public class ReadLoop {
                 , res.getString(R.string.col_battery_inlet_temperature_C)
                 , res.getString(R.string.col_battery_min_temperature_C)
                 , res.getString(R.string.col_battery_max_temperature_C)
-                , res.getString(R.string.col_battery_module_temperature) + "0_C"
                 , res.getString(R.string.col_battery_module_temperature) + "1_C"
                 , res.getString(R.string.col_battery_module_temperature) + "2_C"
                 , res.getString(R.string.col_battery_module_temperature) + "3_C"

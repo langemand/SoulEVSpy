@@ -82,7 +82,7 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         vals.set(R.string.col_battery_min_temperature_C, Double.valueOf(data.batteryMinTemperature));
         vals.set(R.string.col_battery_heat1_temperature_C, Double.valueOf(data.heat1Temperature));
         vals.set(R.string.col_battery_heat2_temperature_C, Double.valueOf(data.heat2Temperature));
-        int i = 0;
+        int i = 1;
         for (double temp : data.batteryModuleTemperature) {
             vals.set(R.string.col_battery_module_temperature, i++, "_C", Double.valueOf(temp));
         }
