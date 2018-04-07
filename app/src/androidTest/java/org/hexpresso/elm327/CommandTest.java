@@ -208,6 +208,22 @@ public class CommandTest extends AndroidTestCase {
         Assert.assertEquals(12.5, cmd.getInputVoltage());
     }
 
+    public void testNoResponseReadInputVoltage() {
+        final String response = "?\r>";
+        input = new ByteArrayInputStream(response.getBytes());
+
+        ReadInputVoltageCommand cmd = (ReadInputVoltageCommand) new ReadInputVoltageCommand().withAutoProcessResponse(true);
+        try {
+            cmd.execute(input, output);
+        }
+        catch(Exception e)
+        {
+            // ...
+        }
+
+        Assert.assertEquals(0.0, cmd.getInputVoltage());
+    }
+
     public void testVersion() {
         final String response = "ELM327 v1.5\r>";
         input = new ByteArrayInputStream(response.getBytes());
