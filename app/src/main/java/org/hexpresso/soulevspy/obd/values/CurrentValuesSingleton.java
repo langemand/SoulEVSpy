@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,6 +39,8 @@ public class CurrentValuesSingleton {
     private OutputStream mDataOutputStream = null;
     private ClientSharedPreferences mSharedPreferences = null;
     private final ReentrantLock mLock = new ReentrantLock();
+    private static Date nextFlush = new Date(0L);
+
 
     public static CurrentValuesSingleton getInstance() {
         return ourInstance;
@@ -255,7 +258,11 @@ public class CurrentValuesSingleton {
         try {
             str.append("\n");
             mDataOutputStream.write(str.toString().getBytes());
-            mDataOutputStream.flush();
+            Date now = new Date();
+            if (now.after(nextFlush)) {
+                mDataOutputStream.flush();
+                nextFlush.setTime(now.getTime() + 60000L);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -68,6 +68,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         }
         mVehicleIdentifierNumberCommand = new VehicleIdentifierNumberCommand();
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
+        mLoopCommands.add(mVehicleIdentifierNumberCommand);
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BatteryManagementSystemCommand());
         mLoopCommands.add(new LowVoltageDCConverterSystemCommand());
@@ -162,14 +163,13 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 ((MainActivity)mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            org.hexpresso.elm327.log.CommLog.getInstance().openFile("soulspy.log");
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            org.hexpresso.elm327.log.CommLog.getInstance().openFile("soulspy.log");
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        }
                         org.hexpresso.elm327.io.Protocol protocol = mBluetoothService.getProtocol();
                         if (protocol != null) {
-                            protocol.addCommand(mVehicleIdentifierNumberCommand);
                             mReadLoop = new ReadLoop(mSharedPreferences, protocol, mLoopCommands);
                             mReadLoop.start();
                         }
@@ -184,17 +184,17 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 if (mReadLoop != null) {
                     mReadLoop.stop();
                 }
-                if (mSharedPreferences.getAutoReconnectBooleanValue() && mConnectWanted) {
-                    final OBD2Device me = this;
-                    mAutoReconnectHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mSharedPreferences.getAutoReconnectBooleanValue()) {
-                                me.connect();
-                            }
-                        }
-                    }, 10000);
-                }
+//                if (mSharedPreferences.getAutoReconnectBooleanValue() && mConnectWanted) {
+//                    final OBD2Device me = this;
+//                    mAutoReconnectHandler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (mSharedPreferences.getAutoReconnectBooleanValue()) {
+//                                me.connect();
+//                            }
+//                        }
+//                    }, 10000);
+//                }
                 break;
             default:
                 // Do nothing

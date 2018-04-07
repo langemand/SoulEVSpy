@@ -46,7 +46,7 @@ public class ClientSharedPreferences {
         DEFAULT_UNITS_ENERGY_CONSUMPTION = context.getString(R.string.list_energy_consumption_kwh_100km);
         DEFAULT_UNITS_TEMPERATURE = context.getString(R.string.list_temperature_c);
         DEFAULT_BLUETOOTH_DEVICE = "";
-        DEFAULT_AUTO_RECONNECT = true;
+        DEFAULT_AUTO_RECONNECT = false;
         DEFAULT_SCAN_INTERVAL = Float.valueOf(context.getString(R.string.pref_default_scan_interval));
 
         // Create the SharedPreferences object
