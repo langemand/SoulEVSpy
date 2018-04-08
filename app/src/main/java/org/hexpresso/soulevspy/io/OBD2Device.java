@@ -163,11 +163,11 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 ((MainActivity)mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        try {
-//                            org.hexpresso.elm327.log.CommLog.getInstance().openFile("soulspy.log");
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        }
+                        try {
+                            org.hexpresso.elm327.log.CommLog.getInstance().openFile("soulspy.log");
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                         org.hexpresso.elm327.io.Protocol protocol = mBluetoothService.getProtocol();
                         if (protocol != null) {
                             mReadLoop = new ReadLoop(mSharedPreferences, protocol, mLoopCommands);
