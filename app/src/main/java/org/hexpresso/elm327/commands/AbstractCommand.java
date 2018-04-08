@@ -34,7 +34,7 @@ public abstract class AbstractCommand implements Command {
     private boolean mWithAutoProcessResponse = false;          //
     private boolean mStopReadingAtLineEnd = false;             // If false, stop reading at '>', if true, at '\r'
     private long mTimeout_ms = 1000L;                          // Input timeout
-
+    private boolean mSkip = false;
     /**
      * Error classes to be tested in order
      */
@@ -70,6 +70,10 @@ public abstract class AbstractCommand implements Command {
     @Override
     public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException, TimeoutException {
 
+        if (mSkip) {
+            Log.d(AbstractCommand.class.getSimpleName(), "Skip execute");
+            return;
+        }
         Log.d(AbstractCommand.class.getSimpleName(), "Enter execute");
         // Send the command
         mRunStartTimestamp = System.currentTimeMillis();
@@ -225,5 +229,12 @@ public abstract class AbstractCommand implements Command {
 
     public void setStopReadingAtLineEnd(boolean tostop) {
         mStopReadingAtLineEnd = tostop;
+    }
+
+    public boolean skip(boolean doSkip)
+    {
+        boolean prevSkip = mSkip;
+        mSkip = doSkip;
+        return prevSkip;
     }
 }
