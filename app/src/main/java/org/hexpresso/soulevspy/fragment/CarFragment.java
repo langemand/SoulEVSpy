@@ -1,5 +1,6 @@
 package org.hexpresso.soulevspy.fragment;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
@@ -26,6 +27,8 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         getActivity().setTitle(R.string.action_car_information);
 
         mValues = CurrentValuesSingleton.getInstance();
+        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_ELM327_voltage), this);
+        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_car_ambient_C), this);
         mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_VIN), this);
         onValueChanged(null, null);
     }
@@ -38,6 +41,14 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
 
     public void onValueChanged(String trig_key, Object value) {
         mItems.clear();
+        Object DC_V = mValues.get(R.string.col_ELM327_voltage);
+        if (DC_V != null) {
+            mItems.add(new ListViewItem("12V", new String(DC_V.toString())));
+        }
+        Object amb = mValues.get(R.string.col_car_ambient_C);
+        if (amb != null) {
+            mItems.add(new ListViewItem("Ambient Temperature", amb.toString()));
+        }
         Object vin_str = mValues.get(R.string.col_VIN);
         if (vin_str != null) {
             KiaVinParser vin = new KiaVinParser(getContext(), vin_str.toString()); //"KNDJX3AEXG7123456");
@@ -53,6 +64,7 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
                 mItems.add(new ListViewItem("Production Plant", vin.getProductionPlant()));
             }
         }
+
         // initialize and set the list adapter
         ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override

@@ -42,11 +42,7 @@ public class LdcFragment extends ListFragment implements CurrentValuesSingleton.
     public void onValueChanged(String trig_key, Object value) {
         Map<String, Object> kvals = mValues.find("ldc.");
         SortedSet<String> keyset = new TreeSet<String>(kvals.keySet());
-        Object DC_V = mValues.get(R.string.col_ELM327_voltage);
         mItems.clear();
-        if (DC_V != null) {
-            mItems.add(new ListViewItem("12V", new String(DC_V.toString())));
-        }
         for (String key : keyset) {
             mItems.add(new ListViewItem(key, new String(kvals.get(key).toString())));
         }

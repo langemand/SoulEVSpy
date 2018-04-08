@@ -58,11 +58,7 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
         Object alt = cur.get(res.getString(R.string.col_route_elevation_m));
         Object spd = cur.get(res.getString(R.string.col_route_speed_mps));
         Object tim = cur.get(res.getString(R.string.col_route_time_s));
-        Object amb = cur.get(res.getString(R.string.col_car_ambient_C));
         mItems.clear();
-        if (amb != null) {
-            mItems.add(new ListViewItem("Temperature", amb.toString()));
-        }
         if (lat != null && lng != null && alt != null && tim != null && spd != null) {
             mItems.add(new ListViewItem("Lattitude", lat.toString()));
             mItems.add(new ListViewItem("Longtitude", lng.toString()));
@@ -77,7 +73,7 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
             }
         }
         // initialize and set the list adapter
-        ((MainActivity)cur.getPreferences().getContext()).runOnUiThread(new Runnable() {
+        ((MainActivity) cur.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 FragmentActivity activity = getActivity();
@@ -86,5 +82,5 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
                 }
             }
         });
-    }
+        }
 }
