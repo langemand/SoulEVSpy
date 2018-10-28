@@ -211,6 +211,7 @@ public class Protocol {
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand(" ")); // Ensure monitoring is stopped, just in case
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT I"));
         addCommand(new org.hexpresso.elm327.commands.protocol.ResetAllCommand());
+//        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.EchoCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.LinefeedsCommand(false));
 //        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
@@ -218,7 +219,6 @@ public class Protocol {
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AL"));
         addCommand(new org.hexpresso.elm327.commands.protocol.HeadersCommand(true));
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT S1"));
-        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT ST 80")); // Attempt to fix issue where initial 09 02 returns "NO DATA"
     }

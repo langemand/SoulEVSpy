@@ -10,6 +10,7 @@ import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.KiaVinParser;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,7 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         getActivity().setTitle(R.string.action_car_information);
 
         mValues = CurrentValuesSingleton.getInstance();
-        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_ELM327_voltage), this);
-        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_car_ambient_C), this);
-        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_VIN), this);
+        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
         onValueChanged(null, null);
     }
 
@@ -41,6 +40,10 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
 
     public void onValueChanged(String trig_key, Object value) {
         mItems.clear();
+        Object SOH_pct = mValues.get(R.string.col_calc_battery_soh_pct);
+        if (SOH_pct != null) {
+            mItems.add(new ListViewItem("Battery SOH %", new DecimalFormat("0.0").format(SOH_pct)));
+        }
         Object DC_V = mValues.get(R.string.col_ELM327_voltage);
         if (DC_V != null) {
             mItems.add(new ListViewItem("12V", new String(DC_V.toString())));

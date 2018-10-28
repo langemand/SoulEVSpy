@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
@@ -28,6 +29,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.hexpresso.elm327.log.CommLog;
 import org.hexpresso.soulevspy.R;
+import org.hexpresso.soulevspy.advisor.ChargeStations;
 import org.hexpresso.soulevspy.fragment.AdvisoryFragment;
 import org.hexpresso.soulevspy.fragment.BatteryFragment;
 import org.hexpresso.soulevspy.fragment.CarFragment;
@@ -37,6 +39,7 @@ import org.hexpresso.soulevspy.fragment.LdcFragment;
 import org.hexpresso.soulevspy.fragment.TireFragment;
 import org.hexpresso.soulevspy.io.OBD2Device;
 import org.hexpresso.soulevspy.io.Position;
+import org.hexpresso.soulevspy.util.BatteryStats;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
@@ -76,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private static String[] PERMISSIONS_LOCATION = {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
+
+    private ChargeStations mChargeStations = null;
+    private BatteryStats mBatteryStats = null;
 
     /**
      * Checks if the app has permission to write to device storage
@@ -137,11 +143,17 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         CurrentValuesSingleton.getInstance().setPreferences(mSharedPreferences);
 
+        // ChargeStations
+        mChargeStations = new ChargeStations(getBaseContext());
+
         // Listen to GPS location updates
         mPosition = new Position(getBaseContext());
 
         // Bluetooth OBD2 Device
         mDevice = new OBD2Device(mSharedPreferences);
+
+        // Calculations based on CurrentValuesSingleton
+        mBatteryStats = new BatteryStats();
 
         // Action bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -178,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 2
-            mDrawer.setSelection(NavigationDrawerItem.Battery.ordinal(), true);
+            mDrawer.setSelection(NavigationDrawerItem.Advisor.ordinal(), true);
         }
     }
 
@@ -216,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             Fragment fragment = null;
             try {
                 NavigationDrawerItem item = NavigationDrawerItem.values()[drawerItem.getIdentifier()];
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 switch (item) {
                     case Bluetooth:
                         // Do nothing
@@ -225,34 +238,19 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         break;
                     case Advisor:
                         fragment = new AdvisoryFragment();
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                         break;
                     case Ldc:
                         fragment = new LdcFragment();
                         break;
                     case Car:
                         fragment = new CarFragment();
-                        Bundle args = new Bundle();
-                        Object objVin = CurrentValuesSingleton.getInstance().get("VIN");
-                        if (objVin != null) {
-                            args.putString("VIN", objVin.toString());
-                        }
-                        fragment.setArguments(args);
                         break;
                     case Dashboard:
                         fragment = new DashboardFragment();
                         break;
                     case Battery:
                         fragment = new BatteryFragment();
-//                        Bundle batteryArgs = new Bundle();
-//                        Object objSoc = CurrentValuesSingleton.getInstance().get("TrueSOC");
-//                        if (objSoc != null) {
-//                            Double trueSOC = new Double((Double)objSoc);
-//                            if (trueSOC != null) {
-//                                batteryArgs.putDouble("TrueSOC", trueSOC);
-//                            }
-//                        }
-//                        batteryArgs.putDouble("SOC", 0.0);
-//                        fragment.setArguments(batteryArgs);
                         break;
                     case Tires:
                         fragment = new TireFragment();

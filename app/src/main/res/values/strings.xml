@@ -132,4 +132,9 @@
 
     <string name="col_tire_pressure">tire.pressure</string>
     <string name="col_tire_temperature">tire.temperature</string>
+
+    <string name="col_calc_battery_soh_pct">calc.battery_SOH_pct</string>
+
+    <string name="col_chargers_locations">chargers.locations</string>
+
 </resources>

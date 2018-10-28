@@ -159,7 +159,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 break;
             case STATE_CONNECTED:
                 message = "Connected";
-                Log.d("OBD2Device", "Adding VehicleIdentifierNumberCommand");
+                Log.d("OBD2Device", "Starting ReadLoop");
                 ((MainActivity)mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

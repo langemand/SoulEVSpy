@@ -41,6 +41,7 @@ public class KiaVinParser {
         if ( !wmi.equals("KNA") && !wmi.equals("KNC") && !wmi.equals("KND") && !wmi.equals("KNH") )
         {
             // Not a Kia vehicle!
+            mBrand = "Not a Kia";
             Log.d("KiaVinParser", "Not a Kia! " + wmi);
             return;
         }
@@ -49,6 +50,7 @@ public class KiaVinParser {
         final Character vehicleLine = vehicleIdentificationNumber.charAt(3);
         if ( !vehicleLine.equals('J') )
         {
+            mModel = "Not a Soul";
             Log.d("KiaVinParser", "Not a Soul! " + vehicleLine);
             return;
         }
@@ -57,6 +59,7 @@ public class KiaVinParser {
         final Character motorType = vehicleIdentificationNumber.charAt(7);
         if ( !motorType.equals('E') )
         {
+            mEngine = "Not a Soul EV";
             Log.d("KiaVinParser", "Not a Soul EV! " + motorType);
             return;
         }
