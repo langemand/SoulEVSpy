@@ -217,9 +217,9 @@ public class Protocol {
 //        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AR"));
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AL"));
+        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
         addCommand(new org.hexpresso.elm327.commands.protocol.HeadersCommand(true));
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT S1"));
-        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT ST 80")); // Attempt to fix issue where initial 09 02 returns "NO DATA"
     }
 

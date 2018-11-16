@@ -23,6 +23,8 @@ public class KiaVinParserTest extends AndroidTestCase {
     private final static String VIN_2016_LUXURY_WHITE    = "KNDJX3AE1G7123456"; // EEKO, 2016 luxury white
     private final static String VIN_2017_FAKE            = "KNDJX3AE0H0123456"; // Fake 2017
     private final static String VIN_2016_TYREL           = "KNDJX3AE2G7006329";
+    private final static String VIN_2015_HENRIK          = "KNAJX81EFF7002432";
+    private final static String VIN_2016_IWER            = "KNAJX81EFG7008726";
 
     // AVT
     private final static String VIN_2015_AVT_1908        = "KNDJX3AE6F7001908"; // AVT VIN 1908
@@ -78,7 +80,7 @@ public class KiaVinParserTest extends AndroidTestCase {
     /**
      * Illegal Strings
      */
-    public void testIllegalStrings() {
+    public void testLegalStrings() {
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2015_LUXURY_WHITE).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_LUXURY_TITANIUM).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_LUXURY_WHITE).isValid());
@@ -93,12 +95,14 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2015_3798).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2015_3644).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_TYREL).isValid());
+        Assert.assertTrue(new KiaVinParser(getContext(), VIN_2015_HENRIK).isValid());
+        Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_IWER).isValid());
     }
 
     /**
      * LEgal Strings
      */
-    public void testLegalStrings() {
+    public void testIllegalStrings() {
         Assert.assertFalse(new KiaVinParser(getContext(), VIN_EMPTY).isValid());
         Assert.assertFalse(new KiaVinParser(getContext(), VIN_NOT_KIA).isValid());
         Assert.assertFalse(new KiaVinParser(getContext(), VIN_NOT_SOUL).isValid());

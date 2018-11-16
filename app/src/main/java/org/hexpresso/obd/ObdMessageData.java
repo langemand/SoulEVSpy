@@ -21,7 +21,19 @@ public class ObdMessageData {
             return;
         }
 
-        // Get the message identifier (first value)
+        // Handle cheap ELM327v2.1 clones
+        if (data.length > 4 && data[2].length() == 2 && data[3].length() == 2
+                && data[0].contentEquals("00") && data[1].contentEquals("00")
+                && data[2].substring(0,1).contentEquals("0")) {
+            String[] newdata = new String[data.length - 3];
+            newdata[0] = data[2].substring(1) + data[3];
+            for (int i = 4; i < data.length; ++i) {
+                newdata[i-3] = data[i];
+            }
+            data = newdata;
+        }
+
+            // Get the message identifier (first value)
         mMessageIdentifier = data[0];
 
         // Get the message data (other values)

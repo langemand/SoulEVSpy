@@ -238,4 +238,24 @@ public class ObdMessageDataTest extends AndroidTestCase {
 
         filter.receive("55D 10 81 3D DC 1D 50 00 00");
     }
+
+    public void testMessageFromCheapClone() {
+        final String message598 = "00 00 06 53 00 12 61 01 1F 00 00 00";
+
+        ObdMessageData messageData = new ObdMessageData(message598);
+
+        assertEquals("653", messageData.getMessageIdentifier());
+        assertEquals(message598, messageData.getRawData());
+
+        ArrayList<String> data = messageData.getData();
+        assertEquals(data.size(), 8);
+        assertEquals("00", data.get(0));
+        assertEquals("12", data.get(1));
+        assertEquals("61", data.get(2));
+        assertEquals("01", data.get(3));
+        assertEquals("1F", data.get(4));
+        assertEquals("00", data.get(5));
+        assertEquals("00", data.get(6));
+        assertEquals("00", data.get(7));
+    }
 }

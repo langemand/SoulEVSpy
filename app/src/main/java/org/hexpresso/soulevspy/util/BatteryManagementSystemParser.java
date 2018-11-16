@@ -171,7 +171,7 @@ public class BatteryManagementSystemParser {
         final ArrayList<String> line28 = data.getData("28");
 
         if (line21 == null || line22 == null || line23 == null || line24 == null
-                || line25 == null || line26 == null || line27 == null || line28 == null) {
+                || line25 == null || line26 == null || line27 == null) {
             return false;
         }
 
@@ -227,11 +227,11 @@ public class BatteryManagementSystemParser {
                                               ( HexToInteger(line27.get(1) ) << 16) +
                                               ( HexToInteger(line27.get(2) ) << 8) +
                                               ( HexToInteger(line27.get(3) ) ) );
-
-        bmsData.driveMotorSpeed = ( ( HexToInteger(line28.get(0) ) << 8) + HexToInteger(line28.get(1)) ); // Could be also 2-3
-        if (bmsData.driveMotorSpeed > 0x8000)
-            bmsData.driveMotorSpeed = 0x10000 - bmsData.driveMotorSpeed;
-
+        if (line28 != null) {
+            bmsData.driveMotorSpeed = ((HexToInteger(line28.get(0)) << 8) + HexToInteger(line28.get(1))); // Could be also 2-3
+            if (bmsData.driveMotorSpeed > 0x8000)
+                bmsData.driveMotorSpeed = 0x10000 - bmsData.driveMotorSpeed;
+        }
         return true;
     }
 
