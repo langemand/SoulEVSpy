@@ -40,6 +40,15 @@ public class LdcFragment extends ListFragment implements CurrentValuesSingleton.
     }
 
     public void onValueChanged(String trig_key, Object value) {
+        Double aux_V = (Double)mValues.get("log.aux_volts_V");
+        Double aux_A = (Double)mValues.get("log.aux_amps_A");
+        String aux_W = "undefined";
+        if (aux_A != null && aux_V != null) {
+            aux_W = new Double(aux_A * aux_V).toString();
+        }
+        mItems.add(new ListViewItem("AUX Voltage, V", aux_V != null ? new String(aux_V.toString()) : "undefined"));
+        mItems.add(new ListViewItem("AUX Current, A", aux_A != null ? new String(aux_A.toString()) : "undefined"));
+        mItems.add(new ListViewItem("AUX Power, W", aux_W));
         Map<String, Object> kvals = mValues.find("ldc.");
         SortedSet<String> keyset = new TreeSet<String>(kvals.keySet());
         mItems.clear();
