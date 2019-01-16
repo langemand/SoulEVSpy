@@ -2,6 +2,7 @@ package org.hexpresso.soulevspy.obd.values;
 
 import android.os.Environment;
 
+import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 
 import java.io.File;
@@ -211,7 +212,7 @@ public class CurrentValuesSingleton {
             }
             SortedSet<String> keyset = new TreeSet<String>(mValues.keySet());
             for (String key : keyset) {
-                if (!mColumnNamesLogged.contains(key)) {
+                if (!mColumnNamesLogged.contains(key) && key != getPreferences().getContext().getResources().getString(R.string.col_chargers_locations)) {
                     str.append(separator);
                     str.append("\"");
                     str.append(key);

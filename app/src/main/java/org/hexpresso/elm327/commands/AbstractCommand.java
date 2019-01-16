@@ -1,5 +1,7 @@
 package org.hexpresso.elm327.commands;
 
+import org.hexpresso.elm327.exceptions.BufferFullException;
+import org.hexpresso.elm327.exceptions.CanErrorException;
 import org.hexpresso.elm327.log.CommLog;
 import org.hexpresso.elm327.exceptions.BusInitException;
 import org.hexpresso.elm327.exceptions.MisunderstoodCommandException;
@@ -45,7 +47,9 @@ public abstract class AbstractCommand implements Command {
             NoDataException.class,
             StoppedException.class,
             UnknownErrorException.class,
-            UnsupportedCommandException.class
+            UnsupportedCommandException.class,
+            CanErrorException.class,
+            BufferFullException.class
     };
 
     /**
@@ -102,6 +106,7 @@ public abstract class AbstractCommand implements Command {
         byte[] commandBytes = command.getBytes();
         out.write(commandBytes);
         out.flush();
+        CommLog.getInstance().log("o:".getBytes());
         CommLog.getInstance().log(commandBytes);
     }
 
@@ -181,6 +186,7 @@ public abstract class AbstractCommand implements Command {
         String rawResponse = res.toString();
         Log.d("AbstractCommand", rawResponse);
 
+        CommLog.getInstance().log("i:".getBytes());
         CommLog.getInstance().log(rawResponse.getBytes());
         rawResponse = rawResponse.replaceAll("SEARCHING", "");
 

@@ -21,7 +21,7 @@ public class ObdMessageData {
             return;
         }
 
-        // Handle cheap ELM327v2.1 clones
+        // Handle cheap ELM327v2.1 clones, returning 00 00 06 53 XX... instead of 653 XX...
         if (data.length > 4 && data[2].length() == 2 && data[3].length() == 2
                 && data[0].contentEquals("00") && data[1].contentEquals("00")
                 && data[2].substring(0,1).contentEquals("0")) {

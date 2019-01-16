@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
+import android.widget.Toast;
 
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
@@ -79,15 +80,5 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
             }
         });
     }
-/*
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        // retrieve theListView item
-        ListViewItem item = mItems.get(position);
-
-        // do something
-        Toast.makeText(getActivity(), item.title, Toast.LENGTH_SHORT).show();
-    }
-*/
 }
 

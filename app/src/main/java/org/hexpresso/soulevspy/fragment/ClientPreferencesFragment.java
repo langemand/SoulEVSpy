@@ -107,6 +107,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
 
         CheckBoxPreference checkBoxPref = (CheckBoxPreference) findPreference(getString(R.string.key_check_auto_reconnect));
         setCheckBoxPreferenceSummary(checkBoxPref, false); //mSharedPreferences.getAutoReconnectBooleanValue());
+//        setCheckBoxPreferenceSummary(checkBoxPref, mSharedPreferences.getAutoReconnectBooleanValue());
 
         EditTextPreference editTextPref = (EditTextPreference) findPreference(getString(R.string.key_edit_scan_interval));
         setEditTextPreferenceSummary(editTextPref, mSharedPreferences.getScanIntervalFloatValue());

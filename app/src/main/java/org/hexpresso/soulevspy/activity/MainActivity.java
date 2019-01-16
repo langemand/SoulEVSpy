@@ -30,7 +30,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import org.hexpresso.elm327.log.CommLog;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.advisor.ChargeStations;
-import org.hexpresso.soulevspy.fragment.AdvisoryFragment;
+import org.hexpresso.soulevspy.fragment.ChargerLocationsFragment;
+import org.hexpresso.soulevspy.fragment.EnergyFragment;
 import org.hexpresso.soulevspy.fragment.BatteryFragment;
 import org.hexpresso.soulevspy.fragment.CarFragment;
 import org.hexpresso.soulevspy.fragment.DashboardFragment;
@@ -53,12 +54,13 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         Invalid,
         Bluetooth,
         Car,
-        Advisor,
+        ChargerLocations,
+        Energy,
+        Battery,
         Ldc,
+        Tires,
         Gps,
         Dashboard,
-        Battery,
-        Tires,
         DtcCodes,
         Settings,
         HelpFeedback
@@ -170,14 +172,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 .addDrawerItems(
                         new SwitchDrawerItem().withIdentifier(NavigationDrawerItem.Bluetooth.ordinal()).withName(R.string.action_bluetooth).withIcon(GoogleMaterial.Icon.gmd_bluetooth).withChecked(false).withSelectable(false).withOnCheckedChangeListener(mOnCheckedBluetoothDevice),
                         new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.ChargerLocations.ordinal()).withName(R.string.action_charger_locations).withIcon(FontAwesome.Icon.faw_map),
+                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Energy.ordinal()).withName(R.string.action_energy).withIcon(FontAwesome.Icon.faw_list),
+                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Battery.ordinal()).withName(R.string.action_battery).withIcon(FontAwesome.Icon.faw_battery_three_quarters),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Car.ordinal()).withName(R.string.action_car_information).withIcon(FontAwesome.Icon.faw_car),
-                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Advisor.ordinal()).withName(R.string.action_advisor).withIcon(FontAwesome.Icon.faw_list),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Ldc.ordinal()).withName(R.string.action_ldc).withIcon(FontAwesome.Icon.faw_battery_4),
+                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Tires.ordinal()).withName(R.string.action_tires).withIcon(FontAwesome.Icon.faw_circle_o_notch),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Gps.ordinal()).withName("GPS information").withIcon(FontAwesome.Icon.faw_clock_o),
 //                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Dashboard.ordinal()).withName(R.string.action_dashboard).withIcon(FontAwesome.Icon.faw_dashboard).withEnabled(false),
-                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Battery.ordinal()).withName(R.string.action_battery).withIcon(FontAwesome.Icon.faw_battery_three_quarters),
 //                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.DtcCodes.ordinal()).withName(R.string.action_dtc).withIcon(FontAwesome.Icon.faw_stethoscope).withEnabled(false),
-                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Tires.ordinal()).withName(R.string.action_tires).withIcon(FontAwesome.Icon.faw_circle_o_notch),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Settings.ordinal()).withName(R.string.action_settings).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.HelpFeedback.ordinal()).withName(R.string.action_help).withIcon(GoogleMaterial.Icon.gmd_help).withEnabled(false)
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 2
-            mDrawer.setSelection(NavigationDrawerItem.Advisor.ordinal(), true);
+            mDrawer.setSelection(NavigationDrawerItem.ChargerLocations.ordinal(), true);
         }
     }
 
@@ -236,8 +239,12 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                     case Gps:
                         fragment = new GpsFragment();
                         break;
-                    case Advisor:
-                        fragment = new AdvisoryFragment();
+                    case ChargerLocations:
+                        fragment = new ChargerLocationsFragment();
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        break;
+                    case Energy:
+                        fragment = new EnergyFragment();
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                         break;
                     case Ldc:

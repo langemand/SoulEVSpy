@@ -24,6 +24,7 @@ import org.hexpresso.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import org.hexpresso.soulevspy.obd.StateOfChargeWithOneDecimalMessageFilter;
 import org.hexpresso.soulevspy.obd.Status050MessageFilter;
 import org.hexpresso.soulevspy.obd.Status55DMessageFilter;
+import org.hexpresso.soulevspy.obd.commands.BasicCommand;
 import org.hexpresso.soulevspy.obd.commands.FilteredMonitorCommand;
 import org.hexpresso.soulevspy.obd.commands.LowVoltageDCConverterSystemCommand;
 import org.hexpresso.soulevspy.obd.commands.TirePressureMSCommand;
@@ -42,6 +43,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
     final BluetoothService mBluetoothService;
     final ClientSharedPreferences mSharedPreferences;
     final Context mContext;
+    String versionName;
     public VehicleIdentifierNumberCommand mVehicleIdentifierNumberCommand = null;
     public ArrayList<Command> mLoopCommands = new ArrayList<Command>();
     ReadLoop mReadLoop = null;
@@ -62,12 +64,21 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         mBluetoothService = new BluetoothService();
         mBluetoothService.setServiceStateListener(this);
 
+        try {
+            versionName = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            versionName = "UnknownVersion";
+        }
+
         // Start Bluetooth service
         if (mBluetoothService.isBluetoothAvailable()) {
             mBluetoothService.useSecureConnection(true);
         }
         mVehicleIdentifierNumberCommand = new VehicleIdentifierNumberCommand();
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
+//        mLoopCommands.add(new BasicCommand("AT AR")); // Try Auto Receive
+//DONT        mLoopCommands.add(new BasicCommand("AT FI")); // Try Fast Initialisation
+//        mLoopCommands.add(new BasicCommand("01 00")); // Try Get supported PIDs
         mLoopCommands.add(mVehicleIdentifierNumberCommand);
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BatteryManagementSystemCommand());
@@ -82,13 +93,14 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         mLoopCommands.add(new FilteredMonitorCommand(new Status050MessageFilter()));
         mLoopCommands.add(new TirePressureMSCommand());
 
-        // Note: No values extracted below - just logging interresting CAN PIDs for analysis!
+        // Note: No values extracted below - just logging interresting CAN PIDs for later analysis!
 //        mLoopCommands.add(new FilteredMonitorCommand(new Status55DMessageFilter())); // No good
 //        mLoopCommands.add(new FilteredMonitorCommand(new EstimatedRangeMessageFilter()));
 //        mLoopCommands.add(new FilteredMonitorCommand(new StatusLoggingMessageFilter("202")));
 //        mLoopCommands.add(new FilteredMonitorCommand(new StatusLoggingMessageFilter("55D")));
 //        mLoopCommands.add(new FilteredMonitorCommand(new StatusLoggingMessageFilter("595")));
 
+//        mLoopCommands.add(new BasicCommand("AT LP")); // Try Low Power
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
 
         Log.d("OBD2Device", "Exit ctor");
@@ -164,8 +176,8 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                     @Override
                     public void run() {
                         try {
-                            org.hexpresso.elm327.log.CommLog.getInstance().openFile("soulspy.log");
-                        } catch (FileNotFoundException e) {
+                            org.hexpresso.elm327.log.CommLog.getInstance().openFile("soulspy.log", "SoulEVSpy Version: " + versionName);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         org.hexpresso.elm327.io.Protocol protocol = mBluetoothService.getProtocol();

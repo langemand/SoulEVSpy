@@ -4,7 +4,8 @@
     <!-- Navigation Drawer -->
     <string name="action_bluetooth">Bluetooth device</string>
     <string name="action_car_information">Car information</string>
-    <string name="action_advisor">Advisor</string>
+    <string name="action_energy">Energy and power</string>
+    <string name="action_charger_locations">Nearest Quick-chargers</string>
     <string name="action_ldc">DC-DC 12 V converter</string>
     <string name="action_tires">Tire data</string>
     <string name="action_dashboard">Dashboard</string>
@@ -64,12 +65,15 @@
     <string name="car_plant_seosan">Seosan</string>
     <string name="car_south_korea">South Korea</string>
 
+
     <!-- Data column labels -->
     <string name="col_system_scan_start_time_ms">system.scan_start_time_ms</string>
     <string name="col_system_scan_end_time_ms">system.scan_end_time_ms</string>
     <string name="col_system_status">system.status</string>
     <string name="col_VIN">VIN</string>
+    <string name="col_nom_capacity_kWh">car.nominel_capacity_kWh</string>
     <string name="col_ELM327_voltage">ELM327.Voltage_V</string>
+
     <string name="col_route_time_s">route.time_s</string>
     <string name="col_route_lat_deg">route.lat_deg</string>
     <string name="col_route_lng_deg">route.lng_deg</string>
@@ -134,6 +138,8 @@
     <string name="col_tire_temperature">tire.temperature</string>
 
     <string name="col_calc_battery_soh_pct">calc.battery_SOH_pct</string>
+
+    <string name="col_watcher_consumption">calc.watcher_consumption_prefix</string>
 
     <string name="col_chargers_locations">chargers.locations</string>
 

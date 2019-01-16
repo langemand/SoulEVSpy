@@ -1,8 +1,9 @@
 package org.hexpresso.soulevspy.util;
 
+import android.widget.Toast;
+
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
-import org.hexpresso.soulevspy.util.KiaVinParser;
 
 public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener {
     private CurrentValuesSingleton mValues = null;
@@ -42,6 +43,7 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
                             totcap = 31.8;
                             nomcap = 30.0;
                         }
+                        mValues.set(R.string.col_nom_capacity_kWh, nomcap);
                     } catch(NumberFormatException ex){
                         totcap = 0;
                         nomcap = 0;
@@ -50,9 +52,10 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
             }
         }
         Double detmax = (Double)mValues.get(R.string.col_battery_max_cell_detoriation_pct);
-        if (detmax != null) {
+        if (detmax != null && detmax != 0 && nomcap != 0) {
             double sohpct = (totcap * (1-detmax/100.0) / nomcap * 100.0);
             mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
+            Toast.makeText(mValues.getPreferences().getContext(), "State Of Health: " + sohpct + " %", Toast.LENGTH_LONG).show();
         }
     }
 }

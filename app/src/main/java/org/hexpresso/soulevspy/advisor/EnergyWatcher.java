@@ -4,6 +4,8 @@ import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class EnergyWatcher implements CurrentValuesSingleton.CurrentValueListener  {
     private CurrentValuesSingleton mValues = null;
@@ -12,6 +14,8 @@ public class EnergyWatcher implements CurrentValuesSingleton.CurrentValueListene
     private long mLatestTime = 0;
     private double mGpsDist = 0;
     private Pos mLastPos = new Pos(0.0,0.0);
+    private HashSet<Long> milestones;
+    private Map<Long, Double> milestoneConsumptions;
 
     public EnergyWatcher() {
         mValues = CurrentValuesSingleton.getInstance();
@@ -38,12 +42,34 @@ public class EnergyWatcher implements CurrentValuesSingleton.CurrentValueListene
         if (time > mLatestTime + mInterval) {
             Nugget nugget = new Nugget(time,
                     (Double)mValues.get(R.string.col_car_odo_km),
-                    (Double)mValues.get(R.string.col_battery_precise_SOC),
+                    (Double)mValues.get(R.string.col_battery_decimal_SOC),
                     (Double)mValues.get(R.string.col_car_speed_kph),
                     mGpsDist);
             mNuggets.put(nugget.getTime_s(), nugget);
             mLatestTime = time;
+
+            calculateMeans();
         }
         mLastPos = pos;
+    }
+
+    public void calculateMeans() {
+        Double currOdo = (Double)mValues.get(R.string.col_car_odo_km) * 1000;
+        Double currSoc = (Double)mValues.get(R.string.col_battery_decimal_SOC);
+        Double nomCap = (Double)mValues.get(R.string.col_nom_capacity_kWh);
+        if (currOdo != null) {
+            for (Nugget nugget : mNuggets.values()) {
+                for (Long m : milestones) {
+                    if (! milestoneConsumptions.containsKey(m) && (currOdo - nugget.getOdo_m()) < m) {
+                        milestoneConsumptions.put(m, (currSoc - nugget.getSoc_pct()) / (currOdo - nugget.getOdo_m()));
+                    }
+                }
+            }
+        }
+        for (Long key : milestoneConsumptions.keySet()) {
+            Double pctPerMeter = milestoneConsumptions.get(key);
+            Double wattHoursPerkm = pctPerMeter * nomCap * 1.0e6;
+            mValues.set(R.string.col_watcher_consumption+"_"+key.toString()+"_WhPerkm", wattHoursPerkm);
+        }
     }
 }

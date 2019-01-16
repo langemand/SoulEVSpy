@@ -119,6 +119,14 @@ public class ReadLoop {
                         (Long)vals.get(R.string.col_system_scan_start_time_ms) == last_log_time) {
                     SystemClock.sleep(100L);
                 }
+                // Handle any protocol exceptions by re-init
+                String status = mProtocol.setStatus("");
+                if (status.length() != 0) {
+                    SystemClock.sleep(5000);
+                    mProtocol.init();
+//                    continue;
+                }
+
                 long scan_end_time = (Long)vals.get(R.string.col_system_scan_end_time_ms);
                 long time_now = System.currentTimeMillis();
                 long timeToWait = (long)(mSharedPreferences.getScanIntervalFloatValue()*1000) - (time_now - scan_start_time);

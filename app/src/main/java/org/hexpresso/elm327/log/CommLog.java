@@ -27,10 +27,16 @@ public class CommLog {
     private CommLog() {
     }
 
-    public void openFile(String logFileName) throws FileNotFoundException {
+    public void openFile(String logFileName, String version) throws FileNotFoundException {
         mLogFileName = logFileName + new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
         mCommLogFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), mLogFileName);
         mCommLogOs = new FileOutputStream(mCommLogFile);
+        String line = version + "\r";
+        try {
+            mCommLogOs.write(line.getBytes());
+        } catch (Exception e) {
+            // Ignore
+        }
     }
 
     public void log(byte[] bytes) throws IOException {

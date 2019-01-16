@@ -3,7 +3,6 @@ package org.hexpresso.soulevspy.advisor;
 import android.content.Context;
 
 import org.hexpresso.soulevspy.R;
-import org.hexpresso.soulevspy.fragment.AdvisoryFragment;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,7 +28,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
         }
         mLastPosLookedUp = new Pos(0.0,0.0);
         mLastPosReDist = new Pos(0.0, 0.0);
-        String key = mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms);
+        String key = mValues.getPreferences().getContext().getResources().getString(R.string.col_route_time_s);
         mValues.addListener(key, this);
     }
 
@@ -103,21 +102,21 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     public ArrayList<ChargeLocation> getChargersInRange(Pos myPos, double range) {
         // TODO: Fetch chargers from cloud...
         ArrayList<ChargeLocation> nearChargers = new ArrayList<>();
-        try {
-            for (int i = 0; i < chargeLocations.length(); ++i) {
+        for (int i = 0; i < chargeLocations.length(); ++i) {
+            try {
                 JSONObject charger = chargeLocations.getJSONObject(i);
                 JSONObject location = charger.getJSONObject("coordinates");
                 Pos chargerPos = new Pos((Double)location.get("lat"), (Double)location.get("lng"));
                 double distance = myPos.distance(chargerPos);
                 if (distance < (range + 20)) {
                     JSONObject address = charger.getJSONObject("address");
-                    String readableName = (String)charger.get("name") + ", " + address.get("street") + ", " + address.get("postcode") + " " + address.get("city");
+                    String readableName = charger.get("network").toString() + ", " + (String)charger.get("name") + ", " + address.get("street") + ", " + address.get("postcode") + " " + address.get("city");
                     nearChargers.add(new ChargeLocation(distance, chargerPos, 0, readableName, charger));
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                //return null;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            //return null;
         }
         return nearChargers;
     }

@@ -17,17 +17,19 @@
             android:layout_centerVertical="true" >
 
             <!-- the title view -->
-            <TextView android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium" />
-
-            <!-- the description view -->
-            <TextView android:id="@+id/tvValue"
-                android:layout_below="@id/tvTitle"
+            <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@android:style/TextAppearance.Small" />
+
+            <!-- the description view -->
+            <TextView
+                android:id="@+id/tvValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvTitle"
+                android:textAppearance="@android:style/TextAppearance.Medium" />
         </RelativeLayout>
 
     </RelativeLayout>

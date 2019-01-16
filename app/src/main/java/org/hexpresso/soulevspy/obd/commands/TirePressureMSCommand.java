@@ -6,7 +6,6 @@ import org.hexpresso.obd.ObdMessageData;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
