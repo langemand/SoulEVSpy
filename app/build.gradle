@@ -33,7 +33,8 @@ android {
             minSdkVersion 14
             targetSdkVersion 23
             versionCode version_Code
-            versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"
+            versionName "${versionMajor}.${versionMinor}.${versionPatch}-${versionBuild}"
+            setProperty("archivesBaseName", "SoulEVSpy-$versionName")
         }
     } else {
         throw new GradleException("Could not read version.properties!")
