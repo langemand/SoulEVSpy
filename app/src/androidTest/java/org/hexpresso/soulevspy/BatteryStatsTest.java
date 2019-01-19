@@ -16,14 +16,17 @@ public class BatteryStatsTest extends AndroidTestCase {
         vals.setPreferences(prefs);
 
         BatteryStats stats = new BatteryStats();
-        assertEquals(null, vals.get("calc.battery_SOH_pct"));
-        vals.set("VIN", "KNDJX3AE0H0123456");
-        assertEquals(null, vals.get("calc.battery_SOH_pct"));
-        vals.set("battery.max_cell_detoriation_pct", 0.0);
-        assertEquals(112.96, Math.round(((Double)vals.get("calc.battery_SOH_pct"))*100.0)/100.0);
+        assertEquals(null, vals.get(R.string.col_calc_battery_soh_pct));
+        vals.set(R.string.col_VIN, "KNDJX3AE0H0123456");
+        assertEquals(null, vals.get(R.string.col_calc_battery_soh_pct));
+        vals.set(R.string.col_battery_max_cell_detoriation_pct, 0.0);
+        assertEquals(null, vals.get(R.string.col_calc_battery_soh_pct));
+        vals.set(R.string.col_system_scan_end_time_ms, 42);
+        assertEquals(112.96, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
 
-        vals.set("battery.max_cell_detoriation_pct", 15.0);
-        assertEquals(96.02, Math.round(((Double)vals.get("calc.battery_SOH_pct"))*100.0)/100.0);
+        vals.set(R.string.col_battery_max_cell_detoriation_pct, 15.0);
+        vals.set(R.string.col_system_scan_end_time_ms, 42);
+        assertEquals(96.02, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
     }
 
     public void testBatteryStats_30kWh() {
@@ -33,12 +36,15 @@ public class BatteryStatsTest extends AndroidTestCase {
 
         BatteryStats stats = new BatteryStats();
         assertEquals(null, vals.get("calc.battery_SOH_pct"));
-        vals.set("VIN", "KNDJX3AE1J7005477");
+        vals.set(R.string.col_VIN, "KNDJX3AE1J7005477");
         assertEquals(null, vals.get("calc.battery_SOH_pct"));
-        vals.set("battery.max_cell_detoriation_pct", 0.0);
-        assertEquals(106.00, Math.round(((Double)vals.get("calc.battery_SOH_pct"))*100.0)/100.0);
+        vals.set(R.string.col_battery_max_cell_detoriation_pct, 0.0);
+        vals.set(R.string.col_system_scan_end_time_ms, 42);
+        assertEquals(106.00, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
 
-        vals.set("battery.max_cell_detoriation_pct", 15.0);
-        assertEquals(90.10, Math.round(((Double)vals.get("calc.battery_SOH_pct"))*100.0)/100.0);
+        vals.set(R.string.col_battery_max_cell_detoriation_pct, 15.0);
+        vals.set(R.string.col_system_scan_end_time_ms, 42);
+
+        assertEquals(90.10, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
     }
 }

@@ -12,8 +12,8 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
 
     public BatteryStats() {
         mValues = CurrentValuesSingleton.getInstance();
-        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
-        String key = mValues.getPreferences().getContext().getResources().getString(R.string.col_battery_max_cell_detoriation_pct);
+        String key = mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms);
+        mValues.addListener(key, this);
         onValueChanged(key, mValues.get(key));
     }
 
@@ -52,7 +52,7 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
             }
         }
         Double detmax = (Double)mValues.get(R.string.col_battery_max_cell_detoriation_pct);
-        if (detmax != null && detmax != 0 && nomcap != 0) {
+        if (detmax != null && nomcap != 0) {
             double sohpct = (totcap * (1-detmax/100.0) / nomcap * 100.0);
             mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
             Toast.makeText(mValues.getPreferences().getContext(), "State Of Health: " + sohpct + " %", Toast.LENGTH_LONG).show();
