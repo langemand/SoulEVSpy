@@ -26,6 +26,7 @@ public class BluetoothService extends Service {
 
     private boolean mUseSecureConnection = true;
     private Boolean mBluetoothAvailable = null;
+    private boolean mStatechangeInProgress = false;
 
     /**
      * Constructor
@@ -51,18 +52,21 @@ public class BluetoothService extends Service {
     @Override
     public synchronized void connect() {
         // TODO prevent dual connect?
-        if(isBluetoothAvailable()) {
-            Thread connectionThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // Make sure we are disconnected first
-                    internalDisconnect();
+        if (!mStatechangeInProgress) {
+            mStatechangeInProgress = true;
+            if (isBluetoothAvailable()) {
+                Thread connectionThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Make sure we are disconnected first
+                        internalDisconnect();
 
-                    // Start the connection routine
-                    internalConnect();
-                }
-            });
-            connectionThread.start();
+                        // Start the connection routine
+                        internalConnect();
+                    }
+                });
+                connectionThread.start();
+            }
         }
     }
 
@@ -96,6 +100,7 @@ public class BluetoothService extends Service {
         } catch (IOException e) {
             disconnect();
         }
+        mStatechangeInProgress = false;
     }
 
     /**
@@ -104,13 +109,16 @@ public class BluetoothService extends Service {
     @Override
     public synchronized void disconnect() {
         // TODO prevent dual disconnect?
-        Thread disconnectionThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                internalDisconnect();
-            }
-        });
-        disconnectionThread.start();
+        if (!mStatechangeInProgress) {
+            mStatechangeInProgress = true;
+            Thread disconnectionThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    internalDisconnect();
+                }
+            });
+            disconnectionThread.start();
+        }
     }
 
     /**
@@ -141,6 +149,7 @@ public class BluetoothService extends Service {
 
             setState(ServiceStates.STATE_DISCONNECTED);
         }
+        mStatechangeInProgress = false;
     }
 
     /**

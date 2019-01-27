@@ -7,6 +7,7 @@ import android.os.SystemClock;
 import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.protocol.TriggerCommand;
 import org.hexpresso.elm327.io.Protocol;
+import org.hexpresso.elm327.io.Service;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
@@ -21,12 +22,12 @@ import java.util.List;
 
 public class ReadLoop {
     ClientSharedPreferences mSharedPreferences;
-    private Protocol mProtocol;
+    private Service mService;
     private ArrayList<Command> mCommands;
     private Thread mLoopThread = null;
     private List<String> mColumnsToLog = null;
 
-    public ReadLoop(ClientSharedPreferences sharedPreferences, Protocol protocol, ArrayList<Command> commands) {
+    public ReadLoop(ClientSharedPreferences sharedPreferences, Service service, ArrayList<Command> commands) {
         mSharedPreferences = sharedPreferences;
         Resources res = mSharedPreferences.getContext().getResources();
         mColumnsToLog = Arrays.asList(res.getString(R.string.col_VIN)
@@ -75,7 +76,7 @@ public class ReadLoop {
                 , res.getString(R.string.col_battery_heat2_temperature_C)
                 , res.getString(R.string.col_battery_auxiliaryVoltage_V)
         );
-        mProtocol = protocol;
+        mService = service;
         mCommands = commands;
 
         // Thread used to run commands in loop
@@ -106,11 +107,11 @@ public class ReadLoop {
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
         long last_log_time = 0L;
         while (!mLoopThread.isInterrupted()) {
-            if (mProtocol.numberOfQueuedCommands() > 0) { // Communication issues may delay response, wait a bit in that case
+            if (mService.getProtocol().numberOfQueuedCommands() > 0) { // Communication issues may delay response, wait a bit in that case
                 SystemClock.sleep(100L);
             } else {
                 for (Command command : mCommands) {
-                    mProtocol.addCommand(command);
+                    mService.getProtocol().addCommand(command);
                 }
                 SystemClock.sleep(2000L);
                 long scan_start_time = (Long)vals.get(R.string.col_system_scan_start_time_ms);
@@ -120,10 +121,16 @@ public class ReadLoop {
                     SystemClock.sleep(100L);
                 }
                 // Handle any protocol exceptions by re-init
-                String status = mProtocol.setStatus("");
+                String status = mService.getProtocol().setStatus("");
                 if (status.length() != 0) {
-                    SystemClock.sleep(5000);
-                    mProtocol.init();
+                    if (status.contentEquals("Broken pipe")) { // Bluetooth connection gone?
+                        mService.disconnect();
+                        SystemClock.sleep(5000);
+//                        mService.connect();
+                    } else {
+                        SystemClock.sleep(5000);
+                        mService.getProtocol().init();
+                    }
 //                    continue;
                 }
 

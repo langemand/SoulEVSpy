@@ -180,9 +180,8 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        org.hexpresso.elm327.io.Protocol protocol = mBluetoothService.getProtocol();
-                        if (protocol != null) {
-                            mReadLoop = new ReadLoop(mSharedPreferences, protocol, mLoopCommands);
+                        if (mBluetoothService != null) {
+                            mReadLoop = new ReadLoop(mSharedPreferences, mBluetoothService, mLoopCommands);
                             mReadLoop.start();
                         }
                     }
@@ -196,17 +195,17 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 if (mReadLoop != null) {
                     mReadLoop.stop();
                 }
-//                if (mSharedPreferences.getAutoReconnectBooleanValue() && mConnectWanted) {
-//                    final OBD2Device me = this;
-//                    mAutoReconnectHandler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (mSharedPreferences.getAutoReconnectBooleanValue()) {
-//                                me.connect();
-//                            }
-//                        }
-//                    }, 10000);
-//                }
+                if (mSharedPreferences.getAutoReconnectBooleanValue() && mConnectWanted) {
+                    final OBD2Device me = this;
+                    mAutoReconnectHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mSharedPreferences.getAutoReconnectBooleanValue()) {
+                                me.connect();
+                            }
+                        }
+                    }, 10000);
+                }
                 break;
             default:
                 // Do nothing
