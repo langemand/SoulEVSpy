@@ -331,17 +331,17 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
         if (mDrawer != null && mDrawer.isDrawerOpen()) {
             mDrawer.closeDrawer();
-        } else if (backButtonDialog == null || backButtonDialog.choice == 0) {
-            backButtonDialog = new BackButtonDialog((AppCompatActivity)this);
+        } else if (backButtonDialog == null || backButtonDialog.getChoice() == 0) {
+            backButtonDialog = new BackButtonDialog();
             backButtonDialog.show(getFragmentManager(), "Terminate");
-        } else if (backButtonDialog.choice == 1) { // Terminate
+        } else if (backButtonDialog.getChoice() == 1) { // Terminate
             super.onBackPressed();
-        } else if (backButtonDialog.choice == 2) { // Continue in background
+        } else if (backButtonDialog.getChoice() == 2) { // Continue in background
             Intent i = new Intent(Intent.ACTION_MAIN);
             i.addCategory(Intent.CATEGORY_HOME);
             startActivity(i);
             backButtonDialog = null;
-        } else if (backButtonDialog.choice == 3) { // Cancel
+        } else if (backButtonDialog.getChoice() == 3) { // Cancel
             backButtonDialog = null;
         }
     }
