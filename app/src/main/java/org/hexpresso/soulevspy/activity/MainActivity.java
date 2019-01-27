@@ -2,6 +2,7 @@ package org.hexpresso.soulevspy.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private OBD2Device mDevice;
     private ClientSharedPreferences mSharedPreferences;
     private Drawer mDrawer;
+    private BackButtonDialog backButtonDialog = null;
 
 
     // Storage Permissions
@@ -329,8 +331,18 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
         if (mDrawer != null && mDrawer.isDrawerOpen()) {
             mDrawer.closeDrawer();
-        } else {
+        } else if (backButtonDialog == null || backButtonDialog.choice == 0) {
+            backButtonDialog = new BackButtonDialog((AppCompatActivity)this);
+            backButtonDialog.show(getFragmentManager(), "Terminate");
+        } else if (backButtonDialog.choice == 1) { // Terminate
             super.onBackPressed();
+        } else if (backButtonDialog.choice == 2) { // Continue in background
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+            backButtonDialog = null;
+        } else if (backButtonDialog.choice == 3) { // Cancel
+            backButtonDialog = null;
         }
     }
 

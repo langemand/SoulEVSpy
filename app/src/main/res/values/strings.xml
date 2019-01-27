@@ -45,6 +45,12 @@
     <string name="pref_about">About Soul EV Spy</string>
     <string name="pref_about_summary">Version %1$s</string>
 
+    <string name="dialog_back_button_message">Terminate SoulEVSpy?</string>
+    <string name="dialog_back_button_terminate">Terminate</string>
+    <string name="dialog_back_button_background">Continue in background</string>
+    <string name="dialog_back_button_cancel">Cancel</string>
+
+
     <!-- Main Activity -->
 
     <!-- Error messages -->
