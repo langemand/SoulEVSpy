@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 26
@@ -48,14 +49,15 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-crash:16.2.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:support-v4:23.0.1'
-    compile 'com.android.support:design:23.0.1'
+    implementation 'com.android.support:appcompat-v7:23.0.1'
+    implementation 'com.android.support:support-v4:23.0.1'
+    implementation 'com.android.support:design:23.0.1'
     compile('com.mikepenz:materialdrawer:4.3.1@aar') {
         transitive = true
     }
-    compile 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
-    compile 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
-    compile 'org.apache.commons:commons-lang3:3.4'
+    implementation 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
+    implementation 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
+    implementation 'org.apache.commons:commons-lang3:3.4'
 }
