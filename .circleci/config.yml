@@ -30,6 +30,8 @@ jobs:
       - run:
           name: Build debug APK and release APK
           command: |
+            echo 'export GOOGLE_SERVICES_KEY="$GOOGLE_SERVICES_KEY"' >> $BASH_ENV
+            echo $GOOGLE_SERVICES_KEY | base64 -di > app/google-services.json
             ./gradlew :app:assembleDebug
             ./gradlew :app:assembleDebugAndroidTest
       - store_artifacts:
