@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-crash:16.2.0'
+    implementation 'com.google.firebase:firebase-crash:16.2.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:23.0.1'
     implementation 'com.android.support:support-v4:23.0.1'
@@ -60,5 +60,5 @@ dependencies {
     implementation 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
     implementation 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
     implementation 'org.apache.commons:commons-lang3:3.4'
-    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
 }
