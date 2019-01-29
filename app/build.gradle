@@ -60,4 +60,5 @@ dependencies {
     implementation 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
     implementation 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
     implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
 }
