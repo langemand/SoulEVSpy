@@ -3,7 +3,6 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
 
     def versionPropsFile = file('version.properties')
 
@@ -32,7 +31,7 @@ android {
         defaultConfig {
             applicationId "org.hexpresso.soulevspy"
             minSdkVersion 14
-            targetSdkVersion 23
+            targetSdkVersion 26
             versionCode version_Code
             versionName "${versionMajor}.${versionMinor}.${versionPatch}-${versionBuild}"
             setProperty("archivesBaseName", "SoulEVSpy-$versionName")
@@ -46,19 +45,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    defaultConfig {
+        minSdkVersion 14
+    }
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-crash:16.2.1'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:24.1.1'
-    implementation 'com.android.support:support-v4:24.1.1'
-    implementation 'com.android.support:design:24.1.1'
-    compile('com.mikepenz:materialdrawer:4.3.1@aar') {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation('com.mikepenz:materialdrawer:4.3.1@aar') {
         transitive = true
     }
     implementation 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
     implementation 'com.mikepenz:fontawesome-typeface:4.4.0.1@aar'
     implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'com.google.firebase:firebase-crash:16.2.1'
     implementation 'com.google.firebase:firebase-core:16.0.6'
+
+    testImplementation 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'
