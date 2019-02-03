@@ -50,8 +50,12 @@
     <string name="dialog_back_button_background">Continue in background</string>
     <string name="dialog_back_button_cancel">Cancel</string>
 
-
     <!-- Main Activity -->
+
+    <string name="dongle_connecting">SoulEVSpy Connecting...</string>
+    <string name="dongle_disconnecting">SoulEVSpy Disonnecting...</string>
+    <string name="dongle_connected">SoulEVSpy Connected</string>
+    <string name="dongle_disconnected">SoulEVSpy Disconnected</string>
 
     <!-- Error messages -->
     <string name="error_bluetooth_not_available">Bluetooth is not available</string>

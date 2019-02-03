@@ -2,12 +2,10 @@ package org.hexpresso.soulevspy.io;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
-//import org.hexpresso.elm327.log;
 import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.TimeCommand;
 import org.hexpresso.elm327.commands.protocol.ReadInputVoltageCommand;
@@ -33,7 +31,6 @@ import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 import org.hexpresso.elm327.commands.general.VehicleIdentifierNumberCommand;
 import org.hexpresso.soulevspy.obd.commands.BatteryManagementSystemCommand;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -44,13 +41,29 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
     final ClientSharedPreferences mSharedPreferences;
     final Context mContext;
     String versionName;
-    public VehicleIdentifierNumberCommand mVehicleIdentifierNumberCommand = null;
     public ArrayList<Command> mLoopCommands = new ArrayList<Command>();
     ReadLoop mReadLoop = null;
     Handler mAutoReconnectHandler = new Handler();
     boolean mConnectWanted = false;
     boolean mIsConnected = false;
+    boolean mConnectInProgress = false;
 
+    class ReconnectRunnable implements Runnable {
+        OBD2Device me = null;
+        public ReconnectRunnable(OBD2Device obd2Device) {
+            me = obd2Device;
+        }
+
+        @Override
+        public void run() {
+            if (mSharedPreferences.getAutoReconnectBooleanValue()) {
+                if (me.mConnectWanted) {
+                    me.doConnect();
+                }
+            }
+        }
+    }
+    ReconnectRunnable reconnectRunnable = null;
 
     /**
      * Constructor
@@ -58,6 +71,8 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
      */
     public OBD2Device(ClientSharedPreferences sharedPreferences) {
         Log.d("OBD2Device", "Enter ctor");
+
+        reconnectRunnable = new ReconnectRunnable(this);
 
         mSharedPreferences = sharedPreferences;
         mContext = sharedPreferences.getContext();
@@ -75,13 +90,12 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         if (mBluetoothService.isBluetoothAvailable()) {
             mBluetoothService.useSecureConnection(true);
         }
-        mVehicleIdentifierNumberCommand = new VehicleIdentifierNumberCommand();
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
 //        mLoopCommands.add(new BasicCommand("AT AR")); // Try Auto Receive
 //DONT        mLoopCommands.add(new BasicCommand("AT FI")); // Try Fast Initialisation
 //        mLoopCommands.add(new BasicCommand("01 00")); // Try Get supported PIDs
-        mLoopCommands.add(mVehicleIdentifierNumberCommand);
         mLoopCommands.add(new ReadInputVoltageCommand());
+        mLoopCommands.add(new VehicleIdentifierNumberCommand());
         mLoopCommands.add(new BatteryManagementSystemCommand());
         mLoopCommands.add(new LowVoltageDCConverterSystemCommand());
         mLoopCommands.add(new FilteredMonitorCommand(new AmbientTempMessageFilter()));
@@ -113,6 +127,8 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
     }
 
     private boolean doConnect() {
+        if (mConnectInProgress) return true;
+        mConnectInProgress = true;
         Log.d("OBD2Device", "Enter connect");
         boolean isDeviceValid = mBluetoothService.isBluetoothAvailable();
 
@@ -168,11 +184,11 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         String message = null;
         switch(state) {
             case STATE_CONNECTING:
-                message = "Connecting...";
+                message = mContext.getResources().getString(R.string.dongle_connecting);
                 break;
             case STATE_CONNECTED:
                 mIsConnected = true;
-                message = "Connected";
+                message = mContext.getResources().getString(R.string.dongle_connected);
                 Log.d("OBD2Device", "Starting ReadLoop");
                 ((MainActivity)mContext).runOnUiThread(new Runnable() {
                     @Override
@@ -190,25 +206,20 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 });
                 break;
             case STATE_DISCONNECTING:
-                message = "Disconnecting...";
+                message = mContext.getResources().getString(R.string.dongle_disconnecting);
                 break;
             case STATE_DISCONNECTED:
                 mIsConnected = false;
-                message = "Disconnected";
+                message = mContext.getResources().getString(R.string.dongle_disconnected);
                 if (mReadLoop != null) {
                     mReadLoop.stop();
                 }
                 if (mSharedPreferences.getAutoReconnectBooleanValue() && mConnectWanted) {
                     final OBD2Device me = this;
-                    mAutoReconnectHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mSharedPreferences.getAutoReconnectBooleanValue()) {
-                                me.connect();
-                            }
-                        }
-                    }, 10000);
+                    mAutoReconnectHandler.removeCallbacks(reconnectRunnable);
+                    mAutoReconnectHandler.postDelayed(reconnectRunnable, 10000);
                 }
+                mConnectInProgress = false;
                 break;
             default:
                 // Do nothing
