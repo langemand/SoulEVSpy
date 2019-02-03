@@ -21,7 +21,7 @@ public class ReadInputVoltageCommand extends AbstractCommand {
 
     public double getInputVoltage() {
         List<String> lines = getResponse().getLines();
-        if (!lines.isEmpty()) {
+        if (lines != null && !lines.isEmpty()) {
             voltage = new Double(lines.get(0));
         } else {
             voltage = 0.0;
