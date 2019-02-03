@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -306,14 +307,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     /**
      *
-     */
-    public void onDestroy() {
-        super.onDestroy();
-        bluetoothDeviceConnect(false);
-    }
-
-    /**
-     *
      * @param outState
      */
     @Override
@@ -336,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             backButtonDialog.show(getFragmentManager(), "Terminate");
         } else if (backButtonDialog.getChoice() == 1) { // Terminate
             super.onBackPressed();
+            finish();
         } else if (backButtonDialog.getChoice() == 2) { // Continue in background
             Intent i = new Intent(Intent.ACTION_MAIN);
             i.addCategory(Intent.CATEGORY_HOME);
@@ -350,5 +344,29 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    /**
+     *
+     */
+    public void onDestroy() {
+        super.onDestroy();
+        mPosition.listen(false);
+        bluetoothDeviceConnect(false);
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!mDevice.isConnected()) {
+            mPosition.listen(false);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPosition.listen(true);
     }
 }

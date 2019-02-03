@@ -49,6 +49,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
     ReadLoop mReadLoop = null;
     Handler mAutoReconnectHandler = new Handler();
     boolean mConnectWanted = false;
+    boolean mIsConnected = false;
 
 
     /**
@@ -170,6 +171,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 message = "Connecting...";
                 break;
             case STATE_CONNECTED:
+                mIsConnected = true;
                 message = "Connected";
                 Log.d("OBD2Device", "Starting ReadLoop");
                 ((MainActivity)mContext).runOnUiThread(new Runnable() {
@@ -191,6 +193,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 message = "Disconnecting...";
                 break;
             case STATE_DISCONNECTED:
+                mIsConnected = false;
                 message = "Disconnected";
                 if (mReadLoop != null) {
                     mReadLoop.stop();
@@ -222,5 +225,9 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
             }
         });
         Log.d("OBD2Device", "Exit onServiceStateChanged");
+    }
+
+    public boolean isConnected() {
+        return mIsConnected;
     }
 }
