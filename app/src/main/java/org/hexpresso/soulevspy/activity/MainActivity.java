@@ -2,11 +2,12 @@ package org.hexpresso.soulevspy.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -87,6 +88,20 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     private ChargeStations mChargeStations = null;
     private BatteryStats mBatteryStats = null;
+
+    private boolean isPhoneCharging() {
+        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = getBaseContext().registerReceiver(null, ifilter);
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING;
+        return isCharging;
+    }
+
+    private void wantScreenOn() {
+        if (isPhoneCharging()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+    }
 
     /**
      * Checks if the app has permission to write to device storage
@@ -196,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 2
-            mDrawer.setSelection(NavigationDrawerItem.ChargerLocations.ordinal(), true);
+            mDrawer.setSelection(NavigationDrawerItem.Car.ordinal(), true);
         }
     }
 
@@ -244,11 +259,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         break;
                     case ChargerLocations:
                         fragment = new ChargerLocationsFragment();
-                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        wantScreenOn();
                         break;
                     case Energy:
                         fragment = new EnergyFragment();
-                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        wantScreenOn();
                         break;
                     case Ldc:
                         fragment = new LdcFragment();
