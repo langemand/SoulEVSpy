@@ -11,6 +11,8 @@ import org.hexpresso.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import org.hexpresso.soulevspy.obd.Status050MessageFilter;
 import org.hexpresso.soulevspy.obd.Status55DMessageFilter;
 import org.hexpresso.soulevspy.obd.TireRotationSpeedMessageFilter;
+import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
+import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -74,6 +76,10 @@ public class ObdMessageDataTest extends AndroidTestCase {
     }
 
     public void testEstimatedRange() {
+        CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        mValues.setPreferences(prefs);
+
         EstimatedRangeMessageFilter filter = new EstimatedRangeMessageFilter();
 
         filter.addObdMessageFilterListener(new ObdMessageFilter.ObdMessageFilterListener() {

@@ -34,13 +34,6 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
         super.onCreate(savedInstanceState);
 
         getActivity().setTitle("GPS");
-//        CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
-//        Map<String, Object> routeVals = vals.find("route.");
-//        SortedSet<String> keyset = new TreeSet<String>(routeVals.keySet());
-//
-//        for (String key : keyset) {
-//            vals.addListener(key, this);
-//        }
         onValueChanged(null, null);
     }
 

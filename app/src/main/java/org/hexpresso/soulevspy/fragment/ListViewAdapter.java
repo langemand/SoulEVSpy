@@ -37,9 +37,13 @@ class ListViewAdapter extends ArrayAdapter<ListViewItem> {
         }
 
         // update the item view
-        ListViewItem item = getItem(position);
-        viewHolder.tvTitle.setText(item.title);
-        viewHolder.tvValue.setText(item.value);
+        try {
+            ListViewItem item = getItem(position);
+            viewHolder.tvTitle.setText(item.title);
+            viewHolder.tvValue.setText(item.value);
+        } catch (Exception ex) {
+            // No such item...
+        }
 
         return convertView;
     }

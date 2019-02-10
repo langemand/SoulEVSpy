@@ -81,6 +81,7 @@
     <string name="col_system_scan_end_time_ms">system.scan_end_time_ms</string>
     <string name="col_system_status">system.status</string>
     <string name="col_VIN">VIN</string>
+    <string name="col_orig_capacity_kWh">car.original_capacity_kWh</string>
     <string name="col_nom_capacity_kWh">car.nominel_capacity_kWh</string>
     <string name="col_ELM327_voltage">ELM327.Voltage_V</string>
 
@@ -149,7 +150,7 @@
 
     <string name="col_calc_battery_soh_pct">calc.battery_SOH_pct</string>
 
-    <string name="col_watcher_consumption">calc.watcher_consumption_prefix</string>
+    <string name="col_watcher_consumption">calc.consumption</string>
 
     <string name="col_chargers_locations">chargers.locations</string>
 

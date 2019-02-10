@@ -44,6 +44,7 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
                             nomcap = 30.0;
                         }
                         mValues.set(R.string.col_nom_capacity_kWh, nomcap);
+                        mValues.set(R.string.col_orig_capacity_kWh, nomcap);
                     } catch(NumberFormatException ex){
                         totcap = 0;
                         nomcap = 0;

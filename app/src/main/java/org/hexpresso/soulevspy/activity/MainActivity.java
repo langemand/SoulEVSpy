@@ -17,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -33,6 +32,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import org.hexpresso.elm327.log.CommLog;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.advisor.ChargeStations;
+import org.hexpresso.soulevspy.advisor.EnergyWatcher;
 import org.hexpresso.soulevspy.fragment.ChargerLocationsFragment;
 import org.hexpresso.soulevspy.fragment.EnergyFragment;
 import org.hexpresso.soulevspy.fragment.BatteryFragment;
@@ -88,16 +88,18 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     private ChargeStations mChargeStations = null;
     private BatteryStats mBatteryStats = null;
+    private PowerConnectionReceiver mPowerConnectionReceiver = null;
+    private EnergyWatcher mEnergyWatcher = null;
 
     private boolean isPhoneCharging() {
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = getBaseContext().registerReceiver(null, ifilter);
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING;
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
         return isCharging;
     }
 
-    private void wantScreenOn() {
+    synchronized public void wantScreenOn() {
         if (isPhoneCharging()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -163,17 +165,27 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         CurrentValuesSingleton.getInstance().setPreferences(mSharedPreferences);
 
-        // ChargeStations
-        mChargeStations = new ChargeStations(getBaseContext());
-
         // Listen to GPS location updates
         mPosition = new Position(getBaseContext());
+
+        // ChargeStations
+        mChargeStations = new ChargeStations(getBaseContext());
 
         // Bluetooth OBD2 Device
         mDevice = new OBD2Device(mSharedPreferences);
 
         // Calculations based on CurrentValuesSingleton
         mBatteryStats = new BatteryStats();
+
+        // Monitor phone charging state
+        mPowerConnectionReceiver = new PowerConnectionReceiver();
+        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        ifilter.addAction(Intent.ACTION_POWER_CONNECTED);
+        ifilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        Intent batteryStatus = getBaseContext().registerReceiver(mPowerConnectionReceiver, ifilter);
+
+        // EnergyWatcher
+        mEnergyWatcher = new EnergyWatcher();
 
         // Action bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
