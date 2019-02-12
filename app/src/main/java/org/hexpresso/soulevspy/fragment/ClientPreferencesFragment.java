@@ -93,15 +93,20 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
         if (!mSharedPreferences.DEFAULT_BLUETOOTH_DEVICE.equals(btAddress) && (bta != null))
         {
-            // Set the bluetooth adapter name as summary
-            try {
-                BluetoothDevice device = bta.getRemoteDevice(btAddress);
-                btSummary = device.getName();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                // Do nothing, we will set the default summary instead
+            if (bta.isEnabled()) {
+                // Set the bluetooth adapter name as summary
+                try {
+                    BluetoothDevice device = bta.getRemoteDevice(btAddress);
+                    btSummary = device.getName();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                    // Do nothing, we will set the default summary instead
+                }
+            } else {
+                btSummary = "Enable bluetooth on phone";
             }
         }
+
         listPref.setSummary(btSummary);
 
         CheckBoxPreference checkBoxPref = (CheckBoxPreference) findPreference(getString(R.string.key_check_auto_reconnect));
@@ -119,7 +124,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         // Get paired devices and populate preference list
         ListPreference listBtDevices = (ListPreference) findPreference(getString(R.string.key_list_bluetooth_device));
         BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
-        if (bta == null) {
+        if (bta == null || !bta.isEnabled()) {
             // The device do not support Bluetooth
             listBtDevices.setEnabled(false);
         }
