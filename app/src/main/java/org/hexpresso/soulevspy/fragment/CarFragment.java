@@ -29,13 +29,17 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         getActivity().setTitle(R.string.action_car_information);
 
         mValues = CurrentValuesSingleton.getInstance();
-        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
-        onValueChanged(null, null);
+        if (mValues != null) {
+            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
+            onValueChanged(null, null);
+        }
     }
 
     @Override
     public void onDestroy() {
-        mValues.delListener(this);
+        if (mValues != null) {
+            mValues.delListener(this);
+        }
         super.onDestroy();
     }
 
