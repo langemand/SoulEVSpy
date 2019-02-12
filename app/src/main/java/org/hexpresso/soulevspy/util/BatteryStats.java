@@ -1,7 +1,5 @@
 package org.hexpresso.soulevspy.util;
 
-import android.widget.Toast;
-
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 

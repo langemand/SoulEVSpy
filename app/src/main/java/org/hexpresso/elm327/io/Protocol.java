@@ -1,14 +1,9 @@
 package org.hexpresso.elm327.io;
 
-import android.os.SystemClock;
-import android.widget.Toast;
-
 import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.protocol.RawCommand;
 import org.hexpresso.elm327.exceptions.ResponseException;
 import org.hexpresso.elm327.exceptions.StoppedException;
-import org.hexpresso.soulevspy.activity.MainActivity;
-import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +11,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
