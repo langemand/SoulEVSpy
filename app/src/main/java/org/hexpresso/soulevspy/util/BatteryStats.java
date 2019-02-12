@@ -56,7 +56,11 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
         if (detmax != null && nomcap != 0) {
             double sohpct = (totcap * (1-detmax/100.0) / nomcap * 100.0);
             mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
-            Toast.makeText(mValues.getPreferences().getContext(), "State Of Health: " + sohpct + " %", Toast.LENGTH_LONG).show();
+//        ((MainActivity)mContext).runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//               Toast.makeText(mValues.getPreferences().getContext(), "State Of Health: " + sohpct + " %", Toast.LENGTH_LONG).show();
+//         });
         }
     }
 }

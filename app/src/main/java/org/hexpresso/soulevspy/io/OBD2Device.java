@@ -149,11 +149,21 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 }
             }
             else {
-                Toast.makeText(mContext, R.string.error_no_bluetooth_device, Toast.LENGTH_LONG).show();
+                ((MainActivity)mContext).runOnUiThread(new Runnable() {
+                     @Override
+                     public void run() {
+                         Toast.makeText(mContext, R.string.error_no_bluetooth_device, Toast.LENGTH_LONG).show();
+                     }
+                });
                 isDeviceValid = false;
             }
         } else {
-            Toast.makeText(mContext, R.string.error_bluetooth_not_available, Toast.LENGTH_LONG).show();
+            ((MainActivity)mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, R.string.error_bluetooth_not_available, Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
         if(!isDeviceValid)

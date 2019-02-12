@@ -100,7 +100,12 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
         ListLocationItem locItem = (ListLocationItem)getListView().getItemAtPosition(pos);
         if (locItem != null) {
             ChargeLocation loc = locItem.mLocation;
-            Toast.makeText(getActivity(), "Open route to " + loc.get_readableName(), Toast.LENGTH_SHORT).show();
+//        ((MainActivity)mContext).runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//              Toast.makeText(getActivity(), "Open route to " + loc.get_readableName(), Toast.LENGTH_SHORT).show();
+//         });
+
             Uri.Builder directionsBuilder = new Uri.Builder()
                     .scheme("https")
                     .authority("www.google.com")
