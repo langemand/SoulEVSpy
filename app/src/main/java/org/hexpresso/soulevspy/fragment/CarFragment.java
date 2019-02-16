@@ -48,7 +48,10 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         Object SOH_pct = mValues.get(R.string.col_calc_battery_soh_pct);
         if (SOH_pct != null) {
             mItems.add(new ListViewItem("Battery SOH %", new DecimalFormat("0.0").format(SOH_pct)));
+        } else {
+            mItems.add(new ListViewItem("Battery SOH %", "unknown deterioration"));
         }
+
         Object DC_V = mValues.get(R.string.col_ELM327_voltage);
         if (DC_V != null) {
             mItems.add(new ListViewItem("12V", new String(DC_V.toString())));

@@ -5,6 +5,7 @@ import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener {
     private CurrentValuesSingleton mValues = null;
+    private int modelyear = 0;
     private double totcap = 0;
     private double nomcap = 0;
 
@@ -31,13 +32,16 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
                 String str = vin.getVIN();
                 String yearString = vin.getYear();
                 if (yearString != null) {
+                    modelyear = Integer.parseInt(yearString);
                     try {
                         // Total battery capacity (totcap) for the 2015-2017 models were 30.5 kWh, for the 2018 onwards 31.8 kWh
+                        // According to Jejusoul, the SOH is calculated based on 110% of 27 kWh = 29.7 kWh
                         // according to Wikipedia: https://en.wikipedia.org/wiki/Kia_Soul_EV
-                        if (Integer.parseInt(yearString) < 2018) {
-                            totcap = 30.5;
+                        if (modelyear < 2018) {
+                            totcap = 29.7; // Not 30.5
                             nomcap = 27.0;
                         } else {
+                            // For the 2018 Kia Soul EV we have no values for deteoriation
                             totcap = 31.8;
                             nomcap = 30.0;
                         }
@@ -50,15 +54,14 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
                 }
             }
         }
-        Double detmax = (Double)mValues.get(R.string.col_battery_max_cell_detoriation_pct);
-        if (detmax != null && nomcap != 0) {
-            double sohpct = (totcap * (1-detmax/100.0) / nomcap * 100.0);
-            mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
-//        ((MainActivity)mContext).runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//               Toast.makeText(mValues.getPreferences().getContext(), "State Of Health: " + sohpct + " %", Toast.LENGTH_LONG).show();
-//         });
+        if (modelyear < 2018 && nomcap != 0) {
+            Double detmin = (Double) mValues.get(R.string.col_battery_min_cell_detoriation_pct);
+            Double detmax = (Double) mValues.get(R.string.col_battery_max_cell_detoriation_pct);
+            if (detmax != null && detmin != null) {
+                double detavg = (detmin + detmax) / 2;
+                double sohpct = 110.0 - detavg;
+                mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
+            }
         }
     }
 }
