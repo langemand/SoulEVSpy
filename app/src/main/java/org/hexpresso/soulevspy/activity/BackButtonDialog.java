@@ -32,13 +32,14 @@ public class BackButtonDialog extends DialogFragment {
                         ((AppCompatActivity)getActivity()).onBackPressed();
                     }
                 })
-                .setNeutralButton(R.string.dialog_back_button_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Continue as we were
-                        choice = 3;
-                        ((AppCompatActivity)getActivity()).onBackPressed();
-                    }
-                });
+//                .setNeutralButton(R.string.dialog_back_button_cancel, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        // Continue as we were
+//                        choice = 3;
+//                        ((AppCompatActivity)getActivity()).onBackPressed();
+//                    }
+//                })
+        ;
         // Create the AlertDialog object and return it
         return builder.create();
     }
