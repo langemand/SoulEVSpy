@@ -47,7 +47,7 @@
 
     <string name="dialog_back_button_message">Terminate SoulEVSpy?</string>
     <string name="dialog_back_button_terminate">Terminate</string>
-    <string name="dialog_back_button_background">Continue in background</string>
+    <string name="dialog_back_button_background">Background</string>
     <string name="dialog_back_button_cancel">Cancel</string>
 
     <!-- Main Activity -->
