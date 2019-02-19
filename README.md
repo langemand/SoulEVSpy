@@ -16,9 +16,9 @@ the displays instead of watching the road. Be extremely prudent!
 
 By even downloading this software, or the source code provided on GitHub, you agree to have completely understand this.
 
-APK for manual install: http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2619-debug.apk
+APK for manual install: http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2623-debug.apk
 
-(Outdated version here: http://spjeldager.dk/elbil/app-debug-1780.apk)
+(Outdated version here: http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2619-debug.apk and here http://spjeldager.dk/elbil/app-debug-1780.apk)
 
 # Formal disclaimer
 
