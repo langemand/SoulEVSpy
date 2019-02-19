@@ -75,6 +75,10 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
                 mItems.add(new ListViewItem("Production Plant", vin.getProductionPlant()));
             }
         }
+        Object odo = mValues.get(R.string.col_car_odo_km);
+        if (odo != null) {
+            mItems.add(new ListViewItem("Odo, km", new DecimalFormat("0.0").format((double)odo)));
+        }
 
         // initialize and set the list adapter
         ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
