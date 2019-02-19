@@ -2,7 +2,7 @@
     <string name="app_name">Soul EV Spy</string>
 
     <!-- Navigation Drawer -->
-    <string name="action_bluetooth">Bluetooth device</string>
+    <string name="action_bluetooth">Bluetooth connect</string>
     <string name="action_car_information">Car information</string>
     <string name="action_energy">Energy and power</string>
     <string name="action_charger_locations">Nearest Quick-chargers</string>
