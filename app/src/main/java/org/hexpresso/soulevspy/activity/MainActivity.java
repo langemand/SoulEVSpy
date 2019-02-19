@@ -377,6 +377,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
      *
      */
     public void onDestroy() {
+        getBaseContext().unregisterReceiver(mPowerConnectionReceiver);
         super.onDestroy();
         mPosition.listen(false);
         bluetoothDeviceConnect(false);
