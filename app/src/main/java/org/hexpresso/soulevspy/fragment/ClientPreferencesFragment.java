@@ -132,17 +132,20 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
             Set<BluetoothDevice> pairedDevices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
             ArrayList<CharSequence> pairedDeviceStrings = new ArrayList<>();
             ArrayList<CharSequence> pairedDevicesValues = new ArrayList<>();
-            if (!pairedDevices.isEmpty()) {
+            boolean hasPairedDevices = !pairedDevices.isEmpty();
+            if (hasPairedDevices) {
                 for (BluetoothDevice device : pairedDevices) {
                     pairedDeviceStrings.add(device.getName() + "\n" + device.getAddress());
                     pairedDevicesValues.add(device.getAddress());
                 }
+                // Set the values in the list
+                listBtDevices.setEntries(pairedDeviceStrings.toArray(new CharSequence[1]));
+                listBtDevices.setEntryValues(pairedDevicesValues.toArray(new CharSequence[1]));
+            } else {
+                listBtDevices.setEntries(new CharSequence[0]);
+                listBtDevices.setEntryValues(new CharSequence[0]);
             }
-
-            // Set the values in the list
-            listBtDevices.setEnabled(true);
-            listBtDevices.setEntries(pairedDeviceStrings.toArray(new CharSequence[1]));
-            listBtDevices.setEntryValues(pairedDevicesValues.toArray(new CharSequence[1]));
+            listBtDevices.setEnabled(hasPairedDevices);
         }
     }
 
