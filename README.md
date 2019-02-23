@@ -14,11 +14,11 @@ a large part beyond ours), created by a loose team of interested amateurs in thi
 lethal piece of machinery and you might hurt or kill yourself or others using it, or even paying attention to
 the displays instead of watching the road. Be extremely prudent!
 
-By even downloading this software, or the source code provided on GitHub, you agree to have completely understand this.
+By even downloading this software, or the source code provided on GitHub, you agree to completely understand this.
 
-APK for manual install: http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2629-debug.apk
+APK for manual install: http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2652-debug.apk
 
-(Outdated version here: http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2623-debug.apk, here http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2619-debug.apk and here http://spjeldager.dk/elbil/app-debug-1780.apk)
+(Outdated version here: http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2629-debug.apk, here http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2623-debug.apk, here http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2619-debug.apk and here http://spjeldager.dk/elbil/app-debug-1780.apk)
 
 # Formal disclaimer
 
