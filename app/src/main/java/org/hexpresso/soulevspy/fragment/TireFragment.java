@@ -19,6 +19,7 @@ import java.util.TreeSet;
  */
 
 public class TireFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
+    private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
 
@@ -28,8 +29,19 @@ public class TireFragment extends ListFragment implements CurrentValuesSingleton
         getActivity().setTitle(R.string.action_tires);
 
         mValues = CurrentValuesSingleton.getInstance();
-        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
-        onValueChanged(null, null);
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            // initialize the list adapter
+            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setListAdapter(mListViewAdapter);
+                }
+            });
+            onValueChanged(null, null);
+            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
+        }
     }
 
     @Override
@@ -45,17 +57,14 @@ public class TireFragment extends ListFragment implements CurrentValuesSingleton
         for (String key : keyset) {
             mItems.add(new ListViewItem(key, new String(kvals.get(key).toString())));
         }
-        // initialize and set the list adapter
-        ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+
+        // update the list adapter display
+        ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FragmentActivity activity = getActivity();
-                if (activity != null) {
-                    setListAdapter(new ListViewAdapter(activity, mItems));
-                }
+                mListViewAdapter.notifyDataSetChanged();
             }
         });
     }
-
 
 }

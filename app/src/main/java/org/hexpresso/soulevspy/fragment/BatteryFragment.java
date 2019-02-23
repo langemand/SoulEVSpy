@@ -1,6 +1,7 @@
 package org.hexpresso.soulevspy.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.support.v7.util.SortedList;
 import android.view.LayoutInflater;
@@ -9,9 +10,11 @@ import android.view.ViewGroup;
 
 import org.hexpresso.obd.ObdMessageFilter;
 import org.hexpresso.soulevspy.R;
+import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +26,10 @@ import java.util.TreeSet;
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-01.
  */
-public class BatteryFragment extends ListFragment implements ObdMessageFilter.ObdMessageFilterListener {
-
+public class BatteryFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
+    private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mItems = new ArrayList<>();
+    private CurrentValuesSingleton mValues = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,37 +37,41 @@ public class BatteryFragment extends ListFragment implements ObdMessageFilter.Ob
 
         getActivity().setTitle(R.string.action_battery);
 
-        CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
-        Map<String, Object> battVals = vals.find("battery.");
-        SortedSet<String> keyset = new TreeSet<String>(battVals.keySet());
+        mValues = CurrentValuesSingleton.getInstance();
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            // initialize the list adapter
+            ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setListAdapter(mListViewAdapter);
+                }
+            });
+            onValueChanged(null, null);
+            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
+        }
+    }
 
+    @Override
+    public void onDestroy() {
+        mValues.delListener(this);
+        super.onDestroy();
+    }
+
+    public void onValueChanged(String trig_key, Object value) {
+        Map<String, Object> battVals = mValues.find("battery.");
+        SortedSet<String> keyset = new TreeSet<String>(battVals.keySet());
+        mItems.clear();
         for (String key : keyset) {
             mItems.add(new ListViewItem(key, new String(battVals.get(key).toString())));
         }
-        // initialize and set the list adapter
-        setListAdapter(new ListViewAdapter(getActivity(), mItems));
-
+        // update the list adapter display
+        ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mListViewAdapter.notifyDataSetChanged();
+            }
+        });
     }
-
-    public void onMessageReceived(ObdMessageFilter messageFilter) {
-//        StateOfChargePreciseMessageFilter soc = (StateOfChargePreciseMessageFilter) messageFilter;
-//        if (soc == null)
-//            return;
-
-//        mItems.add(new ListViewItem("Precise SOC", new Double(soc.getSOC()).toString()));
-        CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
-        Map<String, Object> battVals = vals.find("battery.");
-        SortedSet<String> keyset = new TreeSet<String>(battVals.keySet());
-        for (String key : keyset) {
-            mItems.add(new ListViewItem(key, new String(battVals.get(key).toString())));
-        }
-        // initialize and set the list adapter
-//        setListAdapter(new ListViewAdapter(getActivity(), mItems));
-
-    }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_battery, container, false);
-//    }
 }

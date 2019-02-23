@@ -3,24 +3,15 @@ package org.hexpresso.soulevspy.fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
-import android.widget.Toast;
 
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
-import org.hexpresso.soulevspy.advisor.ChargeLocation;
-import org.hexpresso.soulevspy.advisor.ChargeLocationComparator;
-import org.hexpresso.soulevspy.advisor.ChargeStations;
-import org.hexpresso.soulevspy.advisor.EnergyWatcher;
-import org.hexpresso.soulevspy.advisor.Pos;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
@@ -28,6 +19,7 @@ import java.util.TreeSet;
  */
 
 public class EnergyFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
+    private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
 
@@ -37,8 +29,20 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         getActivity().setTitle(R.string.action_energy);
 
         mValues = CurrentValuesSingleton.getInstance();
-        mValues.addListener(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption)+"_done", this);
-        onValueChanged(null, null);
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            // initialize the list adapter
+            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setListAdapter(mListViewAdapter);
+                }
+            });
+            onValueChanged(null, null);
+            mValues.addListener(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption)+"_done", this);
+            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
+        }
     }
 
     @Override
@@ -90,14 +94,11 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
             }
         }
 
-        // initialize and set the list adapter
-        ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+        // update the list adapter display
+        ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FragmentActivity activity = getActivity();
-                if (activity != null) {
-                    setListAdapter(new ListViewAdapter(activity, mItems));
-                }
+                mListViewAdapter.notifyDataSetChanged();
             }
         });
     }

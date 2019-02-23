@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-07.
  */
 public class CarFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
-
+    private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
 
@@ -29,9 +29,18 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         getActivity().setTitle(R.string.action_car_information);
 
         mValues = CurrentValuesSingleton.getInstance();
-        if (mValues != null) {
-            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            // initialize the list adapter
+            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setListAdapter(mListViewAdapter);
+                }
+            });
             onValueChanged(null, null);
+            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
         }
     }
 
@@ -60,6 +69,10 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         if (amb != null) {
             mItems.add(new ListViewItem("Ambient Temperature", amb.toString()));
         }
+        Object odo = mValues.get(R.string.col_car_odo_km);
+        if (odo != null) {
+            mItems.add(new ListViewItem("Odo, km", new DecimalFormat("0.0").format((double)odo)));
+        }
         Object vin_str = mValues.get(R.string.col_VIN);
         if (vin_str != null) {
             KiaVinParser vin = new KiaVinParser(getContext(), vin_str.toString()); //"KNDJX3AEXG7123456");
@@ -75,19 +88,12 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
                 mItems.add(new ListViewItem("Production Plant", vin.getProductionPlant()));
             }
         }
-        Object odo = mValues.get(R.string.col_car_odo_km);
-        if (odo != null) {
-            mItems.add(new ListViewItem("Odo, km", new DecimalFormat("0.0").format((double)odo)));
-        }
 
-        // initialize and set the list adapter
-        ((MainActivity)mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+        // update the list adapter display
+        ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FragmentActivity activity = getActivity();
-                if (activity != null) {
-                    setListAdapter(new ListViewAdapter(activity, mItems));
-                }
+                mListViewAdapter.notifyDataSetChanged();
             }
         });
     }

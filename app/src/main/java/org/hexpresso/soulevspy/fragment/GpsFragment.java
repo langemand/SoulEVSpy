@@ -26,37 +26,50 @@ import java.util.TreeSet;
  */
 
 public class GpsFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
-
+    private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mItems = new ArrayList<>();
+    private CurrentValuesSingleton mValues = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getActivity().setTitle("GPS");
-        onValueChanged(null, null);
+        mValues = CurrentValuesSingleton.getInstance();
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            // initialize the list adapter
+            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setListAdapter(mListViewAdapter);
+                }
+            });
+            onValueChanged(null, null);
+            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_route_time_s), this);
+        }
     }
 
     @Override
     public void onDestroy() {
-        CurrentValuesSingleton.getInstance().delListener(this);
+        mValues.delListener(this);
         super.onDestroy();
     }
 
     public void onValueChanged(String key, Object value) {
-        CurrentValuesSingleton cur = CurrentValuesSingleton.getInstance();
-        Resources res = cur.getPreferences().getContext().getResources();
-        Object lat = cur.get(res.getString(R.string.col_route_lat_deg));
-        Object lng = cur.get(res.getString(R.string.col_route_lng_deg));
-        Object alt = cur.get(res.getString(R.string.col_route_elevation_m));
-        Object spd = cur.get(res.getString(R.string.col_route_speed_mps));
-        Object tim = cur.get(res.getString(R.string.col_route_time_s));
+        Resources res = mValues.getPreferences().getContext().getResources();
+        Object lat = mValues.get(res.getString(R.string.col_route_lat_deg));
+        Object lng = mValues.get(res.getString(R.string.col_route_lng_deg));
+        Object alt = mValues.get(res.getString(R.string.col_route_elevation_m));
+        Object spd = mValues.get(res.getString(R.string.col_route_speed_mps));
+        Object tim = mValues.get(res.getString(R.string.col_route_time_s));
         mItems.clear();
         if (lat != null && lng != null && alt != null && tim != null && spd != null) {
-            mItems.add(new ListViewItem("Lattitude", lat.toString()));
-            mItems.add(new ListViewItem("Longtitude", lng.toString()));
-            mItems.add(new ListViewItem("Altitude", alt.toString()));
-            mItems.add(new ListViewItem("Speed", spd.toString()));
+            mItems.add(new ListViewItem("Lattitude (deg)", lat.toString()));
+            mItems.add(new ListViewItem("Longtitude (deg)", lng.toString()));
+            mItems.add(new ListViewItem("Altitude (m)", alt.toString()));
+            mItems.add(new ListViewItem("Speed (m/s)", spd.toString()));
             Long utim = (Long) tim;
             if (utim != null) {
                 DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -65,15 +78,13 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
                 mItems.add(new ListViewItem("Time", formatted));
             }
         }
-        // initialize and set the list adapter
-        ((MainActivity) cur.getPreferences().getContext()).runOnUiThread(new Runnable() {
+
+        // update the list adapter display
+        ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FragmentActivity activity = getActivity();
-                if (activity != null) {
-                    setListAdapter(new ListViewAdapter(activity, mItems));
-                }
+                mListViewAdapter.notifyDataSetChanged();
             }
         });
-        }
+    }
 }
