@@ -64,7 +64,12 @@ public class BatteryFragment extends ListFragment implements CurrentValuesSingle
         SortedSet<String> keyset = new TreeSet<String>(battVals.keySet());
         mItems.clear();
         for (String key : keyset) {
-            mItems.add(new ListViewItem(key, new String(battVals.get(key).toString())));
+            Object val = battVals.get(key);
+            if (val instanceof Double) {
+                mItems.add(new ListViewItem(key, new DecimalFormat("0.00####").format(val)));
+            } else {
+                mItems.add(new ListViewItem(key, val.toString()));
+            }
         }
         // update the list adapter display
         ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {

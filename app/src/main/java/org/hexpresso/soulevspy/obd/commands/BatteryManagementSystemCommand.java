@@ -75,16 +75,16 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         vals.set(R.string.col_battery_accumulative_discharge_current_Ah, Double.valueOf(data.accumulativeDischargeCurrent));
         vals.set(R.string.col_battery_accumulative_charge_power_kWh, Double.valueOf(data.accumulativeChargePower));
         vals.set(R.string.col_battery_accumulative_discharge_power_kWh, Double.valueOf(data.accumulativeDischargePower));
-        vals.set(R.string.col_battery_accumulative_operating_time_s, Double.valueOf(data.accumulativeOperatingTime));
-        vals.set(R.string.col_battery_drive_motor_rpm, Double.valueOf(data.driveMotorSpeed));
-        vals.set(R.string.col_battery_inlet_temperature_C, Double.valueOf(data.batteryInletTemperature));
-        vals.set(R.string.col_battery_max_temperature_C, Double.valueOf(data.batteryMaxTemperature));
-        vals.set(R.string.col_battery_min_temperature_C, Double.valueOf(data.batteryMinTemperature));
-        vals.set(R.string.col_battery_heat1_temperature_C, Double.valueOf(data.heat1Temperature));
-        vals.set(R.string.col_battery_heat2_temperature_C, Double.valueOf(data.heat2Temperature));
+        vals.set(R.string.col_battery_accumulative_operating_time_s, Integer.valueOf(data.accumulativeOperatingTime));
+        vals.set(R.string.col_battery_drive_motor_rpm, Integer.valueOf(data.driveMotorSpeed));
+        vals.set(R.string.col_battery_inlet_temperature_C, Integer.valueOf(data.batteryInletTemperature));
+        vals.set(R.string.col_battery_max_temperature_C, Integer.valueOf(data.batteryMaxTemperature));
+        vals.set(R.string.col_battery_min_temperature_C, Integer.valueOf(data.batteryMinTemperature));
+        vals.set(R.string.col_battery_heat1_temperature_C, Integer.valueOf(data.heat1Temperature));
+        vals.set(R.string.col_battery_heat2_temperature_C, Integer.valueOf(data.heat2Temperature));
         int i = 1;
-        for (double temp : data.batteryModuleTemperature) {
-            vals.set(R.string.col_battery_module_temperature, i++, "_C", Double.valueOf(temp));
+        for (int temp : data.batteryModuleTemperature) {
+            vals.set(R.string.col_battery_module_temperature, i++, "_C", Integer.valueOf(temp));
         }
         i = 0;
         for (double volt : data.batteryCellVoltage) {
