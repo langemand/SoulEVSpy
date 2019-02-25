@@ -22,6 +22,7 @@ import java.util.TreeSet;
 public class LdcFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
     private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mItems = new ArrayList<>();
+    private List<ListViewItem> mListItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
 
     @Override
@@ -33,7 +34,7 @@ public class LdcFragment extends ListFragment implements CurrentValuesSingleton.
         FragmentActivity activity = getActivity();
         if (activity != null) {
             // initialize the list adapter
-            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            mListViewAdapter = new ListViewAdapter(getActivity(), mListItems);
             ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -73,6 +74,8 @@ public class LdcFragment extends ListFragment implements CurrentValuesSingleton.
         ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mListItems.clear();
+                mListItems.addAll(mItems);
                 mListViewAdapter.notifyDataSetChanged();
             }
         });

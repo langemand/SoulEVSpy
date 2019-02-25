@@ -3,6 +3,7 @@ package org.hexpresso.soulevspy.fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
@@ -21,6 +22,7 @@ import java.util.TreeSet;
 public class EnergyFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
     private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mItems = new ArrayList<>();
+    private List<ListViewItem> mListItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
 
     @Override
@@ -32,7 +34,7 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         FragmentActivity activity = getActivity();
         if (activity != null) {
             // initialize the list adapter
-            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            mListViewAdapter = new ListViewAdapter(getActivity(), mListItems);
             ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -40,8 +42,8 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
                 }
             });
             onValueChanged(null, null);
-            mValues.addListener(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption)+"_done", this);
-            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
+            mValues.addListener(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption)+"_done_time_ms", this);
+//            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
         }
     }
 
@@ -56,7 +58,7 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         Object battery_display_SOC = mValues.get(R.string.col_battery_display_SOC);
         Object battery_decimal_SOC = mValues.get(R.string.col_battery_decimal_SOC);
         Object battery_precise_SOC = mValues.get(R.string.col_battery_precise_SOC);
-        if (battery_display_SOC != null && battery_decimal_SOC != null) {
+        if (battery_display_SOC != null && battery_decimal_SOC != null && battery_precise_SOC != null) {
             mItems.add(new ListViewItem("Battery SOC (%) disp / actual / prec",
                     new DecimalFormat("0.0").format(battery_display_SOC).concat(" / ").concat(
                             new DecimalFormat("0.0").format(battery_decimal_SOC)).concat(" / ").concat(
@@ -74,7 +76,7 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
                                     new DecimalFormat("0.0").format(amps)).concat(" A")));
         }
 
-        Integer remainingRange = (Integer) mValues.get(R.string.col_range_estimate_km);
+        Object remainingRange = mValues.get(R.string.col_range_estimate_km);
         if (remainingRange != null) {
             mItems.add(new ListViewItem("Car estimated remaining range (km)", remainingRange.toString()));
         }
@@ -84,7 +86,7 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         ranges.addAll(consumptions.keySet());
         for(String key : ranges) {
             Object val = mValues.get(key);
-            if (val.getClass() == Double.class) {
+            if (val instanceof Double) {
                 String header = key.replace(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption).concat("_"), "last ").replace(
                         "_WhPerkm", " kms");
                 while (header.charAt(0) == '0') {
@@ -98,6 +100,8 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mListItems.clear();
+                mListItems.addAll(mItems);
                 mListViewAdapter.notifyDataSetChanged();
             }
         });

@@ -27,6 +27,7 @@ import java.util.List;
 
 public class ChargerLocationsFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
     private ListViewAdapter mListViewAdapter = null;
+    private List<ListViewItem> mListItems = new ArrayList<>();
     private List<ListViewItem> mItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
     private ChargeStations mChargeStations;
@@ -42,7 +43,7 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
         FragmentActivity activity = getActivity();
         if (activity != null) {
             // initialize the list adapter
-            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            mListViewAdapter = new ListViewAdapter(getActivity(), mListItems);
             ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -85,7 +86,7 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
 
                 if (remainingRange != null && !warningAdded && dist_m < remainingRange * 1000) {
                     warningAdded = true;
-                    mItems.add(new ListViewItem("------------------------------------------------------------------------------------------------------------------------",
+                    mItems.add(new ListViewItem("-------------------------------------------------------------------------------",
                             "Below are out of range!"));
                 }
                 double dist_deca_m = Math.round(dist_m / 100);
@@ -100,7 +101,7 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
                 mItems.add(new ListLocationItem(infoStr, charger.get_readableName(), charger));
             }
             if (nearChargers.size() == 0) {
-                mItems.add(new ListViewItem("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+                mItems.add(new ListViewItem("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
                         "No Quick-chargers nearby!"));
             }
         }
@@ -109,6 +110,8 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
         ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mListItems.clear();
+                mListItems.addAll(mItems);
                 mListViewAdapter.notifyDataSetChanged();
             }
         });
@@ -117,21 +120,23 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
     @Override
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
-        ListLocationItem locItem = (ListLocationItem)getListView().getItemAtPosition(pos);
-        if (locItem != null) {
-            ChargeLocation loc = locItem.mLocation;
+        Object item = getListView().getItemAtPosition(pos);
+        if (item instanceof ListLocationItem) {
+            ListLocationItem locItem = (ListLocationItem) item;
+            if (locItem != null) {
+                ChargeLocation loc = locItem.mLocation;
 
-            Uri.Builder directionsBuilder = new Uri.Builder()
-                    .scheme("https")
-                    .authority("www.google.com")
-                    .appendPath("maps")
-                    .appendPath("dir")
-                    .appendPath("")
-                    .appendQueryParameter("api", "1")
-                    .appendQueryParameter("destination", loc.get_pos().mLat + "," + loc.get_pos().mLng);
+                Uri.Builder directionsBuilder = new Uri.Builder()
+                        .scheme("https")
+                        .authority("www.google.com")
+                        .appendPath("maps")
+                        .appendPath("dir")
+                        .appendPath("")
+                        .appendQueryParameter("api", "1")
+                        .appendQueryParameter("destination", loc.get_pos().mLat + "," + loc.get_pos().mLng);
 
-            startActivity(new Intent(Intent.ACTION_VIEW, directionsBuilder.build()));
+                startActivity(new Intent(Intent.ACTION_VIEW, directionsBuilder.build()));
+            }
         }
     }
-
 }

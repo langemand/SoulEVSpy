@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -43,9 +44,12 @@ import org.hexpresso.soulevspy.fragment.LdcFragment;
 import org.hexpresso.soulevspy.fragment.TireFragment;
 import org.hexpresso.soulevspy.io.OBD2Device;
 import org.hexpresso.soulevspy.io.Position;
+import org.hexpresso.soulevspy.io.ReplayLoop;
 import org.hexpresso.soulevspy.util.BatteryStats;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
+
+import java.io.InputStream;
 
 /**
  *
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         Dashboard,
         DtcCodes,
         Settings,
+        Replay,
+        Demo,
         HelpFeedback
     }
     private Position mPosition;
@@ -73,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private ClientSharedPreferences mSharedPreferences;
     private Drawer mDrawer;
     private BackButtonDialog backButtonDialog = null;
+    private SwitchDrawerItem bluetoothEnable = null;
+    private ReplayLoop mReplayLoop;
 
 
     // Storage Permissions
@@ -193,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         //ClientSharedPreferences prefs = new ClientSharedPreferences(getApplicationContext());
 
+        bluetoothEnable = new SwitchDrawerItem().withIdentifier(NavigationDrawerItem.Bluetooth.ordinal()).withName(R.string.action_bluetooth).withIcon(GoogleMaterial.Icon.gmd_bluetooth).withChecked(false).withSelectable(false).withOnCheckedChangeListener(mOnCheckedBluetoothDevice);
         // Navigation Drawer
         mDrawer = new DrawerBuilder(this)
                 .withActivity(this)
@@ -200,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 .withHasStableIds(true)
                 .withHeader(R.layout.nav_header)
                 .addDrawerItems(
-                        new SwitchDrawerItem().withIdentifier(NavigationDrawerItem.Bluetooth.ordinal()).withName(R.string.action_bluetooth).withIcon(GoogleMaterial.Icon.gmd_bluetooth).withChecked(false).withSelectable(false).withOnCheckedChangeListener(mOnCheckedBluetoothDevice),
+                        bluetoothEnable,
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.ChargerLocations.ordinal()).withName(R.string.action_charger_locations).withIcon(FontAwesome.Icon.faw_map),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Energy.ordinal()).withName(R.string.action_energy).withIcon(FontAwesome.Icon.faw_list),
@@ -213,7 +222,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 //                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.DtcCodes.ordinal()).withName(R.string.action_dtc).withIcon(FontAwesome.Icon.faw_stethoscope).withEnabled(false),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Settings.ordinal()).withName(R.string.action_settings).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
-                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.HelpFeedback.ordinal()).withName(R.string.action_help).withIcon(GoogleMaterial.Icon.gmd_help).withEnabled(false)
+                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Replay.ordinal()).withName(R.string.action_replay).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay),
+                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Demo.ordinal()).withName(R.string.action_demo).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay)
+//                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.HelpFeedback.ordinal()).withName(R.string.action_help).withIcon(GoogleMaterial.Icon.gmd_help).withEnabled(false)
                 )
                 .withOnDrawerItemClickListener(this)
                 .withSavedInstance(savedInstanceState)
@@ -295,6 +306,22 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                     case Settings:
                         intent = new Intent(MainActivity.this, SettingsActivity.class);
                         break;
+                    case Replay:
+                        if (!bluetoothEnable.isChecked()) {
+                            Intent fileintent = new Intent()
+                                    .setType("text/plain")
+                                    .setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(fileintent, "Select a file"), 123);
+                        }
+                        break;
+                    case Demo:
+                        try {
+                            InputStream is = getAssets().open("SoulData.demo.csv");
+                            mReplayLoop = new ReplayLoop(is);
+                        } catch (Exception ex) {
+                            //
+                        }
+                        break;
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
                 // Do nothing
@@ -321,6 +348,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
      * @return
      */
     private boolean bluetoothDeviceConnect(boolean connect){
+        if (mReplayLoop != null) {
+            mReplayLoop.stop();
+            mPosition.listen(true);
+
+        }
         boolean success = false;
         if (connect) {
             success = mDevice.connect();
@@ -397,4 +429,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         super.onStart();
         mPosition.listen(true);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==123 && resultCode==RESULT_OK) {
+            mPosition.listen(false);
+            Uri selectedFile = data.getData(); //The uri with the location of the file
+            mReplayLoop = new ReplayLoop(selectedFile);
+        }
+    }
+
 }

@@ -120,6 +120,6 @@ public class EnergyWatcher implements CurrentValuesSingleton.CurrentValueListene
                 mValues.set(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption)+"_"+new DecimalFormat("00").format(key/1000.0)+"_WhPerkm", wattHoursPerkm);
             }
         }
-        mValues.set(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption)+"_done", System.currentTimeMillis());
+        mValues.set(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption)+"_done_time_ms", System.currentTimeMillis());
     }
 }

@@ -1,10 +1,8 @@
 package org.hexpresso.soulevspy.fragment;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
-import android.widget.Toast;
 
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
@@ -21,6 +19,7 @@ import java.util.List;
 public class CarFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
     private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mItems = new ArrayList<>();
+    private List<ListViewItem> mListItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
 
     @Override
@@ -32,7 +31,7 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         FragmentActivity activity = getActivity();
         if (activity != null) {
             // initialize the list adapter
-            mListViewAdapter = new ListViewAdapter(getActivity(), mItems);
+            mListViewAdapter = new ListViewAdapter(getActivity(), mListItems);
             ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -93,6 +92,8 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mListItems.clear();
+                mListItems.addAll(mItems);
                 mListViewAdapter.notifyDataSetChanged();
             }
         });

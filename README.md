@@ -1,10 +1,13 @@
 # Soul EV Spy
 
 STATUS: Beta: Can collect data from car (via KW-902) and GPS, can store data on SD card, can display data.
-    No UI fancyness, not battery optimized.
+No UI fancyness.
 
 Soul EV Spy is an Android application that allows you to read out some useful information out of your 
 Kia Soul EV or Kia Ray EV car, that you cannot access using the on-board computer or display.
+
+Works on Kia Soul EV with 27 to 30 kWh battery (2014-2018), and partially on Kia Ray EV.
+Note: No support for the new Kia Soul EV 2020 (yet)!
 
 # Informal warning
 
