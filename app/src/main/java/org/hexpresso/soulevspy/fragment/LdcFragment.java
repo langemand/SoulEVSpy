@@ -68,7 +68,10 @@ public class LdcFragment extends ListFragment implements CurrentValuesSingleton.
         Map<String, Object> kvals = mValues.find("ldc.");
         SortedSet<String> keyset = new TreeSet<String>(kvals.keySet());
         for (String key : keyset) {
-            mItems.add(new ListViewItem(key, new String(kvals.get(key).toString())));
+            Object obj = kvals.get(key);
+            if (obj != null) {
+                mItems.add(new ListViewItem(key, new String(obj.toString())));
+            }
         }
         // update the list adapter display
         ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {

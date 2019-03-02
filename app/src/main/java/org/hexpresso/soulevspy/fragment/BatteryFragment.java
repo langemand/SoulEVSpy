@@ -66,10 +66,12 @@ public class BatteryFragment extends ListFragment implements CurrentValuesSingle
         mItems.clear();
         for (String key : keyset) {
             Object val = battVals.get(key);
-            if (val instanceof Double) {
-                mItems.add(new ListViewItem(key, new DecimalFormat("0.00####").format(val)));
-            } else {
-                mItems.add(new ListViewItem(key, val.toString()));
+            if (val != null) {
+                if (val instanceof Double) {
+                    mItems.add(new ListViewItem(key, new DecimalFormat("0.00####").format(val)));
+                } else {
+                    mItems.add(new ListViewItem(key, val.toString()));
+                }
             }
         }
         // update the list adapter display

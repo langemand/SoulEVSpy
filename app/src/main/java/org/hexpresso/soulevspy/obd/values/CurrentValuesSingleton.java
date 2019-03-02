@@ -161,6 +161,17 @@ public class CurrentValuesSingleton {
         return found;
     }
 
+    public void clear() {
+        mLock.lock();
+        try {
+            for (String key : mValues.keySet()) {
+                mValues.put(key, null);
+            }
+        } finally {
+            mLock.unlock();
+        }
+    }
+
     public void addListener(String key, CurrentValueListener listener) {
         mLock.lock();
         try {

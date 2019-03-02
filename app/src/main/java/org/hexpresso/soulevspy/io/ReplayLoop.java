@@ -97,8 +97,10 @@ public class ReplayLoop {
                         int i = 0;
                         //
                     }
+
+                    mCurrentValuesSingleton.clear();
+
                 }
-                int i = 1;
             });
             mLoopThread.setName("ReplayLoopThread");
             start();

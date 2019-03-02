@@ -56,7 +56,10 @@ public class TireFragment extends ListFragment implements CurrentValuesSingleton
         SortedSet<String> keyset = new TreeSet<String>(kvals.keySet());
         mItems.clear();
         for (String key : keyset) {
-            mItems.add(new ListViewItem(key, new String(kvals.get(key).toString())));
+            Object obj = kvals.get(key);
+            if (obj != null) {
+                mItems.add(new ListViewItem(key, obj.toString()));
+            }
         }
 
         // update the list adapter display
