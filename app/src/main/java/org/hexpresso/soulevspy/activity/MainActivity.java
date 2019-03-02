@@ -317,6 +317,10 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                     case Demo:
                         try {
                             InputStream is = getAssets().open("SoulData.demo.csv");
+                            mPosition.listen(false);
+                            if (mReplayLoop != null) {
+                                mReplayLoop.stop();
+                            }
                             mReplayLoop = new ReplayLoop(is);
                         } catch (Exception ex) {
                             //
@@ -421,6 +425,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         super.onStop();
         if (!mDevice.isConnected()) {
             mPosition.listen(false);
+        }
+        if (mReplayLoop != null) {
+            mReplayLoop.stop();
         }
     }
 
