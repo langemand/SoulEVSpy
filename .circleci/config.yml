@@ -47,7 +47,7 @@ jobs:
             echo $GOOGLE_SERVICES_KEY | base64 -di > app/google-services.json
             echo 'export SECRETS="$SECRETS"' >> $BASH_ENV
             echo $SECRETS | base64 -di > app/src/main/res/values/secrets.xml
-            rm app/build/outputs/apk/debug/*.apk app/build/outputs/apk/androidTest/*.apk
+            rm -f app/build/outputs/apk/debug/*.apk app/build/outputs/apk/androidTest/*.apk
             ./gradlew :app:assembleDebug
             ./gradlew :app:assembleDebugAndroidTest
       - run:
