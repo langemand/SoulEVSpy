@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 2
-            mDrawer.setSelection(NavigationDrawerItem.Car.ordinal(), true);
+            mDrawer.setSelection(NavigationDrawerItem.ChargerLocations.ordinal(), true);
         }
     }
 

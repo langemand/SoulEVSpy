@@ -32,6 +32,8 @@ jobs:
           command: |
             echo 'export GOOGLE_SERVICES_KEY="$GOOGLE_SERVICES_KEY"' >> $BASH_ENV
             echo $GOOGLE_SERVICES_KEY | base64 -di > app/google-services.json
+            echo 'export SECRETS="$SECRETS"' >> $BASH_ENV
+            echo $SECRETS | base64 -di > app/src/main/res/values/secrets.xml
             ./gradlew :app:assembleDebug
             ./gradlew :app:assembleDebugAndroidTest
       - store_artifacts:

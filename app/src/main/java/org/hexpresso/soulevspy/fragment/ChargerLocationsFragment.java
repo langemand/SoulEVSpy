@@ -71,8 +71,6 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
             mItems.add(new ListViewItem("Car estimated remaining range (km)", new DecimalFormat("0.0").format(remainingRange)));
         }
 
-//        mListViewItems.add(new ListViewItem("Nearest Quick-chargers", ((Integer)nearbyChargers.size()).toString() + " Chademo chargers in remaining range"));
-
         boolean warningAdded = false;
         Object obj = mValues.get(R.string.col_chargers_locations);
         if (obj != null) {

@@ -155,6 +155,13 @@ public class Protocol {
                 addMessageToProcessingQueue(message);
             }
         }
+        if (mExecutionThread.isInterrupted()) {
+            mMessageInputQueue.clear();
+            mMessageOutputQueue.clear();
+
+            mInputStream = null;
+            mOutputStream = null;
+        }
     }
 
     /**
@@ -237,11 +244,11 @@ public class Protocol {
         mProcessingThread.interrupt();
 
         // TODO : Cancel the pending messages and transfer to the received queue (flagged as queue error or something)
-        mMessageInputQueue.clear();
-        mMessageOutputQueue.clear();
-
-        mInputStream = null;
-        mOutputStream = null;
+//        mMessageInputQueue.clear();
+//        mMessageOutputQueue.clear();
+//
+//        mInputStream = null;
+//        mOutputStream = null;
     }
 
     public synchronized String setStatus(String newStatus) {

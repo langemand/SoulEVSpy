@@ -54,3 +54,6 @@ local.properties
 
 Firebase config
 app/google-services.json
+
+Secret keys
+app/src/main/res/values/secrets.xml

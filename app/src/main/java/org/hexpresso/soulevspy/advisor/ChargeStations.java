@@ -1,39 +1,78 @@
 package org.hexpresso.soulevspy.advisor;
 
 import android.content.Context;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class ChargeStations implements CurrentValuesSingleton.CurrentValueListener {
     private CurrentValuesSingleton mValues = null;
     private JSONArray chargeLocations;
-    Pos mLastPosLookedUp;
-    Pos mLastPosReDist;
+    private Pos mLastPosLookedUp;
+    private Pos mLastPosReDist;
+    private Pos mLastPosRequested = new Pos(0.0,0.0);
+    private double mLastRangeRequested = 25.0;
+    // Instantiate the RequestQueue.
+    RequestQueue requestQueue = null;
+
+
+    private Context mContext = null;
 
     public ChargeStations(Context context) {
-        mValues = CurrentValuesSingleton.getInstance();
-        try {
-            JSONObject chargeStations = new JSONObject(loadJSONFromAsset(context));
-            chargeLocations = chargeStations.getJSONArray("chargelocations");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         mLastPosLookedUp = new Pos(0.0,0.0);
         mLastPosReDist = new Pos(0.0, 0.0);
+        mContext = context;
+        requestQueue = Volley.newRequestQueue(mContext);
+        mValues = CurrentValuesSingleton.getInstance();
+        File jsonFile = new File(mContext.getFilesDir(),mContext.getString(R.string.file_chargerlocations_json));
+        if (jsonFile.length() > 0) {
+            onValueChanged(mValues.getPreferences().getContext().getResources().getString(R.string.charger_locations_update_time_ms), null);
+        } else {
+            try {
+                JSONObject chargeStations = new JSONObject(loadJSONFromAsset(mContext));
+                chargeLocations = chargeStations.getJSONArray("chargelocations");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         String key = mValues.getPreferences().getContext().getResources().getString(R.string.col_route_time_s);
         mValues.addListener(key, this);
+        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.charger_locations_update_time_ms), this);
     }
 
     @Override
-    public void onValueChanged(String key, Object value) {
+    synchronized public void onValueChanged(String key, Object value) {
+        Object obj = mValues.get(R.string.col_chargers_locations);
+        if (key.contentEquals(mValues.getPreferences().getContext().getResources().getString(R.string.charger_locations_update_time_ms))) {
+            // Fetch chargers from cloud...
+            String json = loadJSONFromFile(mContext.getFilesDir(),mContext.getString(R.string.file_chargerlocations_json));
+            try {
+                JSONObject chargeStations = new JSONObject(json);
+                chargeLocations = chargeStations.getJSONArray("chargelocations");
+                obj = null;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         Pos curPos = new Pos((Double)mValues.get(R.string.col_route_lat_deg), (Double)mValues.get(R.string.col_route_lng_deg));
         if (curPos == null || !curPos.isDefined())
             return;
@@ -45,7 +84,6 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
         if (mLastPosReDist.isDefined() && curPos.isDefined()) {
             redist = curPos.distance(mLastPosReDist);
         }
-        Object obj = mValues.get(R.string.col_chargers_locations);
         if (obj == null || dist > 5000) {
             Double remainingRange = (Double) mValues.get("range_estimate_km");
             if (remainingRange == null) {
@@ -78,29 +116,79 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     }
 
     private String loadJSONFromAsset(Context context) {
-        String json = null;
+        String json = "";
         try {
             InputStream is = context.getAssets().open("chademo_near_cph.json");
-
-            int size = is.available();
-
-            byte[] buffer = new byte[size];
-
-            is.read(buffer);
-
-            is.close();
-
-            json = new String(buffer, "UTF-8");
+            json = readStream(is);
 
         } catch (IOException ex) {
             ex.printStackTrace();
-            return null;
+            return json;
         }
         return json;
     }
 
+    private String loadJSONFromFile(File dir, String filename) {
+        String json = "";
+        try {
+            File file = new File(dir, filename);
+            InputStream is = new FileInputStream(file);
+            try {
+                json = readStream(is);
+            } finally {
+                is.close();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            return json;
+        }
+    }
+
+    private String readStream(InputStream is) throws IOException {
+        String json;
+        int size = is.available();
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+        json = new String(buffer, "UTF-8");
+        return json;
+    }
+
+    private void getJSONFromMobileDe(Pos pos, double range) {
+        String url = "https://api.goingelectric.de/chargepoints?key=" + mContext.getString(R.string.goingelectric_de_api_key) + "&lat=" + pos.mLat + "&lng=" + pos.mLng + "&radius=" + range/1000 + "&clustering=0&plugs=CHAdeMO";
+
+// Request a string response from the URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String json) {
+                        if (json.length() > 1) {
+                            try {
+                                File file = new File(mContext.getFilesDir(),mContext.getString(R.string.file_chargerlocations_json));
+                                OutputStream out = new FileOutputStream(file, false);
+                                byte[] contents = json.getBytes();
+                                out.write(contents);
+                                out.flush();
+                                out.close();
+                                CurrentValuesSingleton.getInstance().set(R.string.charger_locations_update_time_ms, System.currentTimeMillis());
+                            } catch (Exception ex) {
+                                Toast.makeText(mContext, "Failed to write charger locations", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mContext, "Failed to fetch charger locations", Toast.LENGTH_LONG).show();
+            }
+        });
+
+// Add the request to the RequestQueue.
+        requestQueue.add(stringRequest);
+    }
+
     public ArrayList<ChargeLocation> getChargersInRange(Pos myPos, double range) {
-        // TODO: Fetch chargers from cloud...
         ArrayList<ChargeLocation> nearChargers = new ArrayList<>();
         for (int i = 0; i < chargeLocations.length(); ++i) {
             try {
@@ -118,6 +206,14 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
                 //return null;
             }
         }
+
+        // Consider requesting an update of the charger locations
+        if (mLastPosRequested.distance(myPos) > mLastRangeRequested / 2) {
+            mLastPosRequested = myPos;
+            mLastRangeRequested = Math.max(40.0, Math.max(mLastRangeRequested, range));
+            getJSONFromMobileDe(myPos, mLastRangeRequested);
+        }
+
         return nearChargers;
     }
 }

@@ -64,6 +64,14 @@
     <string name="error_no_bluetooth_device">No Bluetooth device selected</string>
     <string name="error_bluetooth_service_not_available">Bluetooth service is not available</string>
 
+    <!-- File names -->
+    <string name="file_chargerlocations_json">chargerlocations.json</string>
+
+
+    <!-- ChargerLocations -->
+    <string name="charger_locations_update_time_ms">charger_locations_update_time_ms</string>
+
+
     <!-- Car Information (VIN decoding) -->
     <string name="car_kia">Kia</string>
     <string name="car_soulev">Soul EV</string>

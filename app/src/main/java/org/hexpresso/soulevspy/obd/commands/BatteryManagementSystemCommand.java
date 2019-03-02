@@ -1,7 +1,6 @@
 package org.hexpresso.soulevspy.obd.commands;
 
 import org.hexpresso.elm327.commands.AbstractMultiCommand;
-import org.hexpresso.elm327.commands.AbstractCommand;
 import org.hexpresso.elm327.commands.filters.RegularExpressionResponseFilter;
 import org.hexpresso.elm327.commands.filters.RemoveSpacesResponseFilter;
 import org.hexpresso.soulevspy.R;
