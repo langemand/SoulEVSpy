@@ -54,18 +54,23 @@ public class ReplayLoop {
                         while (!mLoopThread.isInterrupted() && mValues.length >= mHeaders.length) {
                             for (int i = 0; i < mHeaders.length; ++i) {
                                 Object obj = null;
-                                if (mValues[i].toString().contains("\"")) {
-                                    obj = mValues[i].toString().replaceAll("\"", "");
-                                } else if ((mHeaders[i].endsWith("_ms") || mHeaders[i].endsWith("_s")) && !mValues[i].toString().contains(".")) {
-                                    obj = Long.parseLong(mValues[i].toString());
+                                String str = mValues[i].toString();
+                                if (str.contains("\"")) {
+                                    obj = str.replaceAll("\"", "");
+                                } else if ((mHeaders[i].endsWith("_ms") || mHeaders[i].endsWith("_s")) && !str.contains(".")) {
+                                    obj = Long.parseLong(str);
                                 } else {
                                     try {
-                                        obj = Integer.parseInt(mValues[i].toString());
+                                        obj = Integer.parseInt(str);
                                     } catch (Exception ex) {
                                         try {
-                                            obj = Double.parseDouble(mValues[i].toString());
+                                            obj = Double.parseDouble(str);
                                         } catch (Exception ex2) {
-                                            obj = mValues[i].toString();
+                                            if (str.contentEquals("true") || str.contentEquals("false")) {
+                                                obj = Boolean.parseBoolean(str);
+                                            } else if (!str.contentEquals("null")) {
+                                                obj = String.valueOf(mValues[i]);
+                                            }
                                         }
                                     }
                                 }
