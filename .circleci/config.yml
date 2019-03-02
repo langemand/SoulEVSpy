@@ -29,7 +29,13 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew lint test
+          command: |
+            echo 'export GOOGLE_SERVICES_KEY="$GOOGLE_SERVICES_KEY"' >> $BASH_ENV
+            echo $GOOGLE_SERVICES_KEY | base64 -di > app/google-services.json
+            echo 'export SECRETS="$SECRETS"' >> $BASH_ENV
+            echo $SECRETS | base64 -di > app/src/main/res/values/secrets.xml
+            ./gradlew lint test
+            ./gradlew connectedAndroidTest
       - store_artifacts:
           path: app/build/reports
           destination: reports
@@ -38,11 +44,6 @@ jobs:
       - run:
           name: Build debug APK and release APK
           command: |
-            echo 'export GOOGLE_SERVICES_KEY="$GOOGLE_SERVICES_KEY"' >> $BASH_ENV
-            echo $GOOGLE_SERVICES_KEY | base64 -di > app/google-services.json
-            echo 'export SECRETS="$SECRETS"' >> $BASH_ENV
-            echo $SECRETS | base64 -di > app/src/main/res/values/secrets.xml
-            ./gradlew connectedAndroidTest
             ./gradlew :app:assembleDebug
             ./gradlew :app:assembleDebugAndroidTest
       - store_artifacts:
