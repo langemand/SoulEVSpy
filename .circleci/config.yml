@@ -79,7 +79,7 @@ jobs:
           command: |
             sudo gcloud firebase test android run \
               --app app/build/outputs/apk/debug/*.apk \
-              --test app/build/outputs/apk/androidTest/*.apk \
+              --test app/build/outputs/apk/androidTest/debug/*.apk \
               --results-bucket cicircle-test-${GOOGLE_PROJECT_ID}
       - run:
           name: Install gsutil dependency and copy test results data
