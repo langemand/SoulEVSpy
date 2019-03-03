@@ -1,7 +1,6 @@
 package org.hexpresso.soulevspy.advisor;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -173,14 +172,14 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
                                 out.close();
                                 CurrentValuesSingleton.getInstance().set(R.string.charger_locations_update_time_ms, System.currentTimeMillis());
                             } catch (Exception ex) {
-                                Toast.makeText(mContext, "Failed to write charger locations", Toast.LENGTH_LONG).show();
+//
                             }
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mContext, "Failed to fetch charger locations", Toast.LENGTH_LONG).show();
+//
             }
         });
 

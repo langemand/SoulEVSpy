@@ -29,6 +29,8 @@ public class ReplayLoop {
     }
 
     public ReplayLoop(InputStream is) {
+        mCurrentValuesSingleton.clear();
+
         open(is);
     }
 

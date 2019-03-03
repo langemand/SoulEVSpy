@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
 import org.hexpresso.soulevspy.R;
+import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 /**
@@ -20,39 +21,43 @@ import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
 public class Position implements LocationListener {
     LocationManager locationManager = null;
+    MainActivity mActivity = null;
     Context context;
+    boolean mListening = false;
 
-    public Position(Context context) {
-        this.context = context;
+
+
+    public Position(MainActivity activity) {
+        mActivity = activity;
+        this.context = activity.getBaseContext();
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         listen(true);
     }
 
     public void listen(boolean doListen) {
-        if (doListen) {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if (loc != null) {
-                    updateLocation(loc);
-                }
-                locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 3000, 10, this);
-            }
+        mListening = doListen;
+        if (mListening) {
+            updateIfListening();
         } else {
             locationManager.removeUpdates(this);
         }
     }
 
+    public void updateIfListening() {
+        if (mListening) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (loc != null) {
+                updateLocation(loc);
+            }
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 3000, 10, this);
+            }
+        }
+    }
 
 
     private Position() {};

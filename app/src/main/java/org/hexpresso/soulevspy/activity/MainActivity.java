@@ -1,7 +1,6 @@
 package org.hexpresso.soulevspy.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -18,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-    private static final int REQUEST_LOCATION = 2;
-    private static String[] PERMISSIONS_LOCATION = {
+    public static final int REQUEST_LOCATION = 2;
+    public static String[] PERMISSIONS_LOCATION = {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
-
+    private int mRequested = 0;
     private ChargeStations mChargeStations = null;
     private BatteryStats mBatteryStats = null;
     private PowerConnectionReceiver mPowerConnectionReceiver = null;
@@ -118,16 +118,16 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
      *
      * If the app does not has permission then the user will be prompted to grant permissions
      *
-     * @param activity
      */
-    public static void verifyStoragePermissions(Activity activity) {
+    public void verifyStoragePermissions() {
         // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
+            mRequested = REQUEST_EXTERNAL_STORAGE;
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
-                    activity,
+                    this,
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );
@@ -138,23 +138,20 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
      * Checks if the app has permission to gps location
      *
      * If the app does not has permission then the user will be prompted to grant permissions
-     *
-     * @param activity
      */
-    public static void verifyLocationPermissions(Activity activity) {
+    public void verifyLocationPermissions() {
         // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
+            mRequested = REQUEST_LOCATION;
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
-                    activity,
+                    this,
                     PERMISSIONS_LOCATION,
                     REQUEST_LOCATION);
         }
     }
-
-
 
     /**
      *
@@ -165,8 +162,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_main);
 
-        verifyStoragePermissions(this);
-        verifyLocationPermissions(this);
+        verifyStoragePermissions();
 
         // Preferences
         mSharedPreferences = new ClientSharedPreferences(this);
@@ -174,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         CurrentValuesSingleton.getInstance().setPreferences(mSharedPreferences);
 
         // Listen to GPS location updates
-        mPosition = new Position(getBaseContext());
+        mPosition = new Position(this);
 
         // ChargeStations
         mChargeStations = new ChargeStations(getBaseContext());
@@ -312,18 +308,34 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                                     .setType("text/plain")
                                     .setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(Intent.createChooser(fileintent, "Select a file"), 123);
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getBaseContext(), R.string.info_disconnect_bluetooth_to_start_replay, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                         break;
                     case Demo:
-                        try {
-                            InputStream is = getAssets().open("SoulData.demo.csv");
-                            mPosition.listen(false);
-                            if (mReplayLoop != null) {
-                                mReplayLoop.stop();
+                        if (!bluetoothEnable.isChecked()) {
+                            try {
+                                InputStream is = getAssets().open("SoulData.demo.csv");
+                                mPosition.listen(false);
+                                if (mReplayLoop != null) {
+                                    mReplayLoop.stop();
+                                }
+                                mReplayLoop = new ReplayLoop(is);
+                            } catch (Exception ex) {
+                                //
                             }
-                            mReplayLoop = new ReplayLoop(is);
-                        } catch (Exception ex) {
-                            //
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getBaseContext(), R.string.info_disconnect_bluetooth_to_start_replay, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                         break;
                 }
@@ -447,4 +459,19 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         }
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        int i = 0;
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length == 1 && grantResults[0] == 0){
+                mPosition.updateIfListening();
+            }
+        }
+        if (mRequested != REQUEST_LOCATION && (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            verifyLocationPermissions();
+        }
+    }
 }

@@ -64,6 +64,9 @@
     <string name="error_no_bluetooth_device">No Bluetooth device selected</string>
     <string name="error_bluetooth_service_not_available">Bluetooth service is not available</string>
 
+    <!-- Information messages -->
+    <string name="info_disconnect_bluetooth_to_start_replay">Please disconnect bluetooth first</string>
+
     <!-- File names -->
     <string name="file_chargerlocations_json">chargerlocations.json</string>
 
