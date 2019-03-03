@@ -92,4 +92,7 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/androidTest/debug
           destination: androidTest-debug-apks
+      - store_artifacts:
+          path: ${CIRCLE_ARTIFACTS}
+          destination: firebase_test
 
