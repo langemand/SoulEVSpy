@@ -46,6 +46,11 @@ jobs:
             echo 'export GOOGLE_SERVICES_KEY="$GOOGLE_SERVICES_KEY"' >> $BASH_ENV
             echo $GOOGLE_SERVICES_KEY | base64 -di > app/google-services.json
       - run:
+          name: Store secrets (API keys)
+          command: |
+            echo 'export SECRETS="$SECRETS"' >> $BASH_ENV
+            echo $SECRETS | base64 -di > app/src/main/res/values/secrets.xml
+      - run:
           name: Run tests
           command: ./gradlew lint test
       - store_artifacts:
@@ -53,11 +58,6 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
-      - run:
-          name: Store secrets (API keys)
-          command: |
-            echo 'export SECRETS="$SECRETS"' >> $BASH_ENV
-            echo $SECRETS | base64 -di > app/src/main/res/values/secrets.xml
       - run:
           name: Build debug APK and release APK
           command: |
