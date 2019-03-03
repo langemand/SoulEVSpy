@@ -85,6 +85,7 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
+            rm -rf ${CIRCLE_ARTIFACTS}
             sudo gsutil -m cp -r -U `sudo gsutil ls gs://cicircle-test-soulevspy/2019-03-03_13:48:33.716233_KERI/ | tail -1` ${CIRCLE_ARTIFACTS}/ | true
       - store_artifacts:
           path: app/build/outputs/apk/debug
