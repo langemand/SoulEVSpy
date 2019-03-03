@@ -54,7 +54,7 @@ jobs:
           name: Store Google Service Account
           command: |
             echo 'export $GCLOUD_SERVICE_KEY="$GCLOUD_SERVICE_KEY"' >> $BASH_ENV
-            echo $GOOGLE_SERVICES_KEY | base64 -di > ${HOME}/gcloud-service-key.json
+            echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/gcloud-service-key.json
       - run:
           name: Authorize gcloud and set config defaults
           command: |
