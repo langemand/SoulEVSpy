@@ -5,7 +5,7 @@
     <string name="action_bluetooth">Bluetooth connect</string>
     <string name="action_car_information">Car information</string>
     <string name="action_energy">Energy and power</string>
-    <string name="action_charger_locations">Nearest Quick-chargers</string>
+    <string name="action_charger_locations">Quick-chargers (Click for routing)</string>
     <string name="action_ldc">DC-DC 12 V converter</string>
     <string name="action_tires">Tire data</string>
     <string name="action_dashboard">Dashboard</string>

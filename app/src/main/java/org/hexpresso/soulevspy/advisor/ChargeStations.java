@@ -30,6 +30,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     private Pos mLastPosReDist;
     private Pos mLastPosRequested = new Pos(0.0,0.0);
     private double mLastRangeRequested = 25.0;
+    private boolean mLastSucceeded = true;
     // Instantiate the RequestQueue.
     RequestQueue requestQueue = null;
 
@@ -83,8 +84,8 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
         if (mLastPosReDist.isDefined() && curPos.isDefined()) {
             redist = curPos.distance(mLastPosReDist);
         }
+        Double remainingRange = (Double) mValues.get("range_estimate_km");
         if (obj == null || dist > 5000) {
-            Double remainingRange = (Double) mValues.get("range_estimate_km");
             if (remainingRange == null) {
                 remainingRange = 200000.0;
             } else {
@@ -112,6 +113,15 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
             }
         }
         mValues.set(R.string.col_chargers_locations, obj);
+
+        // Consider requesting an update of the charger locations
+        if (mLastPosRequested.distance(curPos) > mLastRangeRequested / 2 || !mLastSucceeded) {
+            mLastPosRequested = curPos;
+            mLastRangeRequested = Math.max(40.0, Math.max(mLastRangeRequested, remainingRange));
+            getJSONFromMobileDe(curPos, mLastRangeRequested);
+        }
+
+
     }
 
     private String loadJSONFromAsset(Context context) {
@@ -156,7 +166,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
 
     private void getJSONFromMobileDe(Pos pos, double range) {
         String url = "https://api.goingelectric.de/chargepoints?key=" + mContext.getString(R.string.goingelectric_de_api_key) + "&lat=" + pos.mLat + "&lng=" + pos.mLng + "&radius=" + range/1000 + "&clustering=0&plugs=CHAdeMO";
-
+        mLastSucceeded = true;
 // Request a string response from the URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -179,7 +189,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-//
+                mLastSucceeded = false;
             }
         });
 
@@ -204,13 +214,6 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
                 ex.printStackTrace();
                 //return null;
             }
-        }
-
-        // Consider requesting an update of the charger locations
-        if (mLastPosRequested.distance(myPos) > mLastRangeRequested / 2) {
-            mLastPosRequested = myPos;
-            mLastRangeRequested = Math.max(40.0, Math.max(mLastRangeRequested, range));
-            getJSONFromMobileDe(myPos, mLastRangeRequested);
         }
 
         return nearChargers;

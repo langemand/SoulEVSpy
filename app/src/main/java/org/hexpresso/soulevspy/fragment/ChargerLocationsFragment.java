@@ -69,6 +69,8 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
         Double remainingRange = (Double) mValues.get("range_estimate_km");
         if (remainingRange != null) {
             mItems.add(new ListViewItem("Car estimated remaining range (km)", new DecimalFormat("0.0").format(remainingRange)));
+        } else {
+            remainingRange = 212.0;
         }
 
         boolean warningAdded = false;
@@ -82,7 +84,7 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
                 ChargeLocation charger = nearChargers.get(i);
                 double dist_m = charger.get_distFromLookupPos();
 
-                if (remainingRange != null && !warningAdded && dist_m < remainingRange * 1000) {
+                if (remainingRange != null && !warningAdded && dist_m > remainingRange * 1000) {
                     warningAdded = true;
                     mItems.add(new ListViewItem("-------------------------------------------------------------------------------",
                             "Below are out of range!"));

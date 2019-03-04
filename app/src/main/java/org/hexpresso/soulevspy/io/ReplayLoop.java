@@ -112,12 +112,16 @@ public class ReplayLoop {
         }
     }
 
-    public synchronized void start() {
-        mLoopThread.start();
+    private synchronized void start() {
+        if (mLoopThread != null) {
+            mLoopThread.start();
+        }
     }
 
     public synchronized void stop() {
-        mLoopThread.interrupt();
+        if (mLoopThread != null) {
+            mLoopThread.interrupt();
+        }
     }
 
 }
