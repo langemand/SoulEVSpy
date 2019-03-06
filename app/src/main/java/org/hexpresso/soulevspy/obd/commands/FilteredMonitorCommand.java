@@ -42,23 +42,6 @@ public class FilteredMonitorCommand extends AbstractMultiCommand {
         addResponseFilter(new RemoveSpacesResponseFilter());
     }
 
-//    private FilteredMonitorCommand() {}
-
-//    @Override
-//    public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException {
-//        String rawResponse = "";
-//        for(Command command : mCommands) {
-//            try {
-//                command.execute(in, out);
-//                rawResponse += command.getResponse().rawResponse() + "\\r";
-//            } catch (StoppedException e) {
-//                // To be expected when breaking the MA monitoring, just ignore
-//            }
-//        }
-//
-//        mResponse.setRawResponse(rawResponse);
-//    }
-
     @Override
     public void doProcessResponse() {
         mObdMessageFilter.receive(mStopAfterDataCommand.getResponse().rawResponse());

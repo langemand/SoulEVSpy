@@ -429,6 +429,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         super.onDestroy();
         mPosition.listen(false);
         bluetoothDeviceConnect(false);
+        mChargeStations.onDestroy();
+        mEnergyWatcher.finalize();
     }
 
 

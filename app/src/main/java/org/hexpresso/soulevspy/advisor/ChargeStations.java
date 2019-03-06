@@ -218,4 +218,11 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
 
         return nearChargers;
     }
+
+    public void onDestroy() {
+        if (mValues != null) {
+            mValues.delListener(this);
+        }
+    }
+
 }
