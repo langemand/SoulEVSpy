@@ -134,13 +134,14 @@ public class ReadLoop {
 //                    continue;
                 }
 
-                long scan_end_time = (Long)vals.get(R.string.col_system_scan_end_time_ms);
-                long time_now = System.currentTimeMillis();
-                long timeToWait = (long)(mSharedPreferences.getScanIntervalFloatValue()*1000) - (time_now - scan_start_time);
-                if (timeToWait > 0) {
-                    SystemClock.sleep(timeToWait);
+                if (!mLoopThread.isInterrupted()) {
+                    long time_now = System.currentTimeMillis();
+                    long timeToWait = (long) (mSharedPreferences.getScanIntervalFloatValue() * 1000) - (time_now - scan_start_time);
+                    if (timeToWait > 0) {
+                        SystemClock.sleep(timeToWait);
+                    }
+                    CurrentValuesSingleton.getInstance().log(mColumnsToLog);
                 }
-                CurrentValuesSingleton.getInstance().log(mColumnsToLog);
                 last_log_time = scan_start_time;
             }
         }
