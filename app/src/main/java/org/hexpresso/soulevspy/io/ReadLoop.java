@@ -114,11 +114,15 @@ public class ReadLoop {
                     mService.getProtocol().addCommand(command);
                 }
                 SystemClock.sleep(2000L);
-                long scan_start_time = (Long)vals.get(R.string.col_system_scan_start_time_ms);
-                while (vals.get(R.string.col_system_scan_end_time_ms) == null ||
-                        (Long)vals.get(R.string.col_system_scan_end_time_ms) < (Long)vals.get(R.string.col_system_scan_start_time_ms) ||
-                        (Long)vals.get(R.string.col_system_scan_start_time_ms) == last_log_time) {
-                    SystemClock.sleep(100L);
+                if (vals.get(R.string.col_system_scan_start_time_ms) != null) {
+                    while (vals.get(R.string.col_system_scan_end_time_ms) == null ||
+                            (Long) vals.get(R.string.col_system_scan_end_time_ms) < (Long) vals.get(R.string.col_system_scan_start_time_ms) ||
+                            (Long) vals.get(R.string.col_system_scan_start_time_ms) == last_log_time) {
+                        SystemClock.sleep(100L);
+                    }
+                }
+                if (mLoopThread.isInterrupted()) {
+                    break;
                 }
                 // Handle any protocol exceptions by re-init
                 String status = mService.getProtocol().setStatus("");
@@ -136,13 +140,18 @@ public class ReadLoop {
 
                 if (!mLoopThread.isInterrupted()) {
                     long time_now = System.currentTimeMillis();
-                    long timeToWait = (long) (mSharedPreferences.getScanIntervalFloatValue() * 1000) - (time_now - scan_start_time);
-                    if (timeToWait > 0) {
-                        SystemClock.sleep(timeToWait);
+                    if (vals.get(R.string.col_system_scan_start_time_ms) != null) {
+                        long scan_start_time = (Long) vals.get(R.string.col_system_scan_start_time_ms);
+                        long timeToWait = (long) (mSharedPreferences.getScanIntervalFloatValue() * 1000) - (time_now - scan_start_time);
+                        if (timeToWait > 0) {
+                            SystemClock.sleep(timeToWait);
+                        }
+                        CurrentValuesSingleton.getInstance().log(mColumnsToLog);
                     }
-                    CurrentValuesSingleton.getInstance().log(mColumnsToLog);
                 }
-                last_log_time = scan_start_time;
+                if (vals.get(R.string.col_system_scan_start_time_ms) != null) {
+                    last_log_time = (Long) vals.get(R.string.col_system_scan_start_time_ms);
+                }
             }
         }
     }
