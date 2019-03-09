@@ -123,6 +123,9 @@ public class Protocol {
             } catch (InterruptedException e) {
                 mExecutionThread.interrupt();
                 mStatus = e.getMessage();
+                if (mStatus == null) {
+                    mStatus = "Interrupted while executing command";
+                }
             } catch (IOException e) {
 // Ignore?
                 // TODO : This is just for a test!
@@ -135,6 +138,10 @@ public class Protocol {
 //                });
                 mExecutionThread.interrupt();
                 mStatus = e.getMessage();
+                if (mStatus == null) {
+                    mStatus = "IOException while executing command";
+                }
+
             } catch (StoppedException e) {
                 int a = 7; // for having a place to set a breakpoint...
                 // Shall this be ignored?
@@ -148,6 +155,9 @@ public class Protocol {
 //                });
                 mExecutionThread.interrupt();
                 mStatus = e.getMessage();
+                if (mStatus == null) {
+                    mStatus = "ResponseException while executing command";
+                }
             }
 
             if(message != null) {
