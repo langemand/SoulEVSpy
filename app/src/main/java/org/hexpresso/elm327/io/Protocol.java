@@ -157,7 +157,6 @@ public class Protocol {
         }
         if (mExecutionThread.isInterrupted()) {
             mMessageInputQueue.clear();
-            mMessageOutputQueue.clear();
 
             mInputStream = null;
             mOutputStream = null;
@@ -192,6 +191,7 @@ public class Protocol {
                 mProcessingThread.interrupt();
             }
         }
+        mMessageOutputQueue.clear();
     }
 
     /**
