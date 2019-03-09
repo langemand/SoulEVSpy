@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
      *
      * If the app does not has permission then the user will be prompted to grant permissions
      */
-    public void verifyLocationPermissions() {
+    public boolean verifyLocationPermissions() {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
@@ -150,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                     this,
                     PERMISSIONS_LOCATION,
                     REQUEST_LOCATION);
+            return false;
+        } else {
+            return true;
         }
     }
 
