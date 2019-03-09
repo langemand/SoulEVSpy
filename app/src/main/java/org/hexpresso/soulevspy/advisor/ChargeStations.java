@@ -120,8 +120,6 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
             mLastRangeRequested = Math.max(40.0, Math.max(mLastRangeRequested, remainingRange));
             getJSONFromMobileDe(curPos, mLastRangeRequested);
         }
-
-
     }
 
     private String loadJSONFromAsset(Context context) {
