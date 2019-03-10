@@ -35,6 +35,7 @@ import org.hexpresso.elm327.log.CommLog;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.advisor.ChargeStations;
 import org.hexpresso.soulevspy.advisor.EnergyWatcher;
+import org.hexpresso.soulevspy.fragment.BatteryCellmapFragment;
 import org.hexpresso.soulevspy.fragment.ChargerLocationsFragment;
 import org.hexpresso.soulevspy.fragment.EnergyFragment;
 import org.hexpresso.soulevspy.fragment.BatteryFragment;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         ChargerLocations,
         Energy,
         Battery,
+        BatteryCellmap,
         Ldc,
         Tires,
         Gps,
@@ -218,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.ChargerLocations.ordinal()).withName(R.string.action_charger_locations).withIcon(FontAwesome.Icon.faw_map),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Energy.ordinal()).withName(R.string.action_energy).withIcon(FontAwesome.Icon.faw_list),
+                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.BatteryCellmap.ordinal()).withName(R.string.action_battery_cellmap).withIcon(FontAwesome.Icon.faw_table),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Battery.ordinal()).withName(R.string.action_battery).withIcon(FontAwesome.Icon.faw_battery_three_quarters),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Car.ordinal()).withName(R.string.action_car_information).withIcon(FontAwesome.Icon.faw_car),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Ldc.ordinal()).withName(R.string.action_ldc).withIcon(FontAwesome.Icon.faw_battery_4),
@@ -304,6 +307,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         break;
                     case Battery:
                         fragment = new BatteryFragment();
+                        break;
+                    case BatteryCellmap:
+                        fragment = new BatteryCellmapFragment();
                         break;
                     case Tires:
                         fragment = new TireFragment();

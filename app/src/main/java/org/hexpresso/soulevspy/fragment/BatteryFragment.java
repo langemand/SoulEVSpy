@@ -65,6 +65,10 @@ public class BatteryFragment extends ListFragment implements CurrentValuesSingle
         SortedSet<String> keyset = new TreeSet<String>(battVals.keySet());
         mItems.clear();
         for (String key : keyset) {
+            if (key.startsWith(mValues.getPreferences().getContext().getResources().getString(R.string.col_battery_cell_voltage)) ||
+                key.startsWith(mValues.getPreferences().getContext().getResources().getString(R.string.col_battery_module_temperature))) {
+                continue;
+            }
             Object val = battVals.get(key);
             if (val != null) {
                 if (val instanceof Double) {
