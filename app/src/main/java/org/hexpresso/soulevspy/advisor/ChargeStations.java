@@ -1,6 +1,7 @@
 package org.hexpresso.soulevspy.advisor;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -8,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
@@ -34,8 +36,9 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     // Instantiate the RequestQueue.
     RequestQueue requestQueue = null;
 
-
     private Context mContext = null;
+
+    Bundle mRequestEventParams = new Bundle();
 
     public ChargeStations(Context context) {
         mLastPosLookedUp = new Pos(0.0,0.0);
@@ -68,6 +71,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
             try {
                 JSONObject chargeStations = new JSONObject(json);
                 chargeLocations = chargeStations.getJSONArray("chargelocations");
+                logChargeStationsReceivedEvent(chargeLocations.length());
                 obj = null;
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -85,13 +89,13 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
             redist = curPos.distance(mLastPosReDist);
         }
         Double remainingRange = (Double) mValues.get("range_estimate_km");
+        if (remainingRange == null) {
+            remainingRange = 200000.0;
+        } else {
+            // Convert km to meter
+            remainingRange = remainingRange * 1E3;
+        }
         if (obj == null || dist > 5000) {
-            if (remainingRange == null) {
-                remainingRange = 200000.0;
-            } else {
-                // Convert km to meter
-                remainingRange = remainingRange * 1E3;
-            }
             obj = getChargersInRange(curPos, remainingRange);
             mLastPosLookedUp = curPos;
             mLastPosReDist = curPos;
@@ -165,6 +169,9 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     private void getJSONFromMobileDe(Pos pos, double range) {
         String url = "https://api.goingelectric.de/chargepoints?key=" + mContext.getString(R.string.goingelectric_de_api_key) + "&lat=" + pos.mLat + "&lng=" + pos.mLng + "&radius=" + range/1000 + "&clustering=0&plugs=CHAdeMO";
         mLastSucceeded = true;
+
+        logChargeStationsRequestEvent(pos, range);
+
 // Request a string response from the URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -223,4 +230,14 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
         }
     }
 
+    public void logChargeStationsRequestEvent(Pos pos, Double range) {
+        mRequestEventParams = new Bundle();
+        mRequestEventParams.putString("lat_lng_range", Double.valueOf(pos.mLat).toString()+"_"+Double.valueOf(pos.mLng).toString()+"_"+range.toString());
+//        FirebaseAnalytics.getInstance(mContext).logEvent("chargestations_request", params);
+    }
+
+    public void logChargeStationsReceivedEvent(int numstations) {
+        mRequestEventParams.putInt("number_of_stations", numstations);
+        FirebaseAnalytics.getInstance(mContext).logEvent("chargestations_request", mRequestEventParams);
+    }
 }

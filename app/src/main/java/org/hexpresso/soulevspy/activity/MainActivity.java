@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private BatteryStats mBatteryStats = null;
     private PowerConnectionReceiver mPowerConnectionReceiver = null;
     private EnergyWatcher mEnergyWatcher = null;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     private boolean isPhoneCharging() {
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -162,15 +165,18 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_main);
-
-        verifyStoragePermissions();
-
         // Preferences
         mSharedPreferences = new ClientSharedPreferences(this);
-
         CurrentValuesSingleton.getInstance().setPreferences(mSharedPreferences);
+
+        super.onCreate(savedInstanceState);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        setContentView(R.layout.activity_main);
+
+        verifyStoragePermissions();
 
         // Listen to GPS location updates
         mPosition = new Position(this);
@@ -330,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                                 }
                                 mReplayLoop = new ReplayLoop(is);
                             } catch (Exception ex) {
-                                //
+                                logEventException(ex);
                             }
                         } else {
                             runOnUiThread(new Runnable() {
@@ -343,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         break;
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                // Do nothing
+                logEventException(e);
                 e.printStackTrace();
             }
 
@@ -478,5 +484,13 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 || ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             verifyLocationPermissions();
         }
+    }
+
+    public void logEventException(Exception e) {
+        Bundle params = new Bundle();
+        params.putString("exception_type", e.getClass().getSimpleName());
+        params.putString("exception_message", e.getMessage());
+        params.putString("stack_trace", e.getStackTrace().toString());
+        mFirebaseAnalytics.logEvent("handled_exception", params);
     }
 }

@@ -2,9 +2,12 @@ package org.hexpresso.soulevspy.io;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.TimeCommand;
@@ -208,6 +211,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                         if (mBluetoothService != null) {
                             mReadLoop = new ReadLoop(mSharedPreferences, mBluetoothService, mLoopCommands);
                             mReadLoop.start();
+                            logBluetoothEvent("connected");
                         }
                     }
                 });
@@ -221,6 +225,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 if (mReadLoop != null) {
                     mReadLoop.stop();
                 }
+                logBluetoothEvent("disconnected");
                 if (mSharedPreferences.getAutoReconnectBooleanValue() && mConnectWanted) {
                     final OBD2Device me = this;
                     mAutoReconnectHandler.removeCallbacks(reconnectRunnable);
@@ -248,4 +253,11 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
     public boolean isConnected() {
         return mIsConnected;
     }
+
+    public void logBluetoothEvent(String event) {
+        Bundle params = new Bundle();
+        params.putString("event", event);
+        FirebaseAnalytics.getInstance(mContext).logEvent("bluetooth_event", params);
+    }
+
 }
