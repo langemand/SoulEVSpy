@@ -56,9 +56,9 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
     public void onValueChanged(String trig_key, Object val) {
         meantemp = 0;
         for (int i = 1; i < 8; ++i) {
-            Double value = (Double) mValues.get(mValues.getPreferences().getContext().getResources().getString(R.string.col_battery_module_temperature) + i + "_C");
+            Integer value = (Integer) mValues.get(mValues.getPreferences().getContext().getResources().getString(R.string.col_battery_module_temperature) + i + "_C");
             if (value != null) {
-                lastTemperature[i-1] = value.intValue();
+                lastTemperature[i-1] = value;
                 meantemp += lastTemperature[i-1];
             }
         }

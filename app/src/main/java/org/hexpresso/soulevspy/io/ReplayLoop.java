@@ -63,6 +63,9 @@ public class ReplayLoop {
                                     obj = Long.parseLong(str);
                                 } else {
                                     try {
+                                        if (mHeaders[i].startsWith("battery.module_temperature") && str.endsWith(".0")) {
+                                            str = str.substring(0, str.length()-2);
+                                        }
                                         obj = Integer.parseInt(str);
                                     } catch (Exception ex) {
                                         try {
