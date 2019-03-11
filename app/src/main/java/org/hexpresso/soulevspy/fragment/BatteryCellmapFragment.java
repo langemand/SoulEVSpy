@@ -22,6 +22,7 @@ import java.util.Locale;
 public class BatteryCellmapFragment extends Fragment implements CurrentValuesSingleton.CurrentValueListener {
     private CurrentValuesSingleton mValues = null;
     private double mean = 0;
+    private double meantemp = 0;
     private double cutoff;
     private double[] lastVoltage = new double[100];
     private int[] lastTemperature = new int[7];
@@ -53,12 +54,15 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
     }
 
     public void onValueChanged(String trig_key, Object val) {
+        meantemp = 0;
         for (int i = 1; i < 8; ++i) {
             Double value = (Double) mValues.get(mValues.getPreferences().getContext().getResources().getString(R.string.col_battery_module_temperature) + i + "_C");
             if (value != null) {
                 lastTemperature[i-1] = value.intValue();
+                meantemp += lastTemperature[i-1];
             }
         }
+        meantemp /= 7;
 
         mean = 0;
         double lowest = 5;
@@ -76,7 +80,7 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                 if (lastVoltage[j] > highest) highest = lastVoltage[j];
             }
         }
-        mean /= lastCell;
+        mean /= (lastCell+1);
         cutoff = lowest < 3.712 ? mean - (highest - mean) * 1.5 : 2;
 
         // the update has to be done in a separate thread
@@ -85,13 +89,28 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
             @Override
             public void run() {
                 try {
+                    // Module temperatures
                     for (int i = 1; i < 8; ++i) {
                         int value = lastTemperature[i-1];
                         TextView tv = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_module_" + i + "_temperature", "id", packageName));
                         if (tv != null) {
                             tv.setText(String.format(Locale.getDefault(), "%d", value));
+
+                            int color = (int) (25 * (value - meantemp));
+                            if (color > 62) {
+                                color = 0xffffc0c0;
+                            } else if (color > 0) {
+                                color = 0xffc0c0c0 + (color * 0x010000); // one tick is one red
+                            } else if (color >= -62) {
+                                color = 0xffc0c0c0 - color; // one degree below is a 16th blue added
+                            } else {
+                                color = 0xffc0c0ff;
+                            }
+                            int ii = 0;
+                            tv.setBackgroundColor(color);
                         }
                     }
+                    // Cell voltages
                     for (int i = 0; i <= lastCell; i++) {
                         TextView tv = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_" + (i+1) + "_voltage", "id", packageName));
                         if (tv != null) {
