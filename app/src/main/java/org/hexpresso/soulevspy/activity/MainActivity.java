@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                     case Replay:
                         if (!bluetoothEnable.isChecked()) {
                             Intent fileintent = new Intent()
-                                    .setType("text/plain")
+                                    .setType("*/*")
                                     .setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(Intent.createChooser(fileintent, "Select a file"), 123);
                         } else {
@@ -472,6 +472,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         if(requestCode==123 && resultCode==RESULT_OK) {
             mPosition.listen(false);
             Uri selectedFile = data.getData(); //The uri with the location of the file
+            if (mReplayLoop != null) {
+                mReplayLoop.stop();
+            }
             mReplayLoop = new ReplayLoop(selectedFile);
         }
     }

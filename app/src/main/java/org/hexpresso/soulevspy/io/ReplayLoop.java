@@ -24,6 +24,7 @@ public class ReplayLoop {
             InputStream is = new FileInputStream(dataFile);
             open(is);
         } catch (Exception ex) {
+            int i = 0;
 //
         }
     }
@@ -57,7 +58,9 @@ public class ReplayLoop {
                             for (int i = 0; i < mHeaders.length; ++i) {
                                 Object obj = null;
                                 String str = mValues[i].toString();
-                                if (str.contains("\"")) {
+                                if (str.contentEquals("null")) {
+                                    obj = null;
+                                } else if (str.contains("\"")) {
                                     obj = str.replaceAll("\"", "");
                                 } else if ((mHeaders[i].endsWith("_ms") || mHeaders[i].endsWith("_s")) && !str.contains(".")) {
                                     obj = Long.parseLong(str);
