@@ -72,13 +72,15 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
             if (value == null) {
                 return;
             }
-            if (value != 0) {
-                lastCell = j;
-                lastVoltage[j] = value;
-                mean += lastVoltage[j];
-                if (lastVoltage[j] < lowest) lowest = lastVoltage[j];
-                if (lastVoltage[j] > highest) highest = lastVoltage[j];
+            if (value < 3) {
+                break;
             }
+            lastCell = j;
+            lastVoltage[j] = value;
+            mean += lastVoltage[j];
+            if (lastVoltage[j] < lowest) lowest = lastVoltage[j];
+            if (lastVoltage[j] > highest) highest = lastVoltage[j];
+
         }
         mean /= (lastCell+1);
         cutoff = lowest < 3.712 ? mean - (highest - mean) * 1.5 : 2;

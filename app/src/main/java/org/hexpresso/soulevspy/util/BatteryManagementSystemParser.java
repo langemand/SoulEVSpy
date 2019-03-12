@@ -131,6 +131,7 @@ public class BatteryManagementSystemParser {
         public int    airbagHwireDuty;                          // %
         //public double inverterCapacitorVoltage;                 // V
 
+        public int numberOfCells;
 
         /**
          * Print the data structure values (for debugging)
@@ -385,7 +386,7 @@ public class BatteryManagementSystemParser {
             bmsData.batteryCellVoltage[85] = HexToInteger(line24.get(0)) * 0.02;
             bmsData.batteryCellVoltage[86] = HexToInteger(line24.get(1)) * 0.02;
             bmsData.batteryCellVoltage[87] = HexToInteger(line24.get(2)) * 0.02;
-            bmsData.batteryCellVoltage[88] = HexToInteger(line24.get(3)) * 0.02;
+            bmsData.batteryCellVoltage[88] = HexToInteger(line24.get(3)) * 0.02;  // Kia Ray and Hyundai BlueON has zero for these 4
             bmsData.batteryCellVoltage[89] = HexToInteger(line24.get(4)) * 0.02;
             bmsData.batteryCellVoltage[90] = HexToInteger(line24.get(5)) * 0.02;
             bmsData.batteryCellVoltage[91] = HexToInteger(line24.get(6)) * 0.02;
@@ -394,6 +395,8 @@ public class BatteryManagementSystemParser {
                 bmsData.batteryCellVoltage[93] = HexToInteger(line25.get(1)) * 0.02;
                 bmsData.batteryCellVoltage[94] = HexToInteger(line25.get(2)) * 0.02;
                 bmsData.batteryCellVoltage[95] = HexToInteger(line25.get(3)) * 0.02;
+            } else {
+                bmsData.numberOfCells = 88;
             }
         } catch (Exception e) {
 
@@ -416,12 +419,15 @@ public class BatteryManagementSystemParser {
             return false;
         }
 
-        if (line21.get(0) != "00") {
+        if (bmsData.numberOfCells != 88 && line21.get(0).substring(0,1) != "0") {
+            bmsData.numberOfCells = 100; // TODO: Handle 98 cells in 2020 e-Soul
             bmsData.batteryCellVoltage[96] = HexToInteger(line21.get(0)) * 0.02;
             bmsData.batteryCellVoltage[97] = HexToInteger(line21.get(1)) * 0.02;
             bmsData.batteryCellVoltage[98] = HexToInteger(line21.get(2)) * 0.02;
             bmsData.batteryCellVoltage[99] = HexToInteger(line21.get(3)) * 0.02;
-            bmsData.batteryCellVoltage[100] = HexToInteger(line21.get(4)) * 0.02;
+            bmsData.batteryCellVoltage[100] = HexToInteger(line21.get(4)) * 0.02;  // ???
+        } else {
+            bmsData.numberOfCells = 96;
         }
 
         bmsData.batteryMaxTemperature = HexToInteger(line22.get(0));
