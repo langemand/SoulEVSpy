@@ -87,8 +87,7 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         }
         i = 0;
         for (double volt : data.batteryCellVoltage) {
-            ++i;
-            if (i>data.numberOfCells) {
+            if (i>=data.numberOfCells) {
                 break;
             }
             vals.set(R.string.col_battery_cell_voltage, i++, "_V", Double.valueOf(volt));

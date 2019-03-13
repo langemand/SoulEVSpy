@@ -102,7 +102,7 @@ public class BatteryManagementSystemParser {
         //public int    isolationResistance;                      // kOhm
 
         // High-Voltage Battery Modules information
-        public int    batteryModuleTemperature[] = new int[7];  // °C
+        public int    batteryModuleTemperature[] = new int[8];  // °C
 
         // High-Voltage Battery Cells Information
         public double batteryCellVoltage[] = new double[101];    // V
@@ -419,7 +419,7 @@ public class BatteryManagementSystemParser {
             return false;
         }
 
-        if (bmsData.numberOfCells != 88 && line21.get(0).substring(0,1) != "0") {
+        if (bmsData.numberOfCells != 88 && !line21.get(0).substring(0,1).contentEquals("0")) {
             bmsData.numberOfCells = 100; // TODO: Handle 98 cells in 2020 e-Soul
             bmsData.batteryCellVoltage[96] = HexToInteger(line21.get(0)) * 0.02;
             bmsData.batteryCellVoltage[97] = HexToInteger(line21.get(1)) * 0.02;
@@ -430,8 +430,9 @@ public class BatteryManagementSystemParser {
             bmsData.numberOfCells = 96;
         }
 
-        bmsData.batteryMaxTemperature = HexToInteger(line22.get(0));
+        bmsData.batteryModuleTemperature[7] = HexToInteger(line21.get(5));
         bmsData.batteryMinTemperature = HexToInteger(line21.get(6));
+        bmsData.batteryMaxTemperature = HexToInteger(line22.get(0));
         bmsData.airbagHwireDuty = HexToInteger(line23.get(4));
         bmsData.heat1Temperature = HexToInteger(line23.get(5));
         bmsData.heat2Temperature = HexToInteger(line23.get(6));

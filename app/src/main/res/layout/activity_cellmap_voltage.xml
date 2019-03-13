@@ -91,6 +91,15 @@
                     android:gravity="center"
                     android:layout_margin="2dp"
                     />
+                <TextView
+                    android:id="@+id/text_module_8_temperature"
+                    android:textSize="12sp"
+                    android:background="#ffc0c0c0"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:layout_margin="2dp"
+                    />
             </TableRow>
             <TableRow
                 android:layout_weight="1"
