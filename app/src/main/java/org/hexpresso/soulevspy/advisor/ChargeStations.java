@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -232,8 +233,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
 
     public void logChargeStationsRequestEvent(Pos pos, Double range) {
         mRequestEventParams = new Bundle();
-        mRequestEventParams.putString("lat_lng_range", Double.valueOf(pos.mLat).toString()+"_"+Double.valueOf(pos.mLng).toString()+"_"+range.toString());
-//        FirebaseAnalytics.getInstance(mContext).logEvent("chargestations_request", params);
+        mRequestEventParams.putString("lat_lng_range", new DecimalFormat("0.000").format(Double.valueOf(pos.mLat))+"_"+new DecimalFormat("0.000").format(Double.valueOf(pos.mLng))+"_"+new DecimalFormat("0").format(range/1000));
     }
 
     public void logChargeStationsReceivedEvent(int numstations) {
