@@ -21,7 +21,9 @@ the displays instead of watching the road. Be extremely prudent!
 
 By even downloading this software, or the source code provided on GitHub, you agree to completely understand this.
 
-Latest APK for manual install: http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2906-debug.apk
+Latest recommended APK for manual install: http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2899-debug.apk
+
+Deprecated due to battery cell map non-functional: http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2906-debug.apk
 
 (Outdated versions: 
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2899-debug.apk
