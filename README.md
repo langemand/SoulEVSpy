@@ -26,17 +26,29 @@ Latest recommended APK for manual install: http://spjeldager.dk/elbil/SoulEVSpy-
 
 (Outdated versions: 
 Deprecated due to battery cell map non-functional: http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2906-debug.apk
+
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2899-debug.apk
+
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2888-debug.apk
+
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2882-debug.apk
+
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2871-debug.apk
+
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2844-debug.apk
+
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.3-2803-debug.apk
+
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2732-debug.apk
-http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2652-debug.apk,
-http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2629-debug.apk, 
-http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2623-debug.apk, 
-http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2619-debug.apk and 
+
+http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2652-debug.apk
+
+http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2629-debug.apk
+
+http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2623-debug.apk
+
+http://spjeldager.dk/elbil/SoulEVSpy-0.1.2-2619-debug.apk
+
 http://spjeldager.dk/elbil/app-debug-1780.apk)
 
 # Formal disclaimer
