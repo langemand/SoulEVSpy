@@ -23,9 +23,7 @@ public class Position implements LocationListener {
     LocationManager locationManager = null;
     MainActivity mActivity = null;
     Context context;
-    boolean mListening = false;
-
-
+    boolean mListening = true;
 
     public Position(MainActivity activity) {
         mActivity = activity;
@@ -74,7 +72,9 @@ public class Position implements LocationListener {
 
     @Override
     public void onLocationChanged(Location loc) {
-        updateLocation(loc);
+        if (mListening) {
+            updateLocation(loc);
+        }
     }
 
     @Override
