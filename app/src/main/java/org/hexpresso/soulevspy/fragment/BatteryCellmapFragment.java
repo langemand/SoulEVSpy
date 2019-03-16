@@ -59,7 +59,7 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
         super.onDestroy();
     }
 
-    public void onValueChanged(String trig_key, Object val) {
+    synchronized public void onValueChanged(String trig_key, Object val) {
         meantemp = 0;
         lastModule = 0;
         for (int i = 0; i < 8; ++i) {
