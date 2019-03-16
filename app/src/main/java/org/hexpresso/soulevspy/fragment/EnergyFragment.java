@@ -55,6 +55,31 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
 
     public void onValueChanged(String trig_key, Object value) {
         mItems.clear();
+        int speedCount=0;
+        Object carSpeed = mValues.get(R.string.col_car_speed_kph);
+        StringBuilder speedHeader = new StringBuilder();
+        speedHeader.append("Speed (km/h)");
+        StringBuilder speedValue = new StringBuilder();
+        if (carSpeed != null) {
+            speedHeader.append(" car");
+            speedValue.append(new DecimalFormat("0.0").format(carSpeed));
+            ++speedCount;
+        }
+        Object gpsSpeedObj = mValues.get(R.string.col_route_speed_mps);
+        if (gpsSpeedObj != null) {
+            double gpsSpeedKmh = Double.valueOf(gpsSpeedObj.toString()) * 3.6;
+            if (speedCount > 0) {
+                speedHeader.append(" /");
+                speedValue.append(" / ");
+            }
+            speedHeader.append(" gps");
+            speedValue.append(new DecimalFormat("0.0").format(gpsSpeedKmh)).append(" km/h");
+            ++speedCount;
+        }
+        if (speedCount > 0) {
+            mItems.add(new ListViewItem(speedHeader.toString(), speedValue.toString()));
+        }
+
         Object battery_display_SOC = mValues.get(R.string.col_battery_display_SOC);
         Object battery_decimal_SOC = mValues.get(R.string.col_battery_decimal_SOC);
         Object battery_precise_SOC = mValues.get(R.string.col_battery_precise_SOC);
@@ -77,8 +102,9 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         }
 
         Object remainingRange = mValues.get(R.string.col_range_estimate_km);
-        if (remainingRange != null) {
-            mItems.add(new ListViewItem("Car estimated remaining range (km)", remainingRange.toString()));
+        Object extraWithClimateOff = mValues.get(R.string.col_range_estimate_for_climate_km);
+        if (remainingRange != null && extraWithClimateOff != null) {
+            mItems.add(new ListViewItem("Car estimated remaining range (km)", remainingRange.toString()+" km, AC off extra: " + extraWithClimateOff.toString() + " km"));
         }
 
         Map<String, Object> consumptions = mValues.find(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption));
