@@ -92,8 +92,11 @@ public class ReplayLoop {
                                 } else if (i == idxScanStartTime) {
                                     lasttime = Long.parseLong(mValues[idxScanStartTime].toString());
                                     long millis = (lasttime - firsttime) - (System.currentTimeMillis() - mStartTime);
-                                    if (millis < 300) {
-                                        millis = 300;
+                                    if (millis < 500) {
+                                        millis = 500;
+                                    }
+                                    if (millis > 3000) {
+                                        millis = 3000;
                                     }
                                     Thread.sleep(millis);
                                 }
@@ -105,9 +108,7 @@ public class ReplayLoop {
                         int i = 0;
                         //
                     }
-
-                    mCurrentValuesSingleton.clear();
-
+int i=2;
                 }
             });
             mLoopThread.setName("ReplayLoopThread");
