@@ -96,7 +96,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
             // Convert km to meter
             remainingRange = remainingRange * 1E3;
         }
-        if (obj == null || dist > 5000) {
+        if (obj == null || obj instanceof String || dist > 5000) {
             obj = getChargersInRange(curPos, remainingRange);
             mLastPosLookedUp = curPos;
             mLastPosReDist = curPos;
