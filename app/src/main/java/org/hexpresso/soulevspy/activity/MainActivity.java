@@ -284,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 switch (item) {
                     case Bluetooth:
                         // Do nothing
+                        mPosition.listen(true);
                         break;
                     case Gps:
                         fragment = new GpsFragment();
