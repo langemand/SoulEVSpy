@@ -77,7 +77,7 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
             KiaVinParser vin = new KiaVinParser(getContext(), vin_str.toString()); //"KNDJX3AEXG7123456");
             String str = vin.getVIN();
             mItems.add(new ListViewItem("Vehicle Identification Number", str));
-            if (str != "error") {
+            if (!str.startsWith("error")) {
                 mItems.add(new ListViewItem("Brand", vin.getBrand()));
                 mItems.add(new ListViewItem("Model", vin.getModel()));
                 mItems.add(new ListViewItem("Trim", vin.getTrim()));
