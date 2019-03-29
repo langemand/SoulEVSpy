@@ -41,7 +41,7 @@ public class VehicleIdentifierNumberCommand extends AbstractCommand {
             mVIN = str.toString();
             skip(true);
         } catch (Exception e) {
-            mVIN = "error";
+            mVIN = "error: " + str.toString();
         }
         return mVIN;
     }
