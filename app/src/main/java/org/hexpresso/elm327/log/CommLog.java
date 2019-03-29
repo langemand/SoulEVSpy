@@ -42,6 +42,7 @@ public class CommLog {
     public void log(byte[] bytes) throws IOException {
         if (mCommLogOs != null) {
             mCommLogOs.write(bytes);
+//            mCommLogOs.flush();
         }
     }
 

@@ -18,6 +18,8 @@ import java.io.ByteArrayOutputStream;
 public class ProtocolTest extends AndroidTestCase {
 
     public void testProtocolVinCommand() throws Exception {
+        CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
+
         Protocol protocol = new Protocol();
         protocol.registerOnMessageReceivedListener(new Protocol.MessageReceivedListener() {
             @Override
@@ -50,13 +52,15 @@ public class ProtocolTest extends AndroidTestCase {
     }
 
     public void testProtocolVinCommand_Ionic() throws Exception {
+        CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
+
         Protocol protocol = new Protocol();
         protocol.registerOnMessageReceivedListener(new Protocol.MessageReceivedListener() {
             @Override
             public void onMessageReceived(Message message) {
                 if(message.getCommand() instanceof VehicleIdentifierNumberCommand) {
                     VehicleIdentifierNumberCommand cmd = (VehicleIdentifierNumberCommand)message.getCommand();
-                    Assert.assertEquals("KNDJX3AE1G7123456", cmd.getValue());
+                    Assert.assertEquals("error: MHC\u007F\u001A\u0012", cmd.getValue());
                 }
             }
         });

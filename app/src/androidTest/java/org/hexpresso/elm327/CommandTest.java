@@ -276,7 +276,7 @@ public class CommandTest extends AndroidTestCase {
             // ...
         }
 
-        Assert.assertEquals("error", cmd.getValue());
+        Assert.assertTrue(cmd.getValue().startsWith("error"));
     }
 
     public void testUnableToConnect() {
