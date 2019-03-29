@@ -2,6 +2,9 @@ package org.hexpresso.elm327.io;
 
 import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.protocol.RawCommand;
+import org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand;
+import org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingModes;
+import org.hexpresso.elm327.commands.protocol.obd.OBDSetTimeoutCommand;
 import org.hexpresso.elm327.exceptions.ResponseException;
 import org.hexpresso.elm327.exceptions.StoppedException;
 
@@ -222,26 +225,29 @@ public class Protocol {
      */
     public synchronized void init() {
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand(" ")); // Ensure monitoring is stopped, just in case
-        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT I"));
+        addCommand(new org.hexpresso.elm327.commands.protocol.PrintVersionIdCommand());
+        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT D")); // Set all to default
         addCommand(new org.hexpresso.elm327.commands.protocol.ResetAllCommand());
-//        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT D")); // Set all to default
 //DONT        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CSM1")); // Silent monitoring not recognized by KW-902
 //DONT        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.EchoCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.LinefeedsCommand(false));
-        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
-        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AR"));
-        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT AL"));
-        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
+        addCommand(new org.hexpresso.elm327.commands.protocol.HeadersCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.HeadersCommand(true));
+        addCommand(new org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingCommand(OBDAdaptiveTimingModes.TIMING_AUTO1));
+        addCommand(new org.hexpresso.elm327.commands.protocol.obd.OBDAutomaticallyReceiveCommand());
+        addCommand(new org.hexpresso.elm327.commands.protocol.obd.OBDAllowLongMessagesCommand());
+        addCommand(new org.hexpresso.elm327.commands.protocol.obd.OBDPrintSpacesCommand(true));
+        addCommand(new OBDSetTimeoutCommand(0x80)); // Attempt to fix issue where initial 09 02 returns "NO DATA"
+        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT FE")); // Forget any previous events
+        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
+        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CEA")); // Try Turn off CAN extended addressing
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CM 00 00 00 00")); // Try Turn off CAN filter mask bits
-//        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT FE")); // Try forget events
 //        addCommand(new RawCommand("AT KW0")); // Try Don't check Key Words
 //        addCommand(new RawCommand("AT IGN")); // Try read ignition state
 
 //DONT        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT S0")); // NOT SUPPORTED: Decoding needs the space for each hex pair...
-        addCommand(new RawCommand("AT ST 80")); // Attempt to fix issue where initial 09 02 returns "NO DATA"
 //        addCommand(new RawCommand("AT ST FF")); // Attempt to fix issue where initial 09 02 returns "NO DATA"
     }
 

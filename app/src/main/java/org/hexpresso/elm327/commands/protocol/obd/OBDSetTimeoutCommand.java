@@ -7,7 +7,7 @@ import org.hexpresso.elm327.commands.AbstractCommand;
  */
 public class OBDSetTimeoutCommand extends AbstractCommand {
     public OBDSetTimeoutCommand(int timeoutInMs) {
-        super("AT ST " + Integer.toHexString(0xFF & timeoutInMs));
+        super("AT ST " + Integer.toHexString(0xFF & timeoutInMs).toUpperCase());
     }
     public void doProcessResponse() {}
 }

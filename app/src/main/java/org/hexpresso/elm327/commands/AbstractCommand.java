@@ -64,6 +64,10 @@ public abstract class AbstractCommand implements Command {
     protected AbstractCommand() {
     }
 
+    public void setTimeoutMs(long timeout_ms) {
+        mTimeout_ms = timeout_ms;
+    }
+
     /**
      *
      * @param in
@@ -153,7 +157,7 @@ public abstract class AbstractCommand implements Command {
                 if (runStartTimestamp + mTimeout_ms < System.currentTimeMillis()) {
                     throw new TimeoutException("readRawData timed out while waiting for input");
                 }
-                SystemClock.sleep(1);
+                SystemClock.sleep(10);
                 continue;
             }
             final byte b = (byte)in.read();

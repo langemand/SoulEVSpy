@@ -24,6 +24,7 @@ import org.hexpresso.soulevspy.obd.SpeedPreciseMessageFilter;
 import org.hexpresso.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import org.hexpresso.soulevspy.obd.StateOfChargeWithOneDecimalMessageFilter;
 import org.hexpresso.soulevspy.obd.Status050MessageFilter;
+import org.hexpresso.soulevspy.obd.commands.BasicCommand;
 import org.hexpresso.soulevspy.obd.commands.FilteredMonitorCommand;
 import org.hexpresso.soulevspy.obd.commands.LowVoltageDCConverterSystemCommand;
 import org.hexpresso.soulevspy.obd.commands.TirePressureMSCommand;
@@ -95,7 +96,10 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
 //DONT        mLoopCommands.add(new BasicCommand("AT FI")); // Try Fast Initialisation
 //        mLoopCommands.add(new BasicCommand("01 00")); // Try Get supported PIDs
         mLoopCommands.add(new ReadInputVoltageCommand());
-        mLoopCommands.add(new VehicleIdentifierNumberCommand());
+        mLoopCommands.add(new BasicCommand("AT SH 7DF"));
+        VehicleIdentifierNumberCommand vinCmd = new VehicleIdentifierNumberCommand();
+        vinCmd.setTimeoutMs(4000);
+        mLoopCommands.add(vinCmd);
         mLoopCommands.add(new BatteryManagementSystemCommand());
         mLoopCommands.add(new LowVoltageDCConverterSystemCommand());
         mLoopCommands.add(new FilteredMonitorCommand(new AmbientTempMessageFilter()));

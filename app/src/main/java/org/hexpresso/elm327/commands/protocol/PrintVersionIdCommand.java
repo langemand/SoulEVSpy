@@ -19,7 +19,4 @@ public class PrintVersionIdCommand extends AbstractCommand {
         }
         return version;
     }
-    public void doProcessResponse() {
-        CurrentValuesSingleton.getInstance().set("ELM327.VersionId", getVersion());
-    }
 }

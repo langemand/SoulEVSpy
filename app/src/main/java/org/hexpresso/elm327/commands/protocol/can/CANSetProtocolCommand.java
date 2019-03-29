@@ -7,6 +7,6 @@ import org.hexpresso.elm327.commands.AbstractCommand;
  */
 public class CANSetProtocolCommand extends AbstractCommand {
     public CANSetProtocolCommand(int protocolNo) {
-        super("AT SP A" + protocolNo);
+        super("AT SPA" + protocolNo);
     }
 }
