@@ -76,16 +76,21 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         if (vin_str != null) {
             KiaVinParser vin = new KiaVinParser(getContext(), vin_str.toString()); //"KNDJX3AEXG7123456");
             String str = vin.getVIN();
-            mItems.add(new ListViewItem("Vehicle Identification Number", str));
-            if (!str.startsWith("error")) {
-                mItems.add(new ListViewItem("Brand", vin.getBrand()));
-                mItems.add(new ListViewItem("Model", vin.getModel()));
-                mItems.add(new ListViewItem("Trim", vin.getTrim()));
-                mItems.add(new ListViewItem("Engine", vin.getEngine()));
-                mItems.add(new ListViewItem("Year", vin.getYear()));
-                mItems.add(new ListViewItem("Sequential Number", vin.getSequentialNumber()));
-                mItems.add(new ListViewItem("Production Plant", vin.getProductionPlant()));
+            if (str != null) {
+                mItems.add(new ListViewItem("Vehicle Identification Number", str));
+                if (!str.startsWith("error")) {
+                    mItems.add(new ListViewItem("Brand", vin.getBrand()));
+                    mItems.add(new ListViewItem("Model", vin.getModel()));
+                    mItems.add(new ListViewItem("Trim", vin.getTrim()));
+                    mItems.add(new ListViewItem("Engine", vin.getEngine()));
+                    mItems.add(new ListViewItem("Year", vin.getYear()));
+                    mItems.add(new ListViewItem("Sequential Number", vin.getSequentialNumber()));
+                    mItems.add(new ListViewItem("Production Plant", vin.getProductionPlant()));
+                }
+            } else {
+                mItems.add(new ListViewItem("Unable to process VIN response", vin_str.toString()));
             }
+
         }
 
         // update the list adapter display

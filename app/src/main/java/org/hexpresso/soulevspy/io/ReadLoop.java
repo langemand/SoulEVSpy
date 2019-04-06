@@ -72,6 +72,7 @@ public class ReadLoop {
                 , res.getString(R.string.col_battery_module_temperature) + "5_C"
                 , res.getString(R.string.col_battery_module_temperature) + "6_C"
                 , res.getString(R.string.col_battery_module_temperature) + "7_C"
+                , res.getString(R.string.col_battery_module_temperature) + "8_C"
                 , res.getString(R.string.col_battery_heat1_temperature_C)
                 , res.getString(R.string.col_battery_heat2_temperature_C)
                 , res.getString(R.string.col_battery_auxiliaryVoltage_V)
