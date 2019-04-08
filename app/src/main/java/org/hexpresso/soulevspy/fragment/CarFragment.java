@@ -90,7 +90,6 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
             } else {
                 mItems.add(new ListViewItem("Unable to process VIN response", vin_str.toString()));
             }
-
         }
 
         // update the list adapter display
