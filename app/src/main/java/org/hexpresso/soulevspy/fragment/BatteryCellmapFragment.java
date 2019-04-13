@@ -1,11 +1,16 @@
 package org.hexpresso.soulevspy.fragment;
 
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.hexpresso.soulevspy.R;
@@ -37,6 +42,9 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
     private int viewlastModule = 0;
     String packageName;
     Unit unit = new Unit();
+    private boolean doInit = true;
+    private final static int color_red = 0xffffa0a0;
+    private final static int color_blue = 0xffa0a0ff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +62,7 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
         mValues = CurrentValuesSingleton.getInstance();
         onValueChanged(null, null);
         mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
+        doInit = true;
     }
 
     @Override
@@ -165,8 +174,63 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                         }
                         tv.setBackgroundColor(color);
                     }
+                    // Main Battery Amps
+                    Object amps_obj = mValues.get(R.string.col_battery_DC_current_A);
+                    ProgressBar apgn = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("progress_bar_negative_amps", "id", packageName));
+                    ProgressBar apgp = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("progress_bar_positive_amps", "id", packageName));
+                    if (apgn != null && apgp != null && amps_obj != null && amps_obj instanceof Double) {
+                        double amps = (double) mValues.get(R.string.col_battery_DC_current_A);
+
+                        // TODO: Map -200 to +0 amps to min to max
+                        int minn = 0; //apg.getMin();
+                        int maxn = apgn.getMax();
+                        // Map 0 to +200 amps to min to max
+                        int minp = 0;
+                        int pos = (int) (amps / 200 * (apgp.getMax() - minp)) + minp;
+                        if (doInit) {
+                            TextView left_col_above = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("_97", "id", packageName));
+                            TextView left_col = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_power_text", "id", packageName));
+                            if (left_col_above != null && left_col != null) {
+                                ViewGroup.LayoutParams params = left_col.getLayoutParams();
+                                params.width = left_col_above.getWidth();
+                                left_col.setLayoutParams(params);
+                            }
+                            TextView tvll = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_97_voltage", "id", packageName));
+                            TextView tvlr = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_100_voltage", "id", packageName));
+                            if (tvll != null && tvlr != null) {
+                                ViewGroup.LayoutParams params = apgn.getLayoutParams();
+                                params.width = (int)(tvlr.getX()+tvlr.getWidth()-tvll.getX());
+                                apgn.setLayoutParams(params);
+                            }
+                            TextView tvrl = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_101_voltage", "id", packageName));
+                            TextView tvrr = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_104_voltage", "id", packageName));
+                            if (tvrl != null && tvrr != null) {
+                                ViewGroup.LayoutParams params = apgp.getLayoutParams();
+                                params.width = (int)(tvrr.getX()+tvrr.getWidth()-tvrl.getX());
+                                apgp.setLayoutParams(params);
+                            }
+
+                            Drawable progressDrawableNeg = apgn.getProgressDrawable().mutate();
+                            progressDrawableNeg.setColorFilter(color_blue, android.graphics.PorterDuff.Mode.SRC_IN);
+                            apgn.setProgressDrawable(progressDrawableNeg);
+                            apgn.setRotation(180);
+
+                            Drawable progressDrawablePos = apgp.getProgressDrawable().mutate();
+                            progressDrawablePos.setColorFilter(color_red, android.graphics.PorterDuff.Mode.SRC_IN);
+                            apgp.setProgressDrawable(progressDrawablePos);
+                            doInit = false;
+                        }
+                        if (amps > 0) {
+                            apgn.setProgress(0);
+                            apgp.setProgress(pos);
+                        } else {
+                            apgp.setProgress(0);
+                            apgn.setProgress(-pos);
+                        }
+                    }
                 } catch (IllegalStateException ex) {
                     // Probably the fragment was closed when user selected another
+                    int j = 5;
                 }
             }
         });
