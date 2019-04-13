@@ -388,8 +388,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         boolean success = false;
         if (connect) {
             success = mDevice.connect();
-        }
-        else {
+        } else {
             success = mDevice.disconnect();
         }
 

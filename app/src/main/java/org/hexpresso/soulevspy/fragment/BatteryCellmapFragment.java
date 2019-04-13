@@ -11,7 +11,9 @@ import android.widget.TextView;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
+import org.hexpresso.soulevspy.util.Unit;
 
+import java.text.DecimalFormat;
 import java.util.Locale;
 
 
@@ -34,6 +36,7 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
     private int viewlastCell = 0;
     private int viewlastModule = 0;
     String packageName;
+    Unit unit = new Unit();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,7 +122,7 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                         }
                         int color = (int) (100 * (value - viewmeantemp));
                         if (i <= viewlastModule+1) {
-                            tv.setText(String.format(Locale.getDefault(), "%d", value));
+                            tv.setText(new DecimalFormat("0.0").format(unit.convertTemp(value)));
 
                             if (color > 62) {
                                 color = 0xffffc0c0;

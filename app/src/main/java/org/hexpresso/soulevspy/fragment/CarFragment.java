@@ -8,6 +8,7 @@ import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.KiaVinParser;
+import org.hexpresso.soulevspy.util.Unit;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
     private List<ListViewItem> mItems = new ArrayList<>();
     private List<ListViewItem> mListItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
+    Unit unit = new Unit();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,15 +64,15 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
 
         Object DC_V = mValues.get(R.string.col_ELM327_voltage);
         if (DC_V != null) {
-            mItems.add(new ListViewItem("12V", new String(DC_V.toString())));
+            mItems.add(new ListViewItem("Aux battery", new String(DC_V.toString())));
         }
         Object amb = mValues.get(R.string.col_car_ambient_C);
         if (amb != null) {
-            mItems.add(new ListViewItem("Ambient Temperature", amb.toString()));
+            mItems.add(new ListViewItem("Ambient Temperature", new DecimalFormat("0.0").format(unit.convertTemp((double)amb))+" "+unit.mTempUnit));
         }
         Object odo = mValues.get(R.string.col_car_odo_km);
         if (odo != null) {
-            mItems.add(new ListViewItem("Odo, km", new DecimalFormat("0.0").format((double)odo)));
+            mItems.add(new ListViewItem("Odometer", new DecimalFormat("0.0").format(unit.convertDist((double)odo))+" "+unit.mDistUnit));
         }
         Object vin_str = mValues.get(R.string.col_VIN);
         if (vin_str != null) {

@@ -8,6 +8,7 @@ import android.util.Log;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
+import org.hexpresso.soulevspy.util.Unit;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
     private List<ListViewItem> mItems = new ArrayList<>();
     private List<ListViewItem> mListItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
+    Unit unit = new Unit();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,11 +60,11 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         int speedCount=0;
         Object carSpeed = mValues.get(R.string.col_car_speed_kph);
         StringBuilder speedHeader = new StringBuilder();
-        speedHeader.append("Speed (km/h)");
+        speedHeader.append("Speed ("+unit.mDistUnit+"/h)");
         StringBuilder speedValue = new StringBuilder();
         if (carSpeed != null) {
             speedHeader.append(" car");
-            speedValue.append(new DecimalFormat("0.0").format(carSpeed));
+            speedValue.append(new DecimalFormat("0.0").format(unit.convertDist((double)carSpeed)));
             ++speedCount;
         }
         Object gpsSpeedObj = mValues.get(R.string.col_route_speed_mps);
@@ -73,7 +75,7 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
                 speedValue.append(" / ");
             }
             speedHeader.append(" gps");
-            speedValue.append(new DecimalFormat("0.0").format(gpsSpeedKmh)).append(" km/h");
+            speedValue.append(new DecimalFormat("0.0").format(unit.convertDist(gpsSpeedKmh)) + " " + unit.mDistUnit + "/h");
             ++speedCount;
         }
         if (speedCount > 0) {
@@ -104,7 +106,9 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         Object remainingRange = mValues.get(R.string.col_range_estimate_km);
         Object extraWithClimateOff = mValues.get(R.string.col_range_estimate_for_climate_km);
         if (remainingRange != null && extraWithClimateOff != null) {
-            mItems.add(new ListViewItem("Car estimated remaining range (km)", remainingRange.toString()+" km, AC off extra: " + extraWithClimateOff.toString() + " km"));
+            mItems.add(new ListViewItem("Car estimated remaining range ("+unit.mDistUnit+")",
+                    new DecimalFormat("0.0").format(unit.convertDist((int)remainingRange))+" "+unit.mDistUnit+
+                            ", AC off extra: " + new DecimalFormat("0.0").format(unit.convertDist((double)extraWithClimateOff)) + " "+unit.mDistUnit));
         }
 
         Map<String, Object> consumptions = mValues.find(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption));
@@ -113,12 +117,12 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         for(String key : ranges) {
             Object val = mValues.get(key);
             if (val instanceof Double) {
-                String header = key.replace(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption).concat("_"), "last ").replace(
+                String header = key.replace(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption).concat("_"), "").replace(
                         "_WhPerkm", " kms");
                 while (header.charAt(0) == '0') {
                     header = header.substring(1);
                 }
-                mItems.add(new ListViewItem(header, new DecimalFormat("0.0").format((Double) mValues.get(key)).concat(" Wh/km")));
+                mItems.add(new ListViewItem("last " + header, new DecimalFormat("0.0").format(unit.convertConsumption((double)mValues.get(key))) + " " + unit.mConsumptionUnit));
             }
         }
 

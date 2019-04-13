@@ -7,7 +7,9 @@ import android.os.Bundle;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
+import org.hexpresso.soulevspy.util.Unit;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ public class TireFragment extends ListFragment implements CurrentValuesSingleton
     private List<ListViewItem> mItems = new ArrayList<>();
     private List<ListViewItem> mListItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
+    Unit unit = new Unit();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,11 @@ public class TireFragment extends ListFragment implements CurrentValuesSingleton
         for (String key : keyset) {
             Object obj = kvals.get(key);
             if (obj != null) {
-                mItems.add(new ListViewItem(key, obj.toString()));
+                if (key.contains("temperature")) {
+                    mItems.add(new ListViewItem(key.substring(0, key.length() - 2), new DecimalFormat("0.0").format(unit.convertTemp((int)obj)) + " " + unit.mTempUnit));
+                } else {
+                    mItems.add(new ListViewItem(key, obj.toString() + " psi"));
+                }
             }
         }
 

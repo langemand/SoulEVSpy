@@ -15,11 +15,11 @@ import java.util.TreeSet;
 /**
  * Created by Henrik R. Scheel <henrik.scheel@spjeldager.dk> on 2019-04-08.
  */
-public class ObdGetSupportedServicesCommand extends AbstractCommand {
+public class ObdGetSupportedPIDServicesCommand extends AbstractCommand {
 
     private Map<Integer, Set<Integer>> mSupportedPIDS;
 
-    public ObdGetSupportedServicesCommand(String service) {
+    public ObdGetSupportedPIDServicesCommand(String service) {
         super(service + " 00");
         addResponseFilter(new RegularExpressionResponseFilter("^([0-9A-F]{3}.*)$"));
         withAutoProcessResponse(true);

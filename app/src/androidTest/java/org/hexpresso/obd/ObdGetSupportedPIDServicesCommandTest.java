@@ -1,10 +1,10 @@
-package org.hexpresso.elm327;
+package org.hexpresso.obd;
 
 import android.test.AndroidTestCase;
 
 import junit.framework.Assert;
 
-import org.hexpresso.elm327.commands.protocol.obd.ObdGetSupportedServicesCommand;
+import org.hexpresso.elm327.commands.protocol.obd.ObdGetSupportedPIDServicesCommand;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 
@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class ObdGetSupportedServicesCommandTest extends AndroidTestCase {
+public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
     ByteArrayInputStream input = null;
     ByteArrayOutputStream output = null;
 
@@ -42,7 +42,7 @@ public class ObdGetSupportedServicesCommandTest extends AndroidTestCase {
 
         input = new ByteArrayInputStream((msg0100).getBytes());
 
-        ObdGetSupportedServicesCommand cmd = new ObdGetSupportedServicesCommand("01");
+        ObdGetSupportedPIDServicesCommand cmd = new ObdGetSupportedPIDServicesCommand("01");
             cmd.execute(input, output);
             cmd.doProcessResponse();
 
@@ -57,7 +57,7 @@ public class ObdGetSupportedServicesCommandTest extends AndroidTestCase {
 
         input = new ByteArrayInputStream((msg0900).getBytes());
 
-        ObdGetSupportedServicesCommand cmd = new ObdGetSupportedServicesCommand("09");
+        ObdGetSupportedPIDServicesCommand cmd = new ObdGetSupportedPIDServicesCommand("09");
         cmd.execute(input, output);
         cmd.doProcessResponse();
 

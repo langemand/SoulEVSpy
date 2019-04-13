@@ -89,6 +89,9 @@ public class ObdMessageDataTest extends AndroidTestCase {
 
                 int estimatedRange = ((EstimatedRangeMessageFilter) messageFilter).getEstimatedRangeKm();
                 assertEquals(testIntValue, estimatedRange);
+
+                double extraRange = ((EstimatedRangeMessageFilter) messageFilter).getAdditionalRangeWithClimateOffKm();
+                assertEquals(0.0, extraRange);
             }
         });
 

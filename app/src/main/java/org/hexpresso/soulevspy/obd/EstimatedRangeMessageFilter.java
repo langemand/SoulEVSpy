@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class EstimatedRangeMessageFilter extends ObdMessageFilter {
 
     private int mEstimatedRangeKm = 0;
-    private float mAdditionalRangeWithClimateOffKm = 0;
+    private double mAdditionalRangeWithClimateOffKm = 0;
 
     public EstimatedRangeMessageFilter() {
         super("200");
@@ -33,7 +33,7 @@ public class EstimatedRangeMessageFilter extends ObdMessageFilter {
         mEstimatedRangeKm = ( messageData.getDataByte(2) << 1 )+
                             ( messageData.getDataByte(1) >> 7 );
 
-        mAdditionalRangeWithClimateOffKm = messageData.getDataByte(0) / 10.0f;
+        mAdditionalRangeWithClimateOffKm = messageData.getDataByte(0) / 10.0;
 
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
         vals.set(vals.getPreferences().getContext().getString(R.string.col_range_estimate_km), mEstimatedRangeKm);
@@ -45,7 +45,7 @@ public class EstimatedRangeMessageFilter extends ObdMessageFilter {
     public int getEstimatedRangeKm() {
         return mEstimatedRangeKm;
     }
-    public float getAdditionalRangeWithClimateOffKm() {
+    public double getAdditionalRangeWithClimateOffKm() {
         return mAdditionalRangeWithClimateOffKm;
     }
 }

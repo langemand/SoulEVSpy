@@ -7,6 +7,7 @@ import org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingModes;
 import org.hexpresso.elm327.commands.protocol.obd.OBDSetTimeoutCommand;
 import org.hexpresso.elm327.exceptions.ResponseException;
 import org.hexpresso.elm327.exceptions.StoppedException;
+import org.hexpresso.soulevspy.obd.commands.BasicCommand;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -242,13 +243,18 @@ public class Protocol {
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT FE")); // Forget any previous events
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
+// TODO: Code GetSupportedServicesCommand
+        addCommand(new BasicCommand("01 00"));  // Dump supported Service 01 PIDS
+        addCommand(new BasicCommand("01 20"));  // Dump supported Service 01 PIDS
+        addCommand(new BasicCommand("01 40"));  // Dump supported Service 01 PIDS
+        addCommand(new BasicCommand("09 00"));  // Dump supported Service 09 PIDS
+        addCommand(new BasicCommand("01 01"));  // Service 01 Monitor status
+        addCommand(new BasicCommand("03"));  // Get stored DTC Codes
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CEA")); // Try Turn off CAN extended addressing
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CM 00 00 00 00")); // Try Turn off CAN filter mask bits
 //        addCommand(new RawCommand("AT KW0")); // Try Don't check Key Words
 //        addCommand(new RawCommand("AT IGN")); // Try read ignition state
 
-//DONT        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT S0")); // NOT SUPPORTED: Decoding needs the space for each hex pair...
-//        addCommand(new RawCommand("AT ST FF")); // Attempt to fix issue where initial 09 02 returns "NO DATA"
     }
 
     /**

@@ -13,6 +13,7 @@ import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.activity.MainActivity;
 import org.hexpresso.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
+import org.hexpresso.soulevspy.util.Unit;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class BatteryFragment extends ListFragment implements CurrentValuesSingle
     private List<ListViewItem> mItems = new ArrayList<>();
     private List<ListViewItem> mListItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
+    private Unit unit = new Unit();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,8 +73,15 @@ public class BatteryFragment extends ListFragment implements CurrentValuesSingle
             }
             Object val = battVals.get(key);
             if (val != null) {
+                if (val instanceof Integer) {
+                    val = new Double((int)val);
+                }
                 if (val instanceof Double) {
-                    mItems.add(new ListViewItem(key, new DecimalFormat("0.00####").format(val)));
+                    if (key.endsWith("temperature_C")) {
+                        mItems.add(new ListViewItem(key.substring(0,key.length()-2), new DecimalFormat("0.######").format(unit.convertTemp((double)val)) + " " + unit.mTempUnit));
+                    } else {
+                        mItems.add(new ListViewItem(key, new DecimalFormat("0.######").format(val)));
+                    }
                 } else {
                     mItems.add(new ListViewItem(key, val.toString()));
                 }
