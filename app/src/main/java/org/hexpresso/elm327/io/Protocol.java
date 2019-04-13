@@ -1,8 +1,6 @@
 package org.hexpresso.elm327.io;
 
 import org.hexpresso.elm327.commands.Command;
-import org.hexpresso.elm327.commands.protocol.RawCommand;
-import org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand;
 import org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingModes;
 import org.hexpresso.elm327.commands.protocol.obd.OBDSetTimeoutCommand;
 import org.hexpresso.elm327.exceptions.ResponseException;

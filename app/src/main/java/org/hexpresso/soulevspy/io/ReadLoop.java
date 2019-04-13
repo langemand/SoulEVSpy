@@ -8,6 +8,7 @@ import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.protocol.TriggerCommand;
 import org.hexpresso.elm327.io.Protocol;
 import org.hexpresso.elm327.io.Service;
+import org.hexpresso.elm327.log.CommLog;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
@@ -111,6 +112,7 @@ public class ReadLoop {
             if (mService.getProtocol().numberOfQueuedCommands() > 0) { // Communication issues may delay response, wait a bit in that case
                 SystemClock.sleep(100L);
             } else {
+                CommLog.getInstance().flush();
                 for (Command command : mCommands) {
                     mService.getProtocol().addCommand(command);
                 }

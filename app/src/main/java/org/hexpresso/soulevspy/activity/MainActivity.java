@@ -452,6 +452,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     @Override
     protected void onStop() {
         super.onStop();
+        CommLog.getInstance().flush();
         if (!mDevice.isConnected()) {
             mPosition.listen(false);
         }
