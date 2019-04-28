@@ -1,6 +1,7 @@
 package org.hexpresso.elm327;
 
 import android.test.AndroidTestCase;
+import android.util.Pair;
 
 import junit.framework.Assert;
 
@@ -10,12 +11,17 @@ import org.hexpresso.elm327.commands.ResponseFilter;
 import org.hexpresso.elm327.commands.general.VehicleIdentifierNumberCommand;
 import org.hexpresso.elm327.commands.protocol.PrintVersionIdCommand;
 import org.hexpresso.elm327.commands.protocol.ReadInputVoltageCommand;
+import org.hexpresso.elm327.exceptions.MisunderstoodCommandException;
+import org.hexpresso.soulevspy.Responder;
 import org.hexpresso.soulevspy.obd.commands.BatteryManagementSystemCommand;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-24.
@@ -152,23 +158,34 @@ public class CommandTest extends AndroidTestCase {
     /**
      *
      */
-    public void testBmsCommand() {
+    public void testBmsCommand() throws IOException {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
         vals.setPreferences(prefs);
 
-        input = new ByteArrayInputStream((msgOk + msgOk + msg2101 + msg2102 + msg2103 + msg2104 + msg2105).getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("AT SH 7DF", msgOk),
+                new Pair<String, String>("AT CRA 7EC", msgOk),
+                new Pair<String, String>("21 01", msg2101),
+                new Pair<String, String>("21 02", msg2102),
+                new Pair<String, String>("21 03", msg2103),
+                new Pair<String, String>("21 04", msg2104),
+                new Pair<String, String>("21 05", msg2105)
+                );
+        Responder responder = new Responder(reqres);
 
         BatteryManagementSystemCommand cmd = (BatteryManagementSystemCommand) new BatteryManagementSystemCommand();
+
         try {
-            cmd.execute(input, output);
+            cmd.execute(responder.getInput(), responder.getOutput());
             cmd.doProcessResponse();
         }
         catch(Exception e)
         {
-            // ...
+            assertEquals("", e.toString());
         }
 
+        Assert.assertEquals("", responder.getMessages());
         Assert.assertEquals(10.5, vals.get("battery.SOC_pct"));
     }
 
@@ -177,16 +194,25 @@ public class CommandTest extends AndroidTestCase {
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
         vals.setPreferences(prefs);
 
-        input = new ByteArrayInputStream((msgOk + msgOk + ray2101 + ray2102 + ray2103 + ray2104 + ray2105).getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("AT SH 7DF", msgOk),
+                new Pair<String, String>("AT CRA 7EC", msgOk),
+                new Pair<String, String>("21 01", ray2101),
+                new Pair<String, String>("21 02", ray2102),
+                new Pair<String, String>("21 03", ray2103),
+                new Pair<String, String>("21 04", ray2104),
+                new Pair<String, String>("21 05", ray2105)
+        );
+        Responder responder = new Responder(reqres);
 
         BatteryManagementSystemCommand cmd = (BatteryManagementSystemCommand) new BatteryManagementSystemCommand();
         try {
-            cmd.execute(input, output);
+            cmd.execute(responder.getInput(), responder.getOutput());
             cmd.doProcessResponse();
         }
         catch(Exception e)
         {
-            // ...
+            assertEquals("", e.toString());
         }
 
         Assert.assertEquals(39.0, vals.get("battery.SOC_pct"));
@@ -194,15 +220,18 @@ public class CommandTest extends AndroidTestCase {
 
     public void testReadInputVoltage() {
         final String response = "12.5V\r>";
-        input = new ByteArrayInputStream(response.getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("AT RV", response)
+        );
+        Responder responder = new Responder(reqres);
 
         ReadInputVoltageCommand cmd = (ReadInputVoltageCommand) new ReadInputVoltageCommand().withAutoProcessResponse(true);
         try {
-            cmd.execute(input, output);
+            cmd.execute(responder.getInput(), responder.getOutput());
         }
         catch(Exception e)
         {
-            // ...
+            assertEquals("", e.toString());
         }
 
         Assert.assertEquals(12.5, cmd.getInputVoltage());
@@ -210,31 +239,43 @@ public class CommandTest extends AndroidTestCase {
 
     public void testNoResponseReadInputVoltage() {
         final String response = "?\r>";
-        input = new ByteArrayInputStream(response.getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("AT.?RV", response)
+        );
+        Responder responder = new Responder(reqres);
 
+        boolean caught = false;
         ReadInputVoltageCommand cmd = (ReadInputVoltageCommand) new ReadInputVoltageCommand().withAutoProcessResponse(true);
         try {
-            cmd.execute(input, output);
+            cmd.execute(responder.getInput(), responder.getOutput());
+        }
+        catch (MisunderstoodCommandException m)
+        {
+            caught = true;
         }
         catch(Exception e)
         {
-            // ...
+            assertEquals("", e.toString());
         }
 
+        Assert.assertTrue(caught);
         Assert.assertEquals(0.0, cmd.getInputVoltage());
     }
 
     public void testVersion() {
         final String response = "ELM327 v1.5\r>";
-        input = new ByteArrayInputStream(response.getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("AT I", response)
+        );
+        Responder responder = new Responder(reqres);
 
         PrintVersionIdCommand cmd = (PrintVersionIdCommand) new PrintVersionIdCommand().withAutoProcessResponse(true);
         try {
-            cmd.execute(input, output);
+            cmd.execute(responder.getInput(), responder.getOutput());
         }
         catch(Exception e)
         {
-            // ...
+            assertEquals("", e.toString());
         }
 
         Assert.assertEquals("ELM327 v1.5", cmd.getVersion());
@@ -246,15 +287,19 @@ public class CommandTest extends AndroidTestCase {
                            "7EA 22 37 31 32 33 34 35 36\r" +
                            ">";
 
-        input = new ByteArrayInputStream(vinSoulEv.getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("09 02", vinSoulEv)
+        );
+        Responder responder = new Responder(reqres);
 
         VehicleIdentifierNumberCommand cmd = (VehicleIdentifierNumberCommand) new VehicleIdentifierNumberCommand().withAutoProcessResponse(true);
         try {
-            cmd.execute(input, output);
+            cmd.execute(responder.getInput(), responder.getOutput());
+            cmd.doProcessResponse();
         }
         catch(Exception e)
         {
-            // ...
+            assertEquals("", e.toString());
         }
 
         Assert.assertEquals("KNDJX3AE1G7123456", cmd.getValue());
@@ -265,15 +310,18 @@ public class CommandTest extends AndroidTestCase {
                                 "7EA 03 7F 09 12\r" +
                                 ">";
 
-        input = new ByteArrayInputStream(vinRayEv.getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("09 02", vinRayEv)
+        );
+        Responder responder = new Responder(reqres);
 
         VehicleIdentifierNumberCommand cmd = (VehicleIdentifierNumberCommand) new VehicleIdentifierNumberCommand().withAutoProcessResponse(true);
         try {
-            cmd.execute(input, output);
+            cmd.execute(responder.getInput(), responder.getOutput());
         }
         catch(Exception e)
         {
-            // ...
+            assertEquals("", e.toString());
         }
 
         Assert.assertTrue(cmd.getValue().startsWith("error"));

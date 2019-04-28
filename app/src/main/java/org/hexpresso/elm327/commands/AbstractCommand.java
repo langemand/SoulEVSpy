@@ -83,6 +83,10 @@ public abstract class AbstractCommand implements Command {
             return;
         }
         Log.d(AbstractCommand.class.getSimpleName(), "Enter execute");
+
+        // Skip output from previous commands
+        flushInput(in);
+
         // Send the command
         mRunStartTimestamp = System.currentTimeMillis();
         send(out);

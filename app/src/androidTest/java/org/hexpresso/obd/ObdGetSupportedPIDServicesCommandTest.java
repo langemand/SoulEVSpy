@@ -1,22 +1,21 @@
 package org.hexpresso.obd;
 
 import android.test.AndroidTestCase;
+import android.util.Pair;
 
 import junit.framework.Assert;
 
 import org.hexpresso.elm327.commands.protocol.obd.ObdGetSupportedPIDServicesCommand;
+import org.hexpresso.soulevspy.Responder;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
-    ByteArrayInputStream input = null;
-    ByteArrayOutputStream output = null;
-
     final String msgOk = "OK \r" +
             ">";
 
@@ -40,11 +39,16 @@ public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
         vals.setPreferences(prefs);
 
-        input = new ByteArrayInputStream((msg0100).getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("01.?00", msg0100)
+        );
+        Responder responder = new Responder(reqres);
 
         ObdGetSupportedPIDServicesCommand cmd = new ObdGetSupportedPIDServicesCommand("01");
-            cmd.execute(input, output);
-            cmd.doProcessResponse();
+        cmd.execute(responder.getInput(), responder.getOutput());
+        cmd.doProcessResponse();
+
+        Thread.sleep(20);
 
         Assert.assertEquals("01,20", vals.get("OBD.SupportedPids.01.7EA"));
         Assert.assertEquals("01,20", vals.get("OBD.SupportedPids.01.7EC"));
@@ -55,22 +59,16 @@ public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
         vals.setPreferences(prefs);
 
-        input = new ByteArrayInputStream((msg0900).getBytes());
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("09.?00", msg0900)
+        );
+        Responder responder = new Responder(reqres);
 
         ObdGetSupportedPIDServicesCommand cmd = new ObdGetSupportedPIDServicesCommand("09");
-        cmd.execute(input, output);
+        cmd.execute(responder.getInput(), responder.getOutput());
         cmd.doProcessResponse();
 
         Assert.assertEquals("04,06,0A", vals.get("OBD.SupportedPids.09.7EC"));
         Assert.assertEquals("02,04,06,0A", vals.get("OBD.SupportedPids.09.7EA"));
     }
-
-    /**
-     *
-     */
-    @Override
-    protected void setUp() {
-        output = new ByteArrayOutputStream();
-    }
-
 }

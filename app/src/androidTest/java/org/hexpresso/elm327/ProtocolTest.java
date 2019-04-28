@@ -1,16 +1,18 @@
 package org.hexpresso.elm327;
 
 import android.test.AndroidTestCase;
+import android.util.Pair;
 
 import junit.framework.Assert;
 
 import org.hexpresso.elm327.commands.general.VehicleIdentifierNumberCommand;
 import org.hexpresso.elm327.io.Message;
 import org.hexpresso.elm327.io.Protocol;
+import org.hexpresso.soulevspy.Responder;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-11-01.
@@ -36,13 +38,15 @@ public class ProtocolTest extends AndroidTestCase {
                            "7EA 22 37 31 32 33 34 35 36 \r" +
                 "> ";
 
-        ByteArrayInputStream input = new ByteArrayInputStream(vin.getBytes());
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("09 02", vin)
+        );
+        Responder responder = new Responder(reqres);
 
         VehicleIdentifierNumberCommand vehicleIdentifierNumberCommand = new VehicleIdentifierNumberCommand();
 
         protocol.addCommand(vehicleIdentifierNumberCommand);
-        protocol.start(input, output);
+        protocol.start(responder.getInput(), responder.getOutput());
 
         Thread.sleep(20);
 
@@ -70,13 +74,15 @@ public class ProtocolTest extends AndroidTestCase {
                         "7EA 03 7F 1A 12\r" +
                         "> ";
 
-        ByteArrayInputStream input = new ByteArrayInputStream(ionicResponseTo0902.getBytes());
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("09 02", ionicResponseTo0902)
+        );
+        Responder responder = new Responder(reqres);
 
         VehicleIdentifierNumberCommand vehicleIdentifierNumberCommand = new VehicleIdentifierNumberCommand();
 
         protocol.addCommand(vehicleIdentifierNumberCommand);
-        protocol.start(input, output);
+        protocol.start(responder.getInput(), responder.getOutput());
 
         Thread.sleep(20);
 
