@@ -3,6 +3,7 @@ package org.hexpresso.elm327.io;
 import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingModes;
 import org.hexpresso.elm327.commands.protocol.obd.OBDSetTimeoutCommand;
+import org.hexpresso.elm327.exceptions.NoDataException;
 import org.hexpresso.elm327.exceptions.ResponseException;
 import org.hexpresso.elm327.exceptions.StoppedException;
 import org.hexpresso.soulevspy.obd.commands.BasicCommand;
@@ -155,11 +156,13 @@ public class Protocol {
 //                        Toast.makeText(CurrentValuesSingleton.getInstance().getPreferences().getContext(), err, Toast.LENGTH_SHORT).show();
 //                    }
 //                });
-                mExecutionThread.interrupt();
-                mStatus = e.getMessage();
-                if (mStatus == null) {
-                    mStatus = "ResponseException while executing command";
-                }
+                if (!(e instanceof NoDataException)) {
+                    mExecutionThread.interrupt();
+                    mStatus = e.getMessage();
+                    if (mStatus == null) {
+                        mStatus = "ResponseException while executing command";
+                    }
+                } // else ignore NO DATA, carry on with the next command
             }
 
             if(message != null) {
