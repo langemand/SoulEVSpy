@@ -35,7 +35,7 @@ public abstract class AbstractCommand implements Command {
     private long mRunEndTimestamp;                             // Timestamp after receiving the command response
     private boolean mWithAutoProcessResponse = false;          //
     private boolean mStopReadingAtLineEnd = false;             // If false, stop reading at '>', if true, at '\r'
-    private long mTimeout_ms = 1000L;                          // Input timeout
+    private long mTimeout_ms = 1500L;                          // Input timeout
     private boolean mSkip = false;
     /**
      * Error classes to be tested in order
@@ -172,9 +172,11 @@ public abstract class AbstractCommand implements Command {
             if(c == '>' && !mStopReadingAtLineEnd)
             {
                 // read until '>' arrives
+                flushInput(in);
                 break;
             }
             if (mStopReadingAtLineEnd && c == '\r') {
+                flushInput(in);
                 break;
             }
         }
@@ -246,5 +248,13 @@ public abstract class AbstractCommand implements Command {
         boolean prevSkip = mSkip;
         mSkip = doSkip;
         return prevSkip;
+    }
+
+    private void flushInput(InputStream in) throws IOException {
+        while (in.available() > 0) {
+            final byte b = (byte) in.read();
+            if (b == -1) // -1 if the end of the stream is reached
+                break;
+        }
     }
 }
