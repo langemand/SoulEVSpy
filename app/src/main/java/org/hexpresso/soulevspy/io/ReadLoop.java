@@ -81,7 +81,7 @@ public class ReadLoop {
                 res.getString(R.string.col_battery_airbag_hwire_duty),
                 res.getString(R.string.col_battery_available_charge_power_kW),
                 res.getString(R.string.col_battery_available_discharge_power_kW)));
-        for (int i = 0; i < 104; ++i) {
+        for (int i = 0; i < 100; ++i) {
             mColumnsToLog.add("battery.cell_voltage" + oneDigitFormat.format(i) + "_V");
         }
         mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_battery_drive_motor_rpm),
