@@ -1,18 +1,16 @@
 package org.hexpresso.soulevspy.io;
 
 import android.content.res.Resources;
-import android.os.Environment;
 import android.os.SystemClock;
 
 import org.hexpresso.elm327.commands.Command;
-import org.hexpresso.elm327.commands.protocol.TriggerCommand;
-import org.hexpresso.elm327.io.Protocol;
 import org.hexpresso.elm327.io.Service;
 import org.hexpresso.elm327.log.CommLog;
 import org.hexpresso.soulevspy.R;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,11 +25,13 @@ public class ReadLoop {
     private ArrayList<Command> mCommands;
     private Thread mLoopThread = null;
     private List<String> mColumnsToLog = null;
+    private DecimalFormat oneDigitFormat = new DecimalFormat("0");
 
     public ReadLoop(ClientSharedPreferences sharedPreferences, Service service, ArrayList<Command> commands) {
         mSharedPreferences = sharedPreferences;
         Resources res = mSharedPreferences.getContext().getResources();
-        mColumnsToLog = Arrays.asList(res.getString(R.string.col_VIN)
+        mColumnsToLog = new ArrayList<String>();
+                mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_VIN)
                 , res.getString(R.string.col_ELM327_voltage)
                 , res.getString(R.string.col_system_scan_start_time_ms)
                 , res.getString(R.string.col_system_scan_end_time_ms)
@@ -65,19 +65,45 @@ public class ReadLoop {
                 , res.getString(R.string.col_battery_fan_feedback_signal)
                 , res.getString(R.string.col_battery_inlet_temperature_C)
                 , res.getString(R.string.col_battery_min_temperature_C)
-                , res.getString(R.string.col_battery_max_temperature_C)
-                , res.getString(R.string.col_battery_module_temperature) + "1_C"
-                , res.getString(R.string.col_battery_module_temperature) + "2_C"
-                , res.getString(R.string.col_battery_module_temperature) + "3_C"
-                , res.getString(R.string.col_battery_module_temperature) + "4_C"
-                , res.getString(R.string.col_battery_module_temperature) + "5_C"
-                , res.getString(R.string.col_battery_module_temperature) + "6_C"
-                , res.getString(R.string.col_battery_module_temperature) + "7_C"
-                , res.getString(R.string.col_battery_module_temperature) + "8_C"
-                , res.getString(R.string.col_battery_heat1_temperature_C)
+                , res.getString(R.string.col_battery_max_temperature_C)));
+        for (int i = 1; i <= 8; ++i) {
+            mColumnsToLog.add(res.getString(R.string.col_battery_module_temperature) + oneDigitFormat.format(i) + "_C");
+        }
+        mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_battery_heat1_temperature_C)
                 , res.getString(R.string.col_battery_heat2_temperature_C)
                 , res.getString(R.string.col_battery_auxiliaryVoltage_V)
-        );
+        ));
+
+        mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_battery_ChaDeMo_is_plugged),
+                res.getString(R.string.col_battery_J1772_is_plugged),
+                res.getString(R.string.col_battery_accumulative_charge_current_Ah),
+                res.getString(R.string.col_battery_accumulative_discharge_current_Ah),
+                res.getString(R.string.col_battery_airbag_hwire_duty),
+                res.getString(R.string.col_battery_available_charge_power_kW),
+                res.getString(R.string.col_battery_available_discharge_power_kW)));
+        for (int i = 0; i < 104; ++i) {
+            mColumnsToLog.add("battery.cell_voltage" + oneDigitFormat.format(i) + "_V");
+        }
+        mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_battery_drive_motor_rpm),
+                res.getString(R.string.col_battery_fan_status),
+                res.getString(R.string.col_battery_max_cell_detoriation_n),
+                res.getString(R.string.col_battery_max_cell_detoriation_pct),
+                res.getString(R.string.col_battery_max_cell_voltage_V),
+                res.getString(R.string.col_battery_max_cell_voltage_n),
+                res.getString(R.string.col_battery_min_cell_detoriation_n),
+                res.getString(R.string.col_battery_min_cell_detoriation_pct),
+                res.getString(R.string.col_battery_min_cell_voltage_V),
+                res.getString(R.string.col_battery_min_cell_voltage_n),
+                res.getString(R.string.col_calc_battery_soh_pct),
+//                res.getString(R.string.col_watcher_consumption),
+//                res.getString(R.string.col_nom_capacity_kWh),
+//                res.getString(R.string.col_orig_capacity_kWh),
+//                res.getString(R.string.charger_locations_update_time_ms),
+                res.getString(R.string.col_ldc_in_DC_voltage_V)));
+        for (int i = 1; i <=4; ++i) {
+            mColumnsToLog.add("tire.pressure" + oneDigitFormat.format(i) + "_psi");
+            mColumnsToLog.add("tire.temperature" + oneDigitFormat.format(i) + "_C");
+        }
         mService = service;
         mCommands = commands;
 
