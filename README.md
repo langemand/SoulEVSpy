@@ -23,7 +23,7 @@ By even downloading this software, or the source code provided on GitHub, you ag
 
 Latest recommended APK for manual install: 
 
-http://spjeldager.dk/elbil/SoulEVSpy-0.1.6-3247-debug.apk
+http://spjeldager.dk/elbil/SoulEVSpy-0.1.6-3250-debug.apk
 
 Outdated versions: 
 
