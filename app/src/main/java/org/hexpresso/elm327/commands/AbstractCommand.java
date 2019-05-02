@@ -35,7 +35,7 @@ public abstract class AbstractCommand implements Command {
     private long mRunEndTimestamp;                             // Timestamp after receiving the command response
     private boolean mWithAutoProcessResponse = false;          //
     private boolean mStopReadingAtLineEnd = false;             // If false, stop reading at '>', if true, at '\r'
-    private long mTimeout_ms = 1500L;                          // Input timeout
+    private long mTimeout_ms = 1200L;                          // Input timeout
     private boolean mSkip = false;
     /**
      * Error classes to be tested in order
@@ -161,10 +161,14 @@ public abstract class AbstractCommand implements Command {
                 if (runStartTimestamp + mTimeout_ms < System.currentTimeMillis()) {
                     throw new TimeoutException("readRawData timed out while waiting for input");
                 }
-                SystemClock.sleep(10);
+                SystemClock.sleep(1);
                 continue;
             }
             final byte b = (byte)in.read();
+            if (b == 0)
+            {
+                continue;
+            }
             if(b == -1) // -1 if the end of the stream is reached
             {
                 // End of stream reached
