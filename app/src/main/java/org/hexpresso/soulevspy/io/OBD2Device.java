@@ -93,7 +93,6 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         }
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
 //        mLoopCommands.add(new BasicCommand("AT AR")); // Try Auto Receive
-//DONT        mLoopCommands.add(new BasicCommand("AT FI")); // Try Fast Initialisation
 //        mLoopCommands.add(new BasicCommand("01 00")); // Try Get supported PIDs
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));

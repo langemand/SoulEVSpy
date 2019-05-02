@@ -1,8 +1,11 @@
 package org.hexpresso.elm327.io;
 
+import org.hexpresso.elm327.commands.AbstractCommand;
 import org.hexpresso.elm327.commands.Command;
+import org.hexpresso.elm327.commands.general.EcuNameCommand;
 import org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingModes;
 import org.hexpresso.elm327.commands.protocol.obd.OBDSetTimeoutCommand;
+import org.hexpresso.elm327.commands.protocol.obd.ObdGetSupportedPIDServicesCommand;
 import org.hexpresso.elm327.exceptions.NoDataException;
 import org.hexpresso.elm327.exceptions.ResponseException;
 import org.hexpresso.elm327.exceptions.StoppedException;
@@ -37,6 +40,8 @@ public class Protocol {
     private String mStatus = new String();
 
     private int mTimeoutCount = 0;
+
+    private AbstractCommand mStopCommand = new org.hexpresso.elm327.commands.protocol.RawCommand(" ");
 
     public Protocol() {
 
@@ -117,6 +122,9 @@ public class Protocol {
                 try {
                     message.getCommand().execute(mInputStream, mOutputStream);
                 } catch (TimeoutException e) {
+                    try {
+                        mStopCommand.execute(mInputStream, mOutputStream);
+                    } catch (Exception ex) {}
                     ++mTimeoutCount;
                     message.setState(Message.State.ERROR_TIMEOUT);
                     continue;
@@ -226,7 +234,7 @@ public class Protocol {
      * Initialize ELM327 device
      */
     public synchronized void init() {
-        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand(" ")); // Ensure monitoring is stopped, just in case
+        addCommand(mStopCommand); // Ensure monitoring is stopped, just in case
         addCommand(new org.hexpresso.elm327.commands.protocol.PrintVersionIdCommand());
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT D")); // Set all to default
         addCommand(new org.hexpresso.elm327.commands.protocol.ResetAllCommand());
@@ -236,6 +244,7 @@ public class Protocol {
         addCommand(new org.hexpresso.elm327.commands.protocol.LinefeedsCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.HeadersCommand(false));
         addCommand(new org.hexpresso.elm327.commands.protocol.HeadersCommand(true));
+//DONT        addCommand(new BasicCommand("AT FI")); // Try Fast Initialisation - returns "?" causing throw of MisunderstoodCommandException
         addCommand(new org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingCommand(OBDAdaptiveTimingModes.TIMING_AUTO1));
         addCommand(new org.hexpresso.elm327.commands.protocol.obd.OBDAutomaticallyReceiveCommand());
         addCommand(new org.hexpresso.elm327.commands.protocol.obd.OBDAllowLongMessagesCommand());
@@ -245,10 +254,11 @@ public class Protocol {
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
 // TODO: Code GetSupportedServicesCommand
-        addCommand(new BasicCommand("01 00"));  // Dump supported Service 01 PIDS
+        addCommand(new ObdGetSupportedPIDServicesCommand("01"));  // Get supported Service 01 PIDS
         addCommand(new BasicCommand("01 20"));  // Dump supported Service 01 PIDS
-        addCommand(new BasicCommand("01 40"));  // Dump supported Service 01 PIDS
-        addCommand(new BasicCommand("09 00"));  // Dump supported Service 09 PIDS
+        //addCommand(new BasicCommand("01 40"));  // Dump supported Service 01 PIDS
+        addCommand(new ObdGetSupportedPIDServicesCommand("09"));  // Get supported Service 09 PIDS
+//        addCommand(new EcuNameCommand()); // 09 04: Get ECU name
         addCommand(new BasicCommand("01 01"));  // Service 01 Monitor status
         addCommand(new BasicCommand("03"));  // Get stored DTC Codes
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CEA")); // Try Turn off CAN extended addressing
