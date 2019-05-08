@@ -41,7 +41,6 @@ public class EcuNameCommandTest extends AndroidTestCase {
             assertEquals("", e.getMessage());
         }
 
-        // TODO: EcuCommand not debugged yet
         assertEquals("", ((String)vals.get("ECU.name.7EA")));
         assertEquals("PSEVB5100R", ((String)vals.get("ECU.name.7EC")));
     }
