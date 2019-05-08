@@ -3,7 +3,7 @@ package org.hexpresso.obd;
 import android.test.AndroidTestCase;
 import android.util.Pair;
 
-import org.hexpresso.elm327.commands.general.EcuNameCommand;
+import org.hexpresso.elm327.commands.general.EcuCalibrationValueCommand;
 import org.hexpresso.soulevspy.Responder;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
@@ -11,28 +11,26 @@ import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 import java.util.Arrays;
 import java.util.List;
 
-public class EcuNameCommandTest extends AndroidTestCase {
-    final String soulEv2015EcuName = "7EC 10 17 49 0A 01 42 45 43 \r" +
-            "7EA 10 17 49 0A 01 00 00 00 \r" +
-            "7EC 21 4D 2D 42 2B 45 6E 65 \r" +
+public class EcuCalibrationValueCommandTest extends AndroidTestCase {
+    final String soulEv2015EcuCalibrationValue = "7EA 10 13 49 04 01 00 00 00 \r" +
+            "7EC 10 13 49 04 01 50 53 45 \r" +
             "7EA 21 00 00 00 00 00 00 00 \r" +
+            "7EC 21 56 42 35 31 30 30 52 \r" +
             "7EA 22 00 00 00 00 00 00 00 \r" +
-            "7EC 22 72 67 79 43 74 72 6C \r" +
-            "7EC 23 00 00 00 00 00 00 00 \r" +
-            "7EA 23 00 00 00 00 00 00 00\r" +
+            "7EC 22 00 00 00 00 00 00 00 \r" +
             ">";
 
-    public void testSoulEcuName() {
+    public void testSoulEcuCalibrationValue() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
         vals.setPreferences(prefs);
 
         List<Pair<String, String>> reqres = Arrays.asList(
-                new Pair<String, String>("09 0A", soulEv2015EcuName)
+                new Pair<String, String>("09 04", soulEv2015EcuCalibrationValue)
         );
         Responder responder = new Responder(reqres);
 
-        EcuNameCommand cmd = new EcuNameCommand();
+        EcuCalibrationValueCommand cmd = new EcuCalibrationValueCommand();
         try {
             cmd.execute(responder.getInput(), responder.getOutput());
             cmd.doProcessResponse();
@@ -40,7 +38,7 @@ public class EcuNameCommandTest extends AndroidTestCase {
             assertEquals("", e.getMessage());
         }
 
-        assertEquals("", ((String)vals.get("ECU.name.7EA")));
-        assertEquals("BECM-B+EnergyCtrl", ((String)vals.get("ECU.name.7EC")));
+        assertEquals("", ((String)vals.get("ECU.calibration.7EA")));
+        assertEquals("PSEVB5100R", ((String)vals.get("ECU.calibration.7EC")));
     }
 }

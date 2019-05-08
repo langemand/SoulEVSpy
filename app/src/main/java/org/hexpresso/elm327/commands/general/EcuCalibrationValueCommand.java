@@ -13,12 +13,12 @@ import java.util.Map;
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-29.
  */
-public class EcuNameCommand extends AbstractCommand {
+public class EcuCalibrationValueCommand extends AbstractCommand {
 
     private Map<Integer, String> mEcu = null;
 
-    public EcuNameCommand() {
-        super("09 0A");
+    public EcuCalibrationValueCommand() {
+        super("09 04");
 
         withAutoProcessResponse(true);
         // This command assumes headers are turned on!
@@ -29,7 +29,7 @@ public class EcuNameCommand extends AbstractCommand {
     public void doProcessResponse() {
         getValue();
         for (Integer senderAddress : mEcu.keySet()) {
-            String key = "ECU.name." + String.format("%03X", senderAddress);
+            String key = "ECU.calibration." + String.format("%03X", senderAddress);
             CurrentValuesSingleton.getInstance().set(key, mEcu.get(senderAddress));
         }
     }
@@ -60,7 +60,6 @@ public class EcuNameCommand extends AbstractCommand {
                 skip(true);
             }
         } catch (Exception e) {
-            int i = 0;
 //            mECU = "error: " + str.toString();
         }
         return mEcu;
