@@ -144,17 +144,29 @@ public class VmcuCommand extends AbstractMultiCommand {
             // TODO: Unknown
 
             // Motor Actual Speed
-            int motorActualRpm = obdData02_1.getDataByte(6)*256 + obdData02_1.getDataByte(5);
+            int msb = obdData02_1.getDataByte(6);
+            int motorActualRpm = msb*256 + obdData02_1.getDataByte(5);
+            if ((msb & 0x80) != 0) {
+                motorActualRpm = motorActualRpm -  - 65536;
+            }
             vals.set(R.string.col_vmcu_motor_actual_speed_rpm, motorActualRpm);
 
             ObdMessageData obdData02_2 = new ObdMessageData(lines02.get(2));
 
             // Motor Torque Command
-            int motorTorqueCommandNm = obdData02_2.getDataByte(1)*256 + obdData02_1.getDataByte(7);
+            msb = obdData02_2.getDataByte(1);
+            int motorTorqueCommandNm = msb*256 + obdData02_1.getDataByte(7);
+            if ((msb & 0x80) != 0) {
+                motorTorqueCommandNm = motorTorqueCommandNm -  - 65536;
+            }
             vals.set(R.string.col_vmcu_motor_torque_command_Nm, motorTorqueCommandNm);
 
             // Estimated Motor Torque
-            int estimatedMotorTorqueNm = obdData02_2.getDataByte(3)*256 + obdData02_2.getDataByte(2);
+            msb = obdData02_2.getDataByte(3);
+            int estimatedMotorTorqueNm = msb*256 + obdData02_2.getDataByte(2);
+            if ((msb & 0x80) != 0) {
+                estimatedMotorTorqueNm = estimatedMotorTorqueNm -  - 65536;
+            }
             vals.set(R.string.col_vmcu_estimated_motor_torque_Nm, estimatedMotorTorqueNm);
 
             // TODO: Motor Resolver CAL Command
