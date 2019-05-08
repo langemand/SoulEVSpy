@@ -117,9 +117,9 @@
     <string name="col_ldc_in_DC_voltage_V">ldc.in_DC_V</string>
     <string name="col_ldc_temperature_C">ldc.temperature_C</string>
 
-    <string name="col_obc_ac_in_h_V">obc.in_AC_high_V</string>
-    <string name="col_obc_ac_in_l_V">obc.in_AC_low_V</string>
-
+    <string name="col_obc_ac_in_V">obc.in_AC_V</string>
+    <string name="col_obc_dc_out_V">obc.out_DC_V</string>
+    <string name="col_obc_ac_in_A">obc.in_AC_A</string>
     <string name="col_obc_pilot_duty_cycle">obc.pilot_duty_cycle</string>
     <string name="col_obc_temp_1_C">obc.temp_1_C</string>
     <string name="col_obc_temp_2_C">obc.temp_2_C</string>
