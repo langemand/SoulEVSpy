@@ -117,6 +117,35 @@
     <string name="col_ldc_in_DC_voltage_V">ldc.in_DC_V</string>
     <string name="col_ldc_temperature_C">ldc.temperature_C</string>
 
+    <string name="col_obc_ac_in_h_V">obc.in_AC_high_V</string>
+    <string name="col_obc_ac_in_l_V">obc.in_AC_low_V</string>
+
+    <string name="col_obc_pilot_duty_cycle">obc.pilot_duty_cycle</string>
+    <string name="col_obc_temp_1_C">obc.temp_1_C</string>
+    <string name="col_obc_temp_2_C">obc.temp_2_C</string>
+    <string name="col_obc_temp_3_C">obc.temp_3_C</string>
+
+    <string name="col_vmcu_gear_state">vmcu.gear_state</string>
+    <string name="col_vmcu_eco_off_switch">vmcu.eco_off_switch</string>
+    <string name="col_vmcu_brake_lamp_on_switch">vmcu.brake_lamp_on_switch</string>
+    <string name="col_vmcu_brake_off_switch">vmcu.brake_off_switch</string>
+    <string name="col_vmcu_ldc_inhibit">vmcu.LDC_inhibit</string>
+    <string name="col_vmcu_fault_flag_of_mcu">vmcu.fault_flag_of_MCU</string>
+    <string name="col_vmcu_warning_flag_of_mcu">vmcu.warning_flag_of_MCU</string>
+    <string name="col_vmcu_radiator_fan_request_of_motor">vmcu.radiator_fan_request_of_motor</string>
+    <string name="col_vmcu_ignition_1">vmcu.ignition_1</string>
+    <string name="col_vmcu_accel_pedal_depth_pct">vmcu.accel_pedal_depth_pct</string>
+    <string name="col_vmcu_vehicle_speed_kph">vmcu.vehicle_speed_kph</string>
+    <string name="col_vmcu_aux_battery_V">vmcu.aux_battery_V</string>
+    <string name="col_vmcu_inverter_input_V">vmcu.inverter_input_V</string>
+    <string name="col_vmcu_motor_actual_speed_rpm">vmcu.motor_actual_speed_rpm</string>
+    <string name="col_vmcu_motor_torque_command_Nm">vmcu.motor_torque_command_Nm</string>
+    <string name="col_vmcu_estimated_motor_torque_Nm">vmcu.estimated_motor_torque_Nm</string>
+    <string name="col_vmcu_motor_phase_current_RMS_A">vmcu.motor_phase_current_RMS_A</string>
+    <string name="col_vmcu_motor_temp_C">vmcu.motor_temp_C</string>
+    <string name="col_vmcu_mcu_temp_C">vmcu.mcu_temp_C</string>
+    <string name="col_vmcu_heatsink_temp_C">vmcu.heatsink_temp_C</string>
+
     <string name="col_battery_is_charging">battery.is_charging</string>
     <string name="col_battery_ChaDeMo_is_plugged">battery.ChaDeMo_is_plugged</string>
     <string name="col_battery_J1772_is_plugged">battery.J1772_is_plugged</string>
