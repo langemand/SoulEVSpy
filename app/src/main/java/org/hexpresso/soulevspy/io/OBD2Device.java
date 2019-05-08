@@ -29,7 +29,9 @@ import org.hexpresso.soulevspy.obd.Status050MessageFilter;
 import org.hexpresso.soulevspy.obd.commands.BasicCommand;
 import org.hexpresso.soulevspy.obd.commands.FilteredMonitorCommand;
 import org.hexpresso.soulevspy.obd.commands.LowVoltageDCConverterSystemCommand;
+import org.hexpresso.soulevspy.obd.commands.OnBoardChargerCommand;
 import org.hexpresso.soulevspy.obd.commands.TirePressureMSCommand;
+import org.hexpresso.soulevspy.obd.commands.VmcuCommand;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
 import org.hexpresso.elm327.commands.general.VehicleIdentifierNumberCommand;
 import org.hexpresso.soulevspy.obd.commands.BatteryManagementSystemCommand;
@@ -104,7 +106,9 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
         mLoopCommands.add(new BatteryManagementSystemCommand());
+        mLoopCommands.add(new OnBoardChargerCommand());
         mLoopCommands.add(new LowVoltageDCConverterSystemCommand());
+        mLoopCommands.add(new VmcuCommand());
         mLoopCommands.add(new FilteredMonitorCommand(new AmbientTempMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new StateOfChargeWithOneDecimalMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new StateOfChargePreciseMessageFilter()));
