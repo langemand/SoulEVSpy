@@ -32,6 +32,8 @@ public class ReadLoop {
         Resources res = mSharedPreferences.getContext().getResources();
         mColumnsToLog = new ArrayList<String>();
                 mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_VIN)
+                , "ECU.name.7EC"
+                , "OBD.DtcCodes.7EC"
                 , res.getString(R.string.col_ELM327_voltage)
                 , res.getString(R.string.col_system_scan_start_time_ms)
                 , res.getString(R.string.col_system_scan_end_time_ms)

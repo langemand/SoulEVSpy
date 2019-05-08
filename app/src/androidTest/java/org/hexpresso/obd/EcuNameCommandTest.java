@@ -7,7 +7,6 @@ import org.hexpresso.elm327.commands.general.EcuNameCommand;
 import org.hexpresso.soulevspy.Responder;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 import org.hexpresso.soulevspy.util.ClientSharedPreferences;
-import org.junit.Ignore;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +42,7 @@ public class EcuNameCommandTest extends AndroidTestCase {
         }
 
         // TODO: EcuCommand not debugged yet
-//        assertEquals("", ((String)vals.get("ECU.7EA")));
-//        assertEquals("", ((String)vals.get("ECU.7EC")));
+        assertEquals("", ((String)vals.get("ECU.name.7EA")));
+        assertEquals("PSEVB5100R", ((String)vals.get("ECU.name.7EC")));
     }
 }

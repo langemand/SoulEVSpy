@@ -260,7 +260,7 @@ public class Protocol {
         addCommand(new ObdGetSupportedPIDServicesCommand("09"));  // Get supported Service 09 PIDS
         addCommand(new BasicCommand("01 01"));  // Service 01 Monitor status
         addCommand(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
-// TODO:        addCommand(new EcuNameCommand()); // Get ECU name
+        addCommand(new EcuNameCommand()); // Get ECU name
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CEA")); // Try Turn off CAN extended addressing
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CM 00 00 00 00")); // Try Turn off CAN filter mask bits
 //        addCommand(new RawCommand("AT KW0")); // Try Don't check Key Words

@@ -75,11 +75,14 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         if (odo != null) {
             mItems.add(new ListViewItem("Odometer", new DecimalFormat("0.0").format(unit.convertDist((double)odo))+" "+unit.mDistUnit));
         }
-//        // ECU name(s)
-//        Object ecuName = mValues.get("ECU");
-//        if (ecuName != null) {
-//            mItems.add(new ListViewItem("ECU name", (String)ecuName));
-//        }
+        // ECU name(s)
+        Map<String, Object> ecuNames = mValues.find("ECU.name.");
+        for (String key : ecuNames.keySet()) {
+            String ecuName = (String) mValues.get(key);
+            if (ecuName != null && ecuName.length() > 0) {
+                mItems.add(new ListViewItem(key, ecuName));
+            }
+        }
         // DTC codes
         Map<String, Object> dtcCodes = mValues.find("OBD.DtcCodes.");
         for (String key : dtcCodes.keySet()) {

@@ -6,8 +6,8 @@ import org.hexpresso.elm327.commands.filters.RegularExpressionResponseFilter;
 import org.hexpresso.elm327.commands.filters.RemoveSpacesResponseFilter;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,29 +22,40 @@ public class EcuNameCommand extends AbstractCommand {
 
         withAutoProcessResponse(true);
         // This command assumes headers are turned on!
-        addResponseFilter(new RegularExpressionResponseFilter("^[0-9A-F]{3}(.*)$"));
+        addResponseFilter(new RegularExpressionResponseFilter("^([0-9A-F]{3} .*)$"));
         addResponseFilter(new RemoveSpacesResponseFilter());
     }
 
     public void doProcessResponse() {
-        CurrentValuesSingleton.getInstance().set("ECU", getValue());
+        getValue();
+        for (Integer senderAddress : mEcu.keySet()) {
+            String key = "ECU.name." + String.format("%03X", senderAddress);
+
+            CurrentValuesSingleton.getInstance().set(key, mEcu.get(senderAddress));
+        }
     }
 
     public Map<Integer, String> getValue() {
         try {
             mEcu = new HashMap<>();
             Response r = getResponse();
-            StringBuilder str = new StringBuilder();
-            int minLineLen = 17;
-            for (String line : r.getLines()) {
+            List<String> lines = r.getLines();
+            for (String line : lines) {
                 int senderAddress = Integer.parseInt(line.substring(0, 3), 16);
+                int minLineLen = 12;
                 if (!mEcu.containsKey(senderAddress)) {
                     mEcu.put(senderAddress, new String());
+                } else {
+                    minLineLen = 4;
                 }
-                String hex = line.substring(minLineLen+1).replaceAll("[\\s\\t\\n\\x0B\\f\\r]", "");
+                String hex = line.substring(minLineLen+1); //.replaceAll("[\\s\\t\\n\\x0B\\f\\r]", "");
+                StringBuilder str = new StringBuilder();
                 while (hex.length() > 1) {
-                    int ascii = Integer.parseInt(hex.substring(0, 1), 16);
-                    str.append((char)ascii);
+                    int ascii = Integer.parseInt(hex.substring(0, 2), 16);
+                    if (ascii != 0) {
+                        str.append((char) ascii);
+                    }
+                    hex = hex.substring(2);
                 }
                 mEcu.put(senderAddress, mEcu.get(senderAddress) + str.toString());
             }
