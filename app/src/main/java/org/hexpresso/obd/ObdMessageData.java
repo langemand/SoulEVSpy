@@ -47,11 +47,6 @@ public class ObdMessageData {
         }
 
         mRawData = rawData;
-/*
-        if (!rawData.matches("([0-9A-F])+")) {
-            throw new NonNumericResponseException(rawData);
-        }
-*/
     }
 
     public String getMessageIdentifier() {
