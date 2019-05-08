@@ -87,8 +87,10 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         Map<String, Object> dtcCodes = mValues.find("OBD.DtcCodes.");
         for (String key : dtcCodes.keySet()) {
             String codes = (String)dtcCodes.get(key);
-            int num = (codes.length() + 1) / 6;
-            mItems.add(new ListViewItem(key + " : " + num + " codes", codes));
+            if (codes != null) {
+                int num = (codes.length() + 1) / 6;
+                mItems.add(new ListViewItem(key + " : " + num + " codes", codes));
+            }
         }
         Object vin_str = mValues.get(R.string.col_VIN);
         if (vin_str != null) {
