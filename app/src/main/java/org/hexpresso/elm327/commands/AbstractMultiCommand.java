@@ -29,6 +29,7 @@ public abstract class AbstractMultiCommand extends AbstractCommand {
             mResponse.setRawResponse(rawResponse);
         } catch (TimeoutException e) {
             mTimedOut = true;
+            throw e;
         }
     }
 

@@ -11,7 +11,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.TimeCommand;
+import org.hexpresso.elm327.commands.general.EcuNameCommand;
 import org.hexpresso.elm327.commands.protocol.ReadInputVoltageCommand;
+import org.hexpresso.elm327.commands.protocol.obd.ObdGetDtcCodesCommand;
 import org.hexpresso.elm327.io.ServiceStates;
 import org.hexpresso.elm327.io.bluetooth.BluetoothService;
 import org.hexpresso.soulevspy.R;
@@ -99,6 +101,8 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         VehicleIdentifierNumberCommand vinCmd = new VehicleIdentifierNumberCommand();
         vinCmd.setTimeoutMs(4000);
         mLoopCommands.add(vinCmd);
+        mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
+        mLoopCommands.add(new EcuNameCommand()); // Get ECU names
         mLoopCommands.add(new BatteryManagementSystemCommand());
         mLoopCommands.add(new LowVoltageDCConverterSystemCommand());
         mLoopCommands.add(new FilteredMonitorCommand(new AmbientTempMessageFilter()));

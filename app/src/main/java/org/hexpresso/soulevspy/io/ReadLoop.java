@@ -155,18 +155,10 @@ public class ReadLoop {
                 if (mLoopThread.isInterrupted()) {
                     break;
                 }
-                // Handle protocol exceptions by re-connect or re-init
+                // Handle protocol exceptions by disconnect (and auto re-connect, if enabled)
                 String status = mService.getProtocol().setStatus("");
-                if (status.length() != 0) {
-                    if (status.contentEquals("Broken pipe") || vals.get(R.string.col_battery_available_discharge_power_kW) == null) { // Bluetooth connection gone?
-                        mService.disconnect();
-//                        SystemClock.sleep(1000);
-//                        mService.connect();
-                    } else {
-                        SystemClock.sleep(5000);
-                        mService.getProtocol().init();
-                    }
-//                    continue;
+                if (vals.get("BMS.data_status") != "OK" || (status.length() != 0 && !status.contentEquals("STOPPED")) || vals.get(R.string.col_battery_available_discharge_power_kW) == null) {
+                    mService.disconnect();
                 }
 
                 if (!mLoopThread.isInterrupted()) {

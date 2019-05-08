@@ -88,6 +88,7 @@ public class ObdGetDtcCodesCommand extends AbstractCommand {
                 }
                 String key = "OBD.DtcCodes." + String.format("%03X", senderAddress);
                 CurrentValuesSingleton.getInstance().set(key, sb.toString());
+                skip(true);
             }
         }
     }

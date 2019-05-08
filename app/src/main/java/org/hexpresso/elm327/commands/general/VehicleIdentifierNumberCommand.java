@@ -42,6 +42,12 @@ public class VehicleIdentifierNumberCommand extends AbstractCommand {
             skip(true);
         } catch (Exception e) {
             mVIN = "error: " + str.toString();
+            // Check if 09 02 is supported by car
+            Object supported09Pids = CurrentValuesSingleton.getInstance().get("OBD.SupportedPids.09.7EA");
+            if (supported09Pids != null && supported09Pids instanceof String && !((String)supported09Pids).contains("02")) {
+                // 09 02 is not supported, no use to keep trying
+                skip(true);
+            }
         }
         return mVIN;
     }

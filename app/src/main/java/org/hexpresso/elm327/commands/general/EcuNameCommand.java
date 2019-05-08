@@ -30,7 +30,6 @@ public class EcuNameCommand extends AbstractCommand {
         getValue();
         for (Integer senderAddress : mEcu.keySet()) {
             String key = "ECU.name." + String.format("%03X", senderAddress);
-
             CurrentValuesSingleton.getInstance().set(key, mEcu.get(senderAddress));
         }
     }
@@ -58,8 +57,8 @@ public class EcuNameCommand extends AbstractCommand {
                     hex = hex.substring(2);
                 }
                 mEcu.put(senderAddress, mEcu.get(senderAddress) + str.toString());
+                skip(true);
             }
-            skip(true);
         } catch (Exception e) {
 //            mECU = "error: " + str.toString();
         }

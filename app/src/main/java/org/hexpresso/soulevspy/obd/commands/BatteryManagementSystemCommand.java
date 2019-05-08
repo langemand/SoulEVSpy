@@ -56,11 +56,13 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         ok = ok && mBmsParser.parseMessage2103(mCmd2103.getResponse().rawResponse());
         ok = ok && mBmsParser.parseMessage2104(mCmd2104.getResponse().rawResponse());
         ok = ok && mBmsParser.parseMessage2105(mCmd2105.getResponse().rawResponse());
-        if (!ok)
+        CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
+        if (!ok) {
+            vals.set("BMS.data_status", "OLD");
             return;
+        }
 
         BatteryManagementSystemParser.Data data = mBmsParser.getParsedData();
-        CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
         vals.set(R.string.col_battery_is_charging, Boolean.valueOf(data.bmsIsCharging));
         vals.set(R.string.col_battery_ChaDeMo_is_plugged, Boolean.valueOf(data.bmsChademoIsPlugged));
         vals.set(R.string.col_battery_J1772_is_plugged, Boolean.valueOf(data.bmsJ1772IsPlugged));
@@ -104,6 +106,7 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         vals.set(R.string.col_battery_fan_status, data.fanStatus.toString());
         vals.set(R.string.col_battery_fan_feedback_signal, Integer.valueOf(data.fanFeedbackSignal));
         vals.set(R.string.col_battery_airbag_hwire_duty, Integer.valueOf(data.airbagHwireDuty));
+        vals.set("BMS.data_status", "OK");
     }
 
     /**

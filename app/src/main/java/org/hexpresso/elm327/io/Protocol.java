@@ -165,13 +165,13 @@ public class Protocol {
 //                        Toast.makeText(CurrentValuesSingleton.getInstance().getPreferences().getContext(), err, Toast.LENGTH_SHORT).show();
 //                    }
 //                });
-                if (!(e instanceof NoDataException)) {
+//                if (!(e instanceof NoDataException)) {
                     mExecutionThread.interrupt();
                     mStatus = e.getMessage();
                     if (mStatus == null) {
                         mStatus = "ResponseException while executing command";
                     }
-                } // else ignore NO DATA, carry on with the next command
+//                } // else ignore NO DATA, carry on with the next command
             }
 
             if(message != null) {
