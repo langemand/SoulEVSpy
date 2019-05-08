@@ -70,7 +70,7 @@ dependencies {
     }
     implementation 'com.android.volley:volley:1.1.1'
 
-    androidTestImplementation "org.mockito:mockito-android:2.+"
+    androidTestImplementation 'org.mockito:mockito-android:+'
     androidTestImplementation 'junit:junit:4.12'
 
 }

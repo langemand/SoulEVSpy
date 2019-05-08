@@ -6,15 +6,19 @@ import org.hexpresso.elm327.commands.filters.RegularExpressionResponseFilter;
 import org.hexpresso.elm327.commands.filters.RemoveSpacesResponseFilter;
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-29.
  */
 public class EcuNameCommand extends AbstractCommand {
 
-    private String mVIN = null;
+    private Map<Integer, String> mEcu = null;
 
     public EcuNameCommand() {
-        super("09 02");
+        super("09 04");
 
         withAutoProcessResponse(true);
         // This command assumes headers are turned on!
@@ -23,26 +27,31 @@ public class EcuNameCommand extends AbstractCommand {
     }
 
     public void doProcessResponse() {
-        CurrentValuesSingleton.getInstance().set("VIN", getValue());
+        CurrentValuesSingleton.getInstance().set("ECU", getValue());
     }
 
-    public String getValue() {
-        final Response r = getResponse();
-        StringBuilder str = new StringBuilder();
+    public Map<Integer, String> getValue() {
         try {
-            str.append((char) r.get(0, 5));
-            str.append((char) r.get(0, 6));
-            str.append((char) r.get(0, 7));
-            for (int line = 1; line <= 2; line++) {
-                for (int index = 1; index <= 7; index++) {
-                    str.append((char) r.get(line, index));
+            mEcu = new HashMap<>();
+            Response r = getResponse();
+            StringBuilder str = new StringBuilder();
+            int minLineLen = 17;
+            for (String line : r.getLines()) {
+                int senderAddress = Integer.parseInt(line.substring(0, 3), 16);
+                if (!mEcu.containsKey(senderAddress)) {
+                    mEcu.put(senderAddress, new String());
                 }
+                String hex = line.substring(minLineLen+1).replaceAll("[\\s\\t\\n\\x0B\\f\\r]", "");
+                while (hex.length() > 1) {
+                    int ascii = Integer.parseInt(hex.substring(0, 1), 16);
+                    str.append((char)ascii);
+                }
+                mEcu.put(senderAddress, mEcu.get(senderAddress) + str.toString());
             }
-            mVIN = str.toString();
             skip(true);
         } catch (Exception e) {
-            mVIN = "error: " + str.toString();
+//            mECU = "error: " + str.toString();
         }
-        return mVIN;
+        return mEcu;
     }
 }

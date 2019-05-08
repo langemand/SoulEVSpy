@@ -5,6 +5,7 @@ import org.hexpresso.elm327.commands.Command;
 import org.hexpresso.elm327.commands.general.EcuNameCommand;
 import org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingModes;
 import org.hexpresso.elm327.commands.protocol.obd.OBDSetTimeoutCommand;
+import org.hexpresso.elm327.commands.protocol.obd.ObdGetDtcCodesCommand;
 import org.hexpresso.elm327.commands.protocol.obd.ObdGetSupportedPIDServicesCommand;
 import org.hexpresso.elm327.exceptions.NoDataException;
 import org.hexpresso.elm327.exceptions.ResponseException;
@@ -253,14 +254,13 @@ public class Protocol {
         addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT FE")); // Forget any previous events
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANSetProtocolCommand(6));
         addCommand(new org.hexpresso.elm327.commands.protocol.can.CANAutomaticFormattingCommand(true));
-// TODO: Code GetSupportedServicesCommand
         addCommand(new ObdGetSupportedPIDServicesCommand("01"));  // Get supported Service 01 PIDS
         addCommand(new BasicCommand("01 20"));  // Dump supported Service 01 PIDS
         //addCommand(new BasicCommand("01 40"));  // Dump supported Service 01 PIDS
         addCommand(new ObdGetSupportedPIDServicesCommand("09"));  // Get supported Service 09 PIDS
-//        addCommand(new EcuNameCommand()); // 09 04: Get ECU name
         addCommand(new BasicCommand("01 01"));  // Service 01 Monitor status
-        addCommand(new BasicCommand("03"));  // Get stored DTC Codes
+        addCommand(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
+// TODO:        addCommand(new EcuNameCommand()); // Get ECU name
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CEA")); // Try Turn off CAN extended addressing
 //        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CM 00 00 00 00")); // Try Turn off CAN filter mask bits
 //        addCommand(new RawCommand("AT KW0")); // Try Don't check Key Words

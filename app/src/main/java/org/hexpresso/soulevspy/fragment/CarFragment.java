@@ -13,6 +13,7 @@ import org.hexpresso.soulevspy.util.Unit;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-07.
@@ -73,6 +74,18 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         Object odo = mValues.get(R.string.col_car_odo_km);
         if (odo != null) {
             mItems.add(new ListViewItem("Odometer", new DecimalFormat("0.0").format(unit.convertDist((double)odo))+" "+unit.mDistUnit));
+        }
+//        // ECU name(s)
+//        Object ecuName = mValues.get("ECU");
+//        if (ecuName != null) {
+//            mItems.add(new ListViewItem("ECU name", (String)ecuName));
+//        }
+        // DTC codes
+        Map<String, Object> dtcCodes = mValues.find("OBD.DtcCodes.");
+        for (String key : dtcCodes.keySet()) {
+            String codes = (String)dtcCodes.get(key);
+            int num = (codes.length() + 1) / 6;
+            mItems.add(new ListViewItem(key + " : " + num + " codes", codes));
         }
         Object vin_str = mValues.get(R.string.col_VIN);
         if (vin_str != null) {
