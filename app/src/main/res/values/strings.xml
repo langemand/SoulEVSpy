@@ -4,6 +4,8 @@
     <!-- Navigation Drawer -->
     <string name="action_bluetooth">Bluetooth connect</string>
     <string name="action_car_information">Car information</string>
+    <string name="action_vmcu_information">Motor Control information</string>
+    <string name="action_obc_information">Onboard Charger information</string>
     <string name="action_energy">Energy and power</string>
     <string name="action_charger_locations">Quick-chargers (Click for routing)</string>
     <string name="action_ldc">DC-DC 12 V converter</string>
@@ -142,9 +144,9 @@
     <string name="col_vmcu_motor_torque_command_Nm">vmcu.motor_torque_command_Nm</string>
     <string name="col_vmcu_estimated_motor_torque_Nm">vmcu.estimated_motor_torque_Nm</string>
     <string name="col_vmcu_motor_phase_current_RMS_A">vmcu.motor_phase_current_RMS_A</string>
-    <string name="col_vmcu_motor_temp_C">vmcu.motor_temp_C</string>
-    <string name="col_vmcu_mcu_temp_C">vmcu.mcu_temp_C</string>
-    <string name="col_vmcu_heatsink_temp_C">vmcu.heatsink_temp_C</string>
+    <string name="col_vmcu_temp_motor_C">vmcu.motor_temp_C</string>
+    <string name="col_vmcu_temp_mcu_C">vmcu.mcu_temp_C</string>
+    <string name="col_vmcu_temp_heatsink_C">vmcu.heatsink_temp_C</string>
 
     <string name="col_battery_is_charging">battery.is_charging</string>
     <string name="col_battery_ChaDeMo_is_plugged">battery.ChaDeMo_is_plugged</string>

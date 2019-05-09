@@ -43,7 +43,9 @@ import org.hexpresso.soulevspy.fragment.CarFragment;
 import org.hexpresso.soulevspy.fragment.DashboardFragment;
 import org.hexpresso.soulevspy.fragment.GpsFragment;
 import org.hexpresso.soulevspy.fragment.LdcFragment;
+import org.hexpresso.soulevspy.fragment.ObcFragment;
 import org.hexpresso.soulevspy.fragment.TireFragment;
+import org.hexpresso.soulevspy.fragment.VmcuFragment;
 import org.hexpresso.soulevspy.io.OBD2Device;
 import org.hexpresso.soulevspy.io.Position;
 import org.hexpresso.soulevspy.io.ReplayLoop;
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         Invalid,
         Bluetooth,
         Car,
+        VehicleMotorControlUnit,
+        OnBoarCharger,
         ChargerLocations,
         Energy,
         Battery,
@@ -223,6 +227,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.BatteryCellmap.ordinal()).withName(R.string.action_battery_cellmap).withIcon(FontAwesome.Icon.faw_table),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Battery.ordinal()).withName(R.string.action_battery).withIcon(FontAwesome.Icon.faw_battery_three_quarters),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Car.ordinal()).withName(R.string.action_car_information).withIcon(FontAwesome.Icon.faw_car),
+                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.VehicleMotorControlUnit.ordinal()).withName("Vehicle Motor Control Unit").withIcon(FontAwesome.Icon.faw_dot_circle_o),
+                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.OnBoarCharger.ordinal()).withName("Onboard Charger").withIcon(FontAwesome.Icon.faw_plug),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Ldc.ordinal()).withName(R.string.action_ldc).withIcon(FontAwesome.Icon.faw_battery_4),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Tires.ordinal()).withName(R.string.action_tires).withIcon(FontAwesome.Icon.faw_circle_o_notch),
                         new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.Gps.ordinal()).withName("GPS information").withIcon(FontAwesome.Icon.faw_clock_o),
@@ -302,6 +308,12 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         break;
                     case Car:
                         fragment = new CarFragment();
+                        break;
+                    case VehicleMotorControlUnit:
+                        fragment = new VmcuFragment();
+                        break;
+                    case OnBoarCharger:
+                        fragment = new ObcFragment();
                         break;
                     case Dashboard:
                         fragment = new DashboardFragment();
@@ -476,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             if (mReplayLoop != null) {
                 mReplayLoop.stop();
             }
-            mReplayLoop = new ReplayLoop(selectedFile);
+            mReplayLoop = new ReplayLoop(selectedFile, this);
         }
     }
 

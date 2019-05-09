@@ -157,7 +157,7 @@ public class ReadLoop {
                 }
                 // Handle protocol exceptions by disconnect (and auto re-connect, if enabled)
                 String status = mService.getProtocol().setStatus("");
-                if (vals.get("BMS.data_status") != "OK" || (status.length() != 0 && !status.contentEquals("STOPPED")) || vals.get(R.string.col_battery_available_discharge_power_kW) == null) {
+                if (vals.get("BMS.data_status") != "OK" || (status.length() != 0 && !status.contentEquals("STOPPED") && !status.contains("NO DATA")) || vals.get(R.string.col_battery_available_discharge_power_kW) == null) {
                     try {
                         CommLog.getInstance().log(("Disconnected by ReadLoop. BMS.data_status ='"+vals.get("BMS.data_status")+"', status='"+status+"'").getBytes());
                     } catch (Exception e) {

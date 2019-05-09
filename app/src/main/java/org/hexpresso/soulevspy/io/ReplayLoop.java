@@ -1,5 +1,6 @@
 package org.hexpresso.soulevspy.io;
 
+import android.content.Context;
 import android.net.Uri;
 
 import org.hexpresso.soulevspy.obd.values.CurrentValuesSingleton;
@@ -17,14 +18,13 @@ public class ReplayLoop {
     private long mStartTime = System.currentTimeMillis();
     private String[] mHeaders;
     private Object[] mValues;
+    final private String regex = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
 
-    public ReplayLoop(Uri filepath) {
-        final File dataFile = new File(filepath.getPath());
+    public ReplayLoop(Uri filepath, Context context) {
         try {
-            InputStream is = new FileInputStream(dataFile);
+            InputStream is = context.getContentResolver().openInputStream(filepath);
             open(is);
         } catch (Exception ex) {
-            int i = 0;
 //
         }
     }
@@ -39,12 +39,12 @@ public class ReplayLoop {
         try {
             mReader = new BufferedReader(new InputStreamReader(is));
             String header = mReader.readLine();
-            mHeaders = header.split(",");
+            mHeaders = header.split(regex);
             for (int i = 0; i < mHeaders.length; ++i) {
                 mHeaders[i] = mHeaders[i].replaceAll("\"", "");
             }
             String line = mReader.readLine();
-            mValues = line.split(",");
+            mValues = line.split(regex);
 
             // Thread used to run commands in loop
             mLoopThread = new Thread(new Runnable() {
@@ -62,6 +62,8 @@ public class ReplayLoop {
                                     obj = null;
                                 } else if (str.contains("\"")) {
                                     obj = str.replaceAll("\"", "");
+                                } else if (str.contentEquals("true") || str.contentEquals("false")) {
+                                    obj = Boolean.parseBoolean(str);
                                 } else if ((mHeaders[i].endsWith("_ms") || mHeaders[i].endsWith("_s")) && !str.contains(".")) {
                                     obj = Long.parseLong(str);
                                 } else {
@@ -74,9 +76,7 @@ public class ReplayLoop {
                                         try {
                                             obj = Double.parseDouble(str);
                                         } catch (Exception ex2) {
-                                            if (str.contentEquals("true") || str.contentEquals("false")) {
-                                                obj = Boolean.parseBoolean(str);
-                                            } else if (!str.contentEquals("null")) {
+                                            if (!str.contentEquals("null")) {
                                                 obj = String.valueOf(mValues[i]);
                                             }
                                         }
@@ -102,19 +102,19 @@ public class ReplayLoop {
                                 }
                             }
                             String line = mReader.readLine();
-                            mValues = line.split(",");
+                            if (line == null) {
+                                break;
+                            }
+                            mValues = line.split(regex);
                         }
                     } catch (Exception ex) {
-                        int i = 0;
                         //
                     }
-int i=2;
                 }
             });
             mLoopThread.setName("ReplayLoopThread");
             start();
         } catch (Exception ex) {
-            int i = 7;
             //
         }
     }

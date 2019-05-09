@@ -181,15 +181,15 @@ public class VmcuCommand extends AbstractMultiCommand {
 
             // Motor Temperature
             int motorTempC = obdData02_3.getDataByte(5) - 40;
-            vals.set(R.string.col_vmcu_motor_temp_C, motorTempC);
+            vals.set(R.string.col_vmcu_temp_motor_C, motorTempC);
 
             // MCU Temperature
             int mcuTempC = obdData02_3.getDataByte(6) - 40;
-            vals.set(R.string.col_vmcu_mcu_temp_C, mcuTempC);
+            vals.set(R.string.col_vmcu_temp_mcu_C, mcuTempC);
 
             // Heat Sink Temperature
             int heatsinkTempC = obdData02_3.getDataByte(7) - 40;
-            vals.set(R.string.col_vmcu_heatsink_temp_C, heatsinkTempC);
+            vals.set(R.string.col_vmcu_temp_heatsink_C, heatsinkTempC);
 
             // TODO: Motor U Phase Current Sensor Offset
             // TODO: Motor V Phase Current Sensor Offset

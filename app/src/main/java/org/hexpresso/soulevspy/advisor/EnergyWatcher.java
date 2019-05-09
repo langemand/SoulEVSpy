@@ -86,8 +86,9 @@ public class EnergyWatcher implements CurrentValuesSingleton.CurrentValueListene
     }
 
     public void calculateMeans() {
-        Double nomCap = (Double)mValues.get(R.string.col_orig_capacity_kWh);
-        if (nomCap != null) {
+        Object obj = mValues.get(R.string.col_orig_capacity_kWh);
+        if (obj != null && obj instanceof Double) {
+            Double nomCap = (Double)obj;
             Double totCap = nomCap + 1.2;
             Map<Long, Double> milestoneConsumptions = new HashMap<Long, Double>();
             double currSoc = mLastNugget.getSoc_pct();
