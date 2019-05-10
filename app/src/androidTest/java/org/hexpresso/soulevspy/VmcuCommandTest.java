@@ -69,8 +69,8 @@ public class VmcuCommandTest extends AndroidTestCase {
         assertEquals(2564, vals.get(R.string.col_vmcu_motor_actual_speed_rpm));
         assertEquals(411, vals.get(R.string.col_vmcu_motor_torque_command_Nm));
         assertEquals(505, vals.get(R.string.col_vmcu_estimated_motor_torque_Nm));
-        assertEquals(14, vals.get(R.string.col_vmcu_motor_temp_C));
-        assertEquals(31, vals.get(R.string.col_vmcu_mcu_temp_C));
-        assertEquals(19, vals.get(R.string.col_vmcu_heatsink_temp_C));
+        assertEquals(14, vals.get(R.string.col_vmcu_temp_motor_C));
+        assertEquals(31, vals.get(R.string.col_vmcu_temp_mcu_C));
+        assertEquals(19, vals.get(R.string.col_vmcu_temp_heatsink_C));
     }
 }
