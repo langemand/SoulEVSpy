@@ -102,6 +102,33 @@ public class ReadLoop {
 //                res.getString(R.string.col_orig_capacity_kWh),
 //                res.getString(R.string.charger_locations_update_time_ms),
                 res.getString(R.string.col_ldc_in_DC_voltage_V)));
+        mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_obc_ac_in_V),
+                res.getString(R.string.col_obc_dc_out_V),
+                res.getString(R.string.col_obc_ac_in_A),
+                res.getString(R.string.col_obc_pilot_duty_cycle),
+                res.getString(R.string.col_obc_temp_1_C),
+                res.getString(R.string.col_obc_temp_2_C),
+                res.getString(R.string.col_obc_temp_3_C)));
+        mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_vmcu_gear_state),
+                res.getString(R.string.col_vmcu_eco_off_switch),
+                res.getString(R.string.col_vmcu_brake_lamp_on_switch),
+                res.getString(R.string.col_vmcu_brake_off_switch),
+                res.getString(R.string.col_vmcu_ldc_inhibit),
+                res.getString(R.string.col_vmcu_fault_flag_of_mcu),
+                res.getString(R.string.col_vmcu_warning_flag_of_mcu), 
+                res.getString(R.string.col_vmcu_radiator_fan_request_of_motor),
+                res.getString(R.string.col_vmcu_ignition_1),
+                res.getString(R.string.col_vmcu_accel_pedal_depth_pct),
+                res.getString(R.string.col_vmcu_vehicle_speed_kph),
+                res.getString(R.string.col_vmcu_aux_battery_V),
+                res.getString(R.string.col_vmcu_inverter_input_V),
+                res.getString(R.string.col_vmcu_motor_actual_speed_rpm),
+                res.getString(R.string.col_vmcu_motor_torque_command_Nm),
+                res.getString(R.string.col_vmcu_estimated_motor_torque_Nm),
+                res.getString(R.string.col_vmcu_motor_phase_current_RMS_A),
+                res.getString(R.string.col_vmcu_temp_motor_C),
+                res.getString(R.string.col_vmcu_temp_mcu_C),
+                res.getString(R.string.col_vmcu_temp_heatsink_C)));
         for (int i = 1; i <=4; ++i) {
             mColumnsToLog.add("tire.pressure" + oneDigitFormat.format(i) + "_psi");
             mColumnsToLog.add("tire.temperature" + oneDigitFormat.format(i) + "_C");
@@ -157,7 +184,9 @@ public class ReadLoop {
                 }
                 // Handle protocol exceptions by disconnect (and auto re-connect, if enabled)
                 String status = mService.getProtocol().setStatus("");
-                if (vals.get("BMS.data_status") != "OK" || (status.length() != 0 && !status.contentEquals("STOPPED") && !status.contains("NO DATA")) || vals.get(R.string.col_battery_available_discharge_power_kW) == null) {
+                if (vals.get("BMS.data_status") != "OK" ||
+                        (status.length() != 0 && !status.contentEquals("STOPPED") && !status.contains("NO DATA") && !status.contains("CAN ERROR")) ||
+                vals.get(R.string.col_battery_available_discharge_power_kW) == null) {
                     try {
                         CommLog.getInstance().log(("Disconnected by ReadLoop. BMS.data_status ='"+vals.get("BMS.data_status")+"', status='"+status+"'").getBytes());
                     } catch (Exception e) {
