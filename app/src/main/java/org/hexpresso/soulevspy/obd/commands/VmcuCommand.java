@@ -147,7 +147,7 @@ public class VmcuCommand extends AbstractMultiCommand {
             int msb = obdData02_1.getDataByte(6);
             int motorActualRpm = msb*256 + obdData02_1.getDataByte(5);
             if ((msb & 0x80) != 0) {
-                motorActualRpm = motorActualRpm -  - 65536;
+                motorActualRpm = motorActualRpm - 65536;
             }
             vals.set(R.string.col_vmcu_motor_actual_speed_rpm, motorActualRpm);
 
@@ -157,7 +157,7 @@ public class VmcuCommand extends AbstractMultiCommand {
             msb = obdData02_2.getDataByte(1);
             int motorTorqueCommandNm = msb*256 + obdData02_1.getDataByte(7);
             if ((msb & 0x80) != 0) {
-                motorTorqueCommandNm = motorTorqueCommandNm -  - 65536;
+                motorTorqueCommandNm = motorTorqueCommandNm - 65536;
             }
             vals.set(R.string.col_vmcu_motor_torque_command_Nm, motorTorqueCommandNm);
 
@@ -165,7 +165,7 @@ public class VmcuCommand extends AbstractMultiCommand {
             msb = obdData02_2.getDataByte(3);
             int estimatedMotorTorqueNm = msb*256 + obdData02_2.getDataByte(2);
             if ((msb & 0x80) != 0) {
-                estimatedMotorTorqueNm = estimatedMotorTorqueNm -  - 65536;
+                estimatedMotorTorqueNm = estimatedMotorTorqueNm - 65536;
             }
             vals.set(R.string.col_vmcu_estimated_motor_torque_Nm, estimatedMotorTorqueNm);
 
