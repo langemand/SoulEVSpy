@@ -101,7 +101,7 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));
         VehicleIdentifierNumberCommand vinCmd = new VehicleIdentifierNumberCommand();
-        vinCmd.setTimeoutMs(4000);
+//        vinCmd.setTimeoutMs(4000);
         mLoopCommands.add(vinCmd);
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names

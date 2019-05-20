@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         // Bluetooth OBD2 Device
         mDevice = new OBD2Device(mSharedPreferences);
 
-        // Calculations based on CurrentValuesSingleton
+        // Calculations based on CurrentValuesSingleton (determines original nominal battery capacity)
         mBatteryStats = new BatteryStats();
 
         // Monitor phone charging state
@@ -204,13 +204,12 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         Intent batteryStatus = getBaseContext().registerReceiver(mPowerConnectionReceiver, ifilter);
 
         // EnergyWatcher
-        mEnergyWatcher = new EnergyWatcher();
+        // TODO: Fix the energywatcher to be useful - e.g. do not run backwards while charging...
+        //  mEnergyWatcher = new EnergyWatcher();
 
         // Action bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //ClientSharedPreferences prefs = new ClientSharedPreferences(getApplicationContext());
 
         bluetoothEnable = new SwitchDrawerItem().withIdentifier(NavigationDrawerItem.Bluetooth.ordinal()).withName(R.string.action_bluetooth).withIcon(GoogleMaterial.Icon.gmd_bluetooth).withChecked(false).withSelectable(false).withOnCheckedChangeListener(mOnCheckedBluetoothDevice);
         // Navigation Drawer
@@ -456,8 +455,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         super.onDestroy();
         mPosition.listen(false);
         bluetoothDeviceConnect(false);
-        mChargeStations.onDestroy();
-        mEnergyWatcher.finalize();
+        if (mChargeStations != null) mChargeStations.onDestroy();
+        if (mEnergyWatcher != null) mEnergyWatcher.finalize();
     }
 
 
