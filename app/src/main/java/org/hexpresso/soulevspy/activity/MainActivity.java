@@ -37,6 +37,7 @@ import org.hexpresso.soulevspy.advisor.ChargeStations;
 import org.hexpresso.soulevspy.advisor.EnergyWatcher;
 import org.hexpresso.soulevspy.fragment.BatteryCellmapFragment;
 import org.hexpresso.soulevspy.fragment.ChargerLocationsFragment;
+//import org.hexpresso.soulevspy.fragment.DebugFragment;
 import org.hexpresso.soulevspy.fragment.EnergyFragment;
 import org.hexpresso.soulevspy.fragment.BatteryFragment;
 import org.hexpresso.soulevspy.fragment.CarFragment;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         Replay,
         Demo,
         HelpFeedback
+//        ,Debug
     }
     private Position mPosition;
     private OBD2Device mDevice;
@@ -237,6 +239,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Settings.ordinal()).withName(R.string.action_settings).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Replay.ordinal()).withName(R.string.action_replay).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Demo.ordinal()).withName(R.string.action_demo).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay)
+//                        , new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Debug.ordinal()).withName("Debug").withIcon(GoogleMaterial.Icon.gmd_assessment)
+
 //                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.HelpFeedback.ordinal()).withName(R.string.action_help).withIcon(GoogleMaterial.Icon.gmd_help).withEnabled(false)
                 )
                 .withOnDrawerItemClickListener(this)
@@ -365,6 +369,10 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                             });
                         }
                         break;
+//                    case Debug:
+//                        fragment = new DebugFragment();
+//                        break;
+
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
                 logEventException(e);
