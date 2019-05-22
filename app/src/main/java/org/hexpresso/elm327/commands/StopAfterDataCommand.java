@@ -61,9 +61,12 @@ public class StopAfterDataCommand extends AbstractCommand {
         out.write(' '); // Stop monitoring
         setStopReadingAtLineEnd(false);
         mResponse.setRawResponse(rawResponse);
-        // Wait before trying to receive the monitor messages
-  //      Thread.sleep(mStopMonitorTimeDelay);
-        String raw = readRawData(in);
+
+        // Wait before trying to receive the command response
+        Thread.sleep(mResponseTimeDelay);
+
+        str = readRawData(in);
+
         String ar_response = "";
         while (!ar_response.contains("OK\r") && System.currentTimeMillis() < runStartTimestamp+mTimeout) {
             mCommand = "AT AR";

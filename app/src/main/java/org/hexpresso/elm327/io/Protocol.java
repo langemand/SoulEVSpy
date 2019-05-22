@@ -2,12 +2,10 @@ package org.hexpresso.elm327.io;
 
 import org.hexpresso.elm327.commands.AbstractCommand;
 import org.hexpresso.elm327.commands.Command;
-import org.hexpresso.elm327.commands.general.EcuNameCommand;
+import org.hexpresso.elm327.commands.protocol.StopCommand;
 import org.hexpresso.elm327.commands.protocol.obd.OBDAdaptiveTimingModes;
 import org.hexpresso.elm327.commands.protocol.obd.OBDSetTimeoutCommand;
-import org.hexpresso.elm327.commands.protocol.obd.ObdGetDtcCodesCommand;
 import org.hexpresso.elm327.commands.protocol.obd.ObdGetSupportedPIDServicesCommand;
-import org.hexpresso.elm327.exceptions.NoDataException;
 import org.hexpresso.elm327.exceptions.ResponseException;
 import org.hexpresso.elm327.exceptions.StoppedException;
 import org.hexpresso.soulevspy.obd.commands.BasicCommand;
@@ -42,7 +40,7 @@ public class Protocol {
 
     private int mTimeoutCount = 0;
 
-    private AbstractCommand mStopCommand = new org.hexpresso.elm327.commands.protocol.RawCommand(" ");
+    private AbstractCommand mStopCommand = new StopCommand();
 
     public Protocol() {
 

@@ -95,25 +95,18 @@ public abstract class Service {
 
     protected void startProtocol() {
         // TODO verify streams not null
-        Log.d(Service.class.getSimpleName(), "Enter startProtocol");
-//        if(mState == ServiceStates.STATE_CONNECTED) {
-            mProtocol = new Protocol();
-            mProtocol.start(mInputStream, mOutputStream);
-            mProtocol.init();
-//        }
-        Log.d(Service.class.getSimpleName(), "Exit startProtocol");
+        mProtocol = new Protocol();
+        mProtocol.start(mInputStream, mOutputStream);
+        mProtocol.init();
     }
 
     protected void stopProtocol() {
-        Log.d(Service.class.getSimpleName(), "Enter stopProtocol");
         if(mProtocol != null) {
             mProtocol.stop();
         }
-        Log.d(Service.class.getSimpleName(), "Exit stopProtocol");
     }
 
     public Protocol getProtocol() {
-        Log.d(Service.class.getSimpleName(), "getProtocol");
         return mProtocol;
     }
 

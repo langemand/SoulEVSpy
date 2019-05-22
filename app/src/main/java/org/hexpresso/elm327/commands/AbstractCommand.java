@@ -82,7 +82,6 @@ public abstract class AbstractCommand implements Command {
             Log.d(AbstractCommand.class.getSimpleName(), "Skip execute");
             return;
         }
-        Log.d(AbstractCommand.class.getSimpleName(), "Enter execute");
 
         // Skip output from previous commands
         flushInput(in);
@@ -97,7 +96,6 @@ public abstract class AbstractCommand implements Command {
         // Receive the response - NOTE: This will throw exception on connection error etc!
         receive(in);
         mRunEndTimestamp = System.currentTimeMillis();
-        Log.d(AbstractCommand.class.getSimpleName(), "Exit execute");
     }
 
     public void doProcessResponse() {};
@@ -124,7 +122,6 @@ public abstract class AbstractCommand implements Command {
      */
     protected void receive(InputStream in) throws IOException, TimeoutException {
         // Receive the response from the stream
-        Log.d(AbstractCommand.class.getSimpleName(), "Enter receive");
         String rawResponse = readRawData(in);
 
         // TODO check this
@@ -146,17 +143,16 @@ public abstract class AbstractCommand implements Command {
 
         // Check for errors
         checkForErrors();
-        Log.d(AbstractCommand.class.getSimpleName(), "Exit receive");
     }
 
     protected String readRawData(InputStream in) throws IOException, TimeoutException {
         StringBuilder res = new StringBuilder();
+        String rawResponse = "";
         long runStartTimestamp = System.currentTimeMillis();
 
         // read until '>' arrives OR end of stream reached
         // TODO : Also, add a default timeout value
-        while(true)
-        {
+        while (true) {
             if (in.available() == 0) {
                 if ((runStartTimestamp + mTimeout_ms) < System.currentTimeMillis()) {
                     throw new TimeoutException("readRawData timed out while waiting for input");
@@ -164,40 +160,36 @@ public abstract class AbstractCommand implements Command {
                 SystemClock.sleep(1);
                 continue;
             }
-            final byte b = (byte)in.read();
-            if (b == 0)
-            {
+            final byte b = (byte) in.read();
+            if (b == 0) {
                 continue;
             }
-            if(b == -1) // -1 if the end of the stream is reached
+            if (b == -1) // -1 if the end of the stream is reached
             {
                 // End of stream reached
                 break;
             }
 
-            final char c = (char)b;
+            final char c = (char) b;
             res.append(c);
-            if(c == '>' && !mStopReadingAtLineEnd)
-            {
+
+            if (c == '>' && !mStopReadingAtLineEnd) {
+                rawResponse = processResponse(res.toString());
                 // read until '>' arrives
                 flushInput(in);
                 break;
             }
             if (mStopReadingAtLineEnd && c == '\r') {
+                rawResponse = processResponse(res.toString());
                 flushInput(in);
                 break;
             }
         }
+        return rawResponse;
+    }
 
-    /*
-     * Imagine the following response 41 0c 00 0d.
-     *
-     * ELM sends strings!! So, ELM puts spaces between each "byte". And pay
-     * attention to the fact that I've put the word byte in quotes, because 41
-     * is actually TWO bytes (two chars) in the socket. So, we must do some more
-     * processing..
-     */
-        String rawResponse = res.toString();
+    String processResponse(String resStr) throws IOException {
+        String rawResponse = resStr;
         Log.d("AbstractCommand", rawResponse);
 
         CommLog.getInstance().log("i:".getBytes());
@@ -258,7 +250,7 @@ public abstract class AbstractCommand implements Command {
         return prevSkip;
     }
 
-    private void flushInput(InputStream in) throws IOException {
+    protected void flushInput(InputStream in) throws IOException {
         StringBuilder res = new StringBuilder();
         while (in.available() > 0) {
             final byte b = (byte) in.read();
