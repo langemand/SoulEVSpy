@@ -40,6 +40,7 @@ public class CurrentValuesSingleton {
     private OutputStream mDataOutputStream = null;
     private ClientSharedPreferences mSharedPreferences = null;
     private final ReentrantLock mLock = new ReentrantLock();
+    private final ReentrantLock mListenerLock = new ReentrantLock();
     private static Date nextFlush = new Date(0L);
 
 
@@ -62,13 +63,18 @@ public class CurrentValuesSingleton {
         } finally {
             mLock.unlock();
         }
-        if (mListeners.containsKey(key)) {
-            List<CurrentValueListener> listeners = mListeners.get(key);
-            if (listeners != null) {
-                for (CurrentValueListener listener : listeners) {
-                    listener.onValueChanged(key, value);
+        mListenerLock.lock();
+        try {
+            if (mListeners.containsKey(key)) {
+                List<CurrentValueListener> listeners = mListeners.get(key);
+                if (listeners != null) {
+                    for (CurrentValueListener listener : listeners) {
+                        listener.onValueChanged(key, value);
+                    }
                 }
             }
+        } finally {
+            mListenerLock.unlock();
         }
     }
 
@@ -173,7 +179,7 @@ public class CurrentValuesSingleton {
     }
 
     public void addListener(String key, CurrentValueListener listener) {
-        mLock.lock();
+        mListenerLock.lock();
         try {
             List<CurrentValueListener> keyListeners = null;
             if (mListeners.containsKey(key)) {
@@ -184,12 +190,12 @@ public class CurrentValuesSingleton {
             keyListeners.add(listener);
             mListeners.put(key, keyListeners);
         } finally {
-            mLock.unlock();
+            mListenerLock.unlock();
         }
     }
 
     public void delListener(CurrentValueListener listener) {
-        mLock.lock();
+        mListenerLock.lock();
         try {
             for (List<CurrentValueListener> list : mListeners.values()) {
                 if (list != null && list.contains(listener)) {
@@ -197,7 +203,7 @@ public class CurrentValuesSingleton {
                 }
             }
         } finally {
-            mLock.unlock();
+            mListenerLock.unlock();
         }
     }
 
