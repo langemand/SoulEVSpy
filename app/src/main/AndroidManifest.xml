@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.hexpresso.soulevspy"
+    package="com.evranger.soulevspy"
     android:installLocation="auto" >
 
     <supports-screens
@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.evranger.soulevspy.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" >
@@ -34,12 +34,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name="com.evranger.soulevspy.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".activity.MainActivity" >
+            android:parentActivityName="com.evranger.soulevspy.activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value="com.evranger.soulevspy.activity.MainActivity" />
         </activity>
     </application>
 

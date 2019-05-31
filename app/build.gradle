@@ -30,7 +30,7 @@ android {
         versionProps.store(versionPropsFile.newWriter(), null)
 
         defaultConfig {
-            applicationId "org.hexpresso.soulevspy"
+            applicationId "com.evranger.soulevspy"
             minSdkVersion 14
             targetSdkVersion 26
             versionCode version_Code
