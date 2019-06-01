@@ -48,7 +48,7 @@ public class ProtocolTest extends AndroidTestCase {
         protocol.addCommand(vehicleIdentifierNumberCommand);
         protocol.start(responder.getInput(), responder.getOutput());
 
-        Thread.sleep(20);
+        Thread.sleep(100);
 
         vehicleIdentifierNumberCommand.doProcessResponse();
 
@@ -84,7 +84,7 @@ public class ProtocolTest extends AndroidTestCase {
         protocol.addCommand(vehicleIdentifierNumberCommand);
         protocol.start(responder.getInput(), responder.getOutput());
 
-        Thread.sleep(20);
+        Thread.sleep(100);
 
         vehicleIdentifierNumberCommand.doProcessResponse();
 
