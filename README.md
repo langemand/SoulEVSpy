@@ -21,7 +21,11 @@ the displays instead of watching the road. Be extremely prudent!
 
 By even downloading this software, or the source code provided on GitHub, you agree to completely understand this.
 
-Latest recommended APK for manual install: 
+Get it from Google Play Store: 
+
+https://play.google.com/store/apps/details?id=com.evranger.soulevspy
+
+Latest APK for manual install is outdated: 
 
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.6-3250-debug.apk
 
