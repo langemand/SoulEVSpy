@@ -9,6 +9,7 @@
     <string name="key_edit_scan_interval">edit_scan_interval</string>
     <string name="key_open_source_licenses">key_open_source_licenses</string>
     <string name="key_application_version">application_version</string>
+    <string name="key_privacy_policy">key_privacy_policy</string>
 
     <!-- arrays.xml values -->
     <string name="list_distance_value_km">km</string>

@@ -1,5 +1,7 @@
 package com.evranger.soulevspy.fragment;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -15,7 +17,11 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
@@ -30,6 +36,7 @@ import java.util.Set;
 public class ClientPreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ClientSharedPreferences mSharedPreferences;
+    private WebView mWebview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,12 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         if (preference.getKey().equals(getString(R.string.key_open_source_licenses)))
         {
             displayOpenSourceLicensesDialog();
+            return true;
+        }
+
+        if (preference.getKey().equals(getString(R.string.key_privacy_policy)))
+        {
+            displayPrivacyPolicy();
             return true;
         }
 
@@ -197,5 +210,36 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         ab.setView(view)
         .setPositiveButton(android.R.string.ok, null)
         .show();
+    }
+
+    private void displayPrivacyPolicy() {
+        final Activity activity = getActivity();
+        Context c = activity;
+        mWebview  = new WebView(c);
+
+        mWebview.getSettings().setJavaScriptEnabled(true); // enable javascript
+
+        mWebview.setWebViewClient(new WebViewClient() {
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
+            }
+            @TargetApi(android.os.Build.VERSION_CODES.M)
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
+                // Redirect to deprecated method, so you can use it in all SDK versions
+                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
+            }
+        });
+
+        mWebview.loadUrl("https://evranger.com/soulevspy-privacy-policy.html");
+
+        // Show the dialog
+        AlertDialog.Builder ab = new AlertDialog.Builder(c, R.style.Theme_AppCompat_Light_Dialog_Alert);
+        ab.setTitle(R.string.pref_privacy_policy);
+        ab.setView(mWebview)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
     }
 }

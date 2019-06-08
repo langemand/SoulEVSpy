@@ -55,6 +55,10 @@
             android:key="@string/key_application_version"
             android:title="@string/pref_about"
             android:summary="Version info" />
+        <Preference
+            android:key="@string/key_privacy_policy"
+            android:title="@string/pref_privacy_policy"
+            android:summary="@string/pref_privacy_policy_summary" />
     </PreferenceCategory>
 
 </PreferenceScreen>
