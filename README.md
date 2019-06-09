@@ -25,7 +25,7 @@ Get it from Google Play Store:
 
 https://play.google.com/store/apps/details?id=com.evranger.soulevspy
 
-Latest APK for manual install is outdated: 
+Older APKs for manual install are outdated: 
 
 http://spjeldager.dk/elbil/SoulEVSpy-0.1.6-3250-debug.apk
 
