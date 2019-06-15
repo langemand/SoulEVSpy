@@ -440,6 +440,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         } else if (backButtonDialog.getChoice() == 1) { // Terminate
             super.onBackPressed();
             finish();
+//            finishAffinity();
+            System.exit(0);
         } else if (backButtonDialog.getChoice() == 2) { // Continue in background
             Intent i = new Intent(Intent.ACTION_MAIN);
             i.addCategory(Intent.CATEGORY_HOME);
