@@ -35,6 +35,7 @@ public abstract class AbstractCommand implements Command {
     private long mRunEndTimestamp;                             // Timestamp after receiving the command response
     private boolean mWithAutoProcessResponse = false;          //
     private boolean mStopReadingAtLineEnd = false;             // If false, stop reading at '>', if true, at '\r'
+    protected boolean mStopReadingAtQuestionMark = false;      // If true, stop reading at '\r' or '>', whichever comes first
     private long mTimeout_ms = 1500L;                          // Input timeout
     private boolean mSkip = false;
     /**
@@ -76,7 +77,7 @@ public abstract class AbstractCommand implements Command {
      * @throws InterruptedException
      */
     @Override
-    public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException, TimeoutException {
+    public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException, TimeoutException, ResponseException {
 
         if (mSkip) {
             Log.d(AbstractCommand.class.getSimpleName(), "Skip execute");
@@ -120,7 +121,7 @@ public abstract class AbstractCommand implements Command {
      *
      * @param in
      */
-    protected void receive(InputStream in) throws IOException, TimeoutException {
+    protected void receive(InputStream in) throws IOException, TimeoutException, ResponseException {
         // Receive the response from the stream
         String rawResponse = readRawData(in);
 
@@ -184,6 +185,12 @@ public abstract class AbstractCommand implements Command {
                 flushInput(in);
                 break;
             }
+            if (c == '?' && mStopReadingAtQuestionMark) {
+// Don't process in ths case                rawResponse = processResponse(res.toString());
+                // read until '>' arrives
+                flushInput(in);
+                break;
+            }
         }
         return rawResponse;
     }
@@ -194,7 +201,7 @@ public abstract class AbstractCommand implements Command {
 
         CommLog.getInstance().log("i:".getBytes());
         CommLog.getInstance().log(rawResponse.getBytes());
-        rawResponse = rawResponse.replaceAll("SEARCHING", "");
+        rawResponse = rawResponse.replaceAll("SEARCHING...", "");
 
         return rawResponse;
     }

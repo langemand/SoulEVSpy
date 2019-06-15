@@ -39,9 +39,11 @@ public class StopAfterDataCommand extends AbstractCommand {
         mCommand = "AT CRA " + mFilter;
         send(out);
         String str = readRawData(in);
+
         mCommand = "AT MA";
         send(out);
 
+        TimeoutException caughtException = null;
         try {
             setStopReadingAtLineEnd(true);
             while (mResponse.getLines() == null || mResponse.getLines().size() == 0 && System.currentTimeMillis() < runStartTimestamp + mTimeout) {
@@ -55,7 +57,7 @@ public class StopAfterDataCommand extends AbstractCommand {
                 rawResponse = raw;
             }
         } catch (TimeoutException e) {
-            // Too bad
+            caughtException = e;
         }
         out.write(' '); // Stop monitoring
         setStopReadingAtLineEnd(false);
@@ -64,13 +66,20 @@ public class StopAfterDataCommand extends AbstractCommand {
         // Wait before trying to receive the command response
         Thread.sleep(mResponseTimeDelay);
 
-        str = readRawData(in);
+        rawResponse += readRawData(in);
 
+        runStartTimestamp = System.currentTimeMillis();
         String ar_response = "";
-        while (!ar_response.contains("OK\r") && System.currentTimeMillis() < runStartTimestamp+mTimeout) {
+        while (!ar_response.contains("OK\r\r>") && System.currentTimeMillis() < runStartTimestamp+mTimeout) {
             mCommand = "AT AR";
             send(out);
             ar_response = readRawData(in);
+            rawResponse += ar_response;
         }
+        mResponse.setRawResponse(rawResponse);
+        if (caughtException != null) {
+            throw caughtException;
+        }
+        checkForErrors();
     }
 }

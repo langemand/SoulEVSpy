@@ -5,6 +5,7 @@ import android.os.SystemClock;
 
 import com.evranger.elm327.commands.Command;
 import com.evranger.elm327.io.Service;
+import com.evranger.elm327.io.ServiceStates;
 import com.evranger.elm327.log.CommLog;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
@@ -164,10 +165,12 @@ public class ReadLoop {
         Resources res = mSharedPreferences.getContext().getResources();
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
         long last_log_time = 0L;
+        long lastTimeouts = mService.getProtocol().numberOfTimeouts();
         while (!mLoopThread.isInterrupted()) {
-            if (mService.getProtocol().numberOfQueuedCommands() > 0) { // Communication issues may delay response, wait a bit in that case
+            if (mService.getState() != ServiceStates.STATE_CONNECTED || mService.getProtocol().numberOfQueuedCommands() > 0) { // Communication issues may delay response, wait a bit in that case
                 SystemClock.sleep(100L);
             } else {
+                long timeToWait = 0;
                 CommLog.getInstance().flush();
                 for (Command command : mCommands) {
                     mService.getProtocol().addCommand(command);
@@ -185,25 +188,42 @@ public class ReadLoop {
                 }
                 // Handle protocol exceptions by disconnect (and auto re-connect, if enabled)
                 String status = mService.getProtocol().setStatus("");
-                if (vals.get("BMS.data_status") != "OK" ||
-                        (status.length() != 0 && !status.contentEquals("STOPPED") && !status.contains("NO DATA") && !status.contains("CAN ERROR")) ||
-                vals.get(R.string.col_battery_available_discharge_power_kW) == null) {
+                long thisTimeouts = mService.getProtocol().numberOfTimeouts();
+                long sinceLastTimeouts = thisTimeouts - lastTimeouts;
+                lastTimeouts = thisTimeouts;
+                try {
+                    CommLog.getInstance().log(("Status='"+status+"'\n").getBytes());
+                    CommLog.getInstance().log(("TimeOuts="+sinceLastTimeouts+"\n").getBytes());
+                } catch (Exception e) {
+                    // Ignore
+                }
+
+                if (//vals.get("BMS.data_status") != "OK"
+                    //||
+                    //thisTimeouts >= 3
+                    //||
+                    (status.length() != 0 && (status.contains("CAN ERROR") || status.contains("BUFFER FULL") || status.contains("Broken pipe")))
+                    // || vals.get(R.string.col_battery_available_discharge_power_kW) == null
+                   )
+                {
                     try {
-                        CommLog.getInstance().log(("Disconnected by ReadLoop. BMS.data_status ='"+vals.get("BMS.data_status")+"', status='"+status+"'").getBytes());
+//                        CommLog.getInstance().log(("Disconnected by ReadLoop. BMS.data_status ='"+vals.get("BMS.data_status")+"', status='"+status+"'\n").getBytes());
+                        CommLog.getInstance().log(("Disconnected by ReadLoop. Timeouts ='"+thisTimeouts+"', status='"+status+"'\n").getBytes());
                     } catch (Exception e) {
                         // Ignore
                     }
                     CommLog.getInstance().flush();
                     mService.disconnect();
+                    timeToWait = 5000;
                 }
 
                 if (!mLoopThread.isInterrupted()) {
                     long time_now = System.currentTimeMillis();
                     if (vals.get(R.string.col_system_scan_start_time_ms) != null) {
                         long scan_start_time = (Long) vals.get(R.string.col_system_scan_start_time_ms);
-                        long timeToWait = (long) (mSharedPreferences.getScanIntervalFloatValue() * 1000) - (time_now - scan_start_time);
-                        if (timeToWait > 0) {
-                            SystemClock.sleep(timeToWait);
+                        timeToWait = (long) (mSharedPreferences.getScanIntervalFloatValue() * 1000) - (time_now - scan_start_time);
+                        if (timeToWait < 500) {
+                            timeToWait = 500;
                         }
                         CurrentValuesSingleton.getInstance().log(mColumnsToLog);
                     }
@@ -211,6 +231,7 @@ public class ReadLoop {
                 if (vals.get(R.string.col_system_scan_start_time_ms) != null) {
                     last_log_time = (Long) vals.get(R.string.col_system_scan_start_time_ms);
                 }
+                SystemClock.sleep(timeToWait);
             }
         }
     }

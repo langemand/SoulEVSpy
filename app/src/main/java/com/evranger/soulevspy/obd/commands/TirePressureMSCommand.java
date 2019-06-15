@@ -2,6 +2,7 @@ package com.evranger.soulevspy.obd.commands;
 
 import com.evranger.elm327.commands.AbstractMultiCommand;
 import com.evranger.elm327.commands.filters.RegularExpressionResponseFilter;
+import com.evranger.elm327.commands.protocol.StopCommand;
 import com.evranger.obd.ObdMessageData;
 import com.evranger.soulevspy.R;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;

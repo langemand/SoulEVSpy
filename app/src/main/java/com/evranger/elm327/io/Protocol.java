@@ -248,6 +248,7 @@ public class Protocol {
         addCommand(mStopCommand); // Ensure monitoring is stopped, just in case
         addCommand(new PrintVersionIdCommand());
         addCommand(new RawCommand("AT D")); // Set all to default
+        setStatus(""); // Ignore errors occurring until this point
         addCommand(new ResetAllCommand());
 //DONT        addCommand(new org.hexpresso.elm327.commands.protocol.RawCommand("AT CSM1")); // Silent monitoring not recognized by KW-902
 //DONT        addCommand(new org.hexpresso.elm327.commands.protocol.can.CANDisplayDataLengthCodeCommand(false));
