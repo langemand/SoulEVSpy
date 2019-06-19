@@ -6,7 +6,7 @@ package com.evranger.elm327.exceptions;
 public class UnknownErrorException extends ResponseException {
 
     public UnknownErrorException() {
-        super("ERROR");
+        super("ERR");
     }
 
 }
