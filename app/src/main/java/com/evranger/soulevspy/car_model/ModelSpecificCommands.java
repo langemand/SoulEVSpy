@@ -15,6 +15,7 @@ import com.evranger.soulevspy.obd.SpeedPreciseMessageFilter;
 import com.evranger.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import com.evranger.soulevspy.obd.StateOfChargeWithOneDecimalMessageFilter;
 import com.evranger.soulevspy.obd.Status050MessageFilter;
+import com.evranger.soulevspy.obd.commands.BMS2019Command;
 import com.evranger.soulevspy.obd.commands.BasicCommand;
 import com.evranger.soulevspy.obd.commands.BatteryManagementSystemCommand;
 import com.evranger.soulevspy.obd.commands.FilteredMonitorCommand;
@@ -32,11 +33,22 @@ public class ModelSpecificCommands {
     public ModelSpecificCommands(ClientSharedPreferences sharedPreferences) {
         if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_IoniqEV))) {
             setHyundaiIoniqEV(sharedPreferences);
+        } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_eSoul))) {
+            setKiaeSoul(sharedPreferences);
         } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_SoulEV2015))) {
             setKiaSoulEV(sharedPreferences);
         } else { // Unknown car model ...?
             setKiaSoulEV(sharedPreferences);
         }
+    }
+
+    private void setKiaeSoul(ClientSharedPreferences sharedPreferences) {
+        mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
+        mLoopCommands.add(new ReadInputVoltageCommand());
+        mLoopCommands.add(new BasicCommand("AT SH 7DF"));
+        mLoopCommands.add(new BMS2019Command());
+
+        mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
     }
 
     private void setHyundaiIoniqEV(ClientSharedPreferences sharedPreferences) {

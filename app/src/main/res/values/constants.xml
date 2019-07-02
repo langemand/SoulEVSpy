@@ -14,6 +14,7 @@
 
     <!-- arrays.xml values -->
     <string name="list_car_model_value_SoulEV2015">SoulEV2015</string>
+    <string name="list_car_model_value_eSoul">eSoul2020</string>
     <string name="list_car_model_value_IoniqEV">IoniqEV</string>
 
     <string name="list_distance_value_km">km</string>

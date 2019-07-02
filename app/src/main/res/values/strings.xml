@@ -24,6 +24,7 @@
 
     <string name="title_pref_car_models">Car models</string>
     <string name="pref_car_model">Car model</string>
+    <string name="list_car_model_esoul2020">Kia e-Soul 2020</string>
     <string name="list_car_model_soulev2015">Kia Soul EV 2015</string>
     <string name="list_car_model_ioniq">Hyundai Ioniq</string>
 
@@ -178,11 +179,13 @@
     <string name="col_battery_heat1_temperature_C">battery.heat1_temperature_C</string>
     <string name="col_battery_heat2_temperature_C">battery.heat2_temperature_C</string>
     <string name="col_battery_module_temperature">battery.module_temperature</string>
+    <string name="col_battery_cooling_water_temperature_C">battery.cooling_water_temperature_C</string>
     <string name="col_battery_cell_voltage">battery.cell_voltage</string>
     <string name="col_battery_max_cell_voltage_V">battery.max_cell_voltage_V</string>
     <string name="col_battery_max_cell_voltage_n">battery.max_cell_voltage_n</string>
     <string name="col_battery_min_cell_voltage_V">battery.min_cell_voltage_V</string>
     <string name="col_battery_min_cell_voltage_n">battery.min_cell_voltage_n</string>
+    <string name="col_battery_state_of_health_pct">battery.state_of_health_pct</string>
     <string name="col_battery_max_cell_detoriation_pct">battery.max_cell_detoriation_pct</string>
     <string name="col_battery_max_cell_detoriation_n">battery.max_cell_detoriation_n</string>
     <string name="col_battery_min_cell_detoriation_pct">battery.min_cell_detoriation_pct</string>
