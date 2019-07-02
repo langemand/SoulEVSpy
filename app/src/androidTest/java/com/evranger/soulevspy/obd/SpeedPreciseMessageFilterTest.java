@@ -32,4 +32,11 @@ public class SpeedPreciseMessageFilterTest extends AndroidTestCase {
         filter.doProcessMessage(messageData);
         Assert.assertEquals(133.0, filter.getSpeedInKmH());
     }
+
+    public void testProcessesResponseWhenCharging() {
+        SpeedPreciseMessageFilter filter = new SpeedPreciseMessageFilter();
+        ObdMessageData messageData = new ObdMessageData("4F2 01 00");
+        filter.doProcessMessage(messageData);
+        Assert.assertEquals(-0.001, filter.getSpeedInKmH());
+    }
 }
