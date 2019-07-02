@@ -25,7 +25,7 @@
     <string name="title_pref_car_models">Car models</string>
     <string name="pref_car_model">Car model</string>
     <string name="list_car_model_soulev2015">Kia Soul EV 2015</string>
-    <string name="list_car_model_ionic">Hyundai Ionic</string>
+    <string name="list_car_model_ioniq">Hyundai Ioniq</string>
 
     <string name="title_pref_units">Units</string>
     <string name="pref_distance">Distance</string>

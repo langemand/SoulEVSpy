@@ -2,14 +2,14 @@
 <resources>
 
     <!-- Car models -->
-    <string-array name="list_car_models">
+    <string-array name="list_car_model_entries">
         <item>@string/list_car_model_soulev2015</item>
-        <item>@string/list_car_model_ionic</item>
+        <item>@string/list_car_model_ioniq</item>
     </string-array>
 
     <string-array name="list_car_model_values">
         <item>@string/list_car_model_value_SoulEV2015</item>
-        <item>@string/list_car_model_value_Ionic</item>
+        <item>@string/list_car_model_value_IoniqEV</item>
     </string-array>
 
     <!-- Distance units -->

@@ -6,7 +6,7 @@
             android:key="@string/key_list_car_model"
             android:title="@string/pref_car_model"
             android:dialogTitle="@string/pref_car_model"
-            android:entries="@array/list_car_models"
+            android:entries="@array/list_car_model_entries"
             android:entryValues="@array/list_car_model_values"
             android:defaultValue="@string/list_car_model_value_SoulEV2015" />
     </PreferenceCategory>
@@ -19,8 +19,7 @@
             android:dialogTitle="@string/pref_distance"
             android:entries="@array/list_distance_entries"
             android:entryValues="@array/list_distance_values"
-            android:defaultValue=
-                "@string/list_distance_value_km" />
+            android:defaultValue="@string/list_distance_value_km" />
         <ListPreference
             android:key="@string/key_list_units_energy_consumption"
             android:title="@string/pref_energy_consumption"

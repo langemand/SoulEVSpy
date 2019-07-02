@@ -55,7 +55,7 @@ public class ProtocolTest extends AndroidTestCase {
         assertEquals("KNDJX3AE1G7123456", CurrentValuesSingleton.getInstance().get("VIN"));
     }
 
-    public void testProtocolVinCommand_Ionic() throws Exception {
+    public void testProtocolVinCommand_Ioniq() throws Exception {
         CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
 
         Protocol protocol = new Protocol();
@@ -69,13 +69,13 @@ public class ProtocolTest extends AndroidTestCase {
             }
         });
 
-        final String ionicResponseTo0902 =
+        final String ioniqResponseTo0902 =
                 "7EA 10 13 5A 90 4B 4D 48 43\r" +
                         "7EA 03 7F 1A 12\r" +
                         "> ";
 
         List<Pair<String, String>> reqres = Arrays.asList(
-                new Pair<String, String>("09 02", ionicResponseTo0902)
+                new Pair<String, String>("09 02", ioniqResponseTo0902)
         );
         Responder responder = new Responder(reqres);
 

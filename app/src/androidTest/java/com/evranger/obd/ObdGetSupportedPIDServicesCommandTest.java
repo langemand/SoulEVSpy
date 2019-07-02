@@ -27,7 +27,7 @@ public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
             "7EA 06 49 00 54 40 00 00 \r" +
             ">";
 
-    final String ionic0900 = "7EB 06 49 00 14 40 00 00 \r" +
+    final String ioniq0900 = "7EB 06 49 00 14 40 00 00 \r" +
             "7EC 06 49 00 14 40 00 00 \r" +
             ">";
 
@@ -76,7 +76,7 @@ public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
         Assert.assertEquals("02,04,06,0A", vals.get("OBD.SupportedPids.09.7EA"));
     }
 
-    public void testObdSupportedPidsServicesCommand_hyundayIonic() {
+    public void testObdSupportedPidsServicesCommand_hyundayIoniq() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
         vals.setPreferences(prefs);
@@ -84,7 +84,7 @@ public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
         ObdGetSupportedPIDServicesCommand cmd = new ObdGetSupportedPIDServicesCommand("09");
         Responder r = new Responder(
                 Arrays.asList(
-                        new Pair<>(".*", ionic0900)
+                        new Pair<>(".*", ioniq0900)
                 ));
 
         try {
@@ -94,11 +94,11 @@ public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
             assertEquals("", e.getMessage());
         }
 
-        Object ionicPids7eb = vals.get("OBD.SupportedPids.09.7EB");
-        assertEquals("04,06,0A", ionicPids7eb);
+        Object ioniqPids7eb = vals.get("OBD.SupportedPids.09.7EB");
+        assertEquals("04,06,0A", ioniqPids7eb);
 
-        Object ionicPids7ec = vals.get("OBD.SupportedPids.09.7EC");
-        assertEquals("04,06,0A", ionicPids7ec);
+        Object ioniqPids7ec = vals.get("OBD.SupportedPids.09.7EC");
+        assertEquals("04,06,0A", ioniqPids7ec);
     }
 
 }
