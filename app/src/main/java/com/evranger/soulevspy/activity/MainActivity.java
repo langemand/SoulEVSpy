@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.evranger.soulevspy.advisor.ChargeStations;
 import com.evranger.soulevspy.advisor.EnergyWatcher;
+import com.evranger.soulevspy.car_model.ModelSpecificCommands;
 import com.evranger.soulevspy.fragment.BatteryCellmapFragment;
 import com.evranger.soulevspy.fragment.EnergyFragment;
 import com.evranger.soulevspy.io.Position;
@@ -40,7 +41,6 @@ import com.evranger.elm327.log.CommLog;
 import com.evranger.soulevspy.R;
 
 import com.evranger.soulevspy.fragment.ChargerLocationsFragment;
-//import org.hexpresso.soulevspy.fragment.DebugFragment;
 import com.evranger.soulevspy.fragment.BatteryFragment;
 import com.evranger.soulevspy.fragment.CarFragment;
 import com.evranger.soulevspy.fragment.DashboardFragment;
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private PowerConnectionReceiver mPowerConnectionReceiver = null;
     private EnergyWatcher mEnergyWatcher = null;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private ModelSpecificCommands mModelSpecificCommands;
 
 
     private boolean isPhoneCharging() {
@@ -193,8 +194,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         // ChargeStations
         mChargeStations = new ChargeStations(getBaseContext());
 
+        // Model specific loop commands
+        mModelSpecificCommands = new ModelSpecificCommands(mSharedPreferences);
+
         // Bluetooth OBD2 Device
-        mDevice = new OBD2Device(mSharedPreferences);
+        mDevice = new OBD2Device(mSharedPreferences, mModelSpecificCommands.getLoopCommands());
 
         // Calculations based on CurrentValuesSingleton (determines original nominal battery capacity)
         mBatteryStats = new BatteryStats();
