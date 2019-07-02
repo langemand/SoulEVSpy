@@ -17,7 +17,7 @@ public class ReadInputVoltageCommand extends AbstractCommand {
         super("AT RV");
         addResponseFilter(new RegularExpressionResponseFilter("(\\d+\\.?\\d+)V?"));
         withAutoProcessResponse(true);
-        setTimeoutMs(2000);
+        setTimeoutMs(3000);
     }
 
     public double getInputVoltage() {
