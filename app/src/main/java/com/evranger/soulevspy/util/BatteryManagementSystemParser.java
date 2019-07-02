@@ -427,7 +427,7 @@ public class BatteryManagementSystemParser {
             bmsData.batteryCellVoltage[99] = HexToInteger(line21.get(3)) * 0.02;
             bmsData.batteryCellVoltage[100] = HexToInteger(line21.get(4)) * 0.02;  // ???
         } else {
-            bmsData.numberOfCells = 96;
+            bmsData.numberOfCells = 96; // Kia Soul EV, Kia Niro PHEV, Hyundai Ioniq PHEV, ...
         }
 
         bmsData.batteryModuleTemperature[7] = HexToInteger(line21.get(5));
