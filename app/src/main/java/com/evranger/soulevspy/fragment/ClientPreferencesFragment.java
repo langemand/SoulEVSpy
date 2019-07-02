@@ -92,7 +92,10 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         // Updating all preferences summary...
 
-        ListPreference listPref = (ListPreference) findPreference(getString(R.string.key_list_units_distance));
+        ListPreference listPref = (ListPreference) findPreference(getString(R.string.key_list_car_model));
+        setListPreferenceSummary(listPref, mSharedPreferences.getCarModelStringValue());
+
+        listPref = (ListPreference) findPreference(getString(R.string.key_list_units_distance));
         setListPreferenceSummary(listPref, mSharedPreferences.getUnitsDistanceStringValue());
 
         listPref = (ListPreference) findPreference(getString(R.string.key_list_units_energy_consumption));
@@ -178,7 +181,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
             e.printStackTrace();
         }
 
-        pref.setSummary(String.format(getString(R.string.pref_about_summary), version));
+        pref.setSummary(String.format(getString(R.string.pref_version_summary), version));
     }
 
     private void setListPreferenceSummary(ListPreference pref, String value) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- preferences.xml keys -->
+    <string name="key_list_car_model">list_car_model</string>
     <string name="key_list_units_distance">list_distance</string>
     <string name="key_list_units_energy_consumption">list_energy_consumption</string>
     <string name="key_list_units_temperature">list_temperature</string>
@@ -12,6 +13,9 @@
     <string name="key_privacy_policy">key_privacy_policy</string>
 
     <!-- arrays.xml values -->
+    <string name="list_car_model_value_SoulEV2015">SoulEV2015</string>
+    <string name="list_car_model_value_Ionic">Ionic</string>
+
     <string name="list_distance_value_km">km</string>
     <string name="list_distance_value_mi">mi</string>
 

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Car Models -->
+    <PreferenceCategory android:title="@string/title_pref_car_models">
+        <ListPreference
+            android:key="@string/key_list_car_model"
+            android:title="@string/pref_car_model"
+            android:dialogTitle="@string/pref_car_model"
+            android:entries="@array/list_car_models"
+            android:entryValues="@array/list_car_model_values"
+            android:defaultValue="@string/list_car_model_value_SoulEV2015" />
+    </PreferenceCategory>
 
     <!-- Units -->
     <PreferenceCategory android:title="@string/title_pref_units">
@@ -9,7 +19,8 @@
             android:dialogTitle="@string/pref_distance"
             android:entries="@array/list_distance_entries"
             android:entryValues="@array/list_distance_values"
-            android:defaultValue="@string/list_distance_value_km" />
+            android:defaultValue=
+                "@string/list_distance_value_km" />
         <ListPreference
             android:key="@string/key_list_units_energy_consumption"
             android:title="@string/pref_energy_consumption"
@@ -48,6 +59,10 @@
     <!-- About -->
     <PreferenceCategory android:title="@string/title_pref_about">
         <Preference
+            android:key="@string/key_privacy_policy"
+            android:title="@string/pref_privacy_policy"
+            android:summary="@string/pref_privacy_policy_summary" />
+        <Preference
             android:key="@string/key_open_source_licenses"
             android:title="@string/pref_licenses"
             android:summary="@string/pref_licenses_summary" />
@@ -55,10 +70,6 @@
             android:key="@string/key_application_version"
             android:title="@string/pref_about"
             android:summary="Version info" />
-        <Preference
-            android:key="@string/key_privacy_policy"
-            android:title="@string/pref_privacy_policy"
-            android:summary="@string/pref_privacy_policy_summary" />
     </PreferenceCategory>
 
 </PreferenceScreen>

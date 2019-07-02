@@ -14,6 +14,7 @@ public class ClientSharedPreferences {
     public static final String SHARED_PREFERENCES_NAME = "SoulEvSpySharedPreferences";
 
     // preferences.xml keys
+    private final String PREF_CAR_MODEL;
     private final String PREF_UNITS_DISTANCE;
     private final String PREF_UNITS_ENERGY_CONSUMPTION;
     private final String PREF_UNITS_TEMPERATURE;
@@ -22,6 +23,7 @@ public class ClientSharedPreferences {
     private final String PREF_SCAN_INTERVAL;
 
     // Default values
+    public final String DEFAULT_CAR_MODEL;
     public final String DEFAULT_UNITS_DISTANCE;
     public final String DEFAULT_UNITS_ENERGY_CONSUMPTION;
     public final String DEFAULT_UNITS_TEMPERATURE;
@@ -34,6 +36,7 @@ public class ClientSharedPreferences {
 
     public ClientSharedPreferences(Context context) {
         // Load preference keys from XML
+        PREF_CAR_MODEL = context.getString(R.string.key_list_car_model);
         PREF_UNITS_DISTANCE = context.getString(R.string.key_list_units_distance);
         PREF_UNITS_ENERGY_CONSUMPTION = context.getString(R.string.key_list_units_energy_consumption);
         PREF_UNITS_TEMPERATURE = context.getString(R.string.key_list_units_temperature);
@@ -42,6 +45,7 @@ public class ClientSharedPreferences {
         PREF_SCAN_INTERVAL = context.getString(R.string.key_edit_scan_interval);
 
         // Load default values
+        DEFAULT_CAR_MODEL = context.getString(R.string.list_car_model_soulev2015);
         DEFAULT_UNITS_DISTANCE = context.getString(R.string.list_distance_km);
         DEFAULT_UNITS_ENERGY_CONSUMPTION = context.getString(R.string.list_energy_consumption_kwh_100km);
         DEFAULT_UNITS_TEMPERATURE = context.getString(R.string.list_temperature_c);
@@ -52,6 +56,10 @@ public class ClientSharedPreferences {
         // Create the SharedPreferences object
         mContext = context;
         sharedPreferences = context.getSharedPreferences( SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE );
+    }
+
+    public String getCarModelStringValue() {
+        return sharedPreferences.getString(PREF_CAR_MODEL, DEFAULT_CAR_MODEL);
     }
 
     public String getUnitsDistanceStringValue() {

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Car models -->
+    <string-array name="list_car_models">
+        <item>@string/list_car_model_soulev2015</item>
+        <item>@string/list_car_model_ionic</item>
+    </string-array>
+
+    <string-array name="list_car_model_values">
+        <item>@string/list_car_model_value_SoulEV2015</item>
+        <item>@string/list_car_model_value_Ionic</item>
+    </string-array>
+
     <!-- Distance units -->
     <string-array name="list_distance_entries">
         <item>@string/list_distance_km</item>
