@@ -14,7 +14,7 @@ public class VehicleIdentifierNumberCommand extends AbstractCommand {
     private String mVIN = null;
 
     public VehicleIdentifierNumberCommand() {
-        super("09 02");
+        super("09 02"); // Kia e-Niro: send "1A 80" to 7E2, see https://github.com/openvehicles/Open-Vehicle-Monitoring-System-3/blob/master/vehicle/OVMS.V3/components/vehicle_kianiroev/src/vehicle_kianiroev.cpp#L83
 
         withAutoProcessResponse(true);
         // This command assumes headers are turned on!
