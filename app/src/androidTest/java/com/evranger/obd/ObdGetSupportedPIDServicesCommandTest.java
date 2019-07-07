@@ -31,12 +31,8 @@ public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
             "7EC 06 49 00 14 40 00 00 \r" +
             ">";
 
-//            >o:01 01
-//    i:7EA 06 41 01 00 04 00 00
-//
-//            >o:03
-//    i:7EC 02 43 00
-//            7EA 02 43 00
+    final String badresponse0900 = "7EB 06 49 00 \r" +
+            ">";
 
     public void testSomeSupportedPIDs01() throws InterruptedException, TimeoutException, IOException {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
@@ -101,4 +97,23 @@ public class ObdGetSupportedPIDServicesCommandTest extends AndroidTestCase {
         assertEquals("04,06,0A", ioniqPids7ec);
     }
 
+    public void testBadResponsePIDs09() throws InterruptedException, TimeoutException, IOException {
+        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        vals.setPreferences(prefs);
+
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("09.?00", badresponse0900)
+        );
+        Responder responder = new Responder(reqres);
+
+        ObdGetSupportedPIDServicesCommand cmd = new ObdGetSupportedPIDServicesCommand("09");
+        cmd.execute(responder.getInput(), responder.getOutput());
+        cmd.doProcessResponse();
+
+        Thread.sleep(20);
+
+        Assert.assertEquals(null, vals.get("OBD.SupportedPids.01.7EB"));
+        Assert.assertEquals(null, vals.get("OBD.SupportedPids.01.7EC"));
+    }
 }

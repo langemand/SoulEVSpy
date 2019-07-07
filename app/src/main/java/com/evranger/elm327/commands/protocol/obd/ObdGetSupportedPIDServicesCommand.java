@@ -31,19 +31,23 @@ public class ObdGetSupportedPIDServicesCommand extends AbstractCommand {
         if (lines != null && !lines.isEmpty()) {
             for (String response : lines) {
                 Set<Integer> supportedPIDS = new HashSet<Integer>();
-                int senderAddress = Integer.parseInt(response.substring(0,3), 16);
-                String hex = response.substring(13).replace(" ", "");
-                long binary = Long.parseLong(hex, 16);
-                Integer pid = 32;
-                while (binary > 0) {
-                    if ((binary & 1) == 1) {
-                        supportedPIDS.add(pid);
-                    }
-                    --pid;
-                    binary = binary>>1;
+                try {
+                    int senderAddress = Integer.parseInt(response.substring(0, 3), 16);
+                    String hex = response.substring(13).replace(" ", "");
+                    long binary = Long.parseLong(hex, 16);
+                    Integer pid = 32;
+                    while (binary > 0) {
+                        if ((binary & 1) == 1) {
+                            supportedPIDS.add(pid);
+                        }
+                        --pid;
+                        binary = binary >> 1;
 
+                    }
+                    mSupportedPIDS.put(senderAddress, supportedPIDS);
+                } catch (Exception ex) {
+                    // Ignore badly formatted input
                 }
-                mSupportedPIDS.put(senderAddress, supportedPIDS);
             }
         }
     }
