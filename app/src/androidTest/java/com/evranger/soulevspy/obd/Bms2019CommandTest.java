@@ -25,15 +25,15 @@ public class Bms2019CommandTest extends AndroidTestCase {
             ">";
 
     final String msg220101 = "7EC 10 3E 62 01 01 FF F7 E7\r" +
-"7EC 21 FF 85 42 68 42 68 03\r" +
-"7EC 22 00 0C 0E CA 13 11 11\r" +
-"7EC 23 11 11 13 00 00 13 C1 \r" +
-"7EC 24 11 C1 2A 00 00 94 00\r" +
-"7EC 25 00 1D EB 00 00 1C 9D\r" +
-"7EC 26 00 00 0B 0E 00 00 0A \r" +
-"7EC 27 50 00 0A 3B 29 0D 01\r" +
-"7EC 28 7A 00 00 00 00 03 E8\r" +
-">\r";
+            "7EC 21 FF 85 42 68 42 68 03\r" +
+            "7EC 22 00 0C 0E CA 13 11 11\r" +
+            "7EC 23 11 11 13 00 00 13 C1 \r" +
+            "7EC 24 11 C1 2A 00 00 94 00\r" +
+            "7EC 25 00 1D EB 00 00 1C 9D\r" +
+            "7EC 26 00 00 0B 0E 00 00 0A \r" +
+            "7EC 27 50 00 0A 3B 29 0D 01\r" +
+            "7EC 28 7A 00 00 00 00 03 E8\r" +
+            ">";
 
     final String msg220102 = "7EC 10 27 62 01 02 FF FF FF \r" +
             "7EC 21 FF C1 C1 C1 C1 C1 C1 \r" +
