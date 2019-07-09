@@ -22,6 +22,7 @@ import com.evranger.soulevspy.obd.commands.FilteredMonitorCommand;
 import com.evranger.soulevspy.obd.commands.LowVoltageDCConverterSystemCommand;
 import com.evranger.soulevspy.obd.commands.OnBoardChargerCommand;
 import com.evranger.soulevspy.obd.commands.TirePressureMSCommand;
+import com.evranger.soulevspy.obd.commands.Vmcu2019Command;
 import com.evranger.soulevspy.obd.commands.VmcuCommand;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
@@ -46,6 +47,9 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));
+        mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
+        mLoopCommands.add(new EcuNameCommand()); // Get ECU names
+        mLoopCommands.add(new Vmcu2019Command());
         mLoopCommands.add(new BMS2019Command());
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));

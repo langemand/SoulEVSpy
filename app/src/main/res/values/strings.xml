@@ -147,6 +147,7 @@
     <string name="col_vmcu_accel_pedal_depth_pct">vmcu.accel_pedal_depth_pct</string>
     <string name="col_vmcu_vehicle_speed_kph">vmcu.vehicle_speed_kph</string>
     <string name="col_vmcu_aux_battery_V">vmcu.aux_battery_V</string>
+    <string name="col_vmcu_aux_battery_SOC_pct">vmcu.aux_battery_V</string>
     <string name="col_vmcu_inverter_input_V">vmcu.inverter_input_V</string>
     <string name="col_vmcu_motor_actual_speed_rpm">vmcu.motor_actual_speed_rpm</string>
     <string name="col_vmcu_motor_torque_command_Nm">vmcu.motor_torque_command_Nm</string>
