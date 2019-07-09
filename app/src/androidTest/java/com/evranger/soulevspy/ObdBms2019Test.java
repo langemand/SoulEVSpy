@@ -81,6 +81,6 @@ public class ObdBms2019Test extends AndroidTestCase {
 
         BMS2019Parser.Data parsedData = parser.getParsedData();
 
-        Assert.assertEquals(61.0, parsedData.stateOfChargeDisplay);
+        Assert.assertEquals(18, parsedData.coolingWaterTemperature);
     }
 }
