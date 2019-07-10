@@ -27,6 +27,7 @@
     <string name="list_car_model_esoul2020">Kia e-Soul 2020</string>
     <string name="list_car_model_soulev2015">Kia Soul EV 2015</string>
     <string name="list_car_model_ioniq">Hyundai Ioniq</string>
+    <string name="list_car_model_monitor">Monitor Mode</string>
 
     <string name="title_pref_units">Units</string>
     <string name="pref_distance">Distance</string>

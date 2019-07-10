@@ -38,9 +38,26 @@ public class ModelSpecificCommands {
             setKiaeSoul(sharedPreferences);
         } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_SoulEV2015))) {
             setKiaSoulEV(sharedPreferences);
+        } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_MonitorMode))) {
+            setMonitorMode(sharedPreferences);
         } else { // Unknown car model ...?
             setKiaSoulEV(sharedPreferences);
         }
+    }
+
+    private void setMonitorMode(ClientSharedPreferences sharedPreferences) {
+        mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
+        mLoopCommands.add(new ReadInputVoltageCommand());
+        mLoopCommands.add(new BasicCommand("AT SH 7DF"));
+        mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
+        mLoopCommands.add(new EcuNameCommand()); // Get ECU names
+        mLoopCommands.add(new BasicCommand("AT CRA"));
+        mLoopCommands.add(new BasicCommand("AT AR"));
+        BasicCommand monitorAllCmd = new BasicCommand("AT MA");
+        monitorAllCmd.setTimeoutMs(60000);
+        mLoopCommands.add(monitorAllCmd); // Monitor all messages
+
+        mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
     }
 
     private void setKiaeSoul(ClientSharedPreferences sharedPreferences) {
@@ -58,7 +75,7 @@ public class ModelSpecificCommands {
     private void setHyundaiIoniqEV(ClientSharedPreferences sharedPreferences) {
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
         mLoopCommands.add(new ReadInputVoltageCommand());
-        mLoopCommands.add(new BasicCommand("AT SH 7DF"));
+//        mLoopCommands.add(new BasicCommand("AT SH 7DF"));
 //        VehicleIdentifierNumberCommand vinCmd = new VehicleIdentifierNumberCommand();
 //        vinCmd.setTimeoutMs(4000);
 //        mLoopCommands.add(vinCmd);
