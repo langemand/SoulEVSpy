@@ -71,7 +71,7 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
         if (remainingRange != null) {
             mItems.add(new ListViewItem("Car estimated remaining range (km)", new DecimalFormat("0.0").format(remainingRange)));
         } else {
-            remainingRange = 212.0;
+            remainingRange = 452.0;
         }
 
         boolean warningAdded = false;
@@ -81,7 +81,7 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
             // Sort by distance
             Collections.sort(nearChargers, new ChargeLocationComparator());
             // Display nearest 10
-            for (int i = 0; i < Math.min(50, nearChargers.size()); ++i) {
+            for (int i = 0; i < Math.min(500, nearChargers.size()); ++i) {
                 ChargeLocation charger = nearChargers.get(i);
                 double dist_m = charger.get_distFromLookupPos();
 
@@ -103,7 +103,8 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
             }
             if (nearChargers.size() == 0) {
                 mItems.add(new ListViewItem("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-                        "No Quick-chargers nearby!"));
+                        "No DC-chargers nearby!"));
+                // TODO: Fetch AC-charger-locations
             }
         }
 

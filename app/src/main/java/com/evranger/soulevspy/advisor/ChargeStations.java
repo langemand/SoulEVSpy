@@ -34,6 +34,9 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     private Pos mLastPosRequested = new Pos(0.0,0.0);
     private double mLastRangeRequested = 25.0;
     private boolean mLastSucceeded = true;
+    private boolean mDCChademo;
+    private boolean mDCCcs;
+    private double mFullRange;
     // Instantiate the RequestQueue.
     RequestQueue requestQueue = null;
 
@@ -41,7 +44,10 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
 
     Bundle mRequestEventParams = new Bundle();
 
-    public ChargeStations(Context context) {
+    public ChargeStations(Context context, boolean chademo, boolean ccs, double fullRange) {
+        mDCChademo = chademo;
+        mDCCcs = ccs;
+        mFullRange = fullRange;
         mLastPosLookedUp = new Pos(0.0,0.0);
         mLastPosReDist = new Pos(0.0, 0.0);
         mContext = context;
@@ -81,8 +87,8 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
         Pos curPos = new Pos((Double)mValues.get(R.string.col_route_lat_deg), (Double)mValues.get(R.string.col_route_lng_deg));
         if (curPos == null || !curPos.isDefined())
             return;
-        double dist = 200000;
-        double redist = 200000;
+        double dist = 200 * 1000;
+        double redist = 200 * 1000;
         if (mLastPosLookedUp.isDefined() && curPos.isDefined()) {
             dist = curPos.distance(mLastPosLookedUp);
         }
@@ -91,12 +97,12 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
         }
         Double remainingRange = (Double) mValues.get("range_estimate_km");
         if (remainingRange == null) {
-            remainingRange = 200000.0;
+            remainingRange = 200 * 1000.0;
         } else {
             // Convert km to meter
             remainingRange = remainingRange * 1E3;
         }
-        if (obj == null || obj instanceof String || dist > 5000) {
+        if (obj == null || obj instanceof String || dist > 10000) {
             obj = getChargersInRange(curPos, remainingRange);
             mLastPosLookedUp = curPos;
             mLastPosReDist = curPos;
@@ -168,7 +174,21 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     }
 
     private void getJSONFromMobileDe(Pos pos, double range) {
-        String url = "https://api.goingelectric.de/chargepoints?key=" + mContext.getString(R.string.goingelectric_de_api_key) + "&lat=" + pos.mLat + "&lng=" + pos.mLng + "&radius=" + range/1000 + "&clustering=0&plugs=CHAdeMO";
+        StringBuilder plugs = new StringBuilder();
+        if (mDCChademo) {
+            plugs.append("CHAdeMO");
+        }
+        if (mDCCcs) {
+            if (mDCChademo) plugs.append(",");
+            plugs.append("CCS");
+        }
+
+        String url = "https://api.goingelectric.de/chargepoints?key=" + mContext.getString(R.string.goingelectric_de_api_key)
+                + "&lat=" + pos.mLat
+                + "&lng=" + pos.mLng
+                + "&radius=" + range/1000
+                + "&clustering=0"
+                + "&plugs=" + plugs.toString();
         mLastSucceeded = true;
 
         logChargeStationsRequestEvent(pos, range);

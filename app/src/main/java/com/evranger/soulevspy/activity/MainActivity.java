@@ -191,11 +191,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         // Listen to GPS location updates
         mPosition = new Position(this);
 
-        // ChargeStations
-        mChargeStations = new ChargeStations(getBaseContext());
-
         // Model specific loop commands
         mModelSpecificCommands = new ModelSpecificCommands(mSharedPreferences);
+
+        // ChargeStations
+        mChargeStations = new ChargeStations(getBaseContext(),mModelSpecificCommands.hasChademo(), mModelSpecificCommands.hasCCS(), mModelSpecificCommands.getFullRange());
 
         // Bluetooth OBD2 Device
         mDevice = new OBD2Device(mSharedPreferences, mModelSpecificCommands.getLoopCommands());

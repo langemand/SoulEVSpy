@@ -29,6 +29,14 @@ import com.evranger.soulevspy.util.ClientSharedPreferences;
 import java.util.ArrayList;
 
 public class ModelSpecificCommands {
+    public enum DCConnector {
+        ChaDeMo,
+        CCS,
+        Unknown
+    }
+
+    private DCConnector mDCConnector = DCConnector.Unknown;
+    private double mFullRange = 212;
     private ArrayList<Command> mLoopCommands = new ArrayList<Command>();
 
     public ModelSpecificCommands(ClientSharedPreferences sharedPreferences) {
@@ -46,6 +54,9 @@ public class ModelSpecificCommands {
     }
 
     private void setMonitorMode(ClientSharedPreferences sharedPreferences) {
+        mDCConnector = DCConnector.CCS;
+        mFullRange = 500;
+
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));
@@ -61,6 +72,9 @@ public class ModelSpecificCommands {
     }
 
     private void setKiaeSoul(ClientSharedPreferences sharedPreferences) {
+        mDCConnector = DCConnector.CCS;
+        mFullRange = 452;
+
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));
@@ -73,6 +87,9 @@ public class ModelSpecificCommands {
     }
 
     private void setHyundaiIoniqEV(ClientSharedPreferences sharedPreferences) {
+        mDCConnector = DCConnector.CCS;
+        mFullRange = 280;
+
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
         mLoopCommands.add(new ReadInputVoltageCommand());
 //        mLoopCommands.add(new BasicCommand("AT SH 7DF"));
@@ -87,6 +104,9 @@ public class ModelSpecificCommands {
     }
 
     private void setKiaSoulEV(ClientSharedPreferences sharedPreferences) {
+        mDCConnector = DCConnector.ChaDeMo;
+        mFullRange = 212;
+
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
 //        mLoopCommands.add(new BasicCommand("AT AR")); // Try Auto Receive
 //        mLoopCommands.add(new BasicCommand("01 00")); // Try Get supported PIDs
@@ -125,5 +145,17 @@ public class ModelSpecificCommands {
 
     public ArrayList<Command> getLoopCommands() {
         return mLoopCommands;
+    }
+
+    public boolean hasChademo() {
+        return mDCConnector == DCConnector.ChaDeMo;
+    }
+
+    public boolean hasCCS() {
+        return mDCConnector == DCConnector.CCS;
+    }
+
+    public double getFullRange() {
+        return mFullRange;
     }
 }
