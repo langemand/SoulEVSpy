@@ -42,6 +42,9 @@ public class KiaVinParserTest extends AndroidTestCase {
     // Matts car
     private final static String VIN_MATT                = "KNDJX3AE2F7001565"; // Matts VIN
 
+    // Henriks e-Soul 2020
+    private final static String VIN_ESOUL                = "KNAJ3811FL7000543"; // Henriks eSoul VIN
+
     // Model year - A = 2010, B = 2011; but I, O, Q, U, Z are skipped, and after Y comes 1, 2, 3, etc
     private final static String VIN_2014                = "KNDJX3AE1E7005477";
     private final static String VIN_2015                = "KNDJX3AE1F7005477";
@@ -79,6 +82,8 @@ public class KiaVinParserTest extends AndroidTestCase {
     private final static String SOULEV_PLUS       = "Plus/Luxury";
     private final static String SOULEV_ENGINE     = "Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80KW]";
     private final static String SOULEV_PROD_PLANT = "Gwangju (South Korea)";
+    private final static String SOULEV2020_EXCLUSIVE  = "Exclusive";
+    private final static String SOULEV2020_ENGINE     = "Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150KW]";
 
     /**
      * Illegal Strings
@@ -100,6 +105,7 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_TYREL).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2015_HENRIK).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_IWER).isValid());
+        Assert.assertTrue(new KiaVinParser(getContext(), VIN_ESOUL).isValid());
     }
 
     /**
@@ -190,6 +196,22 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertEquals(vin.getYear(), "2017");
         Assert.assertEquals(vin.getSequentialNumber(), "123456");
         Assert.assertEquals(vin.getProductionPlant(), "Unknown (0)");
+    }
+
+    /**
+     * Valid VIN from a 2020 model
+     */
+    public void test2020() {
+        KiaVinParser vin = new KiaVinParser(getContext(), VIN_ESOUL);
+        Assert.assertTrue(vin.isValid());
+        Assert.assertEquals(vin.getVIN(), VIN_ESOUL);
+        Assert.assertEquals(vin.getBrand(), "Kia");
+        Assert.assertEquals(vin.getModel(), "Soul EV");
+        Assert.assertEquals(vin.getTrim(), SOULEV2020_EXCLUSIVE);
+        Assert.assertEquals(vin.getEngine(), SOULEV2020_ENGINE);
+        Assert.assertEquals(vin.getYear(), "2020");
+        Assert.assertEquals(vin.getSequentialNumber(), "000543");
+        Assert.assertEquals(vin.getProductionPlant(), SOULEV_PROD_PLANT);
     }
 
     /**

@@ -55,32 +55,39 @@ public class KiaVinParser {
             return;
         }
 
-        // Motor type
-        final Character motorType = vehicleIdentificationNumber.charAt(7);
-        if ( !motorType.equals('E') )
-        {
-            mEngine = "Not a Soul EV";
-            Log.d("KiaVinParser", "Not a Soul EV! " + motorType);
-            return;
-        }
-
-        // At that point, we are sure that it's a Kia Soul EV!
+        // At that point, we are sure that it's a Kia Soul!
         mIsValid = true;
         mVIN = vehicleIdentificationNumber;
         mBrand = context.getString(R.string.car_kia);
-        mModel = context.getString(R.string.car_soulev);
-        mEngine = context.getString(R.string.car_engine_e);
 
-        // Model & series
+        // Motor type
+        final Character motorType = vehicleIdentificationNumber.charAt(7);
+
+        if (motorType.equals('E')) {
+            mEngine = context.getString(R.string.car_engine_e);
+        } else if (motorType.equals('1')) {
+            mEngine = context.getString(R.string.car_engine_e2020);
+        } else {
+            mEngine = "Not a Soul EV";
+            Log.d("KiaVinParser", "Unrecognized Soul EV motortype! " + motorType);
+            return;
+        }
+        mModel = context.getString(R.string.car_soulev);
+
+    // Model & series
         final Character trim = vehicleIdentificationNumber.charAt(4);
         switch(trim)
         {
-            case 'P':
+            case 'P': // Soul EV 2015
                 mTrim = context.getString(R.string.car_trim_base);
                 break;
 
-            case 'X':
+            case 'X': // Soul EV 2015
                 mTrim = context.getString(R.string.car_trim_plus);
+                break;
+
+            case '3': // e-Soul 2020
+                mTrim = context.getString(R.string.car_trim_exclusive);
                 break;
 
             default:
