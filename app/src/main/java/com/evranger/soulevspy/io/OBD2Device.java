@@ -170,6 +170,9 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                             e.printStackTrace();
                         }
                         if (mBluetoothService != null) {
+                            if (mReadLoop != null) {
+                                mReadLoop.stop();
+                            }
                             mReadLoop = new ReadLoop(mSharedPreferences, mBluetoothService, mLoopCommands);
                             mReadLoop.start();
                             logBluetoothEvent("connected");
