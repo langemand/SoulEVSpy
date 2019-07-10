@@ -56,7 +56,6 @@ public class KiaVinParser {
         }
 
         // At that point, we are sure that it's a Kia Soul!
-        mIsValid = true;
         mVIN = vehicleIdentificationNumber;
         mBrand = context.getString(R.string.car_kia);
 
@@ -72,6 +71,8 @@ public class KiaVinParser {
             Log.d("KiaVinParser", "Unrecognized Soul EV motortype! " + motorType);
             return;
         }
+
+        mIsValid = true;
         mModel = context.getString(R.string.car_soulev);
 
     // Model & series

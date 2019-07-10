@@ -86,7 +86,7 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
 //        assertEquals(false, vals.get(R.string.col_vmcu_radiator_fan_request_of_motor));
 //        assertEquals(true, vals.get(R.string.col_vmcu_ignition_1));
 //        assertEquals(33.0, vals.get(R.string.col_vmcu_accel_pedal_depth_pct));
-        assertEquals(4.18, vals.get(R.string.col_vmcu_vehicle_speed_kph));
+        assertEquals(6.727057920000001, vals.get(R.string.col_vmcu_vehicle_speed_kph));
         assertEquals(14.46, vals.get(R.string.col_vmcu_aux_battery_V));
         assertEquals(84.0, vals.get(R.string.col_vmcu_aux_battery_SOC_pct));
 //        assertEquals(380, vals.get(R.string.col_vmcu_inverter_input_V));
@@ -96,6 +96,6 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
 //        assertEquals(14, vals.get(R.string.col_vmcu_temp_motor_C));
 //        assertEquals(31, vals.get(R.string.col_vmcu_temp_mcu_C));
 //        assertEquals(19, vals.get(R.string.col_vmcu_temp_heatsink_C));
-        assertEquals("KNAJ#3811FL7$000543", vals.get("VIN"));
+        assertEquals("KNAJ3811FL7000543", vals.get("VIN"));
     }
 }
