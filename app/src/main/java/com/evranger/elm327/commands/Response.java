@@ -75,7 +75,7 @@ public class Response {
     public int get(int lineIndex, int byteIndex) {
         if (mResponseLines == null || lineIndex >= mResponseLines.size())
             throw new IndexOutOfBoundsException("Too few lines");
-        final String line = mResponseLines.get(lineIndex);
+        final String line = mResponseLines.get(lineIndex).replaceAll("\\s", "");
         final int start = byteIndex * 2;
         if (line.length() < start + 2)
             throw new IndexOutOfBoundsException("Line too short");

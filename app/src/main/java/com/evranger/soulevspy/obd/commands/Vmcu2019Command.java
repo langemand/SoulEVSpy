@@ -28,9 +28,9 @@ public class Vmcu2019Command extends AbstractMultiCommand {
         addCommand(mCmd2102);
         addCommand(mCmd1a80);
 
-        mCmd2101.addResponseFilter(new RegularExpressionResponseFilter("^7EA(.*)$"));
-        mCmd2102.addResponseFilter(new RegularExpressionResponseFilter("^7EA(.*)$"));
-        mCmd1a80.addResponseFilter(new RegularExpressionResponseFilter("^7EA(.*)$"));
+        mCmd2101.addResponseFilter(new RegularExpressionResponseFilter("^\\s*7EA(.*)$"));
+        mCmd2102.addResponseFilter(new RegularExpressionResponseFilter("^\\s*7EA(.*)$"));
+        mCmd1a80.addResponseFilter(new RegularExpressionResponseFilter("^\\s*7EA(.*)$"));
     }
 
     public void doProcessResponse() {
@@ -87,16 +87,14 @@ public class Vmcu2019Command extends AbstractMultiCommand {
 //2015            boolean ignition1 = (obdData00_2.getDataByte(3) >>4 & 1) != 0;
 //2015            vals.set(R.string.col_vmcu_ignition_1, ignition1);
 
-            // Vehicle Speed
-            int msb = obdData00_2.getDataByte(3);
-            int vehicleSpeed = msb*256 + obdData00_2.getDataByte(4);
+            // Vehicle Speed in Mile per hour
+            int msb = obdData00_2.getDataByte(4);
+            int vehicleSpeed = (msb<<8) | obdData00_2.getDataByte(3);
             if ((msb & 0x80) != 0) {
                 vehicleSpeed = vehicleSpeed - 65536;
             }
-            double decimalVehicleSpeed = vehicleSpeed / 100.0;
-            vals.set(R.string.col_vmcu_vehicle_speed_kph, decimalVehicleSpeed);
-
-
+            double vehicleSpeed_kph = vehicleSpeed * 1.609344 / 100;
+            vals.set(R.string.col_vmcu_vehicle_speed_kph, vehicleSpeed_kph);
 
             mCmd2102.getResponse().process();
             List<String> lines02 = mCmd2102.getResponse().getLines();
@@ -122,8 +120,8 @@ public class Vmcu2019Command extends AbstractMultiCommand {
             vals.set(R.string.col_vmcu_motor_actual_speed_rpm, motorActualRpm);
 
             // Aux Battery Voltage
-            ObdMessageData obdData02_3 = new ObdMessageData(lines02.get(1));
-            double auxBatteryVoltage = (obdData02_3.getDataByte(2) << 8 + obdData02_3.getDataByte(3) ) / 1000;
+            ObdMessageData obdData02_3 = new ObdMessageData(lines02.get(3));
+            double auxBatteryVoltage = ((obdData02_3.getDataByte(3) << 8) | obdData02_3.getDataByte(2) ) / 1000.0;
             vals.set(R.string.col_vmcu_aux_battery_V, auxBatteryVoltage);
 
             double auxSOC = obdData02_3.getDataByte(6);
@@ -140,7 +138,6 @@ public class Vmcu2019Command extends AbstractMultiCommand {
                 str.append((char) r.get(2, 5));
                 str.append((char) r.get(2, 6));
                 str.append((char) r.get(2, 7));
-                str.append((char) r.get(3, 0));
                 str.append((char) r.get(3, 1));
                 str.append((char) r.get(3, 2));
                 str.append((char) r.get(3, 3));
@@ -148,7 +145,6 @@ public class Vmcu2019Command extends AbstractMultiCommand {
                 str.append((char) r.get(3, 5));
                 str.append((char) r.get(3, 6));
                 str.append((char) r.get(3, 7));
-                str.append((char) r.get(4, 0));
                 str.append((char) r.get(4, 1));
                 str.append((char) r.get(4, 2));
                 str.append((char) r.get(4, 3));
@@ -210,6 +206,7 @@ public class Vmcu2019Command extends AbstractMultiCommand {
 //            int heatsinkTempC = obdData02_3.getDataByte(7) - 40;
 //            vals.set(R.string.col_vmcu_temp_heatsink_C, heatsinkTempC);
         } catch (Exception e) {
+            int i = 0;
             //
         }
     }
