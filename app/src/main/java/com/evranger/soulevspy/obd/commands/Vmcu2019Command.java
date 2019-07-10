@@ -87,7 +87,7 @@ public class Vmcu2019Command extends AbstractMultiCommand {
 //2015            boolean ignition1 = (obdData00_2.getDataByte(3) >>4 & 1) != 0;
 //2015            vals.set(R.string.col_vmcu_ignition_1, ignition1);
 
-            // Vehicle Speed in Mile per hour
+            // Vehicle Speed in (almost) Miles per hour - or perhaps PRECISELY Mph, before adding a bit for display?
             int msb = obdData00_2.getDataByte(4);
             int vehicleSpeed = (msb<<8) | obdData00_2.getDataByte(3);
             if ((msb & 0x80) != 0) {
@@ -123,6 +123,14 @@ public class Vmcu2019Command extends AbstractMultiCommand {
             ObdMessageData obdData02_3 = new ObdMessageData(lines02.get(3));
             double auxBatteryVoltage = ((obdData02_3.getDataByte(3) << 8) | obdData02_3.getDataByte(2) ) / 1000.0;
             vals.set(R.string.col_vmcu_aux_battery_V, auxBatteryVoltage);
+
+//            // Aux Battery Current
+//            msb = obdData02_3.getDataByte(5);
+//            int auxBatteryCurrent = ((msb << 8) | obdData02_3.getDataByte(4) );
+////            if ((msb & 0x80) != 0) {
+//                auxBatteryCurrent = auxBatteryCurrent - 32768;
+////            }
+//            vals.set(R.string.col_vmcu_aux_battery_A, auxBatteryCurrent / 1000.0);
 
             double auxSOC = obdData02_3.getDataByte(6);
             vals.set(R.string.col_vmcu_aux_battery_SOC_pct, auxSOC);
