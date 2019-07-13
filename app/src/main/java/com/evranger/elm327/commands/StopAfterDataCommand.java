@@ -2,6 +2,7 @@ package com.evranger.elm327.commands;
 
 import com.evranger.elm327.commands.filters.RegularExpressionResponseFilter;
 import com.evranger.elm327.commands.filters.RemoveSpacesResponseFilter;
+import com.evranger.elm327.log.CommLog;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,11 +14,11 @@ import java.util.concurrent.TimeoutException;
  */
 
 public class StopAfterDataCommand extends AbstractCommand {
-    long mStopMonitorTimeDelay = 100;
     long mTimeout = 0;
     String mFilter = new String();
 
     public StopAfterDataCommand(long timeout, String filter) {
+        setTimeoutMs(timeout);
         mTimeout = timeout;
         mFilter = filter;
         if (filter.length() == 3) {
@@ -45,8 +46,8 @@ public class StopAfterDataCommand extends AbstractCommand {
 
         TimeoutException caughtException = null;
         try {
-            setStopReadingAtLineEnd(true);
-            while (mResponse.getLines() == null || mResponse.getLines().size() == 0 && System.currentTimeMillis() < runStartTimestamp + mTimeout) {
+            setNumberOfLinesToRead(1);
+            while ((mResponse.getLines() == null || mResponse.getLines().size() == 0) && (System.currentTimeMillis() < (runStartTimestamp + mTimeout))) {
                 // Wait before trying to receive the monitor messages
                 //            Thread.sleep(mResponseTimeDelay);
 
@@ -59,18 +60,25 @@ public class StopAfterDataCommand extends AbstractCommand {
         } catch (TimeoutException e) {
             caughtException = e;
         }
-        out.write(' '); // Stop monitoring
-        setStopReadingAtLineEnd(false);
+
+        byte[] commandBytes = " ".getBytes();
+        out.write(commandBytes);
+        out.flush();
+        CommLog.getInstance().log("o:".getBytes());
+        CommLog.getInstance().log(commandBytes);// Stop monitoring
+
+        setNumberOfLinesToRead(0);
         mResponse.setRawResponse(rawResponse);
 
         // Wait before trying to receive the command response
         Thread.sleep(mResponseTimeDelay);
 
         rawResponse += readRawData(in);
+        flushInput(in);
 
         runStartTimestamp = System.currentTimeMillis();
         String ar_response = "";
-        while (!ar_response.contains("OK\r\r>") && System.currentTimeMillis() < runStartTimestamp+mTimeout) {
+        while ((!ar_response.endsWith(">")) && (System.currentTimeMillis() < (runStartTimestamp+mTimeout))) {
             mCommand = "AT AR";
             send(out);
             ar_response = readRawData(in);

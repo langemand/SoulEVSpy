@@ -139,7 +139,7 @@ public class CommandTest extends AndroidTestCase {
      *
      */
     public void testBasicCommand() {
-        final String response = "ABCD";
+        final String response = "ABCD>";
         input = new ByteArrayInputStream(response.getBytes());
 
         ElmCommand cmd = (ElmCommand) new ElmCommand().withAutoProcessResponse(true);

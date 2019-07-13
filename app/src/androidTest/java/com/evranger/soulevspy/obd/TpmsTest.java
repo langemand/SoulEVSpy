@@ -25,7 +25,7 @@ public class TpmsTest extends AndroidTestCase {
             "7D6 22 00 0E AD 11 9C 4A 26 02 \r" +
             "7D6 23 00 0E AD 11 9B 49 26 02 \r" +
             "7D6 24 00 0E AD 11 9A 48 26 02 \r" +
-            "> \r";
+            ">";
 
     final String msg2106 = // Henriks car in december
             "7DE 10 22 61 06 00 1E 6B 8B \r" +
@@ -33,11 +33,11 @@ public class TpmsTest extends AndroidTestCase {
             "7DE 22 D1 8B 38 1E 02 00 1E \r" +
             "7DE 23 E2 CC 8A 37 1E 02 00 \r" +
             "7DE 24 1E B3 1F 8B 39 0E 02 \r" +
-            "> \r";
+            ">";
 
     final String msgok =
             "OK \r" +
-            "> ";
+            ">";
 
     public void test2106() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();

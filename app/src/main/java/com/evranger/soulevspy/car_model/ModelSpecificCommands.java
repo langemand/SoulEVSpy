@@ -78,6 +78,10 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));
+
+        // Temporary hack for testing timeout handling...
+//        mLoopCommands.add(new FilteredMonitorCommand(new OdometerMessageFilter()));
+
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
         mLoopCommands.add(new Vmcu2019Command());

@@ -34,8 +34,7 @@ public abstract class AbstractCommand implements Command {
     private long mRunStartTimestamp;                           // Timestamp before sending the command
     private long mRunEndTimestamp;                             // Timestamp after receiving the command response
     private boolean mWithAutoProcessResponse = false;          //
-    private boolean mStopReadingAtLineEnd = false;             // If false, stop reading at '>', if true, at '\r'
-    protected boolean mStopReadingAtQuestionMark = false;      // If true, stop reading at '\r' or '>', whichever comes first
+    private int mLinesToRead = 0;                              // Stop reading after this many lines. 0 means continue forever
     private long mTimeout_ms = 1500L;                          // Input timeout
     private boolean mSkip = false;
     /**
@@ -147,6 +146,7 @@ public abstract class AbstractCommand implements Command {
     }
 
     protected String readRawData(InputStream in) throws IOException, TimeoutException {
+        int linesRead = 0;
         StringBuilder res = new StringBuilder();
         String rawResponse = "";
         long runStartTimestamp = System.currentTimeMillis();
@@ -173,22 +173,14 @@ public abstract class AbstractCommand implements Command {
 
             final char c = (char) b;
             res.append(c);
+            if (c == '\r') {
+                ++linesRead;
+            }
 
-            if (c == '>' && !mStopReadingAtLineEnd) {
+            if (stopReading(c, linesRead)) {
                 rawResponse = processResponse(res.toString());
                 // read until '>' arrives
-                flushInput(in);
-                break;
-            }
-            if (mStopReadingAtLineEnd && c == '\r') {
-                rawResponse = processResponse(res.toString());
-                flushInput(in);
-                break;
-            }
-            if (c == '?' && mStopReadingAtQuestionMark) {
-// Don't process in ths case                rawResponse = processResponse(res.toString());
-                // read until '>' arrives
-                flushInput(in);
+                flushInput(in, c != '>');
                 break;
             }
         }
@@ -246,8 +238,8 @@ public abstract class AbstractCommand implements Command {
         return this;
     }
 
-    public void setStopReadingAtLineEnd(boolean tostop) {
-        mStopReadingAtLineEnd = tostop;
+    public void setNumberOfLinesToRead(int linesToRead) {
+        mLinesToRead = linesToRead;
     }
 
     public boolean skip(boolean doSkip)
@@ -257,17 +249,46 @@ public abstract class AbstractCommand implements Command {
         return prevSkip;
     }
 
-    protected void flushInput(InputStream in) throws IOException {
-        StringBuilder res = new StringBuilder();
-        while (in.available() > 0) {
-            final byte b = (byte) in.read();
-            if (b == -1) // -1 if the end of the stream is reached
-                break;
-            res.append((char)b);
-        }
-        if (res.length() > 0) {
-            CommLog.getInstance().log("f:".getBytes());
-            CommLog.getInstance().log(res.toString().getBytes());
+    protected void flushInput(InputStream in) throws IOException, TimeoutException {
+        flushInput(in, false);
+    }
+
+    protected void flushInput(InputStream in, boolean readtoprompt) throws IOException, TimeoutException {
+        if (readtoprompt || in.available() != 0) {
+            StringBuilder res = new StringBuilder();
+            while (true) {
+                if (in.available() == 0) {
+                    if ((mRunStartTimestamp + mTimeout_ms) < System.currentTimeMillis()) {
+                        throw new TimeoutException("flushInput timed out while waiting for input");
+                    }
+                    SystemClock.sleep(1);
+                    continue;
+                }
+                final byte b = (byte) in.read();
+                if (b == -1) // -1 if the end of the stream is reached
+                    break;
+                char c = (char) b;
+                res.append(c);
+                if (c == '>') {
+                    break;
+                }
+            }
+            if (res.length() > 0) {
+                CommLog.getInstance().log("f:".getBytes());
+                CommLog.getInstance().log(res.toString().getBytes());
+            }
         }
     }
+
+    public boolean stopReading(char c, int linesRead) {
+        if (c == '>') {
+            return true;
+        }
+        if (mLinesToRead != 0 && linesRead == mLinesToRead && c == '\r') {
+            return true;
+        }
+
+        return false;
+    }
+
 }

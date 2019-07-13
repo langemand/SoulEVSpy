@@ -47,6 +47,7 @@ public class ObdGetSupportedPIDServicesCommand extends AbstractCommand {
                     mSupportedPIDS.put(senderAddress, supportedPIDS);
                 } catch (Exception ex) {
                     // Ignore badly formatted input
+                    int i = 0;
                 }
             }
         }

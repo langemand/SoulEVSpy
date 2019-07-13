@@ -1,6 +1,10 @@
 package com.evranger.elm327.commands.protocol;
 
+import android.os.SystemClock;
+import android.util.Log;
+
 import com.evranger.elm327.commands.AbstractCommand;
+import com.evranger.elm327.log.CommLog;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,20 +17,31 @@ import java.util.concurrent.TimeoutException;
 public class StopCommand extends AbstractCommand {
     public StopCommand() {
         super(" ");
-        mStopReadingAtQuestionMark=true;
-        setTimeoutMs(5000); // Allow ELM327 time to stop monitoring overflow etc
+//        mStopReadingAtQuestionMark=false;
     }
 
     @Override
     public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException {
+        setTimeoutMs(100); // Allow ELM327 time to stop monitoring overflow etc
         // Skip possible output from previous commands
-        flushInput(in);
-
-        // Send the command to stop monitoring
-        send(out);
-
         try {
-            readRawData(in); // Read until '>' or '?', indicating ELM327 ready for next command
+            flushInput(in);
+        } catch (TimeoutException ex) {
+            // When could this happen?
+        }
+
+        // Send a char to stop monitoring
+        final String command = " ";
+        Log.d(AbstractCommand.class.getSimpleName(), "send command: " + command);
+        byte[] commandBytes = command.getBytes();
+        out.write(commandBytes);
+        out.flush();
+        CommLog.getInstance().log("o:".getBytes());
+        CommLog.getInstance().log(commandBytes);
+
+        setTimeoutMs(2000); // Allow ELM327 time to stop monitoring overflow etc
+        try {
+            flushInput(in, true); // Read until '>', indicating ELM327 ready for next command
         } catch (TimeoutException ex) {
             // When could this happen?
         }

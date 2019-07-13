@@ -36,7 +36,7 @@ public class ProtocolTest extends AndroidTestCase {
         final String vin = "7EA 10 14 49 02 01 4B 4E 44 \r" +
                            "7EA 21 4A 58 33 41 45 31 47 \r" +
                            "7EA 22 37 31 32 33 34 35 36 \r" +
-                "> ";
+                ">";
 
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("09 02", vin)
@@ -72,7 +72,7 @@ public class ProtocolTest extends AndroidTestCase {
         final String ioniqResponseTo0902 =
                 "7EA 10 13 5A 90 4B 4D 48 43\r" +
                         "7EA 03 7F 1A 12\r" +
-                        "> ";
+                        ">";
 
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("09 02", ioniqResponseTo0902)
