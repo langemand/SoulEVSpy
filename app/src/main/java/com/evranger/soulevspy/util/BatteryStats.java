@@ -55,8 +55,8 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
             }
         }
         if (modelyear < 2018 && nomcap != 0) {
-            Double detmin = (Double) mValues.get(R.string.col_battery_min_cell_detoriation_pct);
-            Double detmax = (Double) mValues.get(R.string.col_battery_max_cell_detoriation_pct);
+            Double detmin = (Double) mValues.get(R.string.col_battery_min_cell_deterioration_pct);
+            Double detmax = (Double) mValues.get(R.string.col_battery_max_cell_deterioration_pct);
             if (detmax != null && detmin != null) {
                 double detavg = (detmin + detmax) / 2;
                 double sohpct = 110.0 - detavg;

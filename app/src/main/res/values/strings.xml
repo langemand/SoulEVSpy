@@ -191,10 +191,10 @@
     <string name="col_battery_min_cell_voltage_V">battery.min_cell_voltage_V</string>
     <string name="col_battery_min_cell_voltage_n">battery.min_cell_voltage_n</string>
     <string name="col_battery_state_of_health_pct">battery.state_of_health_pct</string>
-    <string name="col_battery_max_cell_detoriation_pct">battery.max_cell_detoriation_pct</string>
-    <string name="col_battery_max_cell_detoriation_n">battery.max_cell_detoriation_n</string>
-    <string name="col_battery_min_cell_detoriation_pct">battery.min_cell_detoriation_pct</string>
-    <string name="col_battery_min_cell_detoriation_n">battery.min_cell_detoriation_n</string>
+    <string name="col_battery_max_cell_deterioration_pct">battery.max_cell_deterioration_pct</string>
+    <string name="col_battery_max_cell_deterioration_n">battery.max_cell_deterioration_n</string>
+    <string name="col_battery_min_cell_deterioration_pct">battery.min_cell_deterioration_pct</string>
+    <string name="col_battery_min_cell_deterioration_n">battery.min_cell_deterioration_n</string>
     <string name="col_battery_auxiliaryVoltage_V">battery.auxiliaryVoltage_V</string>
     <string name="col_battery_fan_status">battery.fan_status</string>
     <string name="col_battery_fan_feedback_signal">battery.fan_feedback_signal</string>

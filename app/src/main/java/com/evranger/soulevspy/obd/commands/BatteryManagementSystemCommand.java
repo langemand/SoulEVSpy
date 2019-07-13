@@ -98,10 +98,10 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         vals.set(R.string.col_battery_max_cell_voltage_n, Integer.valueOf(data.maxCellVoltageNo));
         vals.set(R.string.col_battery_min_cell_voltage_V, Double.valueOf(data.minCellVoltage));
         vals.set(R.string.col_battery_min_cell_voltage_n, Integer.valueOf(data.minCellVoltageNo));
-        vals.set(R.string.col_battery_max_cell_detoriation_pct, Double.valueOf(data.maxDeterioration));
-        vals.set(R.string.col_battery_max_cell_detoriation_n, Integer.valueOf(data.maxDeteriorationCellNo));
-        vals.set(R.string.col_battery_min_cell_detoriation_pct, Double.valueOf(data.minDeterioration));
-        vals.set(R.string.col_battery_min_cell_detoriation_n, Integer.valueOf(data.minDeteriorationCellNo));
+        vals.set(R.string.col_battery_max_cell_deterioration_pct, Double.valueOf(data.maxDeterioration));
+        vals.set(R.string.col_battery_max_cell_deterioration_n, Integer.valueOf(data.maxDeteriorationCellNo));
+        vals.set(R.string.col_battery_min_cell_deterioration_pct, Double.valueOf(data.minDeterioration));
+        vals.set(R.string.col_battery_min_cell_deterioration_n, Integer.valueOf(data.minDeteriorationCellNo));
         vals.set(R.string.col_battery_auxiliaryVoltage_V, Double.valueOf(data.auxiliaryBatteryVoltage));
         vals.set(R.string.col_battery_fan_status, data.fanStatus.toString());
         vals.set(R.string.col_battery_fan_feedback_signal, Integer.valueOf(data.fanFeedbackSignal));

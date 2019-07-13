@@ -39,7 +39,7 @@ public class ReplayLoop {
             String header = mReader.readLine();
             mHeaders = header.split(regex);
             for (int i = 0; i < mHeaders.length; ++i) {
-                mHeaders[i] = mHeaders[i].replaceAll("\"", "");
+                mHeaders[i] = mHeaders[i].replaceAll("\"", "").replace("detoriation", "deterioration");
             }
             String line = mReader.readLine();
             mValues = line.split(regex);

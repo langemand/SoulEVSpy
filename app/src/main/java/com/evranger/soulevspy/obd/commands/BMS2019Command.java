@@ -38,7 +38,7 @@ public class BMS2019Command extends AbstractMultiCommand {
         mCmd210106 = new BasicCommand("22 01 06");
 
         addCommand(new BasicCommand(/*"AT SH 7DF")); */"AT SH 7E4"));
-        addCommand(new BasicCommand("AT CRA 7EC"));
+//        addCommand(new BasicCommand("AT CRA 7EC"));
         addCommand(mCmd210101);
         addCommand(mCmd210102);
         addCommand(mCmd210103);
@@ -104,9 +104,9 @@ public class BMS2019Command extends AbstractMultiCommand {
         vals.set(R.string.col_battery_min_cell_voltage_V, Double.valueOf(data.minCellVoltage));
         vals.set(R.string.col_battery_min_cell_voltage_n, Integer.valueOf(data.minCellVoltageNo));
         vals.set(R.string.col_battery_state_of_health_pct, Double.valueOf(data.stateOfHealth));
-        vals.set(R.string.col_battery_max_cell_detoriation_n, Integer.valueOf(data.maxDeteriorationCellNo));
-        vals.set(R.string.col_battery_min_cell_detoriation_pct, Double.valueOf(data.minDeterioration));
-        vals.set(R.string.col_battery_min_cell_detoriation_n, Integer.valueOf(data.minDeteriorationCellNo));
+        vals.set(R.string.col_battery_max_cell_deterioration_n, Integer.valueOf(data.maxDeteriorationCellNo));
+        vals.set(R.string.col_battery_min_cell_deterioration_pct, Double.valueOf(data.minDeterioration));
+        vals.set(R.string.col_battery_min_cell_deterioration_n, Integer.valueOf(data.minDeteriorationCellNo));
         vals.set(R.string.col_battery_auxiliaryVoltage_V, Double.valueOf(data.auxiliaryBatteryVoltage));
         vals.set(R.string.col_battery_fan_status, data.fanStatus.toString());
         vals.set(R.string.col_battery_fan_feedback_signal, Integer.valueOf(data.fanFeedbackSignal));
