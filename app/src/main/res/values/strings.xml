@@ -205,8 +205,8 @@
     <string name="col_range_estimate_km">range.estimate_km</string>
     <string name="col_range_estimate_for_climate_km">range.estimate_for_climate_km</string>
 
-    <string name="col_tire_pressure">tire.pressure</string>
-    <string name="col_tire_temperature">tire.temperature</string>
+    <string name="col_tire_pressure_psi">tire.pressure</string>
+    <string name="col_tire_temperature_C">tire.temperature</string>
 
     <string name="col_calc_battery_soh_pct">calc.battery_SOH_pct</string>
 

@@ -2,7 +2,6 @@ package com.evranger.soulevspy.obd.commands;
 
 import com.evranger.elm327.commands.AbstractMultiCommand;
 import com.evranger.elm327.commands.filters.RegularExpressionResponseFilter;
-import com.evranger.elm327.commands.protocol.StopCommand;
 import com.evranger.obd.ObdMessageData;
 import com.evranger.soulevspy.R;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
@@ -38,12 +37,12 @@ public class TirePressureMSCommand extends AbstractMultiCommand {
 
         for (int i = 1; i < 5; ++i) {
             ObdMessageData obdData = new ObdMessageData(lines.get(i));
-            vals.set(R.string.col_tire_pressure, i, "_psi", Double.valueOf(obdData.getDataByte(i) * 0.25));
+            vals.set(R.string.col_tire_pressure_psi, i, "_psi", Double.valueOf(obdData.getDataByte(i) * 0.25));
         }
 
         for (int i = 1; i < 5; ++i) {
             ObdMessageData obdData = new ObdMessageData(lines.get(i));
-            vals.set(R.string.col_tire_temperature, i, "_C", Integer.valueOf(obdData.getDataByte(i+1) - 55));
+            vals.set(R.string.col_tire_temperature_C, i, "_C", Integer.valueOf(obdData.getDataByte(i+1) - 55));
         }
     }
 }

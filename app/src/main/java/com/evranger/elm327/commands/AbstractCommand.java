@@ -2,6 +2,7 @@ package com.evranger.elm327.commands;
 
 import com.evranger.elm327.exceptions.BufferFullException;
 import com.evranger.elm327.exceptions.CanErrorException;
+import com.evranger.elm327.exceptions.DataErrorException;
 import com.evranger.elm327.log.CommLog;
 import com.evranger.elm327.exceptions.BusInitException;
 import com.evranger.elm327.exceptions.MisunderstoodCommandException;
@@ -44,6 +45,7 @@ public abstract class AbstractCommand implements Command {
             UnableToConnectException.class,
             BusInitException.class,
             MisunderstoodCommandException.class,
+            DataErrorException.class,
             NoDataException.class,
             StoppedException.class,
             UnknownErrorException.class,
