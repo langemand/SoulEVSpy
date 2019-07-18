@@ -65,7 +65,7 @@ public class TireFragment extends ListFragment implements CurrentValuesSingleton
                 if (key.contains("temperature")) {
                     mItems.add(new ListViewItem(key.substring(0, key.length() - 2), new DecimalFormat("0.0").format(unit.convertTemp((int)obj)) + " " + unit.mTempUnit));
                 } else {
-                    mItems.add(new ListViewItem(key, obj.toString() + " psi"));
+                    mItems.add(new ListViewItem(key, new DecimalFormat("0.0").format(obj) + " psi"));
                 }
             }
         }
