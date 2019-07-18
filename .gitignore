@@ -57,3 +57,4 @@ app/google-services.json
 
 Secret keys
 app/src/main/res/values/secrets.xml
+app/release/
