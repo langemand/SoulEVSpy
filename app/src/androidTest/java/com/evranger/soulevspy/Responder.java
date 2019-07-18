@@ -1,6 +1,9 @@
 package com.evranger.soulevspy;
 
+import android.util.Log;
 import android.util.Pair;
+
+import com.evranger.elm327.commands.AbstractCommand;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -52,10 +55,21 @@ public class Responder {
         for (Pair reqRes : mRequestResponseList) {
             String req = (String)reqRes.first;
             String res = (String)reqRes.second;
-            String received = reader.readLine();
+            Log.d(Responder.class.getSimpleName(), "respond to: " + req + " with " + res);
+
+            String received = "";
+            char c = 'a';
+            while (! received.matches(req)) {
+                int b = reader.read();
+                c = (char) b;
+                if (c != '\r') {
+                    received += c;
+                }
+            }
             if (! received.matches(req)) {
                 throw new Exception("Command Mismatch for "+req+": Excepcted " + req + " got " + received + "!");
             }
+            Log.d(Responder.class.getSimpleName(), "responding : " + res);
             ow.write(res);
             ow.flush();
         }

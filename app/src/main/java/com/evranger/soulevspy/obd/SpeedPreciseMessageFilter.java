@@ -20,7 +20,7 @@ public class SpeedPreciseMessageFilter extends ObdMessageFilter {
 
     protected boolean doProcessMessage(ObdMessageData messageData) {
         ArrayList<String> data = messageData.getData();
-        if (data.size() != 8) {
+        if (data.size() < 8) {
             mSpeedKmH = -0.001;
             return false;
         }

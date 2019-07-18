@@ -10,8 +10,7 @@ import com.evranger.soulevspy.R;
 import com.evranger.soulevspy.obd.AmbientTempMessageFilter;
 import com.evranger.soulevspy.obd.BatteryChargingMessageFilter;
 import com.evranger.soulevspy.obd.EstimatedRangeMessageFilter;
-import com.evranger.soulevspy.obd.OdometerMessageFilter;
-import com.evranger.soulevspy.obd.SpeedPreciseMessageFilter;
+import com.evranger.soulevspy.obd.SpeedAndOdometerMessageFilter;
 import com.evranger.soulevspy.obd.StateOfChargePreciseMessageFilter;
 import com.evranger.soulevspy.obd.StateOfChargeWithOneDecimalMessageFilter;
 import com.evranger.soulevspy.obd.Status050MessageFilter;
@@ -80,12 +79,15 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));
 
         // Temporary hack for testing timeout handling...
-//        mLoopCommands.add(new FilteredMonitorCommand(new OdometerMessageFilter()));
+//        mLoopCommands.add(new FilteredMonitorCommand(new SpeedAndOdometerMessageFilter()));
 
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
+//TODO        mLoopCommands.add(new Mcu2019Command());
+//TODO        mLoopCommands.add(new Obc2019Command());
         mLoopCommands.add(new Vmcu2019Command());
         mLoopCommands.add(new BMS2019Command());
+//TODO        mLoopCommands.add(new TPMS2019Command());
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
     }
@@ -128,8 +130,8 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new FilteredMonitorCommand(new AmbientTempMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new StateOfChargeWithOneDecimalMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new StateOfChargePreciseMessageFilter()));
-        mLoopCommands.add(new FilteredMonitorCommand(new SpeedPreciseMessageFilter()));
-        mLoopCommands.add(new FilteredMonitorCommand(new OdometerMessageFilter()));
+//        mLoopCommands.add(new FilteredMonitorCommand(new SpeedPreciseMessageFilter()));
+        mLoopCommands.add(new FilteredMonitorCommand(new SpeedAndOdometerMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new BatteryChargingMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new EstimatedRangeMessageFilter()));
         mLoopCommands.add(new FilteredMonitorCommand(new Status050MessageFilter()));
