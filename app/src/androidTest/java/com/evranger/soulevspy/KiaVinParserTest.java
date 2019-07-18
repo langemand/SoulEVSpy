@@ -43,7 +43,10 @@ public class KiaVinParserTest extends AndroidTestCase {
     private final static String VIN_MATT                = "KNDJX3AE2F7001565"; // Matts VIN
 
     // Henriks e-Soul 2020
-    private final static String VIN_ESOUL                = "KNAJ3811FL7000543"; // Henriks eSoul VIN
+    private final static String VIN_ESOUL               = "KNAJ3811FL7000543"; // Henriks eSoul VIN
+
+    // Drmarshall Soul EV 2016
+    private final static String VIN_2016_6682           = "KNDJX3AE7G7006682"; // Drmarshalls Soul EV 2016
 
     // Model year - A = 2010, B = 2011; but I, O, Q, U, Z are skipped, and after Y comes 1, 2, 3, etc
     private final static String VIN_2014                = "KNDJX3AE1E7005477";
@@ -338,12 +341,19 @@ public class KiaVinParserTest extends AndroidTestCase {
     }
 
 
-    // TODO PEM : Add a parser for the 0902 message!
-    /*
-                // KNDJX3AE1G7123456
-                "0902\n" +
-                "7EA 10 14 49 02 01 4B 4E 44 \n" +
-                "7EA 21 4A 58 33 41 45 31 47 \n" +
-                "7EA 22 37 31 32 33 34 35 36 \n" +
+    /**
+     * Valid VIN from a 2016 model
      */
+    public void testDrmarshallsVIN() {
+        KiaVinParser vin = new KiaVinParser(getContext(), VIN_2016_6682);
+        Assert.assertTrue(vin.isValid());
+        Assert.assertEquals(vin.getVIN(), VIN_2016_6682);
+        Assert.assertEquals(vin.getBrand(), "Kia");
+        Assert.assertEquals(vin.getModel(), "Soul EV");
+        Assert.assertEquals(vin.getTrim(), SOULEV_PLUS);
+        Assert.assertEquals(vin.getEngine(), SOULEV_ENGINE);
+        Assert.assertEquals(vin.getYear(), "2016");
+        Assert.assertEquals(vin.getSequentialNumber(), "006682");
+        Assert.assertEquals(vin.getProductionPlant(), SOULEV_PROD_PLANT);
+    }
 }
