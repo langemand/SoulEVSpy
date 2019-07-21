@@ -9,7 +9,7 @@ import java.util.List;
 public class TestLogFileResponder extends AndroidTestCase {
 
     public void testLogFileResponder() throws Exception {
-        InputStream is = getClass().getClassLoader().getResourceAsStream("testLogFileResponder.log") ;
+        InputStream is = getClass().getClassLoader().getResourceAsStream("testLogFileResponder.log.txt") ;
         LogFileResponder lfr = new LogFileResponder(is);
 
         List rl = lfr.getResponseList();

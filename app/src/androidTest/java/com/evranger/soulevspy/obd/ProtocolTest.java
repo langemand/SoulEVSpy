@@ -25,7 +25,7 @@ public class ProtocolTest extends BaseUnitConversionTest {
     public void testProtocol() throws Exception {
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("testLogFileResponder.log") ;
+        InputStream is = getClass().getClassLoader().getResourceAsStream("testLogFileResponder.log.txt") ;
         LogFileResponder lfr = new LogFileResponder(is);
 
         Protocol protocol = new Protocol();
