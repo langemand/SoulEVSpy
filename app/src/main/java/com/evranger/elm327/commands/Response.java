@@ -18,7 +18,7 @@ public class Response {
      * Constructor
      */
     Response() {
-        Log.d(Response.class.getSimpleName(), "Response() ctor");
+//        Log.d(Response.class.getSimpleName(), "Response() ctor");
     }
 
     /**

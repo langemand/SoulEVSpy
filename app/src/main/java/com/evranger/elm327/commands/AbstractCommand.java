@@ -32,11 +32,11 @@ public abstract class AbstractCommand implements Command {
     protected long mResponseTimeDelay = 1;                     // Time delay before receiving the response, in milliseconds
     protected Response mResponse = new Response();             // Response object
 
-    private long mRunStartTimestamp;                           // Timestamp before sending the command
+    protected long mRunStartTimestamp;                           // Timestamp before sending the command
     private long mRunEndTimestamp;                             // Timestamp after receiving the command response
     private boolean mWithAutoProcessResponse = false;          //
     private int mLinesToRead = 0;                              // Stop reading after this many lines. 0 means continue forever
-    private long mTimeout_ms = 1500L;                          // Input timeout
+    protected long mTimeout_ms = 1500L;                          // Input timeout
     private boolean mSkip = false;
     /**
      * Error classes to be tested in order
@@ -157,6 +157,7 @@ public abstract class AbstractCommand implements Command {
         // TODO : Also, add a default timeout value
         while (true) {
             if (in.available() == 0) {
+//                Log.d(this.getClass().getSimpleName(), (runStartTimestamp + mTimeout_ms) - System.currentTimeMillis() + " milliseconds to go in readRawData" );
                 if ((runStartTimestamp + mTimeout_ms) < System.currentTimeMillis()) {
                     throw new TimeoutException("readRawData timed out while waiting for input");
                 }
@@ -182,7 +183,8 @@ public abstract class AbstractCommand implements Command {
             if (stopReading(c, linesRead)) {
                 rawResponse = processResponse(res.toString());
                 // read until '>' arrives
-                flushInput(in, c != '>');
+//                flushInput(in, !stopReading(c, linesRead));
+                flushInput(in, mLinesToRead == 0 && c != '>');
                 break;
             }
         }
@@ -256,29 +258,29 @@ public abstract class AbstractCommand implements Command {
     }
 
     protected void flushInput(InputStream in, boolean readtoprompt) throws IOException, TimeoutException {
-        if (readtoprompt || in.available() != 0) {
-            StringBuilder res = new StringBuilder();
-            while (true) {
-                if (in.available() == 0) {
-                    if ((mRunStartTimestamp + mTimeout_ms) < System.currentTimeMillis()) {
-                        throw new TimeoutException("flushInput timed out while waiting for input");
-                    }
-                    SystemClock.sleep(1);
-                    continue;
+        StringBuilder res = new StringBuilder();
+        char c = '\0';
+        while (readtoprompt || in.available() != 0) {
+            if (in.available() == 0) {
+//                Log.d(this.getClass().getSimpleName(), (mRunStartTimestamp + mTimeout_ms) - System.currentTimeMillis() + " milliseconds to go in flushInput" );
+                if ((mRunStartTimestamp + mTimeout_ms) < System.currentTimeMillis()) {
+                    throw new TimeoutException("flushInput timed out while waiting for input");
                 }
-                final byte b = (byte) in.read();
-                if (b == -1) // -1 if the end of the stream is reached
-                    break;
-                char c = (char) b;
-                res.append(c);
-                if (c == '>') {
-                    break;
-                }
+                SystemClock.sleep(1);
+                continue;
             }
-            if (res.length() > 0) {
-                CommLog.getInstance().log("f:".getBytes());
-                CommLog.getInstance().log(res.toString().getBytes());
+            final byte b = (byte) in.read();
+            if (b == -1) // -1 if the end of the stream is reached
+                break;
+            c = (char) b;
+            res.append(c);
+            if (c == '>') {
+                break;
             }
+        }
+        if (res.length() > 0) {
+            CommLog.getInstance().log("f:".getBytes());
+            CommLog.getInstance().log(res.toString().getBytes());
         }
     }
 

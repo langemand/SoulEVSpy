@@ -22,11 +22,13 @@ public class BaseUnitConversionTest extends AndroidTestCase {
         System.setProperty("org.mockito.android.target", getContext().getCacheDir().getPath());
         prefs = mock(ClientSharedPreferences.class);
 
+        when(prefs.getContext()).thenReturn(getContext());
+        when(prefs.getCarModelStringValue()).thenReturn(getContext().getString(R.string.list_car_model_value_SoulEV2015));
         when(prefs.getUnitsTemperatureStringValue()).thenReturn(getContext().getString(R.string.list_temperature_value_c));
         when(prefs.getUnitsDistanceStringValue()).thenReturn(getContext().getString(R.string.list_distance_value_km));
         when(prefs.getUnitsEnergyConsumptionStringValue()).thenReturn(getContext().getString(R.string.list_energy_consumption_value_kwh_100km));
 
-        CurrentValuesSingleton.getInstance().setPreferences(prefs);
+        CurrentValuesSingleton.reset().setPreferences(prefs);
     }
 
 }

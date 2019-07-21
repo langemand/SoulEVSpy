@@ -1,5 +1,7 @@
 package com.evranger.elm327.commands;
 
+import android.util.Log;
+
 import com.evranger.elm327.commands.filters.RegularExpressionResponseFilter;
 import com.evranger.elm327.commands.filters.RemoveSpacesResponseFilter;
 import com.evranger.elm327.log.CommLog;
@@ -14,12 +16,10 @@ import java.util.concurrent.TimeoutException;
  */
 
 public class StopAfterDataCommand extends AbstractCommand {
-    long mTimeout = 0;
     String mFilter = new String();
 
     public StopAfterDataCommand(long timeout, String filter) {
         setTimeoutMs(timeout);
-        mTimeout = timeout;
         mFilter = filter;
         if (filter.length() == 3) {
             addResponseFilter(new RegularExpressionResponseFilter("^" + filter + "(.*)$"));
@@ -30,7 +30,7 @@ public class StopAfterDataCommand extends AbstractCommand {
 
     @Override
     public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException, TimeoutException {
-        long runStartTimestamp = System.currentTimeMillis();
+        mRunStartTimestamp = System.currentTimeMillis();
         String rawResponse = new String();
 
         // Clean up after last iteration
@@ -39,6 +39,7 @@ public class StopAfterDataCommand extends AbstractCommand {
 
         mCommand = "AT CRA " + mFilter;
         send(out);
+
         String str = readRawData(in);
 
         mCommand = "AT MA";
@@ -47,11 +48,13 @@ public class StopAfterDataCommand extends AbstractCommand {
         TimeoutException caughtException = null;
         try {
             setNumberOfLinesToRead(1);
-            while ((mResponse.getLines() == null || mResponse.getLines().size() == 0) && (System.currentTimeMillis() < (runStartTimestamp + mTimeout))) {
+//            Log.d(this.getClass().getSimpleName(), (mRunStartTimestamp + mTimeout_ms) - System.currentTimeMillis() + " milliseconds to go in execute" );
+            while ((mResponse.getLines() == null || mResponse.getLines().size() == 0) && (System.currentTimeMillis() < (mRunStartTimestamp + mTimeout_ms))) {
                 // Wait before trying to receive the monitor messages
-                //            Thread.sleep(mResponseTimeDelay);
+                // Thread.sleep(mResponseTimeDelay);
 
                 // Receive the response - NOTE: This will throw exception on connection error etc!
+//                mRunStartTimestamp = System.currentTimeMillis();
                 String raw = readRawData(in);
                 mResponse.setRawResponse(raw);
                 mResponse.process();
@@ -59,6 +62,7 @@ public class StopAfterDataCommand extends AbstractCommand {
             }
         } catch (TimeoutException e) {
             caughtException = e;
+            Log.d(this.getClass().getSimpleName(), "StopAfterDataCommand caught : " + e);
         }
 
         byte[] commandBytes = " ".getBytes();
@@ -73,18 +77,21 @@ public class StopAfterDataCommand extends AbstractCommand {
         // Wait before trying to receive the command response
         Thread.sleep(mResponseTimeDelay);
 
-        rawResponse += readRawData(in);
+        rawResponse = readRawData(in);
         flushInput(in);
 
-        runStartTimestamp = System.currentTimeMillis();
         String ar_response = "";
-        while ((!ar_response.endsWith(">")) && (System.currentTimeMillis() < (runStartTimestamp+mTimeout))) {
+        while ((!ar_response.endsWith(">")) && (System.currentTimeMillis() < (mRunStartTimestamp+mTimeout_ms))) {
             mCommand = "AT AR";
             send(out);
-            ar_response = readRawData(in);
-            rawResponse += ar_response;
+            try {
+                ar_response = readRawData(in);
+            } catch (Exception e) {
+                int i = 0;
+            }
+            rawResponse = ar_response;
         }
-        mResponse.setRawResponse(rawResponse);
+//        mResponse.setRawResponse(rawResponse);
         if (caughtException != null) {
             throw caughtException;
         }
