@@ -174,7 +174,7 @@ public class CommandTest extends AndroidTestCase {
                 );
         Responder responder = new Responder(reqres);
 
-        BatteryManagementSystemCommand cmd = (BatteryManagementSystemCommand) new BatteryManagementSystemCommand();
+        BatteryManagementSystemCommand cmd = (BatteryManagementSystemCommand) new BatteryManagementSystemCommand(true);
 
         try {
             cmd.execute(responder.getInput(), responder.getOutput());
@@ -205,7 +205,7 @@ public class CommandTest extends AndroidTestCase {
         );
         Responder responder = new Responder(reqres);
 
-        BatteryManagementSystemCommand cmd = (BatteryManagementSystemCommand) new BatteryManagementSystemCommand();
+        BatteryManagementSystemCommand cmd = (BatteryManagementSystemCommand) new BatteryManagementSystemCommand(true);
         try {
             cmd.execute(responder.getInput(), responder.getOutput());
             cmd.doProcessResponse();

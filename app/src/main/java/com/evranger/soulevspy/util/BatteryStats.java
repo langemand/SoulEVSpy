@@ -54,12 +54,23 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
                 }
             }
         }
-        if (modelyear < 2018 && nomcap != 0) {
+        // Calculate SOH for Kia Soul EV 2015-2016:
+        if (modelyear != 0 && modelyear < 2018 && nomcap != 0) {
             Double detmin = (Double) mValues.get(R.string.col_battery_min_cell_deterioration_pct);
             Double detmax = (Double) mValues.get(R.string.col_battery_max_cell_deterioration_pct);
             if (detmax != null && detmin != null) {
                 double detavg = (detmin + detmax) / 2;
                 double sohpct = 110.0 - detavg;
+                mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
+            }
+        }
+        // Calculate SOH for Hyundai Ioniq:
+        if (mValues.getPreferences().getCarModelStringValue().contentEquals(mValues.getPreferences().getContext().getString(R.string.list_car_model_value_IoniqEV))) {
+            Double sohmin = (Double) mValues.get(R.string.col_battery_min_cell_soh_pct);
+            Double sohmax = (Double) mValues.get(R.string.col_battery_max_cell_soh_pct);
+            if (sohmax != null && sohmin != null) {
+                double sohavg = (sohmin + sohmax) / 2;
+                double sohpct = sohavg; // Should this be sohmin? Or the lowest of the two values? Or the value from 21 01 line 28?
                 mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
             }
         }

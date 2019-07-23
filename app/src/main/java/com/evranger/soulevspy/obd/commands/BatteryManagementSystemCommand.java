@@ -16,6 +16,8 @@ import com.evranger.soulevspy.util.BatteryManagementSystemParser;
  */
 public class BatteryManagementSystemCommand extends AbstractMultiCommand {
 
+    boolean mHasDeteoriation = true;
+
     BasicCommand mCmd2101;
     BasicCommand mCmd2102;
     BasicCommand mCmd2103;
@@ -27,7 +29,9 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
     /**
      * Constructor
      */
-    public BatteryManagementSystemCommand() {
+    public BatteryManagementSystemCommand(boolean hasDeterioration) {
+        mHasDeteoriation = hasDeterioration;
+
         mCmd2101 = new BasicCommand("21 01");
         mCmd2102 = new BasicCommand("21 02");
         mCmd2103 = new BasicCommand("21 03");
@@ -98,10 +102,17 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         vals.set(R.string.col_battery_max_cell_voltage_n, Integer.valueOf(data.maxCellVoltageNo));
         vals.set(R.string.col_battery_min_cell_voltage_V, Double.valueOf(data.minCellVoltage));
         vals.set(R.string.col_battery_min_cell_voltage_n, Integer.valueOf(data.minCellVoltageNo));
-        vals.set(R.string.col_battery_max_cell_deterioration_pct, Double.valueOf(data.maxDeterioration));
-        vals.set(R.string.col_battery_max_cell_deterioration_n, Integer.valueOf(data.maxDeteriorationCellNo));
-        vals.set(R.string.col_battery_min_cell_deterioration_pct, Double.valueOf(data.minDeterioration));
-        vals.set(R.string.col_battery_min_cell_deterioration_n, Integer.valueOf(data.minDeteriorationCellNo));
+        if (mHasDeteoriation) {
+            vals.set(R.string.col_battery_max_cell_deterioration_pct, Double.valueOf(data.maxDeterioration));
+            vals.set(R.string.col_battery_max_cell_deterioration_n, Integer.valueOf(data.maxDeteriorationCellNo));
+            vals.set(R.string.col_battery_min_cell_deterioration_pct, Double.valueOf(data.minDeterioration));
+            vals.set(R.string.col_battery_min_cell_deterioration_n, Integer.valueOf(data.minDeteriorationCellNo));
+        } else {
+            vals.set(R.string.col_battery_max_cell_soh_pct, Double.valueOf(data.maxDeterioration));
+            vals.set(R.string.col_battery_max_cell_soh_n, Integer.valueOf(data.maxDeteriorationCellNo));
+            vals.set(R.string.col_battery_min_cell_soh_pct, Double.valueOf(data.minDeterioration));
+            vals.set(R.string.col_battery_min_cell_soh_n, Integer.valueOf(data.minDeteriorationCellNo));
+        }
         vals.set(R.string.col_battery_auxiliaryVoltage_V, Double.valueOf(data.auxiliaryBatteryVoltage));
         vals.set(R.string.col_battery_fan_status, data.fanStatus.toString());
         vals.set(R.string.col_battery_fan_feedback_signal, Integer.valueOf(data.fanFeedbackSignal));

@@ -12,6 +12,10 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class UnitConversionTest extends BaseUnitConversionTest {
 
+    public UnitConversionTest() {
+        super("IoniqEV");
+    }
+
     @Test
     public void testTemperatureConversionMetric() {
         Unit unit = new Unit();

@@ -77,10 +77,6 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
         mLoopCommands.add(new ReadInputVoltageCommand());
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));
-
-        // Temporary hack for testing timeout handling...
-//        mLoopCommands.add(new FilteredMonitorCommand(new SpeedAndOdometerMessageFilter()));
-
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
 //TODO        mLoopCommands.add(new Mcu2019Command());
@@ -102,9 +98,11 @@ public class ModelSpecificCommands {
 //        VehicleIdentifierNumberCommand vinCmd = new VehicleIdentifierNumberCommand();
 //        vinCmd.setTimeoutMs(4000);
 //        mLoopCommands.add(vinCmd);
+
+        // TODO: Add the Ioniq get VIN command
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
-        mLoopCommands.add(new BatteryManagementSystemCommand());
+        mLoopCommands.add(new BatteryManagementSystemCommand(false));
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
     }
@@ -123,7 +121,7 @@ public class ModelSpecificCommands {
         mLoopCommands.add(vinCmd);
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
-        mLoopCommands.add(new BatteryManagementSystemCommand());
+        mLoopCommands.add(new BatteryManagementSystemCommand(true));
         mLoopCommands.add(new OnBoardChargerCommand());
         mLoopCommands.add(new LowVoltageDCConverterSystemCommand());
         mLoopCommands.add(new VmcuCommand());

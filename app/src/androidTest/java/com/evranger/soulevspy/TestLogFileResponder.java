@@ -17,7 +17,7 @@ public class TestLogFileResponder extends AndroidTestCase {
         assertEquals(new Pair("AT I", "AT I\r" +
                 "ELM327 v1.3a\r" +
                 "\r" +
-                ">"), rl.get(1));
+                ">"), rl.get(1));  // Zero is a space to stop, and a timeout...
         assertEquals(new Pair("AT D", "AT D\r" +
                 "OK\r" +
                 "\r" +
@@ -51,7 +51,7 @@ public class TestLogFileResponder extends AndroidTestCase {
                 "\r" +
                 ">"),
                 rl.get(46));
-        assertEquals(new Pair(" ", ""),
+        assertEquals(new Pair(" ", ""),  // Unneccesary space to stop and then Timeout...
                 rl.get(47));
         assertEquals(new Pair("AT CRA 594", "OK\r" +
                 "\r" +

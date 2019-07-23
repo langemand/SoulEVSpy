@@ -9,26 +9,25 @@ import com.evranger.soulevspy.car_model.ModelSpecificCommands;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.InputStream;
 import java.util.List;
 
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-
-
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProtocolTest extends BaseUnitConversionTest {
-    public ProtocolTest() {
-        super("SoulEV2015");
+public class ProtocolIoniqTest extends BaseUnitConversionTest {
+
+    public ProtocolIoniqTest() {
+        super("IoniqEV");
     }
 
     @Test
-    public void testProtocol() throws Exception {
+    public void testIonicProtocol() throws Exception {
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("testLogFileResponder.log.txt") ;
+        InputStream is = getClass().getClassLoader().getResourceAsStream("ioniq.log.txt") ;
         LogFileResponder lfr = new LogFileResponder(is);
 
         Protocol protocol = new Protocol();
@@ -50,8 +49,10 @@ public class ProtocolTest extends BaseUnitConversionTest {
 
         assertEquals("", lfr.getMessages());
 
-        assertEquals(19.5, vals.get(R.string.col_car_ambient_C));
-        assertEquals(20715.8, vals.get(R.string.col_car_odo_km));
-        // TODO: assert each of the 190 values...!
+        // TODO: assert each of the 148 values...!
+        assertEquals(28, vals.get(R.string.col_battery_max_cell_soh_n));
+        assertEquals(100.0, vals.get(R.string.col_battery_max_cell_soh_pct));
+        assertEquals(87, vals.get(R.string.col_battery_min_cell_soh_n));
+        assertEquals(100.0, vals.get(R.string.col_battery_min_cell_soh_pct));
     }
 }

@@ -89,13 +89,20 @@ public class ReadLoop {
             mColumnsToLog.add("battery.cell_voltage" + oneDigitFormat.format(i) + "_V");
         }
         mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_battery_drive_motor_rpm),
-                res.getString(R.string.col_battery_fan_status),
-                res.getString(R.string.col_battery_max_cell_deterioration_n),
-                res.getString(R.string.col_battery_max_cell_deterioration_pct),
-                res.getString(R.string.col_battery_max_cell_voltage_V),
+                res.getString(R.string.col_battery_fan_status)));
+        if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_IoniqEV))) {
+            mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_battery_max_cell_soh_n),
+                    res.getString(R.string.col_battery_max_cell_soh_pct),
+                    res.getString(R.string.col_battery_min_cell_soh_n),
+                    res.getString(R.string.col_battery_min_cell_soh_pct)));
+        } else {
+            mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_battery_max_cell_deterioration_n),
+                    res.getString(R.string.col_battery_max_cell_deterioration_pct),
+                    res.getString(R.string.col_battery_min_cell_deterioration_n),
+                    res.getString(R.string.col_battery_min_cell_deterioration_pct)));
+        }
+        mColumnsToLog.addAll(Arrays.asList(res.getString(R.string.col_battery_max_cell_voltage_V),
                 res.getString(R.string.col_battery_max_cell_voltage_n),
-                res.getString(R.string.col_battery_min_cell_deterioration_n),
-                res.getString(R.string.col_battery_min_cell_deterioration_pct),
                 res.getString(R.string.col_battery_min_cell_voltage_V),
                 res.getString(R.string.col_battery_min_cell_voltage_n),
                 res.getString(R.string.col_calc_battery_soh_pct),
