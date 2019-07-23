@@ -1,5 +1,6 @@
 package com.evranger.soulevspy.car_model;
 
+import com.evranger.elm327.commands.AbstractMultiCommand;
 import com.evranger.elm327.commands.Command;
 import com.evranger.elm327.commands.TimeCommand;
 import com.evranger.elm327.commands.general.EcuNameCommand;
@@ -94,15 +95,12 @@ public class ModelSpecificCommands {
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
         mLoopCommands.add(new ReadInputVoltageCommand());
-//        mLoopCommands.add(new BasicCommand("AT SH 7DF"));
-//        VehicleIdentifierNumberCommand vinCmd = new VehicleIdentifierNumberCommand();
-//        vinCmd.setTimeoutMs(4000);
-//        mLoopCommands.add(vinCmd);
-
-        // TODO: Add the Ioniq get VIN command
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
         mLoopCommands.add(new BatteryManagementSystemCommand(false));
+
+        // Tentative! Some will probably time out!
+        // mLoopCommands.add(new Vmcu2019Command());
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
     }
