@@ -1,7 +1,9 @@
 package com.evranger.soulevspy.obd.commands;
 
 import com.evranger.elm327.commands.AbstractMultiCommand;
+import com.evranger.elm327.commands.Response;
 import com.evranger.elm327.commands.filters.RegularExpressionResponseFilter;
+import com.evranger.soulevspy.R;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.util.List;
@@ -32,14 +34,35 @@ public class Obc2019Command extends AbstractMultiCommand {
     public void doProcessResponse() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
         try {
-            mCmd2101.getResponse().process();
-            List<String> lines01 = mCmd2101.getResponse().getLines();
+            Response r2101 = mCmd2101.getResponse();
+            r2101.process();
+            List<String> lines01 = r2101.getLines();
+            if (lines01.size() < 8)
+                return;
 
-            mCmd2102.getResponse().process();
-            List<String> lines02 = mCmd2102.getResponse().getLines();
+            Response r2102 = mCmd2102.getResponse();
+            r2102.process();
+            List<String> lines02 = r2102.getLines();
+            if (lines02.size() < 5)
+                return;
 
-            mCmd2103.getResponse().process();
-            List<String> lines03 = mCmd2103.getResponse().getLines();
+            Response r2103 = mCmd2103.getResponse();
+            r2103.process();
+            List<String> lines03 = r2103.getLines();
+            if (lines01.size() < 8)
+                return;
+
+            double pilotDutyCyclePct = ((r2101.get(4, 3)<<8) | r2101.get(4, 4)) / 10.0;
+            double tempC = r2101.get(6, 4) / 2 - 40;
+            double acInV = r2101.get(6, 7);
+            double dcOutV = ((r2101.get(7, 4)<<8) | r2101.get(7, 5)) / 10.0;
+            double acInA = ((r2103.get(1,1)<<8) | r2103.get(1,2)) / 100.0;
+
+            vals.set(R.string.col_obc_pilot_duty_cycle, pilotDutyCyclePct);
+            vals.set(R.string.col_obc_temp_1_C, tempC);
+            vals.set(R.string.col_obc_ac_in_V, acInV);
+            vals.set(R.string.col_obc_dc_out_V, dcOutV);
+            vals.set(R.string.col_obc_ac_in_A, acInA);
         } catch (Exception e) {
             int i = 0;
             //

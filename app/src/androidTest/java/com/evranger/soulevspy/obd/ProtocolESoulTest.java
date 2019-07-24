@@ -63,8 +63,11 @@ public class ProtocolESoulTest extends BaseUnitConversionTest {
 // TODO MCU:
 
 // TODO OBC:
-//        assertEquals(380.0, vals.get(R.string.col_obc_dc_out_V));
-//        assertEquals()
+        assertEquals(0.0, vals.get(R.string.col_obc_pilot_duty_cycle));
+        assertEquals(22.0, vals.get(R.string.col_obc_temp_1_C));
+        assertEquals(0.0, vals.get(R.string.col_obc_ac_in_V));
+        assertEquals(357.9, vals.get(R.string.col_obc_dc_out_V));
+        assertEquals(0.0, vals.get(R.string.col_obc_ac_in_A));
 
         // TODO Aircon:
 
