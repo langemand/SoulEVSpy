@@ -20,7 +20,10 @@ import com.evranger.soulevspy.obd.commands.BasicCommand;
 import com.evranger.soulevspy.obd.commands.BatteryManagementSystemCommand;
 import com.evranger.soulevspy.obd.commands.FilteredMonitorCommand;
 import com.evranger.soulevspy.obd.commands.LowVoltageDCConverterSystemCommand;
+import com.evranger.soulevspy.obd.commands.Mcu2019Command;
+import com.evranger.soulevspy.obd.commands.Obc2019Command;
 import com.evranger.soulevspy.obd.commands.OnBoardChargerCommand;
+import com.evranger.soulevspy.obd.commands.TPMS2019Command;
 import com.evranger.soulevspy.obd.commands.TirePressureMSCommand;
 import com.evranger.soulevspy.obd.commands.Vmcu2019Command;
 import com.evranger.soulevspy.obd.commands.VmcuCommand;
@@ -80,11 +83,12 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new BasicCommand("AT SH 7DF"));
         mLoopCommands.add(new ObdGetDtcCodesCommand());  // Get stored DTC Codes
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
-//TODO        mLoopCommands.add(new Mcu2019Command());
-//TODO        mLoopCommands.add(new Obc2019Command());
+        mLoopCommands.add(new Mcu2019Command());
+        mLoopCommands.add(new Obc2019Command());
         mLoopCommands.add(new Vmcu2019Command());
         mLoopCommands.add(new BMS2019Command());
-//TODO        mLoopCommands.add(new TPMS2019Command());
+        mLoopCommands.add(new TPMS2019Command());
+//        mLoopCommands.add(new Aircon2019Command());
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
     }

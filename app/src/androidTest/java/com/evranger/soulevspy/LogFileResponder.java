@@ -67,13 +67,16 @@ public class LogFileResponder {
                         str.setLength(0); // Clear the contents of str
                     }
                 }
-                if (prev == 'o' || prev == 'i' || prev == 'f') {
+                if (prev == 'o' || prev == 'i') {
                     if (str.length() > 1) {
                         req = str.toString().trim();
                     } else if (str.length() > 0) {
                         req = str.toString();
                     }
                     str.setLength(0);
+                }
+                if (prev == 'f') {
+                    prev = '\0';  // Skip f:
                 }
                 if (prev == 'o' && lastOut && req != null) {
                     responses.add(new Pair(req, ""));

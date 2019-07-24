@@ -6,6 +6,7 @@ import com.evranger.elm327.commands.filters.RegularExpressionResponseFilter;
 import com.evranger.obd.ObdMessageData;
 import com.evranger.soulevspy.R;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
+import com.evranger.soulevspy.util.Unit;
 
 import java.util.List;
 
@@ -17,8 +18,10 @@ public class Vmcu2019Command extends AbstractMultiCommand {
     private BasicCommand mCmd2101 = null;
     private BasicCommand mCmd2102 = null;
     private BasicCommand mCmd1a80 = null;
+    private double mKmsPerMile;
 
     public Vmcu2019Command() {
+        mKmsPerMile = 1.0 / Unit.milesPerKm;
         addCommand(new BasicCommand("AT SH 7E2"));
 //        addCommand(new BasicCommand("AT CRA 7EA"));
         mCmd2101 = new BasicCommand("21 01");
@@ -94,7 +97,7 @@ public class Vmcu2019Command extends AbstractMultiCommand {
             if ((msb & 0x80) != 0) {
                 vehicleSpeed = vehicleSpeed - 65536;
             }
-            double vehicleSpeed_kph = vehicleSpeed * 1.609344 / 100;
+            double vehicleSpeed_kph = vehicleSpeed * mKmsPerMile / 100;
             vals.set(R.string.col_vmcu_vehicle_speed_kph, vehicleSpeed_kph);
 
             mCmd2102.getResponse().process();

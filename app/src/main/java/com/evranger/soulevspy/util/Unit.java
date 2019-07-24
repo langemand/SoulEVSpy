@@ -3,7 +3,7 @@ package com.evranger.soulevspy.util;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
 public class Unit {
-
+    public static double milesPerKm = 0.621371192;
     public String mTempUnit;
     private double mTempFactor;
     private double mTempOffset;
@@ -26,7 +26,7 @@ public class Unit {
         }
         if (CurrentValuesSingleton.getInstance().getPreferences().getUnitsDistanceStringValue().contentEquals("mi")) {
             mDistUnit = "mi";
-            mDistFactor = 0.621371192;
+            mDistFactor = milesPerKm;
         } else {
             mDistUnit = "km";
             mDistFactor = 1;
@@ -42,11 +42,11 @@ public class Unit {
         } else if (CurrentValuesSingleton.getInstance().getPreferences().getUnitsEnergyConsumptionStringValue().contentEquals("kwh_100mi")) {
             mConsumptionUnit = "kWh/100mi";
             mPerDistance = true;
-            mConsumptionDistanceFactor = 0.00621371192;
+            mConsumptionDistanceFactor = milesPerKm / 100;
         } else { // mi_kwh
             mConsumptionUnit = "mi/kWh";
             mPerDistance = false;
-            mConsumptionDistanceFactor = 0.621371192;;
+            mConsumptionDistanceFactor = milesPerKm;
         }
     }
 
