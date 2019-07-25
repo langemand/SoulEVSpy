@@ -16,7 +16,7 @@ public class OnBoardChargerCommand extends AbstractMultiCommand {
     private BasicCommand mCmd2102 = null;
 
     public OnBoardChargerCommand() {
-        addCommand(new BasicCommand("AT SH 7DF")); //"AT SH 7C5"));
+        addCommand(new BasicCommand("AT SH 7DF"));
         addCommand(new BasicCommand("AT CRA 79C"));
         mCmd2102 = new BasicCommand("21 02");
         addCommand(mCmd2102);

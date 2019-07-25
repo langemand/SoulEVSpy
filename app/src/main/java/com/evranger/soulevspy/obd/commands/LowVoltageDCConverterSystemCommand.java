@@ -17,7 +17,7 @@ public class LowVoltageDCConverterSystemCommand extends AbstractMultiCommand {
 
     public LowVoltageDCConverterSystemCommand() {
         mCmd2101 = new BasicCommand("21 01");
-        addCommand(new BasicCommand("AT SH 7DF")); //"AT SH 7C5"));
+        addCommand(new BasicCommand("AT SH 7DF")); 
         addCommand(new BasicCommand("AT CRA 7CD"));
         addCommand(mCmd2101);
 

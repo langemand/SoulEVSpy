@@ -103,9 +103,9 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
         mLoopCommands.add(new BatteryManagementSystemCommand(false));
 
-        // Tentative! All replies "NO DATA" to command!
-//        mLoopCommands.add(new Vmcu2019Command());
-//        mLoopCommands.add(new Mcu2019Command());
+        // Tentative!
+        mLoopCommands.add(new Vmcu2019Command());
+        mLoopCommands.add(new Mcu2019Command());
 //        mLoopCommands.add(new Obc2019Command());
 //        mLoopCommands.add(new TPMS2019Command());
 //        mLoopCommands.add(new OnBoardChargerCommand());

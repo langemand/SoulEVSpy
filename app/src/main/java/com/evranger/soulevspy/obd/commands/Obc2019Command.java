@@ -19,6 +19,7 @@ public class Obc2019Command extends AbstractMultiCommand {
 
     public Obc2019Command() {
         addCommand(new BasicCommand("AT SH 7E5"));
+        addCommand(new BasicCommand("AT CRA 7ED"));
         mCmd2101 = new BasicCommand("21 01");
         mCmd2102 = new BasicCommand("21 02");
         mCmd2103 = new BasicCommand("21 03");

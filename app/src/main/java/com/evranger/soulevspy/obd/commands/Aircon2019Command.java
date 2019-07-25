@@ -16,6 +16,7 @@ public class Aircon2019Command extends AbstractMultiCommand {
 
     public Aircon2019Command() {
         addCommand(new BasicCommand("AT SH 7B3"));
+        addCommand(new BasicCommand("AT CRA 7BB"));
         mCmd2101 = new BasicCommand("22 01 00");
         mCmd2102 = new BasicCommand("22 01 02");
         addCommand(mCmd2101);

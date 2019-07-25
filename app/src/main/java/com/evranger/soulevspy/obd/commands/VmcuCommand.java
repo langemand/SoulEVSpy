@@ -18,7 +18,7 @@ public class VmcuCommand extends AbstractMultiCommand {
     private BasicCommand mCmd2102 = null;
 
     public VmcuCommand() {
-        addCommand(new BasicCommand("AT SH 7DF")); //"AT SH 7C5"));
+        addCommand(new BasicCommand("AT SH 7DF"));
         addCommand(new BasicCommand("AT CRA 7EA"));
         mCmd2100 = new BasicCommand("21 00");
         mCmd2101 = new BasicCommand("21 01");
