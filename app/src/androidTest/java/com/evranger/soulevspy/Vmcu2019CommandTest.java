@@ -75,7 +75,7 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
 
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E2", msgOk),
-//                new Pair<String, String>("AT CRA 7EA", msgOk),
+                new Pair<String, String>("AT CRA 7EA", msgOk),
                 new Pair<String, String>("21 01", soulEv2020Vmcu2101),
                 new Pair<String, String>("21 02", soulEv2020Vmcu2102),
                 new Pair<String, String>("1A 80", soulEv2020Vmcu1A80)
@@ -121,7 +121,7 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
 
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E2", msgOk),
-//                new Pair<String, String>("AT CRA 7EA", msgOk),
+                new Pair<String, String>("AT CRA 7EA", msgOk),
                 new Pair<String, String>("21 01", soulEv2020Vmcu2101),
                 new Pair<String, String>("21 02", soulEv2020Vmcu2102),
                 new Pair<String, String>("1A 80", soulEv2020Vmcu1A80_mobilescan)
