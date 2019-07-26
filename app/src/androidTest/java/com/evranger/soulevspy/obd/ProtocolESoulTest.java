@@ -50,7 +50,8 @@ public class ProtocolESoulTest extends BaseUnitConversionTest {
         assertEquals("", lfr.getMessages());
 
         // Assert each of the values...!
-// TPMS:
+// BMC (TPMS):
+        assertEquals(1337491198, Math.round((double)vals.get("car.odo_km")*100));
         assertEquals(386, Math.round((double)vals.get("tire.pressure1_psi")*10));
         assertEquals(384, Math.round((double)vals.get("tire.pressure2_psi")*10));
         assertEquals(388, Math.round((double)vals.get("tire.pressure3_psi")*10));
