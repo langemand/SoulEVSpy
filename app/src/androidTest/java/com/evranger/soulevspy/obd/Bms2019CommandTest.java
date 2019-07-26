@@ -83,7 +83,7 @@ public class Bms2019CommandTest extends AndroidTestCase {
 
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E4", msgOk),
-//                new Pair<String, String>("AT CRA 7EC", msgOk),
+                new Pair<String, String>("AT CRA 7EC", msgOk),
                 new Pair<String, String>("22 01 01", msg220101),
                 new Pair<String, String>("22 01 02", msg220102),
                 new Pair<String, String>("22 01 03", msg220103),
