@@ -89,10 +89,14 @@
 
     <!-- Car Information (VIN decoding) -->
     <string name="car_kia">Kia</string>
+    <string name="car_hyundai">Hyundai</string>
     <string name="car_soulev">Soul EV</string>
-    <string name="car_engine_e">Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80KW]</string>
-    <string name="car_engine_e2020">Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150KW]</string>
+    <string name="car_ioniqev">Ioniq EV</string>
+    <string name="car_engine_e">Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80 kW]</string>
+    <string name="car_engine_e2020">Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150 kW]</string>
+    <string name="car_engine_ioniq">Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]</string>
     <string name="car_trim_base">Base</string>
+    <string name="car_trim_ioniq_trend">Trend</string>
     <string name="car_trim_plus">Plus/Luxury</string>
     <string name="car_trim_exclusive">Exclusive</string>
     <string name="car_unknown">Unknown</string>
@@ -100,6 +104,7 @@
     <string name="car_plant_soha_ri">Soha-ri</string>
     <string name="car_plant_gwangju">Gwangju</string>
     <string name="car_plant_seosan">Seosan</string>
+    <string name="car_plant_ulsan">Ulsan</string>
     <string name="car_south_korea">South Korea</string>
 
 

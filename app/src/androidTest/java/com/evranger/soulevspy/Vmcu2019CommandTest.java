@@ -68,6 +68,35 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
             "BUFFER FULL \r" +
             ">";
 
+    // Ioniq EV:
+    final String ioniqEv2017Vmcu2101 = "7EA 10 16 61 01 FF E0 00 00 \r" +
+            "7EA 21 09 28 5A 3B 06 36 03 \r" +
+            "7EA 22 00 00 23 01 57 77 34 \r" +
+            "7EA 23 04 08 00 00 00 00 00 \r" +
+            "\r" +
+            ">";
+
+    final String ioniqEv2017Vmcu2102 = "7EA 10 17 61 02 FF 80 00 00 \r" +
+            "7EA 21 01 01 00 00 00 96 1C \r" +
+            "7EA 22 AF 7B 96 3A C6 0A 74 \r" +
+            "7EA 23 88 AB 39 00 00 00 00 \r" +
+            "\r" +
+            ">";
+
+    final String ioniqEv2017Vmcu1A80 = "7EA 10 63 5A 80 20 20 20 20 \r" +
+            "7EA 21 20 20 20 20 20 20 1E \r" +
+            "7EA 22 09 0D 14 4B 4D 48 43 \r" +
+            "7EA 23 37 35 31 48 46 48 55 \r" +
+            "7EA 24 30 31 37 33 36 36 33 \r" +
+            "7EA 25 36 36 30 31 2D 30 45 \r" +
+            "7EA 26 32 35 30 20 20 20 20 \r" +
+            "7EA 27 20 20 20 20 20 20 20 \r" +
+            "7EA 28 1E 09 0D 14 41 45 56 \r" +
+            "7EA 29 4C 44 43 35 33 45 41 \r" +
+            "\r" +
+            ">";
+
+
     public void testSoul2020VmcuCommand() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
         ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
@@ -137,5 +166,33 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
         }
 
         assertEquals("KNAJ3811FL7000543", vals.get("VIN"));
+    }
+
+    public void testIoniq2017VmcuCommand() {
+        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        vals.setPreferences(prefs);
+
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("AT SH 7E2", msgOk),
+                new Pair<String, String>("AT CRA 7EA", msgOk),
+                new Pair<String, String>("21 01", ioniqEv2017Vmcu2101),
+                new Pair<String, String>("21 02", ioniqEv2017Vmcu2102),
+                new Pair<String, String>("1A 80", ioniqEv2017Vmcu1A80)
+        );
+        Responder responder = new Responder(reqres);
+
+        Vmcu2019Command cmd = new Vmcu2019Command();
+        try {
+            cmd.execute(responder.getInput(), responder.getOutput());
+            cmd.doProcessResponse();
+        } catch (Exception e) {
+            assertEquals("", e.getMessage());
+        }
+
+        assertEquals("D", vals.get(R.string.col_vmcu_gear_state));
+        assertTrue(0.0001 > 4.683191041788755 - (Double)vals.get(R.string.col_vmcu_vehicle_speed_kph));
+        assertEquals(14.763, vals.get(R.string.col_vmcu_aux_battery_V));
+        assertEquals("KMHC751HFHU017366", vals.get("VIN"));
     }
 }

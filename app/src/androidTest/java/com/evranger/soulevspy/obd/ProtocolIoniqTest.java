@@ -49,7 +49,7 @@ public class ProtocolIoniqTest extends BaseUnitConversionTest {
 
         assertEquals("", lfr.getMessages());
 
-        // TODO: assert each of the 148 values...!
+        // TODO: assert each of the 153 values...!
         assertEquals(28, vals.get(R.string.col_battery_max_cell_soh_n));
         assertEquals(100.0, vals.get(R.string.col_battery_max_cell_soh_pct));
         assertEquals(87, vals.get(R.string.col_battery_min_cell_soh_n));

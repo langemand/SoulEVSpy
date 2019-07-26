@@ -42,7 +42,7 @@ public class Vmcu2019Command extends AbstractMultiCommand {
         try {
             mCmd2101.getResponse().process();
             List<String> lines01 = mCmd2101.getResponse().getLines();
-            if (lines01.size() != 4)
+            if (lines01.size() < 4)
                 return;
 
             ObdMessageData obdData01_1 = new ObdMessageData(lines01.get(1));
@@ -102,7 +102,7 @@ public class Vmcu2019Command extends AbstractMultiCommand {
 
             mCmd2102.getResponse().process();
             List<String> lines02 = mCmd2102.getResponse().getLines();
-            if (lines02.size() != 6)
+            if (lines02.size() < 4)
                 return;
 
             ObdMessageData obdData02_1 = new ObdMessageData(lines02.get(1));
@@ -115,13 +115,15 @@ public class Vmcu2019Command extends AbstractMultiCommand {
 //2015            int vehicleSpeed = obdData02_1.getDataByte(7);
 //2015            vals.set(R.string.col_vmcu_vehicle_speed_kph, vehicleSpeed);
 
-            // Motor Actual RPM
+            // Motor Actual RPM (not on e-Soul and Ioniq)
             msb = obdData02_1.getDataByte(3);
             int motorActualRpm = msb*256 + obdData02_1.getDataByte(4);
             if ((msb & 0x80) != 0) {
                 motorActualRpm = motorActualRpm - 65536;
             }
-            vals.set(R.string.col_vmcu_motor_actual_speed_rpm, motorActualRpm);
+            if (motorActualRpm != 0) {
+                vals.set(R.string.col_vmcu_motor_actual_speed_rpm, motorActualRpm);
+            }
 
             // Aux Battery Voltage
             ObdMessageData obdData02_3 = new ObdMessageData(lines02.get(3));
@@ -137,8 +139,9 @@ public class Vmcu2019Command extends AbstractMultiCommand {
 //            vals.set(R.string.col_vmcu_aux_battery_A, auxBatteryCurrent / 1000.0);
 
             double auxSOC = obdData02_3.getDataByte(6);
-            vals.set(R.string.col_vmcu_aux_battery_SOC_pct, auxSOC);
-
+            if (auxSOC > 0) { // This is zero on Ioniq...
+                vals.set(R.string.col_vmcu_aux_battery_SOC_pct, auxSOC);
+            }
 
             final Response r = mCmd1a80.getResponse();
             r.process();
