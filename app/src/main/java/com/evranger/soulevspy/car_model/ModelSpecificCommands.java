@@ -103,11 +103,11 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new EcuNameCommand()); // Get ECU names
         mLoopCommands.add(new BatteryManagementSystemCommand(false));
 
-        // Tentative!
         mLoopCommands.add(new Vmcu2019Command());
         mLoopCommands.add(new Mcu2019Command());
-//        mLoopCommands.add(new Obc2019Command());
-//        mLoopCommands.add(new TPMS2019Command());
+        // Tentative!
+        mLoopCommands.add(new Obc2019Command());
+        mLoopCommands.add(new TPMS2019Command());
         // end
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
