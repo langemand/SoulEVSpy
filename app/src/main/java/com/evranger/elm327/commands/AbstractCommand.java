@@ -266,7 +266,7 @@ public abstract class AbstractCommand implements Command {
                 if ((mRunStartTimestamp + mTimeout_ms) < System.currentTimeMillis()) {
                     throw new TimeoutException("flushInput timed out while waiting for input");
                 }
-                SystemClock.sleep(1);
+                SystemClock.sleep(2);  // 1 ms is not enough, Lottes Ioniq doesn't flush all the rest after 1A80
                 continue;
             }
             final byte b = (byte) in.read();
