@@ -48,6 +48,9 @@ public class KiaVinParserTest extends AndroidTestCase {
     // Drmarshall Soul EV 2016
     private final static String VIN_2016_6682           = "KNDJX3AE7G7006682"; // Drmarshalls Soul EV 2016
 
+    // Lottes Ioniq
+    private final static String VIN_IONIQEV_2017_TREND  = "KMHC751HFHU017366";
+
     // Model year - A = 2010, B = 2011; but I, O, Q, U, Z are skipped, and after Y comes 1, 2, 3, etc
     private final static String VIN_2014                = "KNDJX3AE1E7005477";
     private final static String VIN_2015                = "KNDJX3AE1F7005477";
@@ -83,10 +86,14 @@ public class KiaVinParserTest extends AndroidTestCase {
     // Text constants
     private final static String SOULEV_BASE       = "Base";
     private final static String SOULEV_PLUS       = "Plus/Luxury";
-    private final static String SOULEV_ENGINE     = "Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80KW]";
+    private final static String SOULEV_ENGINE     = "Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80 kW]";
     private final static String SOULEV_PROD_PLANT = "Gwangju (South Korea)";
     private final static String SOULEV2020_EXCLUSIVE  = "Exclusive";
-    private final static String SOULEV2020_ENGINE     = "Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150KW]";
+    private final static String SOULEV2020_ENGINE     = "Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150 kW]";
+
+    private final static String IONIQ_TREND       = "Trend";
+    private final static String IONIQ_ENGINE      = "Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]";
+    private final static String IONIQ_PROD_PLANT  = "Ulsan (South Korea)";
 
     /**
      * Illegal Strings
@@ -356,4 +363,21 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertEquals(vin.getSequentialNumber(), "006682");
         Assert.assertEquals(vin.getProductionPlant(), SOULEV_PROD_PLANT);
     }
+
+    /**
+     * VIN from a 2017 Ioniq EV
+     */
+    public void testIoniqVIN() {
+        KiaVinParser vin = new KiaVinParser(getContext(), VIN_IONIQEV_2017_TREND);
+        Assert.assertTrue(vin.isValid());
+        Assert.assertEquals(vin.getVIN(), VIN_IONIQEV_2017_TREND);
+        Assert.assertEquals(vin.getBrand(), "Hyundai");
+        Assert.assertEquals(vin.getModel(), "Ioniq EV");
+        Assert.assertEquals(vin.getTrim(), IONIQ_TREND);
+        Assert.assertEquals(vin.getEngine(), IONIQ_ENGINE);
+        Assert.assertEquals(vin.getYear(), "2017");
+        Assert.assertEquals(vin.getSequentialNumber(), "017366");
+        Assert.assertEquals(vin.getProductionPlant(), IONIQ_PROD_PLANT);
+    }
+
 }

@@ -38,72 +38,103 @@ public class KiaVinParser {
 
         // World Manufacturer Identifier (WMI)
         final String wmi = vehicleIdentificationNumber.substring(0, 3);
-        if ( !wmi.equals("KNA") && !wmi.equals("KNC") && !wmi.equals("KND") && !wmi.equals("KNH") )
-        {
-            // Not a Kia vehicle!
-            mBrand = "Not a Kia";
-            Log.d("KiaVinParser", "Not a Kia! " + wmi);
-            return;
-        }
+        if ( wmi.equals("KNA") || wmi.equals("KNC") || wmi.equals("KND") || wmi.equals("KNH")) {
+            mBrand = context.getString(R.string.car_kia);
 
-        // Vehicle line (J = Soul)
-        final Character vehicleLine = vehicleIdentificationNumber.charAt(3);
-        if ( !vehicleLine.equals('J') )
-        {
-            mModel = "Not a Soul";
-            Log.d("KiaVinParser", "Not a Soul! " + vehicleLine);
-            return;
-        }
+            // Vehicle line (J = Soul)
+            final Character vehicleLine = vehicleIdentificationNumber.charAt(3);
+            if ( !vehicleLine.equals('J')) {
+                mModel = "Not a Soul EV";
+                Log.d("KiaVinParser", "Not a Soul EV! " + vehicleLine);
+                return;
+            }
+            mModel = context.getString(R.string.car_soulev);
 
-        // At that point, we are sure that it's a Kia Soul!
-        mVIN = vehicleIdentificationNumber;
-        mBrand = context.getString(R.string.car_kia);
+            // Motor type
+            final Character motorType = vehicleIdentificationNumber.charAt(7);
+            if (motorType.equals('E')) {
+                mEngine = context.getString(R.string.car_engine_e);
+            } else if (motorType.equals('1')) {
+                mEngine = context.getString(R.string.car_engine_e2020);
+            } else {
+                mEngine = "Not a Soul EV";
+                Log.d("KiaVinParser", "Unrecognized Soul EV motortype! " + motorType);
+                return;
+            }
 
-        // Motor type
-        final Character motorType = vehicleIdentificationNumber.charAt(7);
+            // Model & series
+            final Character trim = vehicleIdentificationNumber.charAt(4);
+            switch(trim)
+            {
+                case 'P': // Soul EV 2015
+                    mTrim = context.getString(R.string.car_trim_base);
+                    break;
 
-        if (motorType.equals('E')) {
-            mEngine = context.getString(R.string.car_engine_e);
-        } else if (motorType.equals('1')) {
-            mEngine = context.getString(R.string.car_engine_e2020);
+                case 'X': // Soul EV 2015
+                    mTrim = context.getString(R.string.car_trim_plus);
+                    break;
+
+                case '3': // e-Soul 2020
+                    mTrim = context.getString(R.string.car_trim_exclusive);
+                    break;
+
+                default:
+                    mTrim = context.getString(R.string.car_unknown);
+                    break;
+            }
+
+            // Body/Cabin type, Gross vehicle weight rating (UNUSED)
+            // final Character type = vehicleIdentificationNumber.charAt(5);
+
+            // Restraint system, brake system (UNUSED)
+            //final Character brakeSystem = vehicleIdentificationNumber.charAt(6);
+
+            // Check digit (UNUSED)
+            //final Character checkDigit = vehicleIdentificationNumber.charAt(8);
+        } else if (wmi.equals("KMH")) {
+            mBrand = context.getString(R.string.car_hyundai);
+
+            // Vehicle line (C = Ioniq EV)
+            final Character vehicleLine = vehicleIdentificationNumber.charAt(3);
+            if ( !vehicleLine.equals('C')) {
+                mModel = "Not an Ioniq EV";
+                Log.d("KiaVinParser", "Not an Ioniq EV! " + vehicleLine);
+                return;
+            }
+
+            // Motor type
+            final Character motorType = vehicleIdentificationNumber.charAt(7);
+            if (motorType.equals('H')) {
+                mEngine = context.getString(R.string.car_engine_ioniq);
+            } else {
+                mEngine = "Not an Ioniq EV";
+                Log.d("KiaVinParser", "Unrecognized Ioniq EV motortype! " + motorType);
+                return;
+            }
+            mModel = context.getString(R.string.car_ioniqev);
+
+            // Model & series
+            final Character trim = vehicleIdentificationNumber.charAt(4);
+            switch(trim)
+            {
+                case '7': // Ioniq Trend
+                    mTrim = context.getString(R.string.car_trim_ioniq_trend);
+                    break;
+
+                default:
+                    mTrim = context.getString(R.string.car_unknown);
+                    break;
+            }
         } else {
-            mEngine = "Not a Soul EV";
-            Log.d("KiaVinParser", "Unrecognized Soul EV motortype! " + motorType);
+            // Not a HKMC vehicle!
+            mBrand = "Not a Kia or a Hyundai";
+            Log.d("KiaVinParser", "Not a Kia or Hyundai! " + wmi);
             return;
         }
 
+        // At this point, we are sure that it's a known make!
+        mVIN = vehicleIdentificationNumber;
         mIsValid = true;
-        mModel = context.getString(R.string.car_soulev);
-
-    // Model & series
-        final Character trim = vehicleIdentificationNumber.charAt(4);
-        switch(trim)
-        {
-            case 'P': // Soul EV 2015
-                mTrim = context.getString(R.string.car_trim_base);
-                break;
-
-            case 'X': // Soul EV 2015
-                mTrim = context.getString(R.string.car_trim_plus);
-                break;
-
-            case '3': // e-Soul 2020
-                mTrim = context.getString(R.string.car_trim_exclusive);
-                break;
-
-            default:
-                mTrim = context.getString(R.string.car_unknown);
-                break;
-        }
-
-        // Body/Cabin type, Gross vehicle weight rating (UNUSED)
-        // final Character type = vehicleIdentificationNumber.charAt(5);
-
-        // Restraint system, brake system (UNUSED)
-        //final Character brakeSystem = vehicleIdentificationNumber.charAt(6);
-
-        // Check digit (UNUSED)
-        //final Character checkDigit = vehicleIdentificationNumber.charAt(8);
 
         // Model year
         final Character year = vehicleIdentificationNumber.charAt(9);
@@ -130,6 +161,9 @@ public class KiaVinParser {
                 break;
             case 'T':
                 mProductionPlant = context.getString(R.string.car_plant_seosan) + " (" + context.getString(R.string.car_south_korea) + ')';
+                break;
+            case 'U':
+                mProductionPlant = context.getString(R.string.car_plant_ulsan) + " (" + context.getString(R.string.car_south_korea) + ')';
                 break;
             default:
                 mProductionPlant = context.getString(R.string.car_unknown) + " (" + plant + ')';
