@@ -184,7 +184,7 @@ public abstract class AbstractCommand implements Command {
                 rawResponse = processResponse(res.toString());
                 // read until '>' arrives
 //                flushInput(in, !stopReading(c, linesRead));
-                flushInput(in, mLinesToRead == 0 && c != '>');
+                flushInput(in, c != '>');
                 break;
             }
         }
