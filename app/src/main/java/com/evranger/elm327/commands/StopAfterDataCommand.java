@@ -77,8 +77,8 @@ public class StopAfterDataCommand extends AbstractCommand {
         // Wait before trying to receive the command response
         Thread.sleep(mResponseTimeDelay);
 
-        rawResponse = readRawData(in);
-        flushInput(in);
+        //rawResponse = readRawData(in);
+        flushInput(in, true);
 
         String ar_response = "";
         while ((!ar_response.endsWith(">")) && (System.currentTimeMillis() < (mRunStartTimestamp+mTimeout_ms))) {

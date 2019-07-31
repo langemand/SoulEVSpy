@@ -27,7 +27,7 @@ public class Vmcu2019Command extends AbstractMultiCommand {
         mCmd2101 = new BasicCommand("21 01");
         mCmd2102 = new BasicCommand("21 02");
         mCmd1a80 = new BasicCommand("1A 80");
-        mCmd1a80.setNumberOfLinesToRead(5);
+//        mCmd1a80.setNumberOfLinesToRead(5);
         addCommand(mCmd2101);
         addCommand(mCmd2102);
         addCommand(mCmd1a80);

@@ -160,10 +160,24 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
         Vmcu2019Command cmd = new Vmcu2019Command();
         try {
             cmd.execute(responder.getInput(), responder.getOutput());
-            cmd.doProcessResponse();
+//            cmd.doProcessResponse();
         } catch (Exception e) {
-            assertEquals("", e.getMessage());
+            assertEquals("Error running 1A 80, response: 7EA 10 63 5A 80 20 20 20 20 \r" +
+                    "7EA 21 20 20 20 20 20 20 1E \r" +
+                    "7EA 22 09 0D 14 4B 4E 41 4A \r" +
+                    "7EA 23 33 38 31 31 46 4C 37 \r" +
+                    "7EA 24 30 30 30 35 34 33 33 \r" +
+                    "7EA 25 36 36 30 31 2D 30 45 \r" +
+                    "7EA 26 41 43 30 20 20 20 20 \r" +
+                    "7EA 27 20 20 20 20 20 20 20 \r" +
+                    "7EA 28 1E 09 0D 14 53 4B 56 \r" +
+                    "7EA 29 4C 44 43 35 30 45 53 \r" +
+                    "7EA 2A 4B 45 4A 35 4D 2D 4E \r" +
+                    "7EA 2B 53 31 2D 44 30 30 30 \r" +
+                    "BUFFER FULL \r" +
+                    ">", e.getMessage());
         }
+        cmd.doProcessResponse();
 
         assertEquals("KNAJ3811FL7000543", vals.get("VIN"));
     }

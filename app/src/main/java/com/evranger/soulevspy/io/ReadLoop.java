@@ -209,7 +209,9 @@ public class ReadLoop {
                     //||
                     //thisTimeouts >= 3
                     //||
-                    (status.length() != 0 && ((status.contains("ERR") && !status.contains("DATA ERROR")) || status.contains("BUFFER FULL") || status.contains("Broken pipe")))
+                    (status.length() != 0 && ((status.contains("ERR") && !status.contains("DATA ERROR"))
+                            //|| status.contains("BUFFER FULL")
+                            || status.contains("Broken pipe")))
                     // || vals.get(R.string.col_battery_available_discharge_power_kW) == null
                    )
                 {

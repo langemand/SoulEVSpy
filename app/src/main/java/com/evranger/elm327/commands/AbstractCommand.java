@@ -38,6 +38,7 @@ public abstract class AbstractCommand implements Command {
     private int mLinesToRead = 0;                              // Stop reading after this many lines. 0 means continue forever
     protected long mTimeout_ms = 1500L;                          // Input timeout
     private boolean mSkip = false;
+    protected char c;
     /**
      * Error classes to be tested in order
      */
@@ -174,17 +175,17 @@ public abstract class AbstractCommand implements Command {
                 break;
             }
 
-            final char c = (char) b;
+            c = (char) b;
             res.append(c);
             if (c == '\r') {
                 ++linesRead;
             }
 
-            if (stopReading(c, linesRead)) {
+            if (stopReading(linesRead)) {
                 rawResponse = processResponse(res.toString());
                 // read until '>' arrives
 //                flushInput(in, !stopReading(c, linesRead));
-                flushInput(in, c != '>');
+                flushInput(in, c != '>' && mLinesToRead == 0);
                 break;
             }
         }
@@ -259,19 +260,19 @@ public abstract class AbstractCommand implements Command {
 
     protected void flushInput(InputStream in, boolean readtoprompt) throws IOException, TimeoutException {
         StringBuilder res = new StringBuilder();
-        char c = '\0';
+        c = '\0';
         while (readtoprompt || in.available() != 0) {
             if (in.available() == 0) {
 //                Log.d(this.getClass().getSimpleName(), (mRunStartTimestamp + mTimeout_ms) - System.currentTimeMillis() + " milliseconds to go in flushInput" );
                 if ((mRunStartTimestamp + mTimeout_ms) < System.currentTimeMillis()) {
                     throw new TimeoutException("flushInput timed out while waiting for input");
                 }
-                SystemClock.sleep(2);  // 1 ms is not enough, Lottes Ioniq doesn't flush all the rest after 1A80
+                SystemClock.sleep(mResponseTimeDelay);
                 continue;
             }
             final byte b = (byte) in.read();
             if (b == -1) // -1 if the end of the stream is reached
-                break;
+                continue;
             c = (char) b;
             res.append(c);
             if (c == '>') {
@@ -284,7 +285,7 @@ public abstract class AbstractCommand implements Command {
         }
     }
 
-    public boolean stopReading(char c, int linesRead) {
+    public boolean stopReading(int linesRead) {
         if (c == '>') {
             return true;
         }

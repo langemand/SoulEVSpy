@@ -22,6 +22,7 @@ public class StopCommand extends AbstractCommand {
 
     @Override
     public void execute(InputStream in, OutputStream out) throws IOException, InterruptedException {
+        mRunStartTimestamp = System.currentTimeMillis();
         setTimeoutMs(100); // Allow ELM327 time to stop monitoring overflow etc
         // Skip possible output from previous commands
         try {
@@ -30,6 +31,7 @@ public class StopCommand extends AbstractCommand {
             // When could this happen?
         }
 
+        c = '\0';
         // Send a char to stop monitoring
         final String command = " ";
         Log.d(AbstractCommand.class.getSimpleName(), "send command: " + command);
