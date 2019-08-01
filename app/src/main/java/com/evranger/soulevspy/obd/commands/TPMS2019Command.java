@@ -24,7 +24,7 @@ public class TPMS2019Command extends AbstractMultiCommand {
         mCmd22C002 = new BasicCommand("22 C0 02");
         mCmd22C00B = new BasicCommand("22 C0 0B");
         addCommand(new BasicCommand("AT SH 7A0"));
-        addCommand(new BasicCommand("AT CRA 7A8"));
+//        addCommand(new BasicCommand("AT CRA 7A8"));
         addCommand(mCmd22B002);
         addCommand(mCmd22C002);
         addCommand(mCmd22C00B);

@@ -23,7 +23,7 @@ public class Vmcu2019Command extends AbstractMultiCommand {
     public Vmcu2019Command() {
         mKmsPerMile = 1.0 / Unit.milesPerKm;
         addCommand(new BasicCommand("AT SH 7E2"));
-        addCommand(new BasicCommand("AT CRA 7EA"));
+//        addCommand(new BasicCommand("AT CRA 7EA"));
         mCmd2101 = new BasicCommand("21 01");
         mCmd2102 = new BasicCommand("21 02");
         mCmd1a80 = new BasicCommand("1A 80");

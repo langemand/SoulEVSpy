@@ -38,7 +38,7 @@ public class BMS2019Command extends AbstractMultiCommand {
         mCmd210106 = new BasicCommand("22 01 06");
 
         addCommand(new BasicCommand("AT SH 7E4"));
-        addCommand(new BasicCommand("AT CRA 7EC"));
+//        addCommand(new BasicCommand("AT CRA 7EC"));
         addCommand(mCmd210101);
         addCommand(mCmd210102);
         addCommand(mCmd210103);

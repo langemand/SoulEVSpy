@@ -17,7 +17,7 @@ public class TirePressureMSCommand extends AbstractMultiCommand {
 
     public TirePressureMSCommand() {
         mCmd2106 = new BasicCommand("21 06");
-        addCommand(new BasicCommand("AT SH 7DF")); //"AT SH 7E4"));
+        addCommand(new BasicCommand("AT SH 7DF")); //"AT SH 7D6"));
         addCommand(new BasicCommand("AT CRA 7DE"));
         addCommand(mCmd2106);
 

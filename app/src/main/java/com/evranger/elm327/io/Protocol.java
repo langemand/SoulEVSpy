@@ -18,6 +18,7 @@ import com.evranger.elm327.commands.protocol.obd.ObdGetSupportedPIDServicesComma
 import com.evranger.elm327.commands.Command;
 import com.evranger.elm327.commands.protocol.obd.OBDAdaptiveTimingModes;
 import com.evranger.elm327.commands.protocol.obd.OBDSetTimeoutCommand;
+import com.evranger.elm327.exceptions.BufferFullException;
 import com.evranger.elm327.exceptions.ResponseException;
 import com.evranger.elm327.exceptions.StoppedException;
 import com.evranger.soulevspy.obd.commands.BasicCommand;
@@ -139,9 +140,12 @@ public class Protocol {
                     ++mTimeoutCount;
                     message.setState(Message.State.ERROR_TIMEOUT);
                     continue;
+                } catch (BufferFullException e) {
+                    message.setState(Message.State.ERROR_EXECUTION);
+                } finally {
+                    message.setState(Message.State.FINISHED);
                 }
 
-                message.setState(Message.State.FINISHED);
             } catch (InterruptedException e) {
                 mExecutionThread.interrupt();
                 mStatus = e.getMessage();
