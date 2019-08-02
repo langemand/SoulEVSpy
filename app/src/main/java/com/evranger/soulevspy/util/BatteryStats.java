@@ -38,7 +38,7 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
                         // According to Jejusoul, the SOH is calculated based on 110% of 27 kWh = 29.7 kWh
                         // according to Wikipedia: https://en.wikipedia.org/wiki/Kia_Soul_EV
                         if (modelyear < 2018) {
-                            totcap = 29.7; // Not 30.5
+                            totcap = 30.5; // 29.7; // Not 30.5?
                             nomcap = 27.0;
                         } else {
                             // For the 2018 Kia Soul EV we have no values for deteoriation
@@ -59,8 +59,8 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
             Double detmin = (Double) mValues.get(R.string.col_battery_min_cell_deterioration_pct);
             Double detmax = (Double) mValues.get(R.string.col_battery_max_cell_deterioration_pct);
             if (detmax != null && detmin != null) {
-                double detavg = (detmin + detmax) / 2;
-                double sohpct = 110.0 - detavg;
+                double maxdet = Math.max(detmin, detmax);
+                double sohpct = Math.min(100.0, (totcap * (1-maxdet/100.0) / nomcap * 100.0));
                 mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
             }
         }

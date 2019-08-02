@@ -51,6 +51,9 @@ public class KiaVinParserTest extends AndroidTestCase {
     // Lottes Ioniq
     private final static String VIN_IONIQEV_2017_TREND  = "KMHC751HFHU017366";
 
+    // Steeves 40% SOH Soul EV
+    private final static String VIN_40_SOH              = "KNDJX3AE2F7002960";
+
     // Model year - A = 2010, B = 2011; but I, O, Q, U, Z are skipped, and after Y comes 1, 2, 3, etc
     private final static String VIN_2014                = "KNDJX3AE1E7005477";
     private final static String VIN_2015                = "KNDJX3AE1F7005477";
@@ -99,6 +102,7 @@ public class KiaVinParserTest extends AndroidTestCase {
      * Illegal Strings
      */
     public void testLegalStrings() {
+        Assert.assertTrue(new KiaVinParser(getContext(), VIN_40_SOH).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2015_LUXURY_WHITE).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_LUXURY_TITANIUM).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_LUXURY_WHITE).isValid());
