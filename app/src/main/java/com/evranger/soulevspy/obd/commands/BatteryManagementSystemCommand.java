@@ -119,23 +119,4 @@ public class BatteryManagementSystemCommand extends AbstractMultiCommand {
         vals.set(R.string.col_battery_airbag_hwire_duty, Integer.valueOf(data.airbagHwireDuty));
         vals.set("BMS.data_status", "OK");
     }
-
-    /**
-     * State of Charge (%)
-     */
-    public double getStateOfCharge() {
-        mBatteryStateOfCharge = getResponse().get(1, 1) * 0.5;
-        return mBatteryStateOfCharge;
-    }
-    public double getBatteryCurrent() {
-        int msb = getResponse().get(1, 7);
-        double batteryCurrent = msb + getResponse().get(2, 1) / 256.0;
-        if (msb > 128)
-            batteryCurrent = batteryCurrent - 256.0;
-        return batteryCurrent;
-    }
-    public double getBatteryVoltage() {
-        double batteryVoltage = getResponse().get(2, 2) + getResponse().get(2, 3) << 8;
-        return batteryVoltage;
-    }
 }
