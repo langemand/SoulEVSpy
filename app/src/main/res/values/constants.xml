@@ -13,9 +13,13 @@
     <string name="key_privacy_policy">key_privacy_policy</string>
 
     <!-- arrays.xml values -->
-    <string name="list_car_model_value_SoulEV2015">SoulEV2015</string>
-    <string name="list_car_model_value_eSoul">eSoul2020</string>
+    <string name="list_car_model_value_RayEV">RayEV</string>
+    <string name="list_car_model_value_BlueOnEV">BlueOnEV</string>
+    <string name="list_car_model_value_SoulEV2015">SoulEV-2019</string>
     <string name="list_car_model_value_IoniqEV">IoniqEV</string>
+    <string name="list_car_model_value_KonaEV">KonaEV</string>
+    <string name="list_car_model_value_eNiro">eNiro</string>
+    <string name="list_car_model_value_eSoul">eSoul2020</string>
     <string name="list_car_model_value_MonitorMode">MonitorMode</string>
 
     <string name="list_distance_value_km">km</string>

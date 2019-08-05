@@ -1,6 +1,5 @@
 package com.evranger.soulevspy.car_model;
 
-import com.evranger.elm327.commands.AbstractMultiCommand;
 import com.evranger.elm327.commands.Command;
 import com.evranger.elm327.commands.TimeCommand;
 import com.evranger.elm327.commands.general.EcuNameCommand;
@@ -45,9 +44,13 @@ public class ModelSpecificCommands {
     public ModelSpecificCommands(ClientSharedPreferences sharedPreferences) {
         if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_IoniqEV))) {
             setHyundaiIoniqEV(sharedPreferences);
-        } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_eSoul))) {
+        } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_eSoul)) ||
+                sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_KonaEV)) ||
+                sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_eNiro))) {
             setKiaeSoul(sharedPreferences);
-        } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_SoulEV2015))) {
+        } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_SoulEV2015)) ||
+                sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_BlueOnEV)) ||
+                sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_RayEV))) {
             setKiaSoulEV(sharedPreferences);
         } else if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_MonitorMode))) {
             setMonitorMode(sharedPreferences);
