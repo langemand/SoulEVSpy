@@ -41,10 +41,14 @@ public class TPMS2019Command extends AbstractMultiCommand {
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
 
         Response rb002 = mCmd22B002.getResponse();
-        rb002.process();
-        List<String> linesb002 = rb002.getLines();
-        if (linesb002.size() >= 3) {
-            vals.set(R.string.col_car_odo_km, ((rb002.get(1,7) << 16) | (rb002.get(2,1) << 8) | rb002.get(2,2)) / Unit.milesPerKm);
+        try {
+            rb002.process();
+            List<String> linesb002 = rb002.getLines();
+            if (linesb002.size() >= 3) {
+                vals.set(R.string.col_car_odo_km, ((rb002.get(1, 7) << 16) | (rb002.get(2, 1) << 8) | rb002.get(2, 2)) / Unit.milesPerKm);
+            }
+        } catch (Exception e) {
+            // Ignore
         }
 
         mCmd22C002.getResponse().process();
