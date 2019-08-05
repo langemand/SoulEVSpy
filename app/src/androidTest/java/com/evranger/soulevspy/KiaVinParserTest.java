@@ -441,7 +441,7 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertEquals(vin.getVIN(), VIN_ENIRO_39_KWH);
         Assert.assertEquals(vin.getBrand(), "Kia");
         Assert.assertEquals(vin.getModel(), "e-Niro");
-        Assert.assertEquals(vin.getTrim(), "Unknown");
+        Assert.assertEquals(vin.getTrim(), "First Edition Base");
         Assert.assertEquals(vin.getEngine(), ENIRO_39KWH_ENGINE);
         Assert.assertEquals(vin.getYear(), "2019");
         Assert.assertEquals(vin.getSequentialNumber(), "006641");

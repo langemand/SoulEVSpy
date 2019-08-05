@@ -83,8 +83,8 @@ public class KiaVinParser {
                     mTrim = context.getString(R.string.car_trim_exclusive);
                     break;
 
-                case 'B':
-                    mTrim = context.getString(R.string.car_unknown);
+                case 'B': // Peters e-Niro
+                    mTrim = context.getString(R.string.car_trim_eniro_first_edition_base);
                     break;
 
                 default:

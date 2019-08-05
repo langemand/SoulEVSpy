@@ -103,6 +103,7 @@
     <string name="car_engine_100kw">Battery [LiPo 327 V, 120 Ah] + Motor [3-phase AC 100 kW]</string>
     <string name="car_engine_ioniq">Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]</string>
     <string name="car_trim_base">Base</string>
+    <string name="car_trim_eniro_first_edition_base">First Edition Base</string>
     <string name="car_trim_ioniq_trend">Trend</string>
     <string name="car_trim_plus">Plus/Luxury</string>
     <string name="car_trim_exclusive">Exclusive</string>
