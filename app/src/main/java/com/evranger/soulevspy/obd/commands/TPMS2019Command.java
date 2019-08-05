@@ -61,16 +61,20 @@ public class TPMS2019Command extends AbstractMultiCommand {
 
         Response r = mCmd22C00B.getResponse();
 
-        vals.set(R.string.col_tire_pressure_psi, 1, "_psi", Double.valueOf(r.get(1, 2) * 0.2));
-        vals.set(R.string.col_tire_temperature_C, 1, "_C", Integer.valueOf(r.get(1,3) - 50));
+        try {
+            vals.set(R.string.col_tire_pressure_psi, 1, "_psi", Double.valueOf(r.get(1, 2) * 0.2));
+            vals.set(R.string.col_tire_temperature_C, 1, "_C", Integer.valueOf(r.get(1, 3) - 50));
 
-        vals.set(R.string.col_tire_pressure_psi, 2, "_psi", Double.valueOf(r.get(1, 6) * 0.2));
-        vals.set(R.string.col_tire_temperature_C, 2, "_C", Integer.valueOf(r.get(1,7) - 50));
+            vals.set(R.string.col_tire_pressure_psi, 2, "_psi", Double.valueOf(r.get(1, 6) * 0.2));
+            vals.set(R.string.col_tire_temperature_C, 2, "_C", Integer.valueOf(r.get(1, 7) - 50));
 
-        vals.set(R.string.col_tire_pressure_psi, 3, "_psi", Double.valueOf(r.get(2, 3) * 0.2));
-        vals.set(R.string.col_tire_temperature_C, 3, "_C", Integer.valueOf(r.get(2,4) - 50));
+            vals.set(R.string.col_tire_pressure_psi, 3, "_psi", Double.valueOf(r.get(2, 3) * 0.2));
+            vals.set(R.string.col_tire_temperature_C, 3, "_C", Integer.valueOf(r.get(2, 4) - 50));
 
-        vals.set(R.string.col_tire_pressure_psi, 4, "_psi", Double.valueOf(r.get(2, 7) * 0.2));
-        vals.set(R.string.col_tire_temperature_C, 4, "_C", Integer.valueOf(r.get(3,1) - 50));
+            vals.set(R.string.col_tire_pressure_psi, 4, "_psi", Double.valueOf(r.get(2, 7) * 0.2));
+            vals.set(R.string.col_tire_temperature_C, 4, "_C", Integer.valueOf(r.get(3, 1) - 50));
+        } catch (IndexOutOfBoundsException e) {
+            // Do nothing
+        }
     }
 }
