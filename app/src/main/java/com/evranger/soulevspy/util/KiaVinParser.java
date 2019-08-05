@@ -43,19 +43,24 @@ public class KiaVinParser {
 
             // Vehicle line (J = Soul)
             final Character vehicleLine = vehicleIdentificationNumber.charAt(3);
-            if ( !vehicleLine.equals('J')) {
+            if ( vehicleLine.equals('J')) {
+                mModel = context.getString(R.string.car_soulev);
+            } else if (vehicleLine.equals('C')) {
+                mModel = context.getString(R.string.car_eniro);
+            } else {
                 mModel = "Not a Soul EV";
                 Log.d("KiaVinParser", "Not a Soul EV! " + vehicleLine);
                 return;
             }
-            mModel = context.getString(R.string.car_soulev);
 
             // Motor type
             final Character motorType = vehicleIdentificationNumber.charAt(7);
             if (motorType.equals('E')) {
                 mEngine = context.getString(R.string.car_engine_e);
             } else if (motorType.equals('1')) {
-                mEngine = context.getString(R.string.car_engine_e2020);
+                mEngine = context.getString(R.string.car_engine_150kw);
+            } else if (motorType.equals('H')) {
+                mEngine = context.getString(R.string.car_engine_100kw);
             } else {
                 mEngine = "Not a Soul EV";
                 Log.d("KiaVinParser", "Unrecognized Soul EV motortype! " + motorType);
@@ -78,6 +83,10 @@ public class KiaVinParser {
                     mTrim = context.getString(R.string.car_trim_exclusive);
                     break;
 
+                case 'B':
+                    mTrim = context.getString(R.string.car_unknown);
+                    break;
+
                 default:
                     mTrim = context.getString(R.string.car_unknown);
                     break;
@@ -96,9 +105,41 @@ public class KiaVinParser {
 
             // Vehicle line (C = Ioniq EV)
             final Character vehicleLine = vehicleIdentificationNumber.charAt(3);
-            if ( !vehicleLine.equals('C')) {
-                mModel = "Not an Ioniq EV";
-                Log.d("KiaVinParser", "Not an Ioniq EV! " + vehicleLine);
+            if ( vehicleLine.equals('C')) {
+                mModel = context.getString(R.string.car_ioniqev);
+                // Model & series
+                final Character trim = vehicleIdentificationNumber.charAt(4);
+                switch(trim)
+                {
+                    case '7': // Kona Trend
+                        mTrim = context.getString(R.string.car_trim_ioniq_trend);
+                        break;
+
+                    default:
+                        mTrim = context.getString(R.string.car_unknown);
+                        break;
+                }
+            } else if (vehicleLine.equals('K')) {
+                mModel = context.getString(R.string.car_konaev);
+                // Model & series
+                final Character trim = vehicleIdentificationNumber.charAt(4);
+                switch(trim)
+                {
+                    case '7': // Kona exclusive
+                        mTrim = context.getString(R.string.car_trim_exclusive);
+                        break;
+
+                    case '3': // Kona Trend
+                        mTrim = context.getString(R.string.car_trim_ioniq_trend);
+                        break;
+
+                    default:
+                        mTrim = context.getString(R.string.car_unknown);
+                        break;
+                }
+            } else {
+                mModel = "Not a known Hyundai EV";
+                Log.d("KiaVinParser", "Not a known Hyundai EV! " + vehicleLine);
                 return;
             }
 
@@ -106,25 +147,14 @@ public class KiaVinParser {
             final Character motorType = vehicleIdentificationNumber.charAt(7);
             if (motorType.equals('H')) {
                 mEngine = context.getString(R.string.car_engine_ioniq);
+            } else if (motorType.equals('G')) {
+                mEngine = context.getString(R.string.car_engine_150kw);
             } else {
-                mEngine = "Not an Ioniq EV";
-                Log.d("KiaVinParser", "Unrecognized Ioniq EV motortype! " + motorType);
+                mEngine = "Unrecognized Hyundai EV motortype";
+                Log.d("KiaVinParser", "Unrecognized Hyundai EV motortype! " + motorType);
                 return;
             }
-            mModel = context.getString(R.string.car_ioniqev);
 
-            // Model & series
-            final Character trim = vehicleIdentificationNumber.charAt(4);
-            switch(trim)
-            {
-                case '7': // Ioniq Trend
-                    mTrim = context.getString(R.string.car_trim_ioniq_trend);
-                    break;
-
-                default:
-                    mTrim = context.getString(R.string.car_unknown);
-                    break;
-            }
         } else {
             // Not a HKMC vehicle!
             mBrand = "Not a Kia or a Hyundai";
