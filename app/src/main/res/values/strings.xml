@@ -94,10 +94,12 @@
     <!-- Car Information (VIN decoding) -->
     <string name="car_kia">Kia</string>
     <string name="car_hyundai">Hyundai</string>
+
     <string name="car_soulev">Soul EV</string>
     <string name="car_eniro">e-Niro</string>
     <string name="car_ioniqev">Ioniq EV</string>
     <string name="car_konaev">Kona EV</string>
+
     <string name="car_engine_e">Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80 kW]</string>
     <string name="car_engine_150kw">Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150 kW]</string>
     <string name="car_engine_100kw">Battery [LiPo 327 V, 120 Ah] + Motor [3-phase AC 100 kW]</string>
