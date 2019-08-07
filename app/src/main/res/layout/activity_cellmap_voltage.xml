@@ -1212,7 +1212,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/_amps"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="invisible" />
 
             <ProgressBar
                 android:id="@+id/progress_bar_negative_amps"
@@ -1220,7 +1221,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:gravity="center" />
+                android:gravity="center"
+                android:visibility="invisible" />
 
             <ProgressBar
                 android:id="@+id/progress_bar_positive_amps"
@@ -1228,7 +1230,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:gravity="center" />
+                android:gravity="center"
+                android:visibility="invisible" />
 
         </TableRow>
 
