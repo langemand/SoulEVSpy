@@ -422,7 +422,7 @@ public class BMS2019Parser {
 //2015        bmsData.heat2Temperature = HexToInteger(line23.get(6));
 
         bmsData.stateOfHealth = ((HexToInteger(line24.get(1)) << 8) + HexToInteger(line24.get(2))) * 0.1;
-//2015        bmsData.maxDeterioration = ((HexToInteger(line24.get(0)) << 8) + HexToInteger(line24.get(1))) * 0.1;
+        bmsData.maxDeterioration = ((HexToInteger(line24.get(0)) << 8) + HexToInteger(line24.get(1))) * 0.1;
         bmsData.maxDeteriorationCellNo = HexToInteger(line24.get(3));
         bmsData.minDeterioration = ((HexToInteger(line24.get(4)) << 8) + HexToInteger(line24.get(5))) * 0.1;
         bmsData.minDeteriorationCellNo = HexToInteger(line24.get(6));
