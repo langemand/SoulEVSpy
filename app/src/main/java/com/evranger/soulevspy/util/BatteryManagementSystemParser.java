@@ -420,7 +420,7 @@ public class BatteryManagementSystemParser {
         }
 
         if (bmsData.numberOfCells != 88 && !line21.get(0).substring(0,1).contentEquals("0")) {
-            bmsData.numberOfCells = 100; // TODO: Handle 98 cells in 2020 e-Soul
+            bmsData.numberOfCells = 100;
             bmsData.batteryCellVoltage[96] = HexToInteger(line21.get(0)) * 0.02;
             bmsData.batteryCellVoltage[97] = HexToInteger(line21.get(1)) * 0.02;
             bmsData.batteryCellVoltage[98] = HexToInteger(line21.get(2)) * 0.02;
