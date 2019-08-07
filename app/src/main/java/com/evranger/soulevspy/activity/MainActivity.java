@@ -253,6 +253,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 .withShowDrawerOnFirstLaunch(true)
                 .build();
 
+        // Do not display empty fragments
+        if (!mModelSpecificCommands.hasLdcData()) {
+            mDrawer.removeItem(NavigationDrawerItem.Ldc.ordinal());
+        }
+
         //only set the active selection or active profile if we do not recreate the activity
         if (savedInstanceState == null) {
             // set the selection to the item with the identifier 2

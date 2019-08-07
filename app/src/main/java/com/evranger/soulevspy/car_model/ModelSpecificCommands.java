@@ -40,6 +40,7 @@ public class ModelSpecificCommands {
     private DCConnector mDCConnector = DCConnector.Unknown;
     private double mFullRange = 212;
     private ArrayList<Command> mLoopCommands = new ArrayList<Command>();
+    private boolean mHasLdcData = false;
 
     public ModelSpecificCommands(ClientSharedPreferences sharedPreferences) {
         if (sharedPreferences.getCarModelStringValue().contentEquals(sharedPreferences.getContext().getString(R.string.list_car_model_value_IoniqEV))) {
@@ -119,6 +120,7 @@ public class ModelSpecificCommands {
     private void setKiaSoulEV(ClientSharedPreferences sharedPreferences) {
         mDCConnector = DCConnector.ChaDeMo;
         mFullRange = 212;
+        mHasLdcData = true;
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_start_time_ms)));
 //        mLoopCommands.add(new BasicCommand("AT AR")); // Try Auto Receive
@@ -170,5 +172,9 @@ public class ModelSpecificCommands {
 
     public double getFullRange() {
         return mFullRange;
+    }
+
+    public boolean hasLdcData() {
+        return mHasLdcData;
     }
 }
