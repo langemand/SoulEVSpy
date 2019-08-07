@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.evranger.soulevspy.R;
@@ -40,7 +40,7 @@ class ListViewAdapter extends ArrayAdapter<ListViewItem> {
             viewHolder = new ViewHolder();
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
             viewHolder.tvValue = (TextView) convertView.findViewById(R.id.tvValue);
-            viewHolder.tvButton = (Button) convertView.findViewById(R.id.tvButton);
+            viewHolder.tvButton = (ImageButton) convertView.findViewById(R.id.tvButton);
             convertView.setTag(viewHolder);
         } else {
             // recycle the already inflated view
@@ -53,15 +53,15 @@ class ListViewAdapter extends ArrayAdapter<ListViewItem> {
             viewHolder.tvTitle.setText(item.title);
             viewHolder.tvValue.setText(item.value);
             if (item.buttonText != null) {
-                viewHolder.tvButton.setText(item.buttonText);
+//                viewHolder.tvButton.setText(item.buttonText);
                 viewHolder.tvButton.setTag(position);
                 viewHolder.tvButton.setOnClickListener(mButtonOnClickListener);
                 viewHolder.tvButton.setVisibility(View.VISIBLE);
-                viewHolder.tvButton.setWidth(48);
+//                viewHolder.tvButton.setWidth(48);
             } else {
-                viewHolder.tvButton.setVisibility(View.INVISIBLE);
-                viewHolder.tvButton.setWidth(0);
+                viewHolder.tvButton.setVisibility(View.GONE);
                 viewHolder.tvButton.setOnClickListener(null);
+//                viewHolder.tvButton = null;
             }
         } catch (Exception ex) {
             // No such item...
@@ -80,6 +80,6 @@ class ListViewAdapter extends ArrayAdapter<ListViewItem> {
     private static class ViewHolder {
         TextView tvTitle;
         TextView tvValue;
-        Button tvButton;
+        ImageButton tvButton;
     }
 }

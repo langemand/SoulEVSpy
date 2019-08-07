@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- the parent view - provides the gray listfragment background color -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center_vertical"
-    android:padding="16dp" >
+    android:padding="16dp"
+    android:descendantFocusability="blocksDescendants" >
 
     <!-- the innner view - provides the white rectangle -->
 
@@ -30,20 +32,26 @@
 
             <!-- the Google Maps directions button -->
 
-            <Button
+            <ImageButton
                 android:id="@+id/tvButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
+                android:adjustViewBounds="true"
+                android:cropToPadding="false"
                 android:focusable="false"
-                android:text="Button" />
+                android:focusableInTouchMode="false"
+                android:maxWidth="64dp"
+                android:maxHeight="64dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/google_maps_1797882_960_720" />
 
             <!-- the description view -->
 
             <TextView
                 android:id="@+id/tvValue"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvTitle"
                 android:layout_toLeftOf="@id/tvButton"
