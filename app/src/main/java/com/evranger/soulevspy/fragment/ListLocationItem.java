@@ -6,7 +6,7 @@ class ListLocationItem extends ListViewItem {
     public ChargeLocation mLocation;
 
     public ListLocationItem(String title, String value, ChargeLocation location) {
-        super(title, value);
+        super(title, value, "Dir");
         mLocation = location;
     }
 }

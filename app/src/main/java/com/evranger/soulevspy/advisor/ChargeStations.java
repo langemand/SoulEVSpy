@@ -56,6 +56,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
         File jsonFile = new File(mContext.getFilesDir(),mContext.getString(R.string.file_chargerlocations_json));
         if (jsonFile.length() > 0) {
             onValueChanged(mValues.getPreferences().getContext().getResources().getString(R.string.charger_locations_update_time_ms), null);
+            mValues.set(R.string.charger_locations_update_time_ms, jsonFile.lastModified());
         } else {
             try {
                 JSONObject chargeStations = new JSONObject(loadJSONFromAsset(mContext));

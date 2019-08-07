@@ -8,28 +8,47 @@
     android:padding="16dp" >
 
     <!-- the innner view - provides the white rectangle -->
-    <RelativeLayout android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
         <!-- the container view for the title and description -->
-        <RelativeLayout android:layout_width="wrap_content"
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true" >
+            android:layout_centerVertical="true">
 
             <!-- the title view -->
+
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@android:style/TextAppearance.Small" />
 
-            <!-- the description view -->
-            <TextView
-                android:id="@+id/tvValue"
+            <!-- the Google Maps directions button -->
+
+            <Button
+                android:id="@+id/tvButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:focusable="false"
+                android:text="Button" />
+
+            <!-- the description view -->
+
+            <TextView
+                android:id="@+id/tvValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/tvTitle"
+                android:layout_toLeftOf="@id/tvButton"
                 android:textAppearance="@android:style/TextAppearance.Medium" />
+
         </RelativeLayout>
 
     </RelativeLayout>

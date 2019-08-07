@@ -18,6 +18,7 @@ import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.R;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by henrik on 29/06/2017.
  */
 
-public class ChargerLocationsFragment extends ListFragment implements CurrentValuesSingleton.CurrentValueListener {
+public class ChargerLocationsFragment extends ListFragment implements View.OnClickListener, CurrentValuesSingleton.CurrentValueListener {
     private ListViewAdapter mListViewAdapter = null;
     private List<ListViewItem> mListItems = new ArrayList<>();
     private List<ListViewItem> mItems = new ArrayList<>();
@@ -44,7 +45,7 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
         FragmentActivity activity = getActivity();
         if (activity != null) {
             // initialize the list adapter
-            mListViewAdapter = new ListViewAdapter(getActivity(), mListItems);
+            mListViewAdapter = new ListViewAdapter(getActivity(), mListItems, this);
             ((MainActivity) mValues.getPreferences().getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -80,7 +81,11 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
             nearChargers = (ArrayList<ChargeLocation>) obj;
             // Sort by distance
             Collections.sort(nearChargers, new ChargeLocationComparator());
-            // Display nearest 10
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String dateTimeAsString = formatter.format(mValues.get(R.string.charger_locations_update_time_ms));
+            mItems.add(new ListViewItem("From goingelectric.de: " + dateTimeAsString,
+                    "Click text to see details in browser"));
+            // Display nearest
             for (int i = 0; i < Math.min(500, nearChargers.size()); ++i) {
                 ChargeLocation charger = nearChargers.get(i);
                 double dist_m = charger.get_distFromLookupPos();
@@ -98,7 +103,7 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
                 } catch (Exception ex) {
                     //ignore
                 }
-                String infoStr = "Straight distance: " + dist_km.toString() + " km. " + (verified ? "Verified" : "");
+                String infoStr = "Straight dist: " + dist_km.toString() + " km. " + (verified ? "Verified" : "");
                 mItems.add(new ListLocationItem(infoStr, charger.get_readableName(), charger));
             }
             if (nearChargers.size() == 0) {
@@ -127,18 +132,43 @@ public class ChargerLocationsFragment extends ListFragment implements CurrentVal
             ListLocationItem locItem = (ListLocationItem) item;
             if (locItem != null) {
                 ChargeLocation loc = locItem.mLocation;
+                Uri uri = null;
+// Open GoingElectric uri, as per goingelectric.de API requirements:
+                try {
+                    String uriStr = loc.get_origJson().getString("url");
+                    uri = Uri.parse("https:" + uriStr);
+                } catch (Exception e) {
+                    // Do Nothing?
+                }
 
-                Uri.Builder directionsBuilder = new Uri.Builder()
-                        .scheme("https")
-                        .authority("www.google.com")
-                        .appendPath("maps")
-                        .appendPath("dir")
-                        .appendPath("")
-                        .appendQueryParameter("api", "1")
-                        .appendQueryParameter("destination", loc.get_pos().mLat + "," + loc.get_pos().mLng);
-
-                startActivity(new Intent(Intent.ACTION_VIEW, directionsBuilder.build()));
+                if (uri != null) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                }
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int pos = (int)v.getTag();
+        Object item = getListView().getItemAtPosition(pos);
+        if (item instanceof ListLocationItem) {
+            ListLocationItem locItem = (ListLocationItem) item;
+            ChargeLocation loc = locItem.mLocation;
+
+            // Open Google Maps routing:
+            Uri.Builder directionsBuilder = new Uri.Builder()
+                    .scheme("https")
+                    .authority("www.google.com")
+                    .appendPath("maps")
+                    .appendPath("dir")
+                    .appendPath("")
+                    .appendQueryParameter("api", "1")
+                    .appendQueryParameter("destination", loc.get_pos().mLat + "," + loc.get_pos().mLng)
+                    .appendQueryParameter("travelmode", "driving");
+            Uri uri = directionsBuilder.build();
+
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
         }
     }
 }

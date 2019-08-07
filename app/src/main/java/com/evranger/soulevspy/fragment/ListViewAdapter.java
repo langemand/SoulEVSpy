@@ -1,10 +1,12 @@
 package com.evranger.soulevspy.fragment;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.evranger.soulevspy.R;
@@ -13,8 +15,16 @@ import java.util.List;
 
 class ListViewAdapter extends ArrayAdapter<ListViewItem> {
 
+    View.OnClickListener mButtonOnClickListener;
+
     public ListViewAdapter(Context context, List<ListViewItem> items) {
         super(context, R.layout.listview_item, items);
+        mButtonOnClickListener = null;
+    }
+
+    public ListViewAdapter(Context context, List<ListViewItem> items, @Nullable View.OnClickListener l) {
+        super(context, R.layout.listview_item, items);
+        mButtonOnClickListener = l;
     }
 
     @Override
@@ -30,6 +40,7 @@ class ListViewAdapter extends ArrayAdapter<ListViewItem> {
             viewHolder = new ViewHolder();
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
             viewHolder.tvValue = (TextView) convertView.findViewById(R.id.tvValue);
+            viewHolder.tvButton = (Button) convertView.findViewById(R.id.tvButton);
             convertView.setTag(viewHolder);
         } else {
             // recycle the already inflated view
@@ -41,8 +52,20 @@ class ListViewAdapter extends ArrayAdapter<ListViewItem> {
             ListViewItem item = getItem(position);
             viewHolder.tvTitle.setText(item.title);
             viewHolder.tvValue.setText(item.value);
+            if (item.buttonText != null) {
+                viewHolder.tvButton.setText(item.buttonText);
+                viewHolder.tvButton.setTag(position);
+                viewHolder.tvButton.setOnClickListener(mButtonOnClickListener);
+                viewHolder.tvButton.setVisibility(View.VISIBLE);
+                viewHolder.tvButton.setWidth(48);
+            } else {
+                viewHolder.tvButton.setVisibility(View.INVISIBLE);
+                viewHolder.tvButton.setWidth(0);
+                viewHolder.tvButton.setOnClickListener(null);
+            }
         } catch (Exception ex) {
             // No such item...
+            int i = 0;
         }
 
         return convertView;
@@ -57,5 +80,6 @@ class ListViewAdapter extends ArrayAdapter<ListViewItem> {
     private static class ViewHolder {
         TextView tvTitle;
         TextView tvValue;
+        Button tvButton;
     }
 }
