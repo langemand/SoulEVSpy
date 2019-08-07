@@ -18,6 +18,8 @@ import com.evranger.soulevspy.util.Unit;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
+import static android.view.View.VISIBLE;
+
 
 /**
  * Copied and modified by Henrik Scheel <henrik.scheel@spjeldager.dk> from original source in CanZE on 2019-03-10.
@@ -39,7 +41,6 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
     private int viewlastModule = 0;
     String packageName;
     Unit unit = new Unit();
-    private boolean doInit = true;
     private final static int color_red = 0xffffa0a0;
     private final static int color_blue = 0xffa0a0ff;
 
@@ -51,7 +52,6 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
         activity.setTitle(R.string.action_battery_cellmap);
 
         mValues = CurrentValuesSingleton.getInstance();
-        doInit = true;
         mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
     }
 
@@ -105,17 +105,16 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
             if (lastVoltage[j] > highest) highest = lastVoltage[j];
         }
 
-        if (mean == 0) {
-            return;
-        }
-        mean /= (lastCell+1);
-        cutoff = lowest < 3.712 ? mean - (highest - mean) * 1.5 - 0.0199 : 2;
+        if (mean != 0) {
+            mean /= (lastCell + 1);
+            cutoff = lowest < 3.712 ? mean - (highest - mean) * 1.5 - 0.0199 : 2;
 
-        viewmean = mean;
-        viewmeantemp = meantemp;
-        viewlastCell = lastCell;
-        viewlastModule = lastModule;
-        viewcutoff = cutoff;
+            viewmean = mean;
+            viewmeantemp = meantemp;
+            viewlastCell = lastCell;
+            viewlastModule = lastModule;
+            viewcutoff = cutoff;
+        }
 
         // the update has to be done in a separate thread
         // otherwise the UI will not be repainted
@@ -127,8 +126,8 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                     for (int i = 1; i <= 8; ++i) {
                         int value = lastTemperature[i-1];
                         TextView tv = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_module_" + i + "_temperature", "id", packageName));
-                        if (tv == null) {
-                            continue;
+                        if (tv == null || value == 0) {
+                            break;
                         }
                         int color = (int) (100 * (value - viewmeantemp));
                         if (i <= viewlastModule+1) {
@@ -152,8 +151,8 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                     // Cell voltages
                     for (int i = 0; i < 100; i++) {
                         TextView tv = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_" + (i+1) + "_voltage", "id", packageName));
-                        if (tv == null) {
-                            continue;
+                        if (tv == null || viewmean == 0) {
+                            break;
                         }
                         int color = (int) (2500 * (lastVoltage[i] - viewmean)); // color is temp minus mean. 1mV difference is 5 color ticks
                         if (i <= viewlastCell) {
@@ -179,54 +178,64 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                     Object amps_obj = mValues.get(R.string.col_battery_DC_current_A);
                     ProgressBar apgn = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("progress_bar_negative_amps", "id", packageName));
                     ProgressBar apgp = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("progress_bar_positive_amps", "id", packageName));
-                    if (apgn != null && apgp != null && amps_obj != null && amps_obj instanceof Double) {
-                        double amps = (double) mValues.get(R.string.col_battery_DC_current_A);
-
-                        // TODO: Map -200 to +0 amps to min to max
-                        int minn = 0; //apg.getMin();
-                        int maxn = apgn.getMax();
-                        // Map 0 to +200 amps to min to max
-                        int minp = 0;
-                        int pos = (int) (amps / 200 * (apgp.getMax() - minp)) + minp;
-                        if (doInit) {
-                            TextView left_col_above = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("_97", "id", packageName));
-                            TextView left_col = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_power_text", "id", packageName));
-                            if (left_col_above != null && left_col != null) {
-                                ViewGroup.LayoutParams params = left_col.getLayoutParams();
-                                params.width = left_col_above.getWidth();
-                                left_col.setLayoutParams(params);
+                    if (apgn != null && apgp != null) {
+                        TextView left_col_above = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("_97", "id", packageName));
+                        TextView left_col = ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_power_text", "id", packageName));
+                        if (left_col_above != null && left_col != null) {
+                            ViewGroup.LayoutParams params = left_col.getLayoutParams();
+                            int lw = left_col_above.getWidth();
+                            params.width = lw;
+                            if (lw == 0) {
+                                left_col.setVisibility(View.INVISIBLE);
+                                apgn.setVisibility(View.INVISIBLE);
+                                apgp.setVisibility(View.INVISIBLE);
+                                return;
                             }
-                            TextView tvll = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_97_voltage", "id", packageName));
-                            TextView tvlr = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_100_voltage", "id", packageName));
-                            if (tvll != null && tvlr != null) {
-                                ViewGroup.LayoutParams params = apgn.getLayoutParams();
-                                params.width = (int)(tvlr.getX()+tvlr.getWidth()-tvll.getX());
-                                apgn.setLayoutParams(params);
-                            }
-                            TextView tvrl = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_101_voltage", "id", packageName));
-                            TextView tvrr = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_104_voltage", "id", packageName));
-                            if (tvrl != null && tvrr != null) {
-                                ViewGroup.LayoutParams params = apgp.getLayoutParams();
-                                params.width = (int)(tvrr.getX()+tvrr.getWidth()-tvrl.getX());
-                                apgp.setLayoutParams(params);
-                            }
-
-                            Drawable progressDrawableNeg = apgn.getProgressDrawable().mutate();
-                            progressDrawableNeg.setColorFilter(color_blue, android.graphics.PorterDuff.Mode.SRC_IN);
-                            apgn.setProgressDrawable(progressDrawableNeg);
-                            apgn.setRotation(180);
-
-                            Drawable progressDrawablePos = apgp.getProgressDrawable().mutate();
-                            progressDrawablePos.setColorFilter(color_red, android.graphics.PorterDuff.Mode.SRC_IN);
-                            apgp.setProgressDrawable(progressDrawablePos);
-                            doInit = false;
+                            left_col.setLayoutParams(params);
                         }
-                        if (amps > 0) {
-                            apgn.setProgress(0);
-                            apgp.setProgress(pos);
-                        } else {
-                            apgp.setProgress(0);
-                            apgn.setProgress(-pos);
+                        TextView tvll = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_97_voltage", "id", packageName));
+                        TextView tvlr = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_100_voltage", "id", packageName));
+                        if (tvll != null && tvlr != null) {
+                            ViewGroup.LayoutParams params = apgn.getLayoutParams();
+                            params.width = (int)(tvlr.getX()+tvlr.getWidth()-tvll.getX());
+                            apgn.setLayoutParams(params);
+                        }
+                        TextView tvrl = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_101_voltage", "id", packageName));
+                        TextView tvrr = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_104_voltage", "id", packageName));
+                        if (tvrl != null && tvrr != null) {
+                            ViewGroup.LayoutParams params = apgp.getLayoutParams();
+                            params.width = (int)(tvrr.getX()+tvrr.getWidth()-tvrl.getX());
+                            apgp.setLayoutParams(params);
+                        }
+
+                        Drawable progressDrawableNeg = apgn.getProgressDrawable().mutate();
+                        progressDrawableNeg.setColorFilter(color_blue, android.graphics.PorterDuff.Mode.SRC_IN);
+                        apgn.setProgressDrawable(progressDrawableNeg);
+                        apgn.setRotation(180);
+
+                        Drawable progressDrawablePos = apgp.getProgressDrawable().mutate();
+                        progressDrawablePos.setColorFilter(color_red, android.graphics.PorterDuff.Mode.SRC_IN);
+                        apgp.setProgressDrawable(progressDrawablePos);
+                        apgn.setProgress(0);
+                        apgp.setProgress(0);
+                        if (amps_obj != null && amps_obj instanceof Double) {
+                            double amps = (double) mValues.get(R.string.col_battery_DC_current_A);
+                            // TODO: Map -200 to +0 amps to min to max
+                            int minn = 0; //apg.getMin();
+                            int maxn = apgn.getMax();
+                            // Map 0 to +200 amps to min to max
+                            int minp = 0;
+                            int pos = (int) (amps / 200 * (apgp.getMax() - minp)) + minp;
+                            if (amps > 0) {
+                                apgn.setProgress(0);
+                                apgp.setProgress(pos);
+                            } else {
+                                apgp.setProgress(0);
+                                apgn.setProgress(-pos);
+                            }
+                            left_col.setVisibility(VISIBLE);
+                            apgn.setVisibility(VISIBLE);
+                            apgp.setVisibility(VISIBLE);
                         }
                     }
                 } catch (IllegalStateException ex) {
