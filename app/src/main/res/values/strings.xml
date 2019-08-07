@@ -7,7 +7,7 @@
     <string name="action_vmcu_information">Motor Control information</string>
     <string name="action_obc_information">Onboard Charger information</string>
     <string name="action_energy">Energy and power</string>
-    <string name="action_charger_locations">Quick-chargers (Click for routing)</string>
+    <string name="action_charger_locations">DC-chargers (Click for details)</string>
     <string name="action_ldc">DC-DC 12 V converter</string>
     <string name="action_tires">Tire data</string>
     <string name="action_dashboard">Dashboard</string>
