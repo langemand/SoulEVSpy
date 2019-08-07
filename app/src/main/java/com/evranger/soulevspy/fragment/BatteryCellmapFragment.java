@@ -44,12 +44,6 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
     private final static int color_blue = 0xffa0a0ff;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_cellmap_voltage, container, false);
-        return view;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FragmentActivity activity = getActivity();
@@ -57,11 +51,21 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
         activity.setTitle(R.string.action_battery_cellmap);
 
         mValues = CurrentValuesSingleton.getInstance();
-        onValueChanged(null, null);
-        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
         doInit = true;
+        mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_system_scan_end_time_ms), this);
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_cellmap_voltage, container, false);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        onValueChanged(null, null);
+    }
     @Override
     public void onDestroy() {
         mValues.delListener(this);
