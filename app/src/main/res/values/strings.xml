@@ -48,6 +48,10 @@
     <string name="list_temperature_c">Celsius (\u2103)</string>
     <string name="list_temperature_f">Fahrenheit (\u2109)</string>
 
+    <string name="pref_pressure">Pressure</string>
+    <string name="list_pressure_psi">Pounds per Square Inch (psi)</string>
+    <string name="list_pressure_bar">Bar (bar)</string>
+
     <string name="title_pref_bluetooth">Bluetooth</string>
     <string name="pref_bluetooth_device">Bluetooth device</string>
     <string name="pref_bluetooth_device_summary">Select an ELM327 Bluetooth device</string>

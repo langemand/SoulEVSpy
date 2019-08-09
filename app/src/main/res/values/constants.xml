@@ -5,6 +5,7 @@
     <string name="key_list_units_distance">list_distance</string>
     <string name="key_list_units_energy_consumption">list_energy_consumption</string>
     <string name="key_list_units_temperature">list_temperature</string>
+    <string name="key_list_units_pressure">list_pressure</string>
     <string name="key_list_bluetooth_device">list_bluetooth_device</string>
     <string name="key_check_auto_reconnect">check_auto_reconnect</string>
     <string name="key_edit_scan_interval">edit_scan_interval</string>
@@ -32,4 +33,7 @@
 
     <string name="list_temperature_value_c">c</string>
     <string name="list_temperature_value_f">f</string>
+
+    <string name="list_pressure_value_psi">psi</string>
+    <string name="list_pressure_value_bar">bar</string>
 </resources>

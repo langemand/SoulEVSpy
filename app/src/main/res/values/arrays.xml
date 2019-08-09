@@ -60,4 +60,15 @@
         <item>@string/list_temperature_value_c</item>
         <item>@string/list_temperature_value_f</item>
     </string-array>
+
+    <!-- Pressure units -->
+    <string-array name="list_pressure_entries">
+        <item>@string/list_pressure_psi</item>
+        <item>@string/list_pressure_bar</item>
+    </string-array>
+
+    <string-array name="list_pressure_values">
+        <item>@string/list_pressure_value_psi</item>
+        <item>@string/list_pressure_value_bar</item>
+    </string-array>
 </resources>

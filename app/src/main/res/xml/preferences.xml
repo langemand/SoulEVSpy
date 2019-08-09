@@ -34,6 +34,13 @@
             android:entries="@array/list_temperature_entries"
             android:entryValues="@array/list_temperature_values"
             android:defaultValue="@string/list_temperature_value_c" />
+        <ListPreference
+            android:key="@string/key_list_units_pressure"
+            android:title="@string/pref_pressure"
+            android:dialogTitle="@string/pref_pressure"
+            android:entries="@array/list_pressure_entries"
+            android:entryValues="@array/list_pressure_values"
+            android:defaultValue="@string/list_pressure_value_psi" />
     </PreferenceCategory>
 
     <!-- Bluetooth -->

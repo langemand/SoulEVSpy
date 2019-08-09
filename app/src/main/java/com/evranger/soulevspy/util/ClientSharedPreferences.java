@@ -18,6 +18,7 @@ public class ClientSharedPreferences {
     private final String PREF_UNITS_DISTANCE;
     private final String PREF_UNITS_ENERGY_CONSUMPTION;
     private final String PREF_UNITS_TEMPERATURE;
+    private final String PREF_UNITS_PRESSURE;
     private final String PREF_BLUETOOTH_DEVICE;
     private final String PREF_AUTO_RECONNECT;
     private final String PREF_SCAN_INTERVAL;
@@ -27,6 +28,7 @@ public class ClientSharedPreferences {
     public final String DEFAULT_UNITS_DISTANCE;
     public final String DEFAULT_UNITS_ENERGY_CONSUMPTION;
     public final String DEFAULT_UNITS_TEMPERATURE;
+    public final String DEFAULT_UNITS_PRESSURE;
     public final String DEFAULT_BLUETOOTH_DEVICE;
     public final boolean DEFAULT_AUTO_RECONNECT;
     public final float DEFAULT_SCAN_INTERVAL;
@@ -40,6 +42,7 @@ public class ClientSharedPreferences {
         PREF_UNITS_DISTANCE = context.getString(R.string.key_list_units_distance);
         PREF_UNITS_ENERGY_CONSUMPTION = context.getString(R.string.key_list_units_energy_consumption);
         PREF_UNITS_TEMPERATURE = context.getString(R.string.key_list_units_temperature);
+        PREF_UNITS_PRESSURE = context.getString(R.string.key_list_units_pressure);
         PREF_BLUETOOTH_DEVICE = context.getString(R.string.key_list_bluetooth_device);
         PREF_AUTO_RECONNECT = context.getString(R.string.key_check_auto_reconnect);
         PREF_SCAN_INTERVAL = context.getString(R.string.key_edit_scan_interval);
@@ -49,6 +52,7 @@ public class ClientSharedPreferences {
         DEFAULT_UNITS_DISTANCE = context.getString(R.string.list_distance_km);
         DEFAULT_UNITS_ENERGY_CONSUMPTION = context.getString(R.string.list_energy_consumption_kwh_100km);
         DEFAULT_UNITS_TEMPERATURE = context.getString(R.string.list_temperature_c);
+        DEFAULT_UNITS_PRESSURE = context.getString(R.string.list_pressure_psi);
         DEFAULT_BLUETOOTH_DEVICE = "";
         DEFAULT_AUTO_RECONNECT = false;
         DEFAULT_SCAN_INTERVAL = Float.valueOf(context.getString(R.string.pref_default_scan_interval));
@@ -72,6 +76,10 @@ public class ClientSharedPreferences {
 
     public String getUnitsTemperatureStringValue() {
         return sharedPreferences.getString(PREF_UNITS_TEMPERATURE, DEFAULT_UNITS_TEMPERATURE);
+    }
+
+    public String getUnitsPressureStringValue() {
+        return sharedPreferences.getString(PREF_UNITS_PRESSURE, DEFAULT_UNITS_PRESSURE);
     }
 
     public String getBluetoothDeviceStringValue() {

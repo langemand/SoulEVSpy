@@ -4,6 +4,8 @@ import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
 public class Unit {
     public static double milesPerKm = 0.621371192;
+    public String mPresUnit;
+    private double mPresFactor;
     public String mTempUnit;
     private double mTempFactor;
     private double mTempOffset;
@@ -15,6 +17,13 @@ public class Unit {
 
 
     public Unit() {
+        if (CurrentValuesSingleton.getInstance().getPreferences().getUnitsPressureStringValue().contentEquals("bar")) {
+            mPresUnit = "bar";
+            mPresFactor = 0.0689475729;
+        } else {
+            mPresUnit = "psi";
+            mPresFactor = 1;
+        }
         if (CurrentValuesSingleton.getInstance().getPreferences().getUnitsTemperatureStringValue().contentEquals("f")) {
             mTempUnit = "F";
             mTempFactor = 1.8;
@@ -49,6 +58,10 @@ public class Unit {
             mConsumptionDistanceFactor = milesPerKm;
         }
     }
+
+    public double convertPres(double prespsi) {
+        return prespsi * mPresFactor;
+    };
 
     public double convertTemp(double tempC) {
         return tempC * mTempFactor + mTempOffset;
