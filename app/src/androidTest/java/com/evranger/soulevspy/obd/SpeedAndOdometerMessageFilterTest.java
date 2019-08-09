@@ -29,6 +29,9 @@ public class SpeedAndOdometerMessageFilterTest extends AndroidTestCase {
     final String msg4F0 = "4F0 00 0A 11 00 00 36 29 03 \r" +
             ">";
 
+    final String steves4F0 = "4F0 40 00 1A 00 00 D8 0F 0B <DATA ERROR\r" +
+            ">";
+
     public void testProcessesZero() {
         SpeedAndOdometerMessageFilter filter = new SpeedAndOdometerMessageFilter();
         ObdMessageData messageData = new ObdMessageData("4F0 40 00 00 00 00 00 00 00");
@@ -103,5 +106,19 @@ public class SpeedAndOdometerMessageFilterTest extends AndroidTestCase {
         Assert.assertEquals("", responder.getMessages());
         Assert.assertEquals(133.0, vals.get(R.string.col_car_speed_kph));
         Assert.assertEquals(20715.8, vals.get(R.string.col_car_odo_km));
+    }
+
+    public void testSpeedAndOdoMessageFilter() {
+        CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        mValues.setPreferences(prefs);
+
+        SpeedAndOdometerMessageFilter filter = new SpeedAndOdometerMessageFilter();
+
+        ObdMessageData messageData = new ObdMessageData(steves4F0);
+        filter.doProcessMessage(messageData);
+
+        assertEquals(0.0, mValues.get(R.string.col_car_speed_kph));
+        assertEquals(72495.2, mValues.get(R.string.col_car_odo_km));
     }
 }
