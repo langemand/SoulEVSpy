@@ -82,7 +82,12 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
             // Sort by distance
             Collections.sort(nearChargers, new ChargeLocationComparator());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            String dateTimeAsString = formatter.format(mValues.get(R.string.charger_locations_update_time_ms));
+            String dateTimeAsString = "";
+            try {
+                dateTimeAsString = formatter.format(mValues.get(R.string.charger_locations_update_time_ms));
+            } catch (Exception ex) {
+                // Ignore
+            }
             mItems.add(new ListViewItem("From goingelectric.de: " + dateTimeAsString,
                     "Click text to see details in browser"));
             // Display nearest
