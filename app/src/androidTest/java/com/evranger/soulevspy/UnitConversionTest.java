@@ -17,6 +17,23 @@ public class UnitConversionTest extends BaseUnitConversionTest {
     }
 
     @Test
+    public void testPressureConversionPsi() {
+        Unit unit = new Unit();
+
+        assertEquals(0.0, unit.convertPres(0.0));
+        assertEquals(100.0, unit.convertPres(100.0));
+    }
+
+    @Test
+    public void testPressureConversionBar() {
+        when(prefs.getUnitsPressureStringValue()).thenReturn(getContext().getString(R.string.list_pressure_value_bar));
+        Unit unit = new Unit();
+
+        assertEquals(0.0, unit.convertPres(0.0));
+        assertEquals(6.89475729, unit.convertPres(100.0));
+    }
+
+    @Test
     public void testTemperatureConversionMetric() {
         Unit unit = new Unit();
 
