@@ -79,39 +79,41 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
         Object obj = mValues.get(R.string.col_chargers_locations);
         if (obj != null) {
             nearChargers = (ArrayList<ChargeLocation>) obj;
-            // Sort by distance
-            Collections.sort(nearChargers, new ChargeLocationComparator());
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            String dateTimeAsString = "";
-            try {
-                dateTimeAsString = formatter.format(mValues.get(R.string.charger_locations_update_time_ms));
-            } catch (Exception ex) {
-                // Ignore
-            }
-            mItems.add(new ListViewItem("From goingelectric.de: " + dateTimeAsString,
-                    "Click text to see details in browser"));
-            // Display nearest
-            for (int i = 0; i < Math.min(500, nearChargers.size()); ++i) {
-                ChargeLocation charger = nearChargers.get(i);
-                double dist_m = charger.get_distFromLookupPos();
-
-                if (remainingRange != null && !warningAdded && dist_m > remainingRange * 1000) {
-                    warningAdded = true;
-                    mItems.add(new ListViewItem("-------------------------------------------------------------------------------",
-                            "Below are out of range!"));
-                }
-                double dist_deca_m = Math.round(dist_m / 100);
-                Double dist_km = dist_deca_m / 10;
-                boolean verified = false;
+            if (nearChargers.size() > 0) {
+                // Sort by distance
+                Collections.sort(nearChargers, new ChargeLocationComparator());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                String dateTimeAsString = "";
                 try {
-                    verified = (boolean) charger.get_origJson().get("verified");
+                    dateTimeAsString = formatter.format(mValues.get(R.string.charger_locations_update_time_ms));
                 } catch (Exception ex) {
-                    //ignore
+                    // Ignore
+                    int i = 0;
                 }
-                String infoStr = "Straight dist: " + dist_km.toString() + " km. " + (verified ? "Verified" : "");
-                mItems.add(new ListLocationItem(infoStr, charger.get_readableName(), charger));
-            }
-            if (nearChargers.size() == 0) {
+                mItems.add(new ListViewItem("From goingelectric.de: " + dateTimeAsString,
+                        "Click text to see details in browser"));
+                // Display nearest
+                for (int i = 0; i < Math.min(500, nearChargers.size()); ++i) {
+                    ChargeLocation charger = nearChargers.get(i);
+                    double dist_m = charger.get_distFromLookupPos();
+
+                    if (remainingRange != null && !warningAdded && dist_m > remainingRange * 1000) {
+                        warningAdded = true;
+                        mItems.add(new ListViewItem("-------------------------------------------------------------------------------",
+                                "Below are out of range!"));
+                    }
+                    double dist_deca_m = Math.round(dist_m / 100);
+                    Double dist_km = dist_deca_m / 10;
+                    boolean verified = false;
+                    try {
+                        verified = (boolean) charger.get_origJson().get("verified");
+                    } catch (Exception ex) {
+                        //ignore
+                    }
+                    String infoStr = "Straight dist: " + dist_km.toString() + " km. " + (verified ? "Verified" : "");
+                    mItems.add(new ListLocationItem(infoStr, charger.get_readableName(), charger));
+                }
+            } else if (nearChargers.size() == 0) {
                 mItems.add(new ListViewItem("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
                         "No DC-chargers nearby!"));
                 // TODO: Fetch AC-charger-locations
