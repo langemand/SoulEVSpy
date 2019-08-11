@@ -65,14 +65,14 @@ public class Position implements LocationListener {
         vals.set(res.getString(R.string.col_route_lat_deg), Double.valueOf(loc.getLatitude()));
         vals.set(res.getString(R.string.col_route_lng_deg), Double.valueOf(loc.getLongitude()));
         vals.set(res.getString(R.string.col_route_elevation_m), Double.valueOf(loc.getAltitude()));
-        vals.set(res.getString(R.string.col_route_time_s), Long.valueOf(loc.getTime()));
+        vals.set(res.getString(R.string.col_route_time_s), Long.valueOf(loc.getTime()));  //DL
         vals.set(res.getString(R.string.col_route_speed_mps), loc.getSpeed());
     }
 
     @Override
     public void onLocationChanged(Location loc) {
         if (mListening) {
-            updateLocation(loc);
+            updateLocation(loc);  //DL
         }
     }
 

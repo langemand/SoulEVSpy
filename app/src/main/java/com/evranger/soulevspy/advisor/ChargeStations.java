@@ -124,7 +124,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
 
             }
         }
-        mValues.set(R.string.col_chargers_locations, obj);
+        mValues.set(R.string.col_chargers_locations, obj); //DL
 
         // Consider requesting an update of the charger locations
         if (mLastPosRequested.distance(curPos) > mLastRangeRequested / 2 || !mLastSucceeded) {

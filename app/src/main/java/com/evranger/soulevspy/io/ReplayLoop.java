@@ -44,7 +44,7 @@ public class ReplayLoop {
             String line = mReader.readLine();
             mValues = line.split(regex);
 
-            // Thread used to run commands in loop
+            // Thread used to send data read from csv file
             mLoopThread = new Thread(new Runnable() {
                 @Override
                 public void run() {

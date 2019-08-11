@@ -45,6 +45,7 @@ public class Responder {
                     }
                 }
             });
+            mResponseThread.setName("ResponseThread");
             mResponseThread.start();
         } catch (Exception e) {
             //

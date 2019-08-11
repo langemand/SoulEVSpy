@@ -64,6 +64,7 @@ public class BluetoothService extends Service {
                         internalConnect();
                     }
                 });
+                connectionThread.setName("ConnectionThread");
                 connectionThread.start();
             }
         }
@@ -116,6 +117,7 @@ public class BluetoothService extends Service {
                     internalDisconnect();
                 }
             });
+            disconnectionThread.setName("DisconnectThread");
             disconnectionThread.start();
         }
     }
