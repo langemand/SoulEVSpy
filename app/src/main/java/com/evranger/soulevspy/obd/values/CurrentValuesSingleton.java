@@ -59,13 +59,13 @@ public class CurrentValuesSingleton {
         } finally {
             mLock.unlock();
         }
-        mListenerLock.lock();
+        mListenerLock.lock(); //DL
         try {
             if (mListeners.containsKey(key)) {
                 List<CurrentValueListener> listeners = mListeners.get(key);
                 if (listeners != null) {
                     for (CurrentValueListener listener : listeners) {
-                        listener.onValueChanged(key, value);
+                        listener.onValueChanged(key, value); //DL
                     }
                 }
             }
@@ -93,7 +93,6 @@ public class CurrentValuesSingleton {
     }
 
     public void set(int res_key, Object value) {
-        mLock.lock();
         try {
             if (mSharedPreferences == null) {
                 throw new NullPointerException("CurrentValueSingleton.setResources must be called first!");
@@ -101,13 +100,10 @@ public class CurrentValuesSingleton {
             set(mSharedPreferences.getContext().getResources().getString(res_key), value);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            mLock.unlock();
         }
     }
 
     public void set(int res_key, Integer index, String append, Object value) {
-        mLock.lock();
         try {
             if (mSharedPreferences == null) {
                 throw new NullPointerException("CurrentValueSingleton.setResources must be called first!");
@@ -115,8 +111,6 @@ public class CurrentValuesSingleton {
             set(mSharedPreferences.getContext().getResources().getString(res_key) + index.toString() + append, value);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            mLock.unlock();
         }
     }
 
@@ -133,7 +127,6 @@ public class CurrentValuesSingleton {
     }
 
     public Object get(int res_key) {
-        mLock.lock();
         Object o = null;
         try {
             if (mSharedPreferences == null) {
@@ -142,8 +135,6 @@ public class CurrentValuesSingleton {
             o = get(mSharedPreferences.getContext().getResources().getString(res_key));
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            mLock.unlock();
         }
         return o;
     }
