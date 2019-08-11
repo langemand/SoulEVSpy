@@ -70,7 +70,7 @@ public class Protocol {
         mProcessingThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                processReceivedMessages();
+                processReceivedMessages(); //DL
             }
         });
         mProcessingThread.setName("BluetoothProtocolProcessingThread");
@@ -122,7 +122,8 @@ public class Protocol {
      * Takes a Message from the message queue and executes it
      */
     private void executeMessages() {
-        while (!mExecutionThread.isInterrupted()) {
+        boolean isInterrupted = false;
+        while (!mExecutionThread.isInterrupted() && !isInterrupted) {
             Message message = null;
 
             try {
@@ -147,7 +148,7 @@ public class Protocol {
                 }
 
             } catch (InterruptedException e) {
-                mExecutionThread.interrupt();
+                isInterrupted = true;
                 mStatus = e.getMessage();
                 if (mStatus == null) {
                     mStatus = "Interrupted while executing command";
@@ -193,7 +194,7 @@ public class Protocol {
                 addMessageToProcessingQueue(message);
             }
         }
-        if (mExecutionThread.isInterrupted()) {
+        if (mExecutionThread.isInterrupted() || isInterrupted) {
             mMessageInputQueue.clear();
 
             mInputStream = null;
@@ -212,7 +213,7 @@ public class Protocol {
 
             try {
                 message = mMessageOutputQueue.take();
-                message.getCommand().doProcessResponse();
+                message.getCommand().doProcessResponse(); //DL
 
                 // Notify registered MessageReceivedListener objects
                 for (Iterator<MessageReceivedListener> i=mMessageReceivedListeners.iterator(); i.hasNext(); ) {
