@@ -111,8 +111,18 @@ public class KiaVinParser {
                 final Character trim = vehicleIdentificationNumber.charAt(4);
                 switch(trim)
                 {
+                    case '6': // Hyundai Ioniq PHEV SE
+                        mModel = context.getString(R.string.car_ioniqphev);
+                        mTrim = context.getString(R.string.car_trim_ioniq_se);
+                        break;
+
                     case '7': // Kona Trend
                         mTrim = context.getString(R.string.car_trim_ioniq_trend);
+                        break;
+
+                    case '8': // Hyundai Ioniq HEV
+                        mModel = context.getString(R.string.car_ioniqhev);
+                        mTrim = context.getString(R.string.car_trim_ioniq_se);
                         break;
 
                     default:
@@ -146,12 +156,16 @@ public class KiaVinParser {
             // Motor type
             final Character motorType = vehicleIdentificationNumber.charAt(7);
             if (motorType.equals('H')) {
-                mEngine = context.getString(R.string.car_engine_ioniq);
+                mEngine = context.getString(R.string.car_engine_ioniq_88kW);
             } else if (motorType.equals('G')) {
                 mEngine = context.getString(R.string.car_engine_150kw);
+            } else if (motorType.equals('D')) {
+                mEngine = context.getString(R.string.car_engine_ioniq_phev_45kW);
+            } else if (motorType.equals('C')) {
+                mEngine = context.getString(R.string.car_engine_ioniq_hev_32kW);
             } else {
-                mEngine = "Unrecognized Hyundai EV motortype";
-                Log.d("KiaVinParser", "Unrecognized Hyundai EV motortype! " + motorType);
+                mEngine = "Unrecognized Hyundai Electric motortype";
+                Log.d("KiaVinParser", "Unrecognized Hyundai Electric motortype! " + motorType);
                 return;
             }
 

@@ -42,16 +42,22 @@ public class KiaVinParserTest extends AndroidTestCase {
     // Matts car
     private final static String VIN_MATT                = "KNDJX3AE2F7001565"; // Matts VIN
 
-    // Henriks e-Soul 2020
-    private final static String VIN_ESOUL               = "KNAJ3811FL7000543"; // Henriks eSoul VIN
+    // e-Soul 2020
+    private final static String VIN_ESOUL_ADVANCE_PLUS  = "KNAJ3811FL7000543"; // Henriks eSoul VIN
 
-    // Drmarshall Soul EV 2016
-    private final static String VIN_2016_6682           = "KNDJX3AE7G7006682"; // Drmarshalls Soul EV 2016
+    // Soul EV 2016
+    private final static String VIN_2016_6682           = "KNDJX3AE7G7006682"; // Soul EV 2016
 
     // Lottes Ioniq
     private final static String VIN_IONIQEV_2017_TREND  = "KMHC751HFHU017366";
 
-    // Steeves 40% SOH Soul EV
+    // Ioniq PHEV 2018 SE
+    private final static String VIN_IONIQ_PHEV_2018_SE  = "KMHC65LD9JU104158";
+
+    // Ionic HEV from nrpla.de
+    private final static String VIN_IONIQ_HEV_ADVANCED  = "KMHC851CGHU013795";
+
+    // 40% SOH Soul EV
     private final static String VIN_40_SOH              = "KNDJX3AE2F7002960";
 
     // Tobias' Kona Trend
@@ -60,8 +66,31 @@ public class KiaVinParserTest extends AndroidTestCase {
     // Peters Kona
     private final static String VIN_KONA_64_KWH         = "KMHK381GFKU011487";
 
-    // Peters eNiro
+    // Fra nrpla.de, elsæder, skiltegenkendelse
+    private final static String VIN_KONA_ADVANCE_64_KWH = "KMHK581GFKU037419";
+
+    // Fra nrpla.de, mindre udstyr?
+    private final static String VIN_KONA_64_KWH_2       = "KMHK581GFKU007456";
+
+    // Fra nrpla.de, Kona 39 kWH
+    private final static String VIN_KONA_39_KWH         = "KMHK381HFKU014102";
+
+    // Peters eNiro, 39 kWh batt
     private final static String VIN_ENIRO_39_KWH        = "KNACB81HFK5006641";
+
+    // eNiro 64 kWh fra nrpla.de
+    private final static String VIN_ENIRO_64_KWH        = "KNACB81GFK5006898";
+
+    // NIRO PHEV fra nrpla.de
+    private final static String VIN_NIRO_PHEV           = "KNACD81DGJ5118039";
+
+    private final static String VIN_NIRO_NEWER_PHEV     = "KNACM81DGK5225933";
+
+    // Kia Optima 4 door PHEV fra nrpla.de
+    private final static String VIN_OPTIMA_PHEV         = "KNAGV41DBH5004005";
+
+    // Kia Optima PHEV st car fra nrpla.de
+    private final static String VIN_OPTIMA_STCAR_PHEV   = "KNAGV81FBJ5027605";
 
     // Model year - A = 2010, B = 2011; but I, O, Q, U, Z are skipped, and after Y comes 1, 2, 3, etc
     private final static String VIN_2014                = "KNDJX3AE1E7005477";
@@ -105,7 +134,10 @@ public class KiaVinParserTest extends AndroidTestCase {
     private final static String ENIRO_39KWH_ENGINE    = "Battery [LiPo 327 V, 120 Ah] + Motor [3-phase AC 100 kW]";
 
     private final static String IONIQ_TREND       = "Trend";
-    private final static String IONIQ_ENGINE      = "Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]";
+    private final static String IONIQ_SE          = "SE";
+    private final static String IONIQ_EV_ENGINE   = "Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]";
+    private final static String IONIQ_PHEV_ENGINE = "Battery [LiPo 360 V, 24.7 Ah] + Motor [3-phase AC 45 kW]";
+    private final static String IONIQ_HEV_ENGINE  = "Battery [LiPo 240 V, 6.5 Ah] + Motor [3-phase AC 32 kW]";
     private final static String IONIQ_PROD_PLANT  = "Ulsan (South Korea)";
 
     private final static String KONA_TREND        = "Trend";
@@ -132,7 +164,7 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_TYREL).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2015_HENRIK).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_2016_IWER).isValid());
-        Assert.assertTrue(new KiaVinParser(getContext(), VIN_ESOUL).isValid());
+        Assert.assertTrue(new KiaVinParser(getContext(), VIN_ESOUL_ADVANCE_PLUS).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_40_SOH).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_KONA_2018_TREND).isValid());
         Assert.assertTrue(new KiaVinParser(getContext(), VIN_KONA_64_KWH).isValid());
@@ -232,9 +264,9 @@ public class KiaVinParserTest extends AndroidTestCase {
      * Valid VIN from a Kia e-Soul 2020
      */
     public void test2020() {
-        KiaVinParser vin = new KiaVinParser(getContext(), VIN_ESOUL);
+        KiaVinParser vin = new KiaVinParser(getContext(), VIN_ESOUL_ADVANCE_PLUS);
         Assert.assertTrue(vin.isValid());
-        Assert.assertEquals(vin.getVIN(), VIN_ESOUL);
+        Assert.assertEquals(vin.getVIN(), VIN_ESOUL_ADVANCE_PLUS);
         Assert.assertEquals(vin.getBrand(), "Kia");
         Assert.assertEquals(vin.getModel(), "Soul EV");
         Assert.assertEquals(vin.getTrim(), SOULEV2020_EXCLUSIVE);
@@ -394,7 +426,7 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertEquals(vin.getBrand(), "Hyundai");
         Assert.assertEquals(vin.getModel(), "Ioniq EV");
         Assert.assertEquals(vin.getTrim(), IONIQ_TREND);
-        Assert.assertEquals(vin.getEngine(), IONIQ_ENGINE);
+        Assert.assertEquals(vin.getEngine(), IONIQ_EV_ENGINE);
         Assert.assertEquals(vin.getYear(), "2017");
         Assert.assertEquals(vin.getSequentialNumber(), "017366");
         Assert.assertEquals(vin.getProductionPlant(), IONIQ_PROD_PLANT);
@@ -446,5 +478,38 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertEquals(vin.getYear(), "2019");
         Assert.assertEquals(vin.getSequentialNumber(), "006641");
         Assert.assertEquals(vin.getProductionPlant(), ENIRO_PROD_PLANT);
+    }
+
+
+    /**
+     * VIN from a 2018 Ioniq PHEV
+     */
+    public void testIoniqPHEV_VIN() {
+        KiaVinParser vin = new KiaVinParser(getContext(), VIN_IONIQ_PHEV_2018_SE);
+        Assert.assertTrue(vin.isValid());
+        Assert.assertEquals(vin.getVIN(), VIN_IONIQ_PHEV_2018_SE);
+        Assert.assertEquals(vin.getBrand(), "Hyundai");
+        Assert.assertEquals(vin.getModel(), "Ioniq PHEV");
+        Assert.assertEquals(vin.getTrim(), IONIQ_SE);
+        Assert.assertEquals(vin.getEngine(), IONIQ_PHEV_ENGINE);
+        Assert.assertEquals(vin.getYear(), "2018");
+        Assert.assertEquals(vin.getSequentialNumber(), "104158");
+        Assert.assertEquals(vin.getProductionPlant(), IONIQ_PROD_PLANT);
+    }
+
+    /**
+     * VIN from a 2018 Ioniq PHEV
+     */
+    public void testIoniqHEV_VIN() {
+        KiaVinParser vin = new KiaVinParser(getContext(), VIN_IONIQ_HEV_ADVANCED);
+        Assert.assertTrue(vin.isValid());
+        Assert.assertEquals(vin.getVIN(), VIN_IONIQ_HEV_ADVANCED);
+        Assert.assertEquals(vin.getBrand(), "Hyundai");
+        Assert.assertEquals(vin.getModel(), "Ioniq HEV");
+        Assert.assertEquals(vin.getTrim(), IONIQ_SE);
+        Assert.assertEquals(vin.getEngine(), IONIQ_HEV_ENGINE);
+        Assert.assertEquals(vin.getYear(), "2017");
+        Assert.assertEquals(vin.getSequentialNumber(), "013795");
+        Assert.assertEquals(vin.getProductionPlant(), IONIQ_PROD_PLANT);
     }
 }

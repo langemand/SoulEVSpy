@@ -102,15 +102,20 @@
     <string name="car_soulev">Soul EV</string>
     <string name="car_eniro">e-Niro</string>
     <string name="car_ioniqev">Ioniq EV</string>
+    <string name="car_ioniqphev">Ioniq PHEV</string>
+    <string name="car_ioniqhev">Ioniq HEV</string>
     <string name="car_konaev">Kona EV</string>
 
     <string name="car_engine_e">Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80 kW]</string>
     <string name="car_engine_150kw">Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150 kW]</string>
     <string name="car_engine_100kw">Battery [LiPo 327 V, 120 Ah] + Motor [3-phase AC 100 kW]</string>
-    <string name="car_engine_ioniq">Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]</string>
+    <string name="car_engine_ioniq_88kW">Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]</string>
+    <string name="car_engine_ioniq_phev_45kW">Battery [LiPo 360 V, 24.7 Ah] + Motor [3-phase AC 45 kW]</string>
+    <string name="car_engine_ioniq_hev_32kW">Battery [LiPo 240 V, 6.5 Ah] + Motor [3-phase AC 32 kW]</string>
     <string name="car_trim_base">Base</string>
     <string name="car_trim_eniro_first_edition_base">First Edition Base</string>
     <string name="car_trim_ioniq_trend">Trend</string>
+    <string name="car_trim_ioniq_se">SE</string>
     <string name="car_trim_plus">Plus/Luxury</string>
     <string name="car_trim_exclusive">Exclusive</string>
     <string name="car_unknown">Unknown</string>
