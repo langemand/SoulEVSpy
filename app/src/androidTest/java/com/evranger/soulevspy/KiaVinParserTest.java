@@ -45,8 +45,14 @@ public class KiaVinParserTest extends AndroidTestCase {
     // e-Soul 2020
     private final static String VIN_ESOUL_ADVANCE_PLUS  = "KNAJ3811FL7000543"; // Henriks eSoul VIN
 
+    // Geoffs eSoul 2020
+    private final static String VIN_ESOUL_GEOFF         = "KNDJ33A16L7002223";
+
     // Soul EV 2016
     private final static String VIN_2016_6682           = "KNDJX3AE7G7006682"; // Soul EV 2016
+
+    // Andy's Soul EV 2019
+    private final static String VIN_SOUL_EV_2019       = "KNDJX3AE2K7040070";
 
     // Lottes Ioniq
     private final static String VIN_IONIQEV_2017_TREND  = "KMHC751HFHU017366";
@@ -86,8 +92,11 @@ public class KiaVinParserTest extends AndroidTestCase {
 
     private final static String VIN_NIRO_NEWER_PHEV     = "KNACM81DGK5225933";
 
+    // Oinqs Optima PHEV
+    private final static String VIN_OPTIMA_PHEV         = "KNAGV41DBH5004230";
+
     // Kia Optima 4 door PHEV fra nrpla.de
-    private final static String VIN_OPTIMA_PHEV         = "KNAGV41DBH5004005";
+    private final static String VIN_OPTIMA_PHEV_4DOOR   = "KNAGV41DBH5004005";
 
     // Kia Optima PHEV st car fra nrpla.de
     private final static String VIN_OPTIMA_STCAR_PHEV   = "KNAGV81FBJ5027605";
@@ -512,4 +521,21 @@ public class KiaVinParserTest extends AndroidTestCase {
         Assert.assertEquals(vin.getSequentialNumber(), "013795");
         Assert.assertEquals(vin.getProductionPlant(), IONIQ_PROD_PLANT);
     }
+
+    /**
+     * Valid VIN from Geoffs Kia e-Soul 2020
+     */
+    public void testGeoffs2020() {
+        KiaVinParser vin = new KiaVinParser(getContext(), VIN_ESOUL_GEOFF);
+        Assert.assertTrue(vin.isValid());
+        Assert.assertEquals(vin.getVIN(), VIN_ESOUL_GEOFF);
+        Assert.assertEquals(vin.getBrand(), "Kia");
+        Assert.assertEquals(vin.getModel(), "Soul EV");
+        Assert.assertEquals(vin.getTrim(), SOULEV2020_EXCLUSIVE);
+        Assert.assertEquals(vin.getEngine(), SOULEV2020_ENGINE);
+        Assert.assertEquals(vin.getYear(), "2020");
+        Assert.assertEquals(vin.getSequentialNumber(), "002223");
+        Assert.assertEquals(vin.getProductionPlant(), SOULEV_PROD_PLANT);
+    }
+
 }

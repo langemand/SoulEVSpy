@@ -96,6 +96,36 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
             "\r" +
             ">";
 
+    final String eSoulGeoff2101 = "7EA 10 18 61 01 FF F8 00 00 \r" +
+            "7EA 21 09 21 59 04 06 13 03 \r" +
+            "7EA 22 00 00 00 00 D9 6E 34 \r" +
+            "7EA 23 04 20 20 05 00 00 00 \r" +
+            ">";
+
+    final String eSoulGeoff2102 = "7EA 10 27 61 02 F8 FF FC 00 \r" +
+            "7EA 21 01 01 00 00 00 8B 22 \r" +
+            "7EA 22 C2 82 53 36 4C 0C 6C  \r" +
+            "7EA 23 97 7B 35 14 82 55 76 \r" +
+            "7EA 24 1E 8C 00 00 01 01 01 \r" +
+            "7EA 25 00 00 00 07 00 00 00 \r" +
+            ">";
+
+    final String eSoulGeoff1A80 = "7EA 10 63 5A 80 20 20 20 20 \r" +
+            "7EA 21 20 20 20 20 20 20 1E \r" +
+            "7EA 22 09 0D 14 4B 4E 44 4A \r" +
+            "7EA 23 33 33 41 31 36 4C 37 \r" +
+            "7EA 24 30 30 32 32 32 33 33 \r" +
+            "7EA 25 36 36 30 31 2D 30 45 \r" +
+            "7EA 26 41 42 30 20 20 20 20 \r" +
+            "7EA 27 20 20 20 20 20 20 20 \r" +
+            "7EA 28 1E 09 0D 14 53 4B 56 \r" +
+            "7EA 29 4C 44 43 35 30 45 53 \r" +
+            "7EA 2A 4B 45 4B 4E 4D 2D 4E \r" +
+            "7EA 2B 53 31 2D 44 30 30 30 \r" +
+            "7EA 2C 53 4B 4E 39 30 31 32 \r" +
+            "7EA 2D 38 00 00 00 00 00 00 \r" +
+            "7EA 2E 00 00 00 00 00 00 00 " +
+            ">";
 
     public void testSoul2020VmcuCommand() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
@@ -209,4 +239,30 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
         assertEquals(14.763, vals.get(R.string.col_vmcu_aux_battery_V));
         assertEquals("KMHC751HFHU017366", vals.get("VIN"));
     }
+
+    public void testGeoffsSoul2020VmcuCommand() {
+        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        vals.setPreferences(prefs);
+
+        List<Pair<String, String>> reqres = Arrays.asList(
+                new Pair<String, String>("AT SH 7E2", msgOk),
+                new Pair<String, String>("AT CRA 7EA", msgOk),
+                new Pair<String, String>("21 01", eSoulGeoff2101),
+                new Pair<String, String>("21 02", eSoulGeoff2102),
+                new Pair<String, String>("1A 80", eSoulGeoff1A80)
+        );
+        Responder responder = new Responder(reqres);
+
+        Vmcu2019Command cmd = new Vmcu2019Command();
+        try {
+            cmd.execute(responder.getInput(), responder.getOutput());
+            cmd.doProcessResponse();
+        } catch (Exception e) {
+            assertEquals("", e.getMessage());
+        }
+
+        assertEquals("KNDJ33A16L7002223", vals.get("VIN"));
+    }
+
 }
