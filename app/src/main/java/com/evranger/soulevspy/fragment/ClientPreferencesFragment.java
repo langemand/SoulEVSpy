@@ -104,6 +104,9 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         listPref = (ListPreference) findPreference(getString(R.string.key_list_units_temperature));
         setListPreferenceSummary(listPref, mSharedPreferences.getUnitsTemperatureStringValue());
 
+        listPref = (ListPreference) findPreference(getString(R.string.key_list_units_pressure));
+        setListPreferenceSummary(listPref, mSharedPreferences.getUnitsPressureStringValue());
+
         listPref = (ListPreference) findPreference(getString(R.string.key_list_bluetooth_device));
         String btSummary = getString(R.string.pref_bluetooth_device_summary);
         String btAddress = mSharedPreferences.getBluetoothDeviceStringValue();
@@ -197,7 +200,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
     }
 
     private void setEditTextPreferenceSummary(EditTextPreference pref, Float value) {
-        pref.setText(value.toString());
+        pref.setSummary(String.format("%.2f", value));
     }
 
     private void displayOpenSourceLicensesDialog() {
