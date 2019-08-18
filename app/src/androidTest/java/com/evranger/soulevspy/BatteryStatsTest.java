@@ -23,15 +23,15 @@ public class BatteryStatsTest extends AndroidTestCase {
         vals.set(R.string.col_battery_max_cell_deterioration_pct, 0.0);
         assertEquals(null, vals.get(R.string.col_calc_battery_soh_pct));
         vals.set(R.string.col_system_scan_end_time_ms, 42);
-        assertEquals(100.00, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
+        assertEquals(111.47, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
 
         vals.set(R.string.col_battery_min_cell_deterioration_pct, 10.0);
         vals.set(R.string.col_system_scan_end_time_ms, 42);
-        assertEquals(100.00, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
+        assertEquals(100.8, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
 
         vals.set(R.string.col_battery_max_cell_deterioration_pct, 30.0);
         vals.set(R.string.col_system_scan_end_time_ms, 42);
-        assertEquals(79.07, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
+        assertEquals(79.47, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
     }
 
     public void testBatteryStats_27kWh_40_pct_SOH() {
@@ -47,7 +47,7 @@ public class BatteryStatsTest extends AndroidTestCase {
         vals.set(R.string.col_battery_max_cell_deterioration_pct, 64.7);
         assertEquals(null, vals.get(R.string.col_calc_battery_soh_pct));
         vals.set(R.string.col_system_scan_end_time_ms, 42);
-        assertEquals(39.88, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
+        assertEquals(42.45, Math.round(((Double)vals.get(R.string.col_calc_battery_soh_pct))*100.0)/100.0);
     }
 
     public void testBatteryStats_30kWh() {

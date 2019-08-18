@@ -60,7 +60,8 @@ public class BatteryStats implements CurrentValuesSingleton.CurrentValueListener
             Double detmax = (Double) mValues.get(R.string.col_battery_max_cell_deterioration_pct);
             if (detmax != null && detmin != null) {
                 double maxdet = Math.max(detmin, detmax);
-                double sohpct = Math.min(100.0, (totcap * (1-maxdet/100.0) / nomcap * 100.0));
+//                double sohpct = Math.min(100.0, (totcap * (1-maxdet/100.0) / nomcap * 100.0));
+                double sohpct = 100.0 * ( (80.0/75.0) * (110.0*95.0/10000.0 - maxdet/100.0));
                 mValues.set(R.string.col_calc_battery_soh_pct, sohpct);
             }
         }
