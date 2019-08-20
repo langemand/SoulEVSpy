@@ -35,14 +35,18 @@ public class TirePressureMSCommand extends AbstractMultiCommand {
 
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
 
-        for (int i = 1; i < 5; ++i) {
-            ObdMessageData obdData = new ObdMessageData(lines.get(i));
-            vals.set(R.string.col_tire_pressure_psi, i, "_psi", Double.valueOf(obdData.getDataByte(i) * 0.25));
-        }
+        try {
+            for (int i = 1; i < 5; ++i) {
+                ObdMessageData obdData = new ObdMessageData(lines.get(i));
+                vals.set(R.string.col_tire_pressure_psi, i, "_psi", Double.valueOf(obdData.getDataByte(i) * 0.25));
+            }
 
-        for (int i = 1; i < 5; ++i) {
-            ObdMessageData obdData = new ObdMessageData(lines.get(i));
-            vals.set(R.string.col_tire_temperature_C, i, "_C", Integer.valueOf(obdData.getDataByte(i+1) - 55));
+            for (int i = 1; i < 5; ++i) {
+                ObdMessageData obdData = new ObdMessageData(lines.get(i));
+                vals.set(R.string.col_tire_temperature_C, i, "_C", Integer.valueOf(obdData.getDataByte(i+1) - 55));
+            }
+        } catch (IndexOutOfBoundsException e) {
+            // Do nothing
         }
     }
 }
