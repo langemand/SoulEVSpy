@@ -86,6 +86,11 @@ public class BluetoothService extends Service {
             else {
                 mBluetoothSocket = mBluetoothDevice.createInsecureRfcommSocketToServiceRecord(SPP_UUID);
             }
+            if (mBluetoothSocket == null) {
+                // Should this be handled differently?
+                mStatechangeInProgress = false;
+                return;
+            }
             mBluetoothSocket.connect();
 
             mInputStream  = mBluetoothSocket.getInputStream(); // TODO: Ensure mBluetoothSocket is not null (Crashlytics #4)
