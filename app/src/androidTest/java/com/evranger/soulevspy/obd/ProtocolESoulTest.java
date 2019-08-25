@@ -51,7 +51,6 @@ public class ProtocolESoulTest extends BaseUnitConversionTest {
 
         // Assert each of the values...!
 // BMC (TPMS):
-        assertEquals(1337491198, Math.round((double)vals.get("car.odo_km")*100));
         assertEquals(386, Math.round((double)vals.get("tire.pressure1_psi")*10));
         assertEquals(384, Math.round((double)vals.get("tire.pressure2_psi")*10));
         assertEquals(388, Math.round((double)vals.get("tire.pressure3_psi")*10));
@@ -63,12 +62,15 @@ public class ProtocolESoulTest extends BaseUnitConversionTest {
 
 // TODO MCU:
 
-// TODO OBC:
+// OBC:
         assertEquals(0.0, vals.get(R.string.col_obc_pilot_duty_cycle));
         assertEquals(22.0, vals.get(R.string.col_obc_temp_1_C));
+        assertEquals(22.0, vals.get(R.string.col_obc_temp_2_C));
         assertEquals(0.0, vals.get(R.string.col_obc_ac_in_V));
         assertEquals(357.9, vals.get(R.string.col_obc_dc_out_V));
         assertEquals(0.0, vals.get(R.string.col_obc_ac_in_A));
+
+        // TODO CLU:
 
         // TODO Aircon:
 

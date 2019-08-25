@@ -20,16 +20,13 @@ public class TPMS2019Command extends AbstractMultiCommand {
     private BasicCommand mCmd22C002 = null;
 
     public TPMS2019Command() {
-        mCmd22B002 = new BasicCommand("22 B0 02");
         mCmd22C002 = new BasicCommand("22 C0 02");
         mCmd22C00B = new BasicCommand("22 C0 0B");
         addCommand(new BasicCommand("AT SH 7A0"));
 //        addCommand(new BasicCommand("AT CRA 7A8"));
-        addCommand(mCmd22B002);
         addCommand(mCmd22C002);
         addCommand(mCmd22C00B);
 
-        mCmd22B002.addResponseFilter(new RegularExpressionResponseFilter("^7A8(.*)$"));
         mCmd22C002.addResponseFilter(new RegularExpressionResponseFilter("^7A8(.*)$"));
         mCmd22C00B.addResponseFilter(new RegularExpressionResponseFilter("^7A8(.*)$"));
 
@@ -39,17 +36,6 @@ public class TPMS2019Command extends AbstractMultiCommand {
     @Override
     public void doProcessResponse() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.getInstance();
-
-        Response rb002 = mCmd22B002.getResponse();
-        try {
-            rb002.process();
-            List<String> linesb002 = rb002.getLines();
-            if (linesb002.size() >= 3) {
-                vals.set(R.string.col_car_odo_km, ((rb002.get(1, 7) << 16) | (rb002.get(2, 1) << 8) | rb002.get(2, 2)) / Unit.milesPerKm);
-            }
-        } catch (Exception e) {
-            // Ignore
-        }
 
         mCmd22C002.getResponse().process();
         List<String> lines = mCmd22C002.getResponse().getLines();

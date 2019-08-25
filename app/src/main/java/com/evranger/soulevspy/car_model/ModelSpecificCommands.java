@@ -17,6 +17,7 @@ import com.evranger.soulevspy.obd.Status050MessageFilter;
 import com.evranger.soulevspy.obd.commands.BMS2019Command;
 import com.evranger.soulevspy.obd.commands.BasicCommand;
 import com.evranger.soulevspy.obd.commands.BatteryManagementSystemCommand;
+import com.evranger.soulevspy.obd.commands.Clu2019Command;
 import com.evranger.soulevspy.obd.commands.FilteredMonitorCommand;
 import com.evranger.soulevspy.obd.commands.LowVoltageDCConverterSystemCommand;
 import com.evranger.soulevspy.obd.commands.Mcu2019Command;
@@ -92,6 +93,7 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new Vmcu2019Command());
         mLoopCommands.add(new BMS2019Command());
         mLoopCommands.add(new TPMS2019Command());
+        mLoopCommands.add(new Clu2019Command());
 //        mLoopCommands.add(new Aircon2019Command());
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));

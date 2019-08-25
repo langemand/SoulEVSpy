@@ -54,6 +54,7 @@ public class Obc2019Command extends AbstractMultiCommand {
                 return;
 
             double pilotDutyCyclePct = ((r2101.get(4, 3)<<8) | r2101.get(4, 4)) / 10.0;
+            double temp2C = r2101.get(2, 3) / 2 - 40;
             double tempC = r2101.get(6, 4) / 2 - 40;
             double acInV = r2101.get(6, 7);
             double dcOutV = ((r2101.get(7, 4)<<8) | r2101.get(7, 5)) / 10.0;
@@ -61,6 +62,7 @@ public class Obc2019Command extends AbstractMultiCommand {
 
             vals.set(R.string.col_obc_pilot_duty_cycle, pilotDutyCyclePct);
             vals.set(R.string.col_obc_temp_1_C, tempC);
+            vals.set(R.string.col_obc_temp_2_C, temp2C);
             vals.set(R.string.col_obc_ac_in_V, acInV);
             vals.set(R.string.col_obc_dc_out_V, dcOutV);
             vals.set(R.string.col_obc_ac_in_A, acInA);
