@@ -38,7 +38,7 @@ public class Clu2019Command extends AbstractMultiCommand {
             try {
                 rb002.process();
                 List<String> linesb002 = rb002.getLines();
-                vals.set(R.string.col_car_odo_km, ((rb002.get(1, 5) << 8) | (rb002.get(1, 6)) ));
+                vals.set(R.string.col_car_odo_km, (double)((rb002.get(1, 5) << 8) | (rb002.get(1, 6))));
             } catch (Exception e) {
                 // Ignore
             }

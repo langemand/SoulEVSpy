@@ -42,7 +42,7 @@ public class Clu2019CommandTest extends AndroidTestCase {
             assertEquals("", e.getMessage());
         }
 
-        assertEquals(4714, vals.get(R.string.col_car_odo_km));
+        assertEquals(4714.0, vals.get(R.string.col_car_odo_km));
         int i = 0;
     }
 }
