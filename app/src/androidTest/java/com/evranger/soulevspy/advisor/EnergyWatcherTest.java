@@ -1,20 +1,30 @@
 package com.evranger.soulevspy.advisor;
 
-import android.test.AndroidTestCase;
+import androidx.test.InstrumentationRegistry;
 
 import com.evranger.soulevspy.R;
 
-import com.evranger.soulevspy.advisor.EnergyWatcher;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
-public class EnergyWatcherTest extends AndroidTestCase {
-    static double minDiff = 5.0;
-    public void testEnergyWatcher() {
-        CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        mValues.setPreferences(prefs);
+import org.junit.Before;
+import org.junit.Test;
 
+import static junit.framework.TestCase.assertTrue;
+
+public class EnergyWatcherTest{
+    static double minDiff = 5.0;
+    private CurrentValuesSingleton mValues;
+
+    @Before
+    public void init() {
+        mValues = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
+        mValues.setPreferences(prefs);
+    }
+
+    @Test
+    public void testEnergyWatcher() {
         EnergyWatcher sut = new EnergyWatcher();
 
         mValues.set(R.string.col_orig_capacity_kWh, 98.8);

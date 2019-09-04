@@ -1,7 +1,9 @@
 package com.evranger.soulevspy.obd;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.evranger.soulevspy.Responder;
 import com.evranger.soulevspy.obd.commands.BMS2019Command;
@@ -10,13 +12,20 @@ import com.evranger.soulevspy.util.ClientSharedPreferences;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class Bms2019CommandTest extends AndroidTestCase {
+import static junit.framework.TestCase.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class Bms2019CommandTest {
 
     ByteArrayInputStream input = null;
     ByteArrayOutputStream output = null;
@@ -76,11 +85,17 @@ public class Bms2019CommandTest extends AndroidTestCase {
             "7EC 25 00 00 00 00 00 AA AA \r" +
             ">";
 
-    public void testBms2019eSoul() throws IOException {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
+    private CurrentValuesSingleton vals;
 
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
+        vals.setPreferences(prefs);
+    }
+
+    @Test
+    public void testBms2019eSoul() throws IOException {
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E4", msgOk),
                 new Pair<String, String>("AT CRA 7EC", msgOk),
@@ -102,8 +117,8 @@ public class Bms2019CommandTest extends AndroidTestCase {
             assertEquals("", e.toString());
         }
 
-        Assert.assertEquals("", responder.getMessages());
-        Assert.assertEquals(14.8, vals.get("battery.auxiliaryVoltage_V"));
-        Assert.assertEquals(66.5, vals.get("battery.SOC_pct"));
+        assertEquals("", responder.getMessages());
+        assertEquals(14.8, vals.get("battery.auxiliaryVoltage_V"));
+        assertEquals(66.5, vals.get("battery.SOC_pct"));
     }
 }

@@ -1,16 +1,26 @@
 package com.evranger.soulevspy;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.evranger.soulevspy.obd.commands.Vmcu2019Command;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class Vmcu2019CommandTest extends AndroidTestCase {
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+
+@RunWith(AndroidJUnit4.class)
+public class Vmcu2019CommandTest {
 //>o:AT SH 7E2
 //    i:AT SH 7E2
 //    OK
@@ -127,11 +137,17 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
             "7EA 2E 00 00 00 00 00 00 00 " +
             ">";
 
-    public void testSoul2020VmcuCommand() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
+    private CurrentValuesSingleton vals;
 
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
+        vals.setPreferences(prefs);
+    }
+
+    @Test
+    public void testSoul2020VmcuCommand() {
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E2", msgOk),
                 new Pair<String, String>("AT CRA 7EA", msgOk),
@@ -173,11 +189,8 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
     }
 
 
+    @Test
     public void testSoul2020VmcuCommandMobilescan() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
-
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E2", msgOk),
                 new Pair<String, String>("AT CRA 7EA", msgOk),
@@ -212,11 +225,8 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
         assertEquals("KNAJ3811FL7000543", vals.get("VIN"));
     }
 
+    @Test
     public void testIoniq2017VmcuCommand() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
-
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E2", msgOk),
                 new Pair<String, String>("AT CRA 7EA", msgOk),
@@ -240,11 +250,8 @@ public class Vmcu2019CommandTest extends AndroidTestCase {
         assertEquals("KMHC751HFHU017366", vals.get("VIN"));
     }
 
+    @Test
     public void testGeoffsSoul2020VmcuCommand() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
-
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E2", msgOk),
                 new Pair<String, String>("AT CRA 7EA", msgOk),

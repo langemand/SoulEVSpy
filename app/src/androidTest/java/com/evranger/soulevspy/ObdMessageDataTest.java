@@ -1,6 +1,7 @@
 package com.evranger.soulevspy;
 
-import android.test.AndroidTestCase;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.evranger.obd.ObdMessageData;
 import com.evranger.obd.ObdMessageFilter;
@@ -14,13 +15,21 @@ import com.evranger.soulevspy.obd.TireRotationSpeedMessageFilter;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-12.
  */
-public class ObdMessageDataTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ObdMessageDataTest {
 
     private int testIntValue = 0;
     private double testDoubleValue1 = 0.0;
@@ -35,6 +44,17 @@ public class ObdMessageDataTest extends AndroidTestCase {
     Status050MessageFilter.TurnSignal turnSignal = Status050MessageFilter.TurnSignal.OFF;
     BatteryChargingMessageFilter.ConnectedChargerType chargerType = BatteryChargingMessageFilter.ConnectedChargerType.NONE;
 
+    private CurrentValuesSingleton vals;
+
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
+        vals.setPreferences(prefs);
+    }
+
+
+    @Test
     public void testMessageNormalData() {
         final String message598 = "598 00 AF 00 00 81 44 17 16";
 
@@ -44,7 +64,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         assertEquals(message598, messageData.getRawData());
 
         ArrayList<String> data = messageData.getData();
-        assertEquals(data.size(), 8);
+        assertEquals(8, data.size());
         assertEquals("00", data.get(0));
         assertEquals("AF", data.get(1));
         assertEquals("00", data.get(2));
@@ -55,6 +75,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         assertEquals("16", data.get(7));
     }
 
+    @Test
     public void testMessageErrorData() {
         final String message018 = "018 A1 00 01 60 01 00 20 10 <DATA ERROR";
 
@@ -75,11 +96,8 @@ public class ObdMessageDataTest extends AndroidTestCase {
         assertEquals("10", data.get(7));
     }
 
+    @Test
     public void testEstimatedRange() {
-        CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        mValues.setPreferences(prefs);
-
         EstimatedRangeMessageFilter filter = new EstimatedRangeMessageFilter();
 
         filter.addObdMessageFilterListener(new ObdMessageFilter.ObdMessageFilterListener() {
@@ -106,6 +124,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         filter.receive("200 00 12 34 00 00 00 00 00");
     }
 
+    @Test
     public void testTireRotationSpeed() {
         TireRotationSpeedMessageFilter filter = new TireRotationSpeedMessageFilter();
 
@@ -135,6 +154,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         filter.receive("4B0 B8 0B 00 00 FF FF 12 34");
     }
 
+    @Test
     public void testParkingBrake() {
         ParkingBrakeMessageFilter filter = new ParkingBrakeMessageFilter();
 
@@ -153,6 +173,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         filter.receive("433 00 00 08 21 00 00 3C 00");
     }
 
+    @Test
     public void testStateOfChargePrecise() {
         StateOfChargePreciseMessageFilter filter = new StateOfChargePreciseMessageFilter();
 
@@ -177,6 +198,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         filter.receive("598 00 AF 00 00 81 44 17 16");
     }
 
+    @Test
     public void testStatus050() {
         Status050MessageFilter filter = new Status050MessageFilter();
 
@@ -210,6 +232,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         filter.receive("050 00 01 14 00 00 00 00 00");
     }
 
+    @Test
     public void testBatteryCharging() {
         BatteryChargingMessageFilter filter = new BatteryChargingMessageFilter();
 
@@ -237,6 +260,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         filter.receive("581 00 00 00 09 00 0E 9A 06");
     }
 
+    @Test
     public void test55DMessageFilter() {
         Status55DMessageFilter filter = new Status55DMessageFilter();
 
@@ -248,6 +272,7 @@ public class ObdMessageDataTest extends AndroidTestCase {
         filter.receive("55D 10 81 3D DC 1D 50 00 00");
     }
 
+    @Test
     public void testMessageFromCheapClone() {
         final String message598 = "00 00 06 53 00 12 61 01 1F 00 00 00";
 

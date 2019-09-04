@@ -1,7 +1,9 @@
 package com.evranger.soulevspy.obd;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
@@ -10,15 +12,21 @@ import com.evranger.soulevspy.obd.commands.TirePressureMSCommand;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.Arrays;
 import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
 
 
 /**
  * Created by henrik on 16/12/2017.
  */
-
-public class TpmsTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class TpmsTest {
     final String msg2106_fromAlex =
             "7D6 10 22 61 06 01 37 4D EE \r" +
             "7D6 21 00 0E AD 11 9D 4B 26 02 \r" +
@@ -38,12 +46,17 @@ public class TpmsTest extends AndroidTestCase {
     final String msgok =
             "OK \r" +
             ">";
+    private CurrentValuesSingleton vals;
 
-    public void test2106() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
         vals.setPreferences(prefs);
+    }
 
+    @Test
+    public void test2106() {
         TirePressureMSCommand cmd = new TirePressureMSCommand();
 
         List<Pair<String, String>> reqres = Arrays.asList(

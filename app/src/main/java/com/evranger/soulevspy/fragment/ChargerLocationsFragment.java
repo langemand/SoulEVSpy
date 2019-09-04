@@ -3,10 +3,11 @@ package com.evranger.soulevspy.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.ListFragment;
 
 import com.evranger.soulevspy.activity.MainActivity;
 import com.evranger.soulevspy.advisor.ChargeLocation;

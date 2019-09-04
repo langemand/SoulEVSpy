@@ -1,19 +1,25 @@
 package com.evranger.soulevspy;
 
-import android.test.AndroidTestCase;
-import android.util.Log;
+
+import androidx.test.runner.AndroidJUnit4;
 
 import com.evranger.soulevspy.util.BMS2019Parser;
-import com.evranger.soulevspy.util.BatteryManagementSystemParser;
 
 import junit.framework.Assert;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-15.
  *
  * Note : this structure needs to be serializable into a database so that we can plot graphs later.
  */
-public class ObdBms2019Test extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ObdBms2019Test {
 
     final String msg220101 = "7EC 10 3E 62 01 01 FF F7 E7 \r" +
             "7EC 21 FF 86 42 68 42 68 03 \r" +
@@ -75,12 +81,13 @@ public class ObdBms2019Test extends AndroidTestCase {
             "7EC 25 00 00 00 00 00 AA AA \r" +
             ">";
 
+    @Test
     public void test220106() {
         BMS2019Parser parser = new BMS2019Parser();
-        Assert.assertTrue(parser.parseMessage220106(msg220106_charging));
+        assertTrue(parser.parseMessage220106(msg220106_charging));
 
         BMS2019Parser.Data parsedData = parser.getParsedData();
 
-        Assert.assertEquals(18, parsedData.coolingWaterTemperature);
+        assertEquals(18, parsedData.coolingWaterTemperature);
     }
 }

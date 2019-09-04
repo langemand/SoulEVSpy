@@ -22,6 +22,8 @@ public class ClientSharedPreferences {
     private final String PREF_BLUETOOTH_DEVICE;
     private final String PREF_AUTO_RECONNECT;
     private final String PREF_SCAN_INTERVAL;
+    private final String PREF_UPLOAD_TO_CLOUD;
+    private final String PREF_SAVE_IN_DOWNLOADS;
 
     // Default values
     public final String DEFAULT_CAR_MODEL;
@@ -32,6 +34,8 @@ public class ClientSharedPreferences {
     public final String DEFAULT_BLUETOOTH_DEVICE;
     public final boolean DEFAULT_AUTO_RECONNECT;
     public final float DEFAULT_SCAN_INTERVAL;
+    public final boolean DEFAULT_UPLOAD_TO_CLOUD;
+    public final boolean DEFAULT_SAVE_IN_DOWNLOADS;
 
     final private Context mContext;
     final private SharedPreferences sharedPreferences;
@@ -46,6 +50,8 @@ public class ClientSharedPreferences {
         PREF_BLUETOOTH_DEVICE = context.getString(R.string.key_list_bluetooth_device);
         PREF_AUTO_RECONNECT = context.getString(R.string.key_check_auto_reconnect);
         PREF_SCAN_INTERVAL = context.getString(R.string.key_edit_scan_interval);
+        PREF_UPLOAD_TO_CLOUD = context.getString(R.string.key_check_storage_upload_to_cloud);
+        PREF_SAVE_IN_DOWNLOADS = context.getString(R.string.key_check_storage_save_in_downloads_dir);
 
         // Load default values
         DEFAULT_CAR_MODEL = context.getString(R.string.list_car_model_SoulEV2015);
@@ -56,6 +62,8 @@ public class ClientSharedPreferences {
         DEFAULT_BLUETOOTH_DEVICE = "";
         DEFAULT_AUTO_RECONNECT = false;
         DEFAULT_SCAN_INTERVAL = Float.valueOf(context.getString(R.string.pref_default_scan_interval));
+        DEFAULT_UPLOAD_TO_CLOUD = false;
+        DEFAULT_SAVE_IN_DOWNLOADS = false;
 
         // Create the SharedPreferences object
         mContext = context;
@@ -99,6 +107,24 @@ public class ClientSharedPreferences {
             String what = e.toString();
             return DEFAULT_SCAN_INTERVAL;
         }
+    }
+
+    public boolean getUploadToCloudBooleanValue() {
+        return sharedPreferences.getBoolean(PREF_UPLOAD_TO_CLOUD, DEFAULT_UPLOAD_TO_CLOUD);
+    }
+
+    public boolean isAllowedToSaveLocally() {
+        // TODO: Figure out how to set correct for building each version!
+        boolean isPaidVersion = false;
+        return (getUploadToCloudBooleanValue() || isPaidVersion);
+    }
+
+    // Note: For the free version, only save locally, if also uploading to the cloud
+    public boolean getSaveInDownloadsBooleanValue() {
+        // TODO: Use settings for data save
+        return true;
+//         return isAllowedToSaveLocally() &&
+//                sharedPreferences.getBoolean(PREF_SAVE_IN_DOWNLOADS, DEFAULT_SAVE_IN_DOWNLOADS);
     }
 
     public Context getContext() {

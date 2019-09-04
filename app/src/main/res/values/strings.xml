@@ -2,13 +2,13 @@
     <string name="app_name">Soul EV Spy</string>
 
     <!-- Navigation Drawer -->
-    <string name="action_bluetooth">Bluetooth connect</string>
-    <string name="action_car_information">Car information</string>
-    <string name="action_vmcu_information">Motor Control information</string>
-    <string name="action_obc_information">Onboard Charger information</string>
+    <string name="action_bluetooth">Connect via Bluetooth</string>
+    <string name="action_car_information">Car</string>
+    <string name="action_vmcu_information">Motor Control</string>
+    <string name="action_obc_information">Onboard Charger</string>
     <string name="action_energy">Energy and power</string>
     <string name="action_charger_locations">DC-chargers (Click for details)</string>
-    <string name="action_ldc">DC-DC 12 V converter</string>
+    <string name="action_ldc">LDC 12 V Aux charger</string>
     <string name="action_tires">Tire data</string>
     <string name="action_dashboard">Dashboard</string>
     <string name="action_dtc">DTC codes</string>
@@ -54,13 +54,17 @@
 
     <string name="title_pref_bluetooth">Bluetooth</string>
     <string name="pref_bluetooth_device">Bluetooth device</string>
-    <string name="pref_bluetooth_device_summary">Select an ELM327 Bluetooth device</string>
+    <string name="pref_bluetooth_device_summary">Select your ELM327 Bluetooth device</string>
     <string name="pref_auto_reconnect">Re-connect automatically</string>
     <string name="pref_scan_interval">Interval between scans (seconds)</string>
     <string name="pref_default_scan_interval">3.0</string>
 
-    <string name="pref_about">About Soul EV Spy</string>
+    <string name="title_pref_storage">Storage</string>
+    <string name="pref_storage_upload_to_cloud">Upload data to cloud (may incur charges!)</string>
+    <string name="pref_storage_save_in_downloads_dir">Save data in Downloads dir</string>
+
     <string name="title_pref_about">About</string>
+    <string name="pref_about">About Soul EV Spy</string>
     <string name="pref_licenses">Open source licenses</string>
     <string name="pref_licenses_summary">License details for open source software</string>
     <string name="pref_version_summary">Version %1$s</string>
@@ -86,6 +90,7 @@
 
     <!-- Information messages -->
     <string name="info_disconnect_bluetooth_to_start_replay">Please disconnect bluetooth first</string>
+    <string name="info_data_will_not_be_saved">Data will not be stored!</string>
 
     <!-- File names -->
     <string name="file_chargerlocations_json">chargerlocations.json</string>

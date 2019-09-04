@@ -1,18 +1,25 @@
 package com.evranger.soulevspy;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.evranger.soulevspy.obd.commands.OnBoardChargerCommand;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
-import com.evranger.soulevspy.R;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ObcCommandTest extends AndroidTestCase {
+import static junit.framework.TestCase.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ObcCommandTest {
     final String msgOk = "OK \r" +
             ">";
 
@@ -22,11 +29,17 @@ public class ObcCommandTest extends AndroidTestCase {
             "79C 23 18 12 1C 00 00 00 00\r" +
             ">";
 
-    public void testSoulVmcuCommand() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
+    private CurrentValuesSingleton vals;
 
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
+        vals.setPreferences(prefs);
+    }
+
+    @Test
+    public void testSoulVmcuCommand() {
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7DF", msgOk),
                 new Pair<String, String>("AT CRA 79C", msgOk),

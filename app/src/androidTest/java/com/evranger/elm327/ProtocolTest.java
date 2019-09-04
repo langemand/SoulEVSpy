@@ -1,7 +1,8 @@
 package com.evranger.elm327;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
@@ -11,14 +12,21 @@ import com.evranger.elm327.io.Protocol;
 import com.evranger.soulevspy.Responder;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.Arrays;
 import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-11-01.
  */
-public class ProtocolTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ProtocolTest {
 
+    @Test
     public void testProtocolVinCommand() throws Exception {
         CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
 
@@ -55,6 +63,7 @@ public class ProtocolTest extends AndroidTestCase {
         assertEquals("KNDJX3AE1G7123456", CurrentValuesSingleton.getInstance().get("VIN"));
     }
 
+    @Test
     public void testProtocolVinCommand_Ioniq() throws Exception {
         CurrentValuesSingleton mValues = CurrentValuesSingleton.reset();
 
@@ -64,7 +73,7 @@ public class ProtocolTest extends AndroidTestCase {
             public void onMessageReceived(Message message) {
                 if(message.getCommand() instanceof VehicleIdentifierNumberCommand) {
                     VehicleIdentifierNumberCommand cmd = (VehicleIdentifierNumberCommand)message.getCommand();
-                    Assert.assertEquals("error: MHC\u007F\u001A\u0012", cmd.getValue());
+                    assertEquals("error: MHC\u007F\u001A\u0012", cmd.getValue());
                 }
             }
         });

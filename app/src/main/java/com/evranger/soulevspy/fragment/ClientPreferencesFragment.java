@@ -1,7 +1,6 @@
 package com.evranger.soulevspy.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -15,13 +14,14 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
@@ -130,11 +130,18 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         listPref.setSummary(btSummary);
 
         CheckBoxPreference checkBoxPref = (CheckBoxPreference) findPreference(getString(R.string.key_check_auto_reconnect));
-//        setCheckBoxPreferenceSummary(checkBoxPref, false); //mSharedPreferences.getAutoReconnectBooleanValue());
         setCheckBoxPreferenceSummary(checkBoxPref, mSharedPreferences.getAutoReconnectBooleanValue());
 
         EditTextPreference editTextPref = (EditTextPreference) findPreference(getString(R.string.key_edit_scan_interval));
         setEditTextPreferenceSummary(editTextPref, mSharedPreferences.getScanIntervalFloatValue());
+
+// TODO: Enable uploads
+//        checkBoxPref = (CheckBoxPreference) findPreference(getString(R.string.key_check_storage_upload_to_cloud));
+//        setCheckBoxPreferenceSummary(checkBoxPref, mSharedPreferences.getUploadToCloudBooleanValue());
+//
+//        checkBoxPref = (CheckBoxPreference) findPreference(getString(R.string.key_check_storage_save_in_downloads_dir));
+//        checkBoxPref.setEnabled(mSharedPreferences.isAllowedToSaveLocally());
+//        setCheckBoxPreferenceSummary(checkBoxPref, mSharedPreferences.getSaveInDownloadsBooleanValue());
 
         // Force refresh
         //getActivity().onContentChanged();
@@ -200,7 +207,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
     }
 
     private void setEditTextPreferenceSummary(EditTextPreference pref, Float value) {
-        pref.setSummary(String.format("%.2f", value));
+        pref.setSummary(String.format("%.1f", value));
     }
 
     private void displayOpenSourceLicensesDialog() {
@@ -219,9 +226,8 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
     }
 
     private void displayPrivacyPolicy() {
-        final Activity activity = getActivity();
-        Context c = activity;
-        mWebview  = new WebView(c);
+        final Context context = getActivity();
+        mWebview  = new WebView(context);
 
         mWebview.getSettings().setJavaScriptEnabled(true); // enable javascript
 
@@ -229,7 +235,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
             @SuppressWarnings("deprecation")
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, description, Toast.LENGTH_SHORT).show();
             }
             @TargetApi(android.os.Build.VERSION_CODES.M)
             @Override
@@ -242,7 +248,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         mWebview.loadUrl("https://evranger.com/soulevspy-privacy-policy.html");
 
         // Show the dialog
-        AlertDialog.Builder ab = new AlertDialog.Builder(c, R.style.Theme_AppCompat_Light_Dialog_Alert);
+        AlertDialog.Builder ab = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Light_Dialog_Alert);
         ab.setTitle(R.string.pref_privacy_policy);
         ab.setView(mWebview)
                 .setPositiveButton(android.R.string.ok, null)

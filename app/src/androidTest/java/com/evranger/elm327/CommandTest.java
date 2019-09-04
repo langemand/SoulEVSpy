@@ -1,7 +1,9 @@
 package com.evranger.elm327;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
@@ -17,16 +19,24 @@ import com.evranger.soulevspy.obd.commands.BatteryManagementSystemCommand;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-24.
  */
-public class CommandTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class CommandTest {
 
     ByteArrayInputStream input = null;
     ByteArrayOutputStream output = null;
@@ -135,9 +145,21 @@ public class CommandTest extends AndroidTestCase {
         }
     }
 
+    private CurrentValuesSingleton vals;
+
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
+        vals.setPreferences(prefs);
+
+        output = new ByteArrayOutputStream();
+    }
+
     /**
      *
      */
+    @Test
     public void testBasicCommand() {
         final String response = "ABCD>";
         input = new ByteArrayInputStream(response.getBytes());
@@ -151,18 +173,15 @@ public class CommandTest extends AndroidTestCase {
             // ...
         }
 
-        Assert.assertEquals("Command\r", output.toString());
-        Assert.assertTrue(cmd.getResponse().getLines().isEmpty());
+        assertEquals("Command\r", output.toString());
+        assertTrue(cmd.getResponse().getLines().isEmpty());
     }
 
     /**
      *
      */
+    @Test
     public void testBmsCommand() throws IOException {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
-
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7DF", msgOk),
                 new Pair<String, String>("AT CRA 7EC", msgOk),
@@ -185,15 +204,12 @@ public class CommandTest extends AndroidTestCase {
             assertEquals("", e.toString());
         }
 
-        Assert.assertEquals("", responder.getMessages());
-        Assert.assertEquals(10.5, vals.get("battery.SOC_pct"));
+        assertEquals("", responder.getMessages());
+        assertEquals(10.5, vals.get("battery.SOC_pct"));
     }
 
+    @Test
     public void testRayEvBmsCommand() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
-
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7DF", msgOk),
                 new Pair<String, String>("AT CRA 7EC", msgOk),
@@ -215,9 +231,10 @@ public class CommandTest extends AndroidTestCase {
             assertEquals("", e.toString());
         }
 
-        Assert.assertEquals(39.0, vals.get("battery.SOC_pct"));
+        assertEquals(39.0, vals.get("battery.SOC_pct"));
     }
 
+    @Test
     public void testReadInputVoltage() {
         final String response = "12.5V\r>";
         List<Pair<String, String>> reqres = Arrays.asList(
@@ -234,9 +251,10 @@ public class CommandTest extends AndroidTestCase {
             assertEquals("", e.toString());
         }
 
-        Assert.assertEquals(12.5, cmd.getInputVoltage());
+        assertEquals(12.5, cmd.getInputVoltage(), 0.00001);
     }
 
+    @Test
     public void testNoResponseReadInputVoltage() {
         final String response = "?\r>";
         List<Pair<String, String>> reqres = Arrays.asList(
@@ -258,10 +276,11 @@ public class CommandTest extends AndroidTestCase {
             assertEquals("", e.toString());
         }
 
-        Assert.assertTrue(caught);
-        Assert.assertEquals(0.0, cmd.getInputVoltage());
+        assertTrue(caught);
+        assertEquals(0.0, cmd.getInputVoltage(), 0.0001);
     }
 
+    @Test
     public void testVersion() {
         final String response = "ELM327 v1.5\r>";
         List<Pair<String, String>> reqres = Arrays.asList(
@@ -278,9 +297,10 @@ public class CommandTest extends AndroidTestCase {
             assertEquals("", e.toString());
         }
 
-        Assert.assertEquals("ELM327 v1.5", cmd.getVersion());
+        assertEquals("ELM327 v1.5", cmd.getVersion());
     }
 
+    @Test
     public void testVehicleIdentificationNumber() {
         final String vinSoulEv = "7EA 10 14 49 02 01 4B 4E 44 \r" +
                            "7EA 21 4A 58 33 41 45 31 47 \r" +
@@ -302,9 +322,10 @@ public class CommandTest extends AndroidTestCase {
             assertEquals("", e.toString());
         }
 
-        Assert.assertEquals("KNDJX3AE1G7123456", cmd.getValue());
+        assertEquals("KNDJX3AE1G7123456", cmd.getValue());
     }
 
+    @Test
     public void testRayEvVehicleIdentificationNumber() {
         final String vinRayEv = "7EB 03 7F 09 11\r" +
                                 "7EA 03 7F 09 12\r" +
@@ -324,9 +345,10 @@ public class CommandTest extends AndroidTestCase {
             assertEquals("", e.toString());
         }
 
-        Assert.assertTrue(cmd.getValue().startsWith("error"));
+        assertTrue(cmd.getValue().startsWith("error"));
     }
 
+    @Test
     public void testUnableToConnect() {
         final String vin = "...\rUNABLE TO CONNECT\r\r";
 
@@ -344,13 +366,5 @@ public class CommandTest extends AndroidTestCase {
             caughtIt = true;
         }
         assert(caughtIt);
-    }
-
-    /**
-     *
-     */
-    @Override
-    protected void setUp() {
-        output = new ByteArrayOutputStream();
     }
 }

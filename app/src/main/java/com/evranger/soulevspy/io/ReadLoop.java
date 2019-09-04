@@ -234,7 +234,9 @@ public class ReadLoop {
                         if (timeToWait < 500) {
                             timeToWait = 500;
                         }
-                        CurrentValuesSingleton.getInstance().log(mColumnsToLog);
+                        if (vals.getPreferences().getSaveInDownloadsBooleanValue() || vals.getPreferences().getUploadToCloudBooleanValue()) {
+                            vals.log(mColumnsToLog);
+                        }
                     }
                 }
                 if (vals.get(R.string.col_system_scan_start_time_ms) != null) {

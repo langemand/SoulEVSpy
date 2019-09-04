@@ -8,7 +8,7 @@ import com.evranger.soulevspy.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +33,8 @@ public class CurrentValuesSingleton {
     private final Map<String, List<CurrentValueListener>> mListeners = new HashMap<String, List<CurrentValueListener>>();
     private final List<String> mColumnNamesLogged = new ArrayList<String>();
 
-    private OutputStream mDataOutputStream = null;
+    File m_DataFile = null;
+    private FileOutputStream mDataOutputStream = null;
     private ClientSharedPreferences mSharedPreferences = null;
     private final ReentrantLock mLock = new ReentrantLock();
     private final ReentrantLock mListenerLock = new ReentrantLock();
@@ -50,6 +51,10 @@ public class CurrentValuesSingleton {
     }
 
     private CurrentValuesSingleton() {
+    }
+
+    public void setDataFile(File dataFile) {
+        m_DataFile = dataFile;
     }
 
     public void set(String key, Object value){
@@ -196,36 +201,36 @@ public class CurrentValuesSingleton {
 
     private void openDataFile(List<String> columnNamesToLog) {
         // Open data file
-        final String dataFileName = "SoulData." + new SimpleDateFormat("yyyyMMdd_HHmm'.csv'").format(new Date());
-        final File dataFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), dataFileName);
         mLock.lock();
         try {
-            mDataOutputStream = new FileOutputStream(dataFile);
-            StringBuilder str = new StringBuilder();
-            boolean isFirst = true;
-            for (String key : columnNamesToLog) {
-                if (isFirst) {
-                    isFirst = false;
-                } else {
-                    str.append(separator);
-                }
-                str.append("\"");
-                str.append(key);
-                str.append("\"");
-                mColumnNamesLogged.add(key);
-            }
-            SortedSet<String> keyset = new TreeSet<String>(mValues.keySet());
-            for (String key : keyset) {
-                if (!mColumnNamesLogged.contains(key) && key != getPreferences().getContext().getResources().getString(R.string.col_chargers_locations)) {
-                    str.append(separator);
+            if (m_DataFile != null) {
+                mDataOutputStream = new FileOutputStream(m_DataFile);
+                StringBuilder str = new StringBuilder();
+                boolean isFirst = true;
+                for (String key : columnNamesToLog) {
+                    if (isFirst) {
+                        isFirst = false;
+                    } else {
+                        str.append(separator);
+                    }
                     str.append("\"");
                     str.append(key);
                     str.append("\"");
                     mColumnNamesLogged.add(key);
                 }
+                SortedSet<String> keyset = new TreeSet<String>(mValues.keySet());
+                for (String key : keyset) {
+                    if (!mColumnNamesLogged.contains(key) && key != getPreferences().getContext().getResources().getString(R.string.col_chargers_locations)) {
+                        str.append(separator);
+                        str.append("\"");
+                        str.append(key);
+                        str.append("\"");
+                        mColumnNamesLogged.add(key);
+                    }
+                }
+                str.append("\n");
+                mDataOutputStream.write(str.toString().getBytes());
             }
-            str.append("\n");
-            mDataOutputStream.write(str.toString().getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -271,5 +276,21 @@ public class CurrentValuesSingleton {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String closeLog() {
+        if (mDataOutputStream != null) {
+            try {
+                mDataOutputStream.close();
+            } catch (IOException ex) {
+                // ?
+            }
+        }
+
+        String path = null;
+        if (m_DataFile != null) {
+            path = m_DataFile.getAbsolutePath();
+        }
+        return path;
     }
 }

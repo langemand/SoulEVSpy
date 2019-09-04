@@ -1,18 +1,23 @@
 package com.evranger.soulevspy;
 
-import android.test.AndroidTestCase;
 import android.util.Log;
 
-import junit.framework.Assert;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.evranger.soulevspy.util.BatteryManagementSystemParser;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
+
 /**
  * Created by Pierre-Etienne Messier <pierre.etienne.messier@gmail.com> on 2015-10-15.
- *
- * Note : this structure needs to be serializable into a database so that we can plot graphs later.
  */
-public class ObdBms2018Test extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ObdBms2018Test {
 
     final String msg2101 = "7EC 10 3D 61 01 FF FF FF FF \r" +
                            "7EC 21 76 23 28 23 28 03 00 \r" +
@@ -53,104 +58,110 @@ public class ObdBms2018Test extends AndroidTestCase {
                            "7EC 25 00 00 B8 B9 00 00 00 \r" +
                            "7EC 26 00 00 00 00 00 00 00 \r";
 
+    @Test
     public void test2101() {
         BatteryManagementSystemParser parser = new BatteryManagementSystemParser();
-        Assert.assertTrue(parser.parseMessage2101(msg2101));
+        assertTrue(parser.parseMessage2101(msg2101));
 
         BatteryManagementSystemParser.Data parsedData = parser.getParsedData();
-        Assert.assertEquals(59.0, parsedData.stateOfCharge, 1e-6);
-        Assert.assertEquals(false, parsedData.bmsIsCharging);
-        Assert.assertEquals(false, parsedData.bmsChademoIsPlugged);
-        Assert.assertEquals(false, parsedData.bmsJ1772IsPlugged);
-        Assert.assertEquals(369.7, parsedData.batteryDcVoltage, 1e-6);
-        Assert.assertEquals(3.68, parsedData.maxCellVoltage, 1e-6);
-        Assert.assertEquals(3.68, parsedData.minCellVoltage, 1e-6);
-        Assert.assertEquals(90.0, parsedData.availableChargePower, 1e-6);
-        Assert.assertEquals(90.0, parsedData.availableDischargePower, 1e-6);
-        Assert.assertEquals(14.0, parsedData.auxiliaryBatteryVoltage, 1e-6);
-        Assert.assertEquals(7, parsedData.batteryModuleTemperature[0]);
-        Assert.assertEquals(5, parsedData.batteryModuleTemperature[1]);
-        Assert.assertEquals(7, parsedData.batteryModuleTemperature[2]);
-        Assert.assertEquals(6, parsedData.batteryModuleTemperature[3]);
-        Assert.assertEquals(6, parsedData.batteryModuleTemperature[4]);
-        Assert.assertEquals(5, parsedData.batteryModuleTemperature[5]);
-        Assert.assertEquals(5, parsedData.batteryModuleTemperature[6]);
-        Assert.assertEquals(8, parsedData.batteryInletTemperature);
-        Assert.assertEquals(21, parsedData.maxCellVoltageNo);
-        Assert.assertEquals(3511.1, parsedData.accumulativeChargeCurrent, 1e-6);
-        Assert.assertEquals(3532.7, parsedData.accumulativeDischargeCurrent, 1e-6);
-        Assert.assertEquals(1349.7, parsedData.accumulativeChargePower, 1e-6);
-        Assert.assertEquals(1321.4, parsedData.accumulativeDischargePower, 1e-6);
-        Assert.assertEquals(2301462, parsedData.accumulativeOperatingTime);
-        Assert.assertEquals(0, parsedData.driveMotorSpeed);
-        Assert.assertEquals(BatteryManagementSystemParser.CoolingFanSpeeds.FAN_STOP, parsedData.fanStatus);
-        Assert.assertEquals(0, parsedData.fanFeedbackSignal);
+        assertEquals(59.0, parsedData.stateOfCharge, 1e-6);
+        assertEquals(false, parsedData.bmsIsCharging);
+        assertEquals(false, parsedData.bmsChademoIsPlugged);
+        assertEquals(false, parsedData.bmsJ1772IsPlugged);
+        assertEquals(369.7, parsedData.batteryDcVoltage, 1e-6);
+        assertEquals(3.68, parsedData.maxCellVoltage, 1e-6);
+        assertEquals(3.68, parsedData.minCellVoltage, 1e-6);
+        assertEquals(90.0, parsedData.availableChargePower, 1e-6);
+        assertEquals(90.0, parsedData.availableDischargePower, 1e-6);
+        assertEquals(14.0, parsedData.auxiliaryBatteryVoltage, 1e-6);
+        assertEquals(7, parsedData.batteryModuleTemperature[0]);
+        assertEquals(5, parsedData.batteryModuleTemperature[1]);
+        assertEquals(7, parsedData.batteryModuleTemperature[2]);
+        assertEquals(6, parsedData.batteryModuleTemperature[3]);
+        assertEquals(6, parsedData.batteryModuleTemperature[4]);
+        assertEquals(5, parsedData.batteryModuleTemperature[5]);
+        assertEquals(5, parsedData.batteryModuleTemperature[6]);
+        assertEquals(8, parsedData.batteryInletTemperature);
+        assertEquals(21, parsedData.maxCellVoltageNo);
+        assertEquals(3511.1, parsedData.accumulativeChargeCurrent, 1e-6);
+        assertEquals(3532.7, parsedData.accumulativeDischargeCurrent, 1e-6);
+        assertEquals(1349.7, parsedData.accumulativeChargePower, 1e-6);
+        assertEquals(1321.4, parsedData.accumulativeDischargePower, 1e-6);
+        assertEquals(2301462, parsedData.accumulativeOperatingTime);
+        assertEquals(0, parsedData.driveMotorSpeed);
+        assertEquals(BatteryManagementSystemParser.CoolingFanSpeeds.FAN_STOP, parsedData.fanStatus);
+        assertEquals(0, parsedData.fanFeedbackSignal);
     }
 
+    @Test
     public void test2102() {
         BatteryManagementSystemParser parser = new BatteryManagementSystemParser();
-        Assert.assertTrue(parser.parseMessage2102(msg2102));
+        assertTrue(parser.parseMessage2102(msg2102));
 
         BatteryManagementSystemParser.Data parsedData = parser.getParsedData();
         for( int i = 0; i < 32; ++i ) {
-            Assert.assertEquals(3.68, parsedData.batteryCellVoltage[i]);
+            assertEquals(3.68, parsedData.batteryCellVoltage[i]);
         }
     }
 
+    @Test
     public void test2103() {
         BatteryManagementSystemParser parser = new BatteryManagementSystemParser();
-        Assert.assertTrue(parser.parseMessage2103(msg2103));
+        assertTrue(parser.parseMessage2103(msg2103));
 
         BatteryManagementSystemParser.Data parsedData = parser.getParsedData();
         for( int i = 33; i < 64; ++i ) {
-            Assert.assertEquals(3.68, parsedData.batteryCellVoltage[i]);
+            assertEquals(3.68, parsedData.batteryCellVoltage[i]);
         }
     }
 
+    @Test
     public void test2104() {
         BatteryManagementSystemParser parser = new BatteryManagementSystemParser();
-        Assert.assertTrue(parser.parseMessage2104(msg2104));
+        assertTrue(parser.parseMessage2104(msg2104));
 
         BatteryManagementSystemParser.Data parsedData = parser.getParsedData();
         for( int i = 65; i < 96; ++i ) {
-            Assert.assertEquals(3.68, parsedData.batteryCellVoltage[i]);
+            assertEquals(3.68, parsedData.batteryCellVoltage[i]);
         }
     }
 
+    @Test
     public void test2105() {
         BatteryManagementSystemParser parser = new BatteryManagementSystemParser();
-        Assert.assertTrue(parser.parseMessage2105(msg2105));
+        assertTrue(parser.parseMessage2105(msg2105));
 
         BatteryManagementSystemParser.Data parsedData = parser.getParsedData();
 
         for( int i = 97; i < 101; ++i ) {
-            Assert.assertEquals(3.68, parsedData.batteryCellVoltage[i]);
+            assertEquals(3.68, parsedData.batteryCellVoltage[i]);
         }
-        Assert.assertEquals(5, parsedData.batteryMaxTemperature);
-        Assert.assertEquals(6, parsedData.batteryMinTemperature);
-        Assert.assertEquals(75, parsedData.airbagHwireDuty);
-        Assert.assertEquals(7, parsedData.heat1Temperature);
-        Assert.assertEquals(6, parsedData.heat2Temperature);
+        assertEquals(5, parsedData.batteryMaxTemperature);
+        assertEquals(6, parsedData.batteryMinTemperature);
+        assertEquals(75, parsedData.airbagHwireDuty);
+        assertEquals(7, parsedData.heat1Temperature);
+        assertEquals(6, parsedData.heat2Temperature);
 
-        Assert.assertEquals(0.0, parsedData.maxDeterioration);
-        Assert.assertEquals(0, parsedData.maxDeteriorationCellNo);
-        Assert.assertEquals(0.0, parsedData.minDeterioration);
-        Assert.assertEquals(0, parsedData.minDeteriorationCellNo);
-        Assert.assertEquals(61.0, parsedData.stateOfChargeDisplay);
+        assertEquals(0.0, parsedData.maxDeterioration);
+        assertEquals(0, parsedData.maxDeteriorationCellNo);
+        assertEquals(0.0, parsedData.minDeterioration);
+        assertEquals(0, parsedData.minDeteriorationCellNo);
+        assertEquals(61.0, parsedData.stateOfChargeDisplay);
     }
 
+    @Test
     public void testToString() {
         BatteryManagementSystemParser parser = new BatteryManagementSystemParser();
-        Assert.assertTrue(parser.parseMessage2101(msg2101));
-        Assert.assertTrue(parser.parseMessage2102(msg2102));
-        Assert.assertTrue(parser.parseMessage2103(msg2103));
-        Assert.assertTrue(parser.parseMessage2104(msg2104));
-        Assert.assertTrue(parser.parseMessage2105(msg2105));
+        assertTrue(parser.parseMessage2101(msg2101));
+        assertTrue(parser.parseMessage2102(msg2102));
+        assertTrue(parser.parseMessage2103(msg2103));
+        assertTrue(parser.parseMessage2104(msg2104));
+        assertTrue(parser.parseMessage2105(msg2105));
 
         BatteryManagementSystemParser.Data parsedData = parser.getParsedData();
 
         final String str = parsedData.toString();
         Log.d("ObdBmsTest-toString", str);
-        Assert.assertFalse(str.isEmpty());
+        assertFalse(str.isEmpty());
     }
 }

@@ -1,13 +1,18 @@
 package com.evranger.soulevspy;
 
+import androidx.test.InstrumentationRegistry;
+
+import com.evranger.soulevspy.util.ClientSharedPreferences;
 import com.evranger.soulevspy.util.Unit;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static androidx.test.InstrumentationRegistry.getContext;
+import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.*;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class UnitConversionTest extends BaseUnitConversionTest {

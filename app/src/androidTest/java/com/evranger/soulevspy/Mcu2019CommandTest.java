@@ -1,17 +1,25 @@
 package com.evranger.soulevspy;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
 
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
+
 import com.evranger.soulevspy.obd.commands.Mcu2019Command;
-import com.evranger.soulevspy.obd.commands.Vmcu2019Command;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Mcu2019CommandTest extends AndroidTestCase {
+import static junit.framework.TestCase.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class Mcu2019CommandTest {
 
     final String msgOk = "OK \r" +
             ">";
@@ -56,12 +64,17 @@ public class Mcu2019CommandTest extends AndroidTestCase {
             "\r" +
             ">";
 
+    private CurrentValuesSingleton vals;
 
-    public void testIoniq2017McuCommand() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
         vals.setPreferences(prefs);
+    }
 
+    @Test
+    public void testIoniq2017McuCommand() {
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7E3", msgOk),
                 new Pair<String, String>("AT CRA 7EB", msgOk),

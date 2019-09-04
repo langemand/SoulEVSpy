@@ -1,17 +1,26 @@
 package com.evranger.obd;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.evranger.elm327.commands.protocol.obd.ObdGetDtcCodesCommand;
 import com.evranger.soulevspy.Responder;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class ObdGetDTCCodesCommandTest extends AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class ObdGetDTCCodesCommandTest {
     final String msgOk = "OK \r" +
             ">";
 
@@ -33,11 +42,17 @@ public class ObdGetDTCCodesCommandTest extends AndroidTestCase {
             "7EC 12 9A BC DE F0 00 00 00\r" +
             ">";
 
-    public void testDtcCodes_NoCodes() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
+    private CurrentValuesSingleton vals;
 
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
+        vals.setPreferences(prefs);
+    }
+
+    @Test
+    public void testDtcCodes_NoCodes() {
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>(".*", msg03NoDtcCodes)
         );
@@ -54,9 +69,10 @@ public class ObdGetDTCCodesCommandTest extends AndroidTestCase {
         assertEquals(0, ((String)vals.get("OBD.DtcCodes.7EC")).length());
     }
 
+    @Test
     public void testDtcCodes_OneCodeOnCan() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
         vals.setPreferences(prefs);
 
         List<Pair<String, String>> reqres = Arrays.asList(
@@ -76,9 +92,10 @@ public class ObdGetDTCCodesCommandTest extends AndroidTestCase {
         assertEquals("P012C", ((String)vals.get("OBD.DtcCodes.7EC")));
     }
 
+    @Test
     public void testDtcCodes_CodeP1234OnCan() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
         vals.setPreferences(prefs);
 
         List<Pair<String, String>> reqres = Arrays.asList(
@@ -100,9 +117,10 @@ public class ObdGetDTCCodesCommandTest extends AndroidTestCase {
         assertEquals("P1234", ((String)vals.get("OBD.DtcCodes.7EC")));
     }
 
+    @Test
     public void testDtcCodes_2CodesOnCan() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
         vals.setPreferences(prefs);
 
         List<Pair<String, String>> reqres = Arrays.asList(
@@ -124,9 +142,10 @@ public class ObdGetDTCCodesCommandTest extends AndroidTestCase {
         assertEquals("C1678,P1234", ((String)vals.get("OBD.DtcCodes.7EC")));
     }
 
+    @Test
     public void testDtcCodes_CodesOnCan_multiple_lines() {
         CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
         vals.setPreferences(prefs);
 
         List<Pair<String, String>> reqres = Arrays.asList(

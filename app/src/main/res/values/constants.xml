@@ -9,6 +9,8 @@
     <string name="key_list_bluetooth_device">list_bluetooth_device</string>
     <string name="key_check_auto_reconnect">check_auto_reconnect</string>
     <string name="key_edit_scan_interval">edit_scan_interval</string>
+    <string name="key_check_storage_upload_to_cloud">check_storage_upload</string>
+    <string name="key_check_storage_save_in_downloads_dir">check_storage_save</string>
     <string name="key_open_source_licenses">key_open_source_licenses</string>
     <string name="key_application_version">application_version</string>
     <string name="key_privacy_policy">key_privacy_policy</string>

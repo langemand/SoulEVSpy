@@ -1,39 +1,48 @@
 package com.evranger.soulevspy;
 
 
-import android.test.AndroidTestCase;
+import android.content.Context;
+
+import androidx.test.InstrumentationRegistry;
 
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.Before;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(MockitoJUnitRunner.class)
-public class BaseUnitConversionTest extends AndroidTestCase {
+public class BaseUnitConversionTest {
     String mCarModelStringValue = null;
     protected ClientSharedPreferences prefs;
+    protected ClientSharedPreferences appPrefs;
 
     protected BaseUnitConversionTest(String carModelStringValue) {
         mCarModelStringValue = carModelStringValue;
     }
 
+    @Before
     public void setUp() throws Exception {
-        System.setProperty("org.mockito.android.target", getContext().getCacheDir().getPath());
+        appPrefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
+
+        Context context = InstrumentationRegistry.getTargetContext();
+        System.setProperty("org.mockito.android.target", context.getCacheDir().getPath());
         prefs = mock(ClientSharedPreferences.class);
 
-        when(prefs.getContext()).thenReturn(getContext());
+        when(prefs.getContext()).thenReturn(context);
         when(prefs.getCarModelStringValue()).thenReturn(mCarModelStringValue);
-        when(prefs.getUnitsPressureStringValue()).thenReturn(getContext().getString(R.string.list_pressure_value_psi));
-        when(prefs.getUnitsTemperatureStringValue()).thenReturn(getContext().getString(R.string.list_temperature_value_c));
-        when(prefs.getUnitsDistanceStringValue()).thenReturn(getContext().getString(R.string.list_distance_value_km));
-        when(prefs.getUnitsEnergyConsumptionStringValue()).thenReturn(getContext().getString(R.string.list_energy_consumption_value_kwh_100km));
+        when(prefs.getUnitsPressureStringValue()).thenReturn(context.getString(R.string.list_pressure_value_psi));
+        when(prefs.getUnitsTemperatureStringValue()).thenReturn(context.getString(R.string.list_temperature_value_c));
+        when(prefs.getUnitsDistanceStringValue()).thenReturn(context.getString(R.string.list_distance_value_km));
+        when(prefs.getUnitsEnergyConsumptionStringValue()).thenReturn(context.getString(R.string.list_energy_consumption_value_kwh_100km));
 
         CurrentValuesSingleton.reset().setPreferences(prefs);
+    }
+
+    Context getContext() {
+        return appPrefs.getContext();
     }
 
 }

@@ -15,6 +15,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.InputStream;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProtocolIoniqTest extends BaseUnitConversionTest {

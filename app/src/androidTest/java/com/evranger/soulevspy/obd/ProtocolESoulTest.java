@@ -15,6 +15,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.InputStream;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProtocolESoulTest extends BaseUnitConversionTest {
@@ -43,6 +45,7 @@ public class ProtocolESoulTest extends BaseUnitConversionTest {
         }
 
 // Await end of command processing
+        // TODO: Replace string with R.string reference
         while (vals.get("system.scan_end_time_ms") == null) {
             Thread.sleep(100);
         }

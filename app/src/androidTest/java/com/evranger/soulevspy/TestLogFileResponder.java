@@ -1,13 +1,21 @@
 package com.evranger.soulevspy;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.runner.AndroidJUnit4;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.InputStream;
 import java.util.List;
 
-public class TestLogFileResponder extends AndroidTestCase {
+import static junit.framework.TestCase.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
+public class TestLogFileResponder {
+
+    @Test
     public void testLogFileResponder() throws Exception {
         InputStream is = getClass().getClassLoader().getResourceAsStream("testLogFileResponder.log.txt") ;
         LogFileResponder lfr = new LogFileResponder(is);

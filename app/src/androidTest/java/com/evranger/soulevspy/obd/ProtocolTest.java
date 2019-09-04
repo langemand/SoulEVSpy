@@ -16,6 +16,7 @@ import java.util.List;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static junit.framework.TestCase.assertEquals;
 
 
 @RunWith(MockitoJUnitRunner.class)

@@ -1,6 +1,8 @@
 package com.evranger.soulevspy.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -9,15 +11,19 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Environment;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.evranger.soulevspy.advisor.ChargeStations;
 import com.evranger.soulevspy.advisor.EnergyWatcher;
@@ -25,7 +31,18 @@ import com.evranger.soulevspy.car_model.ModelSpecificCommands;
 import com.evranger.soulevspy.fragment.BatteryCellmapFragment;
 import com.evranger.soulevspy.fragment.EnergyFragment;
 import com.evranger.soulevspy.io.Position;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
@@ -55,7 +72,18 @@ import com.evranger.soulevspy.util.BatteryStats;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  *
@@ -103,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     public static String[] PERMISSIONS_LOCATION = {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
+    public static final int RC_SIGN_IN = 3;
+    public static final int RC_CHOOSE_FILE = 123;
     private int mRequested = 0;
     private ChargeStations mChargeStations = null;
     private BatteryStats mBatteryStats = null;
@@ -186,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         setContentView(R.layout.activity_main);
 
-        verifyStoragePermissions();
+        verifyLocationPermissions();
 
         // Listen to GPS location updates
         mPosition = new Position(this);
@@ -263,6 +293,12 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             // set the selection to the item with the identifier 2
             mDrawer.setSelection(NavigationDrawerItem.ChargerLocations.ordinal(), true);
         }
+
+// TODO: Figure out how to let user control uploads
+//        if (mSharedPreferences.getUploadToCloudBooleanValue()) {
+//            authenticate();
+//            zipAndUpload(null);
+//        }
     }
 
     /**
@@ -271,6 +307,13 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private OnCheckedChangeListener mOnCheckedBluetoothDevice = new OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                if (mSharedPreferences.getSaveInDownloadsBooleanValue()) {
+                    verifyStoragePermissions();
+                } else if (!mSharedPreferences.getUploadToCloudBooleanValue()) {
+                    warnDataNotSaved();
+                }
+            }
             if( !bluetoothDeviceConnect(isChecked) )
             {
                 buttonView.setChecked(false);
@@ -348,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                             Intent fileintent = new Intent()
                                     .setType("*/*")
                                     .setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(fileintent, "Select a file"), 123);
+                            startActivityForResult(Intent.createChooser(fileintent, "Select a file"), RC_CHOOSE_FILE);
                         } else {
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -416,12 +459,27 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         }
         boolean success = false;
         if (connect) {
+            setDataFile();
             success = mDevice.connect();
         } else {
             success = mDevice.disconnect();
         }
 
         return success;
+    }
+
+    private void setDataFile() {
+        String dataFileName = "SoulSpyData." + new SimpleDateFormat("yyyyMMdd_HHmm'.csv'").format(new Date());
+        File dataFile;
+// TODO: Enable uploads / disable saving data
+//        if (mSharedPreferences.getSaveInDownloadsBooleanValue()) {
+            dataFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), dataFileName);
+//        } else if (mSharedPreferences.getUploadToCloudBooleanValue()) {
+//            dataFile = new File(mSharedPreferences.getContext().getCacheDir(), dataFileName); // Note: If device is running low on mem, file may be deleted!
+//        } else {
+//            dataFile = null;
+//        }
+        CurrentValuesSingleton.getInstance().setDataFile(dataFile);
     }
 
     /**
@@ -477,8 +535,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         bluetoothDeviceConnect(false);
         if (mChargeStations != null) mChargeStations.onDestroy();
         if (mEnergyWatcher != null) mEnergyWatcher.finalize();
+        String fullpath = CurrentValuesSingleton.getInstance().closeLog();
     }
-
 
     @Override
     protected void onStop() {
@@ -501,13 +559,27 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==123 && resultCode==RESULT_OK) {
+        if(requestCode==RC_CHOOSE_FILE && resultCode==RESULT_OK) {
             mPosition.listen(false);
             Uri selectedFile = data.getData(); //The uri with the location of the file
             if (mReplayLoop != null) {
                 mReplayLoop.stop();
             }
             mReplayLoop = new ReplayLoop(selectedFile, this);
+        }
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                // ...
+            } else {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+            }
         }
     }
 
@@ -521,10 +593,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 mPosition.updateIfListening();
             }
         }
-        if (mRequested != REQUEST_LOCATION && (ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            verifyLocationPermissions();
-        }
     }
 
     public void logEventException(Exception e) {
@@ -533,5 +601,150 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         params.putString("exception_message", e.getMessage());
         params.putString("stack_trace", e.getStackTrace().toString());
         mFirebaseAnalytics.logEvent("handled_exception", params);
+    }
+
+    public void warnDataNotSaved() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                mSharedPreferences.getContext());
+
+        // set title
+        alertDialogBuilder.setTitle("WARNING: Data will not be saved!");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Neither of these Settings are checked:\n" +
+                        "\n" +
+                        "- " + mSharedPreferences.getContext().getResources().getString(R.string.pref_storage_upload_to_cloud) + "\n" +
+                        "- " + mSharedPreferences.getContext().getResources().getString(R.string.pref_storage_save_in_downloads_dir) + "\n" +
+                        "\n" +
+                        "Data will be read from car and displayed on screen, but not saved in files!\n" +
+                        "\n" +
+                        "Click Ok to continue")
+                .setCancelable(false)
+                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
+    private void zipAndUpload(String fullpath) {
+        // For test
+        if (fullpath == null) {
+            try {
+                File tstFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "test.txt");
+                String str = "Hello World";
+//                String path = tstFile.getAbsolutePath();
+//                new File file = File(path);
+                tstFile.createNewFile();
+                FileOutputStream outputStream = new FileOutputStream(tstFile);
+                byte[] strToBytes = str.getBytes();
+                outputStream.write(strToBytes);
+
+                outputStream.close();
+                fullpath = tstFile.getAbsolutePath();
+            } catch (IOException ex) {
+                int i = 0;
+            }
+        }
+//        if (fullpath != null) {
+//            File zipFile = new File(mSharedPreferences.getContext().getCacheDir(), "temp.zip"); // Note: If device is running low on mem, file may be deleted!
+            File zipFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "test.zip");
+            try {
+                String abspath = zipFile.getAbsolutePath();
+                zip(fullpath, abspath);
+                // Upload Zipped File to cloud
+                upload(abspath);
+            } catch (Exception ex) {
+                // ?
+            }
+//        }
+    }
+
+    public void zip(String sourceFile, String zipFile) throws IOException {
+        FileOutputStream fos = new FileOutputStream(zipFile);
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        File fileToZip = new File(sourceFile);
+        FileInputStream fis = new FileInputStream(fileToZip);
+        ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+        zipOut.putNextEntry(zipEntry);
+        byte[] bytes = new byte[1024];
+        int length;
+        while((length = fis.read(bytes)) >= 0) {
+            zipOut.write(bytes, 0, length);
+        }
+        zipOut.close();
+        fis.close();
+        fos.close();
+    }
+
+    public void upload(String path) {
+        // Create a storage reference from our app
+        //Firebase
+        FirebaseStorage storage;
+        StorageReference storageReference;
+        storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        Uri filePath = Uri.fromFile(new File(path));
+
+// Create a reference to 'data/temp.zip'
+        StorageReference tempDataRef = storageRef.child("data/temp.zip");
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
+
+        StorageTask task = tempDataRef.putFile(filePath)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Toast.makeText(MainActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(MainActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                                .getTotalByteCount());
+                        progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                    }
+                });
+int i = 0;
+    }
+
+    void authenticate() {
+        // Choose authentication providers
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build());
+//                new AuthUI.IdpConfig.FacebookBuilder().build(),
+//                new AuthUI.IdpConfig.TwitterBuilder().build());
+
+// Create and launch sign-in intent
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .build(),
+                RC_SIGN_IN);
+
     }
 }

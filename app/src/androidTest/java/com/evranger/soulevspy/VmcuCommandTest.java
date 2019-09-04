@@ -1,18 +1,25 @@
 package com.evranger.soulevspy;
 
-import android.test.AndroidTestCase;
 import android.util.Pair;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.evranger.soulevspy.obd.commands.VmcuCommand;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
-import com.evranger.soulevspy.R;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class VmcuCommandTest extends AndroidTestCase {
+import static junit.framework.TestCase.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+public class VmcuCommandTest {
     final String msgOk = "OK \r" +
             ">";
 
@@ -50,12 +57,17 @@ public class VmcuCommandTest extends AndroidTestCase {
             "7EA 24 05 08 01 08 82 51 00\r" +
             ">";
 
+    private CurrentValuesSingleton vals;
 
-    public void testSoulVmcuCommand() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
+    @Before
+    public void init() {
+        vals = CurrentValuesSingleton.reset();
+        ClientSharedPreferences prefs = new ClientSharedPreferences(InstrumentationRegistry.getTargetContext());
         vals.setPreferences(prefs);
+    }
 
+    @Test
+    public void testSoulVmcuCommand() {
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7DF", msgOk),
                 new Pair<String, String>("AT CRA 7EA", msgOk),
@@ -94,11 +106,8 @@ public class VmcuCommandTest extends AndroidTestCase {
         assertEquals(19, vals.get(R.string.col_vmcu_temp_heatsink_C));
     }
 
+    @Test
     public void testSoulVmcuCommand_negativeMotorTorque() {
-        CurrentValuesSingleton vals = CurrentValuesSingleton.reset();
-        ClientSharedPreferences prefs = new ClientSharedPreferences(this.getContext());
-        vals.setPreferences(prefs);
-
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7DF", msgOk),
                 new Pair<String, String>("AT CRA 7EA", msgOk),

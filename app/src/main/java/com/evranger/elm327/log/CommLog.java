@@ -2,6 +2,8 @@ package com.evranger.elm327.log;
 
 import android.os.Environment;
 
+import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,8 +30,15 @@ public class CommLog {
     }
 
     public void openFile(String logFileName, String version) throws FileNotFoundException {
-        mLogFileName = logFileName + new SimpleDateFormat("yyyyMMddHHmm'.txt'").format(new Date());
-        mCommLogFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), mLogFileName);
+        mLogFileName = logFileName + new SimpleDateFormat("yyyyMMdd_HHmm'.txt'").format(new Date());
+// TODO: Enable uploads / disable saving data
+//        if (CurrentValuesSingleton.getInstance().getPreferences().getSaveInDownloadsBooleanValue()) {
+            mCommLogFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), mLogFileName);
+//        } else if (CurrentValuesSingleton.getInstance().getPreferences().getUploadToCloudBooleanValue()) {
+//            mCommLogFile = new File(CurrentValuesSingleton.getInstance().getPreferences().getContext().getCacheDir(), mLogFileName); // Note: If device is running low on mem, file may be deleted!
+//        } else {
+//            return; // No log file
+//        }
         mCommLogOs = new FileOutputStream(mCommLogFile);
         String line = version + "\r";
         try {
