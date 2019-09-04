@@ -38,6 +38,9 @@ public class ReplayLoop {
             mReader = new BufferedReader(new InputStreamReader(is));
             String header = mReader.readLine();
             mHeaders = header.split(regex);
+            if (mHeaders.length < 10) {
+                return;
+            }
             for (int i = 0; i < mHeaders.length; ++i) {
                 mHeaders[i] = mHeaders[i].replaceAll("\"", "").replace("detoriation", "deterioration");
             }
