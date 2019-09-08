@@ -109,24 +109,6 @@ public class ClientSharedPreferences {
         }
     }
 
-    public boolean getUploadToCloudBooleanValue() {
-        return sharedPreferences.getBoolean(PREF_UPLOAD_TO_CLOUD, DEFAULT_UPLOAD_TO_CLOUD);
-    }
-
-    public boolean isAllowedToSaveLocally() {
-        // TODO: Figure out how to set correct for building each version!
-        boolean isPaidVersion = false;
-        return (getUploadToCloudBooleanValue() || isPaidVersion);
-    }
-
-    // Note: For the free version, only save locally, if also uploading to the cloud
-    public boolean getSaveInDownloadsBooleanValue() {
-        // TODO: Use settings for data save
-        return true;
-//         return isAllowedToSaveLocally() &&
-//                sharedPreferences.getBoolean(PREF_SAVE_IN_DOWNLOADS, DEFAULT_SAVE_IN_DOWNLOADS);
-    }
-
     public Context getContext() {
         return mContext;
     }

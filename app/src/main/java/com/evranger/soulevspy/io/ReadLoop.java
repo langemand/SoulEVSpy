@@ -234,7 +234,7 @@ public class ReadLoop {
                         if (timeToWait < 500) {
                             timeToWait = 500;
                         }
-                        if (vals.getPreferences().getSaveInDownloadsBooleanValue() || vals.getPreferences().getUploadToCloudBooleanValue()) {
+                        if (false) {
                             vals.log(mColumnsToLog);
                         }
                     }

@@ -30,22 +30,8 @@ public class CommLog {
     }
 
     public void openFile(String logFileName, String version) throws FileNotFoundException {
-        mLogFileName = logFileName + new SimpleDateFormat("yyyyMMdd_HHmm'.txt'").format(new Date());
-// TODO: Enable uploads / disable saving data
-//        if (CurrentValuesSingleton.getInstance().getPreferences().getSaveInDownloadsBooleanValue()) {
-            mCommLogFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), mLogFileName);
-//        } else if (CurrentValuesSingleton.getInstance().getPreferences().getUploadToCloudBooleanValue()) {
-//            mCommLogFile = new File(CurrentValuesSingleton.getInstance().getPreferences().getContext().getCacheDir(), mLogFileName); // Note: If device is running low on mem, file may be deleted!
-//        } else {
-//            return; // No log file
-//        }
-        mCommLogOs = new FileOutputStream(mCommLogFile);
-        String line = version + "\r";
-        try {
-            mCommLogOs.write(line.getBytes());
-        } catch (Exception e) {
-            // Ignore
-        }
+        mCommLogOs = null;
+        return; // No log file
     }
 
     public void log(byte[] bytes) throws IOException {

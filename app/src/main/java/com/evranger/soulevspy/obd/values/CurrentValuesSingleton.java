@@ -1,7 +1,5 @@
 package com.evranger.soulevspy.obd.values;
 
-import android.os.Environment;
-
 import com.evranger.soulevspy.util.ClientSharedPreferences;
 
 import com.evranger.soulevspy.R;
@@ -9,7 +7,6 @@ import com.evranger.soulevspy.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

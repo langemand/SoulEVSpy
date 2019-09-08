@@ -135,14 +135,6 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         EditTextPreference editTextPref = (EditTextPreference) findPreference(getString(R.string.key_edit_scan_interval));
         setEditTextPreferenceSummary(editTextPref, mSharedPreferences.getScanIntervalFloatValue());
 
-// TODO: Enable uploads
-//        checkBoxPref = (CheckBoxPreference) findPreference(getString(R.string.key_check_storage_upload_to_cloud));
-//        setCheckBoxPreferenceSummary(checkBoxPref, mSharedPreferences.getUploadToCloudBooleanValue());
-//
-//        checkBoxPref = (CheckBoxPreference) findPreference(getString(R.string.key_check_storage_save_in_downloads_dir));
-//        checkBoxPref.setEnabled(mSharedPreferences.isAllowedToSaveLocally());
-//        setCheckBoxPreferenceSummary(checkBoxPref, mSharedPreferences.getSaveInDownloadsBooleanValue());
-
         // Force refresh
         //getActivity().onContentChanged();
     }

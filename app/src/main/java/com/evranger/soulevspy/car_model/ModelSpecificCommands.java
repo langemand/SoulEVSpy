@@ -112,10 +112,10 @@ public class ModelSpecificCommands {
         mLoopCommands.add(new Vmcu2019Command());
         mLoopCommands.add(new Mcu2019Command());
         mLoopCommands.add(new TPMS2019Command());
-        // Tentative!
+// Doesn't work on Lottes Ioniq EV?
         mLoopCommands.add(new Obc2019Command());
         mLoopCommands.add(new Clu2019Command());
-        // end
+// end
 
         mLoopCommands.add(new TimeCommand(sharedPreferences.getContext().getResources().getString(R.string.col_system_scan_end_time_ms)));
     }

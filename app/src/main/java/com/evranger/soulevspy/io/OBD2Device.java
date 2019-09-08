@@ -164,13 +164,6 @@ public class OBD2Device implements BluetoothService.ServiceStateListener {
                 ((MainActivity)mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (mSharedPreferences.getSaveInDownloadsBooleanValue() || mSharedPreferences.getUploadToCloudBooleanValue()) {
-                            try {
-                                CommLog.getInstance().openFile("SoulSpyLog", "SoulEVSpy Version: " + versionName + ", car model setting: " + mSharedPreferences.getCarModelStringValue());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
                         if (mBluetoothService != null) {
                             if (mReadLoop != null) {
                                 mReadLoop.stop();

@@ -74,7 +74,6 @@ import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -216,6 +215,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         setContentView(R.layout.activity_main);
 
+        warningDialog(R.string.dialog_lite_splash_title, R.string.dialog_lite_splash_message);
+
         verifyLocationPermissions();
 
         // Listen to GPS location updates
@@ -272,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 //                        new PrimaryDrawerItem().withIdentifier(NavigationDrawerItem.DtcCodes.ordinal()).withName(R.string.action_dtc).withIcon(FontAwesome.Icon.faw_stethoscope).withEnabled(false),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Settings.ordinal()).withName(R.string.action_settings).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
-                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Replay.ordinal()).withName(R.string.action_replay).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay),
+//                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Replay.ordinal()).withName(R.string.action_replay).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Demo.ordinal()).withName(R.string.action_demo).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay)
 //                        , new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Debug.ordinal()).withName("Debug").withIcon(GoogleMaterial.Icon.gmd_assessment)
 
@@ -293,12 +294,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             // set the selection to the item with the identifier 2
             mDrawer.setSelection(NavigationDrawerItem.ChargerLocations.ordinal(), true);
         }
-
-// TODO: Figure out how to let user control uploads
-//        if (mSharedPreferences.getUploadToCloudBooleanValue()) {
-//            authenticate();
-//            zipAndUpload(null);
-//        }
     }
 
     /**
@@ -307,13 +302,6 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private OnCheckedChangeListener mOnCheckedBluetoothDevice = new OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
-            if (isChecked) {
-                if (mSharedPreferences.getSaveInDownloadsBooleanValue()) {
-                    verifyStoragePermissions();
-                } else if (!mSharedPreferences.getUploadToCloudBooleanValue()) {
-                    warnDataNotSaved();
-                }
-            }
             if( !bluetoothDeviceConnect(isChecked) )
             {
                 buttonView.setChecked(false);
@@ -469,17 +457,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     }
 
     private void setDataFile() {
-        String dataFileName = "SoulSpyData." + new SimpleDateFormat("yyyyMMdd_HHmm'.csv'").format(new Date());
-        File dataFile;
-// TODO: Enable uploads / disable saving data
-//        if (mSharedPreferences.getSaveInDownloadsBooleanValue()) {
-            dataFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), dataFileName);
-//        } else if (mSharedPreferences.getUploadToCloudBooleanValue()) {
-//            dataFile = new File(mSharedPreferences.getContext().getCacheDir(), dataFileName); // Note: If device is running low on mem, file may be deleted!
-//        } else {
-//            dataFile = null;
-//        }
-        CurrentValuesSingleton.getInstance().setDataFile(dataFile);
+        CurrentValuesSingleton.getInstance().setDataFile(null);
     }
 
     /**
@@ -603,25 +581,18 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         mFirebaseAnalytics.logEvent("handled_exception", params);
     }
 
-    public void warnDataNotSaved() {
+    public void warningDialog(int titleId, int messageId) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 mSharedPreferences.getContext());
 
         // set title
-        alertDialogBuilder.setTitle("WARNING: Data will not be saved!");
+        alertDialogBuilder.setTitle(titleId);
 
         // set dialog message
         alertDialogBuilder
-                .setMessage("Neither of these Settings are checked:\n" +
-                        "\n" +
-                        "- " + mSharedPreferences.getContext().getResources().getString(R.string.pref_storage_upload_to_cloud) + "\n" +
-                        "- " + mSharedPreferences.getContext().getResources().getString(R.string.pref_storage_save_in_downloads_dir) + "\n" +
-                        "\n" +
-                        "Data will be read from car and displayed on screen, but not saved in files!\n" +
-                        "\n" +
-                        "Click Ok to continue")
+                .setMessage(messageId)
                 .setCancelable(false)
-                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_Ok,new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
                         // if this button is clicked, just close
                         // the dialog box and do nothing

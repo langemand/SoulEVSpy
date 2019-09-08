@@ -62,20 +62,6 @@
             android:title="@string/pref_scan_interval" />
     </PreferenceCategory>
 
-    <!-- Storage -->
-    <!-- TODO: Re-instate when handling uploads
-    <PreferenceCategory android:title="@string/title_pref_storage">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/key_check_storage_upload_to_cloud"
-            android:title="@string/pref_storage_upload_to_cloud" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/key_check_storage_save_in_downloads_dir"
-            android:title="@string/pref_storage_save_in_downloads_dir" />
-    </PreferenceCategory>
-    -->
-
     <!-- About -->
     <PreferenceCategory android:title="@string/title_pref_about">
         <Preference
