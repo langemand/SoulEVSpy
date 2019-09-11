@@ -24,6 +24,7 @@
 
     <string name="title_pref_car_models">Bil modeller</string>
     <string name="pref_car_model">Bil model</string>
+    <string name="list_car_model_choose">Vælg din bilmodel</string>
     <string name="list_car_model_RayEV">Kia Ray EV</string>
     <string name="list_car_model_SoulEV2015">Kia Soul EV 2015-2019</string>
     <string name="list_car_model_eNiro">Kia e-Niro</string>
@@ -76,7 +77,26 @@
     <string name="dialog_back_button_background">Background</string>
     <string name="dialog_back_button_cancel">Cancel</string>
 
-        <!-- Main Activity -->
+    <string name="dialog_warn_data_not_saved_title">ADVARSEL: Data bliver ikke gemt!</string>
+    <string name="dialog_warn_data_not_saved_message">Ingen af disse indstillinger er valgt:\n
+        \n
+        - Upload filer til skyen (potentielt omkostninger!)\n
+        - Gem data ukrypteret i Downloads kataloget\n
+        \n
+        Data vil blive indlæst fra bilen og vist på skærmen, men vil ikke blive gemt i filer!\n
+        Klik Ok for at fortsætte</string>
+    <string name="dialog_Ok">Ok</string>
+
+    <string name="dialog_authenticate_to_upload_title">Det er nødvendigt at logge ind</string>
+    <string name="dialog_authenticate_to_upload_message">Du er nødt til at registrere dig, og logge ind, for at kunne sende data til skyen. Derfor vil du blive bedt om at logge ind som det næste.</string>
+
+    <string name="dialog_select_bluetooth_dongle_title">Vælg OBD-II enhed</string>
+    <string name="dialog_select_bluetooth_dongle_message">Vælg din OBD-II bluetooth enhed i app indstillingerne</string>
+
+    <string name="dialog_select_car_model_title">Vælg din bil model</string>
+    <string name="dialog_select_car_model_message">Vælg venligst din bilmodel i Settings</string>
+
+    <!-- Main Activity -->
 
     <string name="dongle_connecting">SoulEVSpy Connecting...</string>
     <string name="dongle_disconnecting">SoulEVSpy Disonnecting...</string>
@@ -84,15 +104,15 @@
     <string name="dongle_disconnected">SoulEVSpy Disconnected</string>
 
         <!-- Error messages -->
+
     <string name="error_bluetooth_not_available">Bluetooth is not available</string>
     <string name="error_no_bluetooth_device">No Bluetooth device selected</string>
     <string name="error_bluetooth_service_not_available">Bluetooth service is not available</string>
 
         <!-- Information messages -->
+
     <string name="info_disconnect_bluetooth_to_start_replay">Please disconnect bluetooth first</string>
     <string name="info_data_will_not_be_saved">Data will not be stored!</string>
-
-
 
     <string name="car_trim_base">Base</string>
     <string name="car_trim_eniro_first_edition_base">First Edition Base</string>
@@ -102,7 +122,7 @@
     <string name="car_trim_exclusive">Exclusive</string>
     <string name="car_unknown">Unknown</string>
 
-    <string name="car_south_korea">South Korea</string>
+    <string name="car_south_korea">Syd Korea</string>
 
 
     <!-- Cellmap voltages -->
@@ -112,5 +132,122 @@
 
     <string name="_temp" translatable="false">temp</string>
     <string name="_amps" translatable="false">amps</string>
+
+
+    <!-- Data column labels -->
+    <string name="lbl_system_scan_start_time_ms">system.scan_start_time_ms</string>
+    <string name="lbl_system_scan_end_time_ms">system.scan_end_time_ms</string>
+    <string name="lbl_system_status">system.status</string>
+    <string name="lbl_VIN">VIN</string>
+    <string name="lbl_orig_capacity_kWh">car.original_capacity_kWh</string>
+    <string name="lbl_nom_capacity_kWh">car.nominel_capacity_kWh</string>
+    <string name="lbl_ELM327_voltage">ELM327.Voltage_V</string>
+
+    <string name="lbl_route_time_s">route.time_s</string>
+    <string name="lbl_route_lat_deg">route.lat_deg</string>
+    <string name="lbl_route_lng_deg">route.lng_deg</string>
+    <string name="lbl_route_elevation_m">route.elevation_m</string>
+    <string name="lbl_route_speed_mps">route.speed_mps</string>
+
+    <string name="lbl_car_ambient_C">car.ambient_C</string>
+    <string name="lbl_car_speed_kph">car.speed_kph</string>
+    <string name="lbl_car_odo_km">car.odo_km</string>
+    <string name="lbl_car_lights_status">car.lights</string>
+    <string name="lbl_car_wipers_status">car.wipers</string>
+
+    <string name="lbl_ldc_enabled">ldc.is_enabled</string>
+    <string name="lbl_ldc_out_DC_voltage_V">ldc.out_DC_V</string>
+    <string name="lbl_ldc_out_DC_current_A">ldc.out_DC_A</string>
+    <string name="lbl_ldc_in_DC_voltage_V">ldc.in_DC_V</string>
+    <string name="lbl_ldc_temperature_C">ldc.temperature_C</string>
+
+    <string name="lbl_obc_ac_in_V">obc.in_AC_V</string>
+    <string name="lbl_obc_dc_out_V">obc.out_DC_V</string>
+    <string name="lbl_obc_ac_in_A">obc.in_AC_A</string>
+    <string name="lbl_obc_pilot_duty_cycle">obc.pilot_duty_cycle</string>
+    <string name="lbl_obc_temp_1_C">obc.temp_1_C</string>
+    <string name="lbl_obc_temp_2_C">obc.temp_2_C</string>
+    <string name="lbl_obc_temp_3_C">obc.temp_3_C</string>
+
+    <string name="lbl_vmcu_gear_state">vmcu.gear_state</string>
+    <string name="lbl_vmcu_eco_off_switch">vmcu.eco_off_switch</string>
+    <string name="lbl_vmcu_brake_lamp_on_switch">vmcu.brake_lamp_on_switch</string>
+    <string name="lbl_vmcu_brake_off_switch">vmcu.brake_off_switch</string>
+    <string name="lbl_vmcu_ldc_inhibit">vmcu.LDC_inhibit</string>
+    <string name="lbl_vmcu_fault_flag_of_mcu">vmcu.fault_flag_of_MCU</string>
+    <string name="lbl_vmcu_warning_flag_of_mcu">vmcu.warning_flag_of_MCU</string>
+    <string name="lbl_vmcu_radiator_fan_request_of_motor">vmcu.radiator_fan_request_of_motor</string>
+    <string name="lbl_vmcu_ignition_1">vmcu.ignition_1</string>
+    <string name="lbl_vmcu_accel_pedal_depth_pct">vmcu.accel_pedal_depth_pct</string>
+    <string name="lbl_vmcu_vehicle_speed_kph">vmcu.vehicle_speed_kph</string>
+    <string name="lbl_vmcu_aux_battery_V">vmcu.aux_battery_V</string>
+    <string name="lbl_vmcu_aux_battery_A">vmcu.aux_battery_current_A</string>
+    <string name="lbl_vmcu_aux_battery_SOC_pct">vmcu.aux_battery_SOC_pct</string>
+    <string name="lbl_vmcu_inverter_input_V">vmcu.inverter_input_V</string>
+    <string name="lbl_vmcu_motor_actual_speed_rpm">vmcu.motor_actual_speed_rpm</string>
+    <string name="lbl_vmcu_motor_torque_command_Nm">vmcu.motor_torque_command_Nm</string>
+    <string name="lbl_vmcu_estimated_motor_torque_Nm">vmcu.estimated_motor_torque_Nm</string>
+    <string name="lbl_vmcu_motor_phase_current_RMS_A">vmcu.motor_phase_current_RMS_A</string>
+    <string name="lbl_vmcu_temp_motor_C">vmcu.motor_temp_C</string>
+    <string name="lbl_vmcu_temp_mcu_C">vmcu.mcu_temp_C</string>
+    <string name="lbl_vmcu_temp_heatsink_C">vmcu.heatsink_temp_C</string>
+
+    <string name="lbl_battery_is_charging">battery.is_charging</string>
+    <string name="lbl_battery_ChaDeMo_is_plugged">battery.ChaDeMo_is_plugged</string>
+    <string name="lbl_battery_J1772_is_plugged">battery.J1772_is_plugged</string>
+    <string name="lbl_battery_SOC">battery.SOC_pct</string>
+    <string name="lbl_battery_display_SOC">battery.SOC_display_pct</string>
+    <string name="lbl_battery_decimal_SOC">battery.SOC_decimal_pct</string>
+    <string name="lbl_battery_precise_SOC">battery.SOC_precise_pct</string>
+    <string name="lbl_battery_DC_current_A">battery.DC_current_A</string>
+    <string name="lbl_battery_DC_voltage_V">battery.DC_V</string>
+    <string name="lbl_battery_available_charge_power_kW">battery.available_charge_power_kW</string>
+    <string name="lbl_battery_available_discharge_power_kW">battery.available_discharge_power_kW</string>
+    <string name="lbl_battery_accumulative_charge_current_Ah">battery.accumulative_charge_current_Ah</string>
+    <string name="lbl_battery_accumulative_discharge_current_Ah">battery.accumulative_discharge_current_Ah</string>
+    <string name="lbl_battery_accumulative_charge_power_kWh">battery.accumulative_charge_power_kWh</string>
+    <string name="lbl_battery_accumulative_discharge_power_kWh">battery.accumulative_discharge_power_kWh</string>
+    <string name="lbl_battery_accumulative_operating_time_s">battery.accumulative_operating_time_s</string>
+    <string name="lbl_battery_drive_motor_rpm">battery.drive_motor_speed_rpm</string>
+    <string name="lbl_battery_inlet_temperature_C">battery.inlet_temperature_C</string>
+    <string name="lbl_battery_max_temperature_C">battery.max_temperature_C</string>
+    <string name="lbl_battery_min_temperature_C">battery.min_temperature_C</string>
+    <string name="lbl_battery_heat1_temperature_C">battery.heat1_temperature_C</string>
+    <string name="lbl_battery_heat2_temperature_C">battery.heat2_temperature_C</string>
+    <string name="lbl_battery_module_temperature">battery.module_temperature</string>
+    <string name="lbl_battery_cooling_water_temperature_C">battery.cooling_water_temperature_C</string>
+    <string name="lbl_battery_cell_voltage">battery.cell_voltage</string>
+    <string name="lbl_battery_max_cell_voltage_V">battery.max_cell_voltage_V</string>
+    <string name="lbl_battery_max_cell_voltage_n">battery.max_cell_voltage_n</string>
+    <string name="lbl_battery_min_cell_voltage_V">battery.min_cell_voltage_V</string>
+    <string name="lbl_battery_min_cell_voltage_n">battery.min_cell_voltage_n</string>
+    <string name="lbl_battery_state_of_health_pct">battery.state_of_health_pct</string>
+    <string name="lbl_battery_max_cell_deterioration_pct">battery.max_cell_deterioration_pct</string>
+    <string name="lbl_battery_max_cell_deterioration_n">battery.max_cell_deterioration_n</string>
+    <string name="lbl_battery_min_cell_deterioration_pct">battery.min_cell_deterioration_pct</string>
+    <string name="lbl_battery_min_cell_deterioration_n">battery.min_cell_deterioration_n</string>
+    <string name="lbl_battery_max_cell_soh_pct">battery.max_cell_SOH_pct</string>
+    <string name="lbl_battery_max_cell_soh_n">battery.max_cell_SOH_n</string>
+    <string name="lbl_battery_min_cell_soh_pct">battery.min_cell_SOH_pct</string>
+    <string name="lbl_battery_min_cell_soh_n">battery.min_cell_SOH_n</string>
+    <string name="lbl_battery_auxiliaryVoltage_V">battery.auxiliaryVoltage_V</string>
+    <string name="lbl_battery_fan_status">battery.fan_status</string>
+    <string name="lbl_battery_fan_feedback_signal">battery.fan_feedback_signal</string>
+    <string name="lbl_battery_airbag_hwire_duty">battery.airbag_hwire_duty</string>
+
+    <string name="lbl_charging_power_kW">charging.power_kW</string>
+
+    <string name="lbl_range_estimate_km">range.estimate_km</string>
+    <string name="lbl_range_estimate_for_climate_km">range.estimate_for_climate_km</string>
+
+    <string name="lbl_tire_pressure_psi">tire.pressure</string>
+    <string name="lbl_tire_temperature_C">tire.temperature</string>
+
+    <string name="lbl_calc_battery_soh_pct">calc.battery_SOH_pct</string>
+
+    <string name="lbl_watcher_consumption">calc.consumption</string>
+
+    <string name="lbl_chargers_locations">chargers.locations</string>
+
 
 </resources>
