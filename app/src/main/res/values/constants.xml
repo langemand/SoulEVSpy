@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- preferences.xml keys -->
-    <string name="key_list_car_model">list_car_model</string>
-    <string name="key_list_units_distance">list_distance</string>
-    <string name="key_list_units_energy_consumption">list_energy_consumption</string>
-    <string name="key_list_units_temperature">list_temperature</string>
-    <string name="key_list_units_pressure">list_pressure</string>
-    <string name="key_list_bluetooth_device">list_bluetooth_device</string>
-    <string name="key_check_auto_reconnect">check_auto_reconnect</string>
-    <string name="key_edit_scan_interval">edit_scan_interval</string>
-    <string name="key_check_storage_upload_to_cloud">check_storage_upload</string>
-    <string name="key_check_storage_save_in_downloads_dir">check_storage_save</string>
-    <string name="key_open_source_licenses">key_open_source_licenses</string>
-    <string name="key_application_version">application_version</string>
-    <string name="key_privacy_policy">key_privacy_policy</string>
+    <string name="key_list_car_model" translatable="false">list_car_model</string>
+    <string name="key_list_units_distance" translatable="false">list_distance</string>
+    <string name="key_list_units_energy_consumption" translatable="false">list_energy_consumption</string>
+    <string name="key_list_units_temperature" translatable="false">list_temperature</string>
+    <string name="key_list_units_pressure" translatable="false">list_pressure</string>
+    <string name="key_list_bluetooth_device" translatable="false">list_bluetooth_device</string>
+    <string name="key_check_auto_reconnect" translatable="false">check_auto_reconnect</string>
+    <string name="key_edit_scan_interval" translatable="false">edit_scan_interval</string>
+    <string name="key_check_storage_upload_to_cloud" translatable="false">check_storage_upload</string>
+    <string name="key_check_storage_save_in_downloads_dir" translatable="false">check_storage_save</string>
+    <string name="key_open_source_licenses" translatable="false">key_open_source_licenses</string>
+    <string name="key_application_version" translatable="false">application_version</string>
+    <string name="key_privacy_policy" translatable="false">key_privacy_policy</string>
 
     <!-- arrays.xml values -->
-    <string name="list_car_model_value_RayEV">RayEV</string>
-    <string name="list_car_model_value_BlueOnEV">BlueOnEV</string>
-    <string name="list_car_model_value_SoulEV2015">SoulEV-2019</string>
-    <string name="list_car_model_value_IoniqEV">IoniqEV</string>
-    <string name="list_car_model_value_KonaEV">KonaEV</string>
-    <string name="list_car_model_value_eNiro">eNiro</string>
-    <string name="list_car_model_value_eSoul">eSoul2020</string>
-    <string name="list_car_model_value_MonitorMode">MonitorMode</string>
+    <string name="list_car_model_value_RayEV" translatable="false">RayEV</string>
+    <string name="list_car_model_value_BlueOnEV" translatable="false">BlueOnEV</string>
+    <string name="list_car_model_value_SoulEV2015" translatable="false">SoulEV-2019</string>
+    <string name="list_car_model_value_IoniqEV" translatable="false">IoniqEV</string>
+    <string name="list_car_model_value_KonaEV" translatable="false">KonaEV</string>
+    <string name="list_car_model_value_eNiro" translatable="false">eNiro</string>
+    <string name="list_car_model_value_eSoul" translatable="false">eSoul2020</string>
+    <string name="list_car_model_value_MonitorMode" translatable="false">MonitorMode</string>
 
-    <string name="list_distance_value_km">km</string>
-    <string name="list_distance_value_mi">mi</string>
+    <string name="list_distance_value_km" translatable="false">km</string>
+    <string name="list_distance_value_mi" translatable="false">mi</string>
 
-    <string name="list_energy_consumption_value_kwh_100km">kwh_100km</string>
-    <string name="list_energy_consumption_value_km_kwh">km_kwh</string>
-    <string name="list_energy_consumption_value_kwh_100mi">kwh_100mi</string>
-    <string name="list_energy_consumption_value_mi_kwh">mi_kwh</string>
+    <string name="list_energy_consumption_value_kwh_100km" translatable="false">kwh_100km</string>
+    <string name="list_energy_consumption_value_km_kwh" translatable="false">km_kwh</string>
+    <string name="list_energy_consumption_value_kwh_100mi" translatable="false">kwh_100mi</string>
+    <string name="list_energy_consumption_value_mi_kwh" translatable="false">mi_kwh</string>
 
-    <string name="list_temperature_value_c">c</string>
-    <string name="list_temperature_value_f">f</string>
+    <string name="list_temperature_value_c" translatable="false">c</string>
+    <string name="list_temperature_value_f" translatable="false">f</string>
 
-    <string name="list_pressure_value_psi">psi</string>
-    <string name="list_pressure_value_bar">bar</string>
+    <string name="list_pressure_value_psi" translatable="false">psi</string>
+    <string name="list_pressure_value_bar" translatable="false">bar</string>
 </resources>
