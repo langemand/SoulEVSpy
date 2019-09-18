@@ -290,4 +290,8 @@ public class CurrentValuesSingleton {
         }
         return path;
     }
+
+    public String getString(int id) {
+        return getPreferences().getContext().getResources().getString(id);
+    }
 }

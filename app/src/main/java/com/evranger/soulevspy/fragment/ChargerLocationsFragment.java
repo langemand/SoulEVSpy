@@ -17,6 +17,7 @@ import com.evranger.soulevspy.advisor.Pos;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
 import com.evranger.soulevspy.R;
+import com.evranger.soulevspy.util.Unit;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -36,6 +37,7 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
     private ChargeStations mChargeStations;
     private ArrayList<ChargeLocation> nearChargers;
     private Pos lastLookupPos = new Pos(0.0, 0.0);
+    private Unit unit = new Unit();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
                 }
             });
             onValueChanged(null, null);
-            mValues.addListener(mValues.getPreferences().getContext().getResources().getString(R.string.col_chargers_locations), this);
+            mValues.addListener(mValues.getString(R.string.col_chargers_locations), this);
         }
     }
 
@@ -69,9 +71,9 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
 //
 // TODO: average Wh/km for last n minutes, and remaining range at that rate
 //
-        Double remainingRange = (Double) mValues.get("range_estimate_km");
+        Double remainingRange = (Double) mValues.get(R.string.col_range_estimate_km);
         if (remainingRange != null) {
-            mItems.add(new ListViewItem("Car estimated remaining range (km)", new DecimalFormat("0.0").format(remainingRange)));
+            mItems.add(new ListViewItem(mValues.getString(R.string.car_estimated_remaining_range_km), new DecimalFormat("0.0").format(remainingRange)));
         } else {
             remainingRange = 452.0;
         }
@@ -91,8 +93,8 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
                     // Ignore
                     int i = 0;
                 }
-                mItems.add(new ListViewItem("From goingelectric.de: " + dateTimeAsString,
-                        "Click text to see details in browser"));
+                mItems.add(new ListViewItem(mValues.getString(R.string.from_charger_locations_provider) + dateTimeAsString,
+                        mValues.getString(R.string.click_to_see_details_in_browser)));
                 // Display nearest
                 for (int i = 0; i < Math.min(500, nearChargers.size()); ++i) {
                     ChargeLocation charger = nearChargers.get(i);
@@ -101,7 +103,7 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
                     if (remainingRange != null && !warningAdded && dist_m > remainingRange * 1000) {
                         warningAdded = true;
                         mItems.add(new ListViewItem("-------------------------------------------------------------------------------",
-                                "Below are out of range!"));
+                                mValues.getString(R.string.below_are_out_of_range)));
                     }
                     double dist_deca_m = Math.round(dist_m / 100);
                     Double dist_km = dist_deca_m / 10;
@@ -111,12 +113,12 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
                     } catch (Exception ex) {
                         //ignore
                     }
-                    String infoStr = "Straight dist: " + dist_km.toString() + " km. " + (verified ? "Verified" : "");
+                    String infoStr = mValues.getString(R.string.straight_dist) + " " + Double.toString(unit.convertDist(dist_km)) + " " + unit.mDistUnit + " " + (verified ? mValues.get(R.string.charge_point_verified) : "") + ":";
                     mItems.add(new ListLocationItem(infoStr, charger.get_readableName(), charger));
                 }
             } else if (nearChargers.size() == 0) {
                 mItems.add(new ListViewItem("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-                        "No DC-chargers nearby!"));
+                        mValues.getString(R.string.no_chargers_nearby)));
                 // TODO: Fetch AC-charger-locations
             }
         }

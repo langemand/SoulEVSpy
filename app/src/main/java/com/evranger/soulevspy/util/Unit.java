@@ -1,5 +1,6 @@
 package com.evranger.soulevspy.util;
 
+import com.evranger.soulevspy.R;
 import com.evranger.soulevspy.obd.values.CurrentValuesSingleton;
 
 public class Unit {
@@ -25,11 +26,11 @@ public class Unit {
             mPresFactor = 1;
         }
         if (CurrentValuesSingleton.getInstance().getPreferences().getUnitsTemperatureStringValue().contentEquals("f")) {
-            mTempUnit = "F";
+            mTempUnit = CurrentValuesSingleton.getInstance().getString(R.string.sign_temperature_f);
             mTempFactor = 1.8;
             mTempOffset = 32;
         } else {
-            mTempUnit = "C";
+            mTempUnit = CurrentValuesSingleton.getInstance().getString(R.string.sign_temperature_c);
             mTempFactor = 1;
             mTempOffset = 0;
         }

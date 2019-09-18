@@ -32,7 +32,7 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getActivity().setTitle("GPS");
+        getActivity().setTitle(R.string.action_gps);
         mValues = CurrentValuesSingleton.getInstance();
         FragmentActivity activity = getActivity();
         if (activity != null) {
@@ -64,10 +64,10 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
         Object tim = mValues.get(res.getString(R.string.col_route_time_s));
         mItems.clear();
         if (lat != null && lng != null && alt != null && tim != null && spd != null) {
-            mItems.add(new ListViewItem("Lattitude (deg)", lat.toString()));
-            mItems.add(new ListViewItem("Longtitude (deg)", lng.toString()));
-            mItems.add(new ListViewItem("Altitude (m)", alt.toString()));
-            mItems.add(new ListViewItem("Speed (m/s)", spd.toString()));
+            mItems.add(new ListViewItem(mValues.getString(R.string.lattitude) + " " + mValues.getString(R.string.deg), lat.toString()));
+            mItems.add(new ListViewItem(mValues.getString(R.string.longtitude) + " " + mValues.getString(R.string.deg), lng.toString()));
+            mItems.add(new ListViewItem(mValues.getString(R.string.altitude) + " (m)", alt.toString()));
+            mItems.add(new ListViewItem(mValues.getString(R.string.speed) + " (m/s)", spd.toString()));
             Long utim = (Long) tim;
             if (utim != null) {
                 DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

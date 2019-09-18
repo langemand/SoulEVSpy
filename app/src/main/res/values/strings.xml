@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Soul EV Spy Lite</string>
+    <string name="app_name">Soul EV Spy</string>
 
     <!-- Navigation Drawer -->
     <string name="action_bluetooth">Connect via Bluetooth</string>
@@ -64,7 +64,7 @@
     <string name="pref_storage_save_in_downloads_dir">Save data in Downloads dir</string>
 
     <string name="title_pref_about">About</string>
-    <string name="pref_about">About Soul EV Spy Lite</string>
+    <string name="pref_about">About Soul EV Spy</string>
     <string name="pref_licenses">Open source licenses</string>
     <string name="pref_licenses_summary">License details for open source software</string>
     <string name="pref_version_summary">Version %1$s</string>
@@ -77,26 +77,31 @@
     <string name="dialog_back_button_cancel">Cancel</string>
 
     <string name="dialog_warn_data_not_saved_title">"WARNING: Data will not be saved!"</string>
-    <string name="dialog_warn_data_not_saved_message">"Neither of these Settings are checked:\n" +
-                        "\n" +
-                        "- " + mSharedPreferences.getContext().getResources().getString(R.string.pref_storage_upload_to_cloud) + "\n" +
-                        "- " + mSharedPreferences.getContext().getResources().getString(R.string.pref_storage_save_in_downloads_dir) + "\n" +
-                        "\n" +
-                        "Data will be read from car and displayed on screen, but not saved in files!\n" +
-                        "\n" +
-                        "Click Ok to continue"</string>
+    <string name="dialog_warn_data_not_saved_message">Neither of these Settings are checked:\n
+        \n
+        - Upload data to cloud (may incur charges!)\n
+        - Save data in Downloads dir\n
+        \n
+        Data will be read from car and displayed on screen, but not saved in files!\n
+        Click Ok to continue</string>
     <string name="dialog_Ok">Ok</string>
 
-    <string name="dialog_authenticate_to_upload_title">"Authentication necessary."</string>
-    <string name="dialog_authenticate_to_upload_message">"You need to authenticate, in order to upload data. You will be requested to log in next."</string>
+    <string name="dialog_authenticate_to_upload_title">Authentication necessary</string>
+    <string name="dialog_authenticate_to_upload_message">You need to authenticate, in order to upload data. You will be requested to log in next.</string>
 
     <string name="dialog_lite_splash_title">Notice</string>
     <string name="dialog_lite_splash_message">This free app (Soul EV Spy Lite) no longer save data-files in the Download dir, and will no longer be improved. Please consider upgrading to the paid app (Soul EV Spy).</string>
 
+    <string name="dialog_select_bluetooth_dongle_title">Select OBD-II dongle</string>
+    <string name="dialog_select_bluetooth_dongle_message">Please select your paired OBD-II bluetooth dongle in the app Settings</string>
+
+    <string name="dialog_select_car_model_title">Select your car model</string>
+    <string name="dialog_select_car_model_message">Please select your Car Model in the app Settings</string>
+
     <!-- Main Activity -->
 
     <string name="dongle_connecting">SoulEVSpy Connecting...</string>
-    <string name="dongle_disconnecting">SoulEVSpy Disonnecting...</string>
+    <string name="dongle_disconnecting">SoulEVSpy Disconnecting...</string>
     <string name="dongle_connected">SoulEVSpy Connected</string>
     <string name="dongle_disconnected">SoulEVSpy Disconnected</string>
 
@@ -110,30 +115,30 @@
     <string name="info_data_will_not_be_saved">Data will not be stored!</string>
 
     <!-- File names -->
-    <string name="file_chargerlocations_json">chargerlocations.json</string>
+    <string name="file_chargerlocations_json" translatable="false">chargerlocations.json</string>
 
 
     <!-- ChargerLocations -->
-    <string name="charger_locations_update_time_ms">charger_locations_update_time_ms</string>
-
+    <string name="charger_locations_update_time_ms" translatable="false">charger_locations_update_time_ms</string>
 
     <!-- Car Information (VIN decoding) -->
-    <string name="car_kia">Kia</string>
-    <string name="car_hyundai">Hyundai</string>
+    <string name="car_kia" translatable="false">Kia</string>
+    <string name="car_hyundai" translatable="false">Hyundai</string>
 
-    <string name="car_soulev">Soul EV</string>
-    <string name="car_eniro">e-Niro</string>
-    <string name="car_ioniqev">Ioniq EV</string>
-    <string name="car_ioniqphev">Ioniq PHEV</string>
-    <string name="car_ioniqhev">Ioniq HEV</string>
-    <string name="car_konaev">Kona EV</string>
+    <string name="car_soulev" translatable="false">Soul EV</string>
+    <string name="car_eniro" translatable="false">e-Niro</string>
+    <string name="car_ioniqev" translatable="false">Ioniq EV</string>
+    <string name="car_ioniqphev" translatable="false">Ioniq PHEV</string>
+    <string name="car_ioniqhev" translatable="false">Ioniq HEV</string>
+    <string name="car_konaev" translatable="false">Kona EV</string>
 
-    <string name="car_engine_e">Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80 kW]</string>
-    <string name="car_engine_150kw">Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150 kW]</string>
-    <string name="car_engine_100kw">Battery [LiPo 327 V, 120 Ah] + Motor [3-phase AC 100 kW]</string>
-    <string name="car_engine_ioniq_88kW">Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]</string>
-    <string name="car_engine_ioniq_phev_45kW">Battery [LiPo 360 V, 24.7 Ah] + Motor [3-phase AC 45 kW]</string>
-    <string name="car_engine_ioniq_hev_32kW">Battery [LiPo 240 V, 6.5 Ah] + Motor [3-phase AC 32 kW]</string>
+    <string name="car_engine_e" translatable="false">Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80 kW]</string>
+    <string name="car_engine_150kw" translatable="false">Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150 kW]</string>
+    <string name="car_engine_100kw" translatable="false">Battery [LiPo 327 V, 120 Ah] + Motor [3-phase AC 100 kW]</string>
+    <string name="car_engine_ioniq_88kW" translatable="false">Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]</string>
+    <string name="car_engine_ioniq_phev_45kW" translatable="false">Battery [LiPo 360 V, 24.7 Ah] + Motor [3-phase AC 45 kW]</string>
+    <string name="car_engine_ioniq_hev_32kW" translatable="false">Battery [LiPo 240 V, 6.5 Ah] + Motor [3-phase AC 32 kW]</string>
+
     <string name="car_trim_base">Base</string>
     <string name="car_trim_eniro_first_edition_base">First Edition Base</string>
     <string name="car_trim_ioniq_trend">Trend</string>
@@ -141,128 +146,133 @@
     <string name="car_trim_plus">Plus/Luxury</string>
     <string name="car_trim_exclusive">Exclusive</string>
     <string name="car_unknown">Unknown</string>
-    <string name="car_plant_hwaseong">Hwaseong</string>
-    <string name="car_plant_soha_ri">Soha-ri</string>
-    <string name="car_plant_gwangju">Gwangju</string>
-    <string name="car_plant_seosan">Seosan</string>
-    <string name="car_plant_ulsan">Ulsan</string>
+
+    <string name="car_plant_hwaseong" translatable="false">Hwaseong</string>
+    <string name="car_plant_soha_ri" translatable="false">Soha-ri</string>
+    <string name="car_plant_gwangju" translatable="false">Gwangju</string>
+    <string name="car_plant_seosan" translatable="false">Seosan</string>
+    <string name="car_plant_ulsan" translatable="false">Ulsan</string>
+
     <string name="car_south_korea">South Korea</string>
 
+    <!-- Temoerature signs -->
+    <string name="sign_temperature_c" translatable="false">\u2103</string>
+    <string name="sign_temperature_f" translatable="false">\u2109</string>
 
     <!-- Data column labels -->
-    <string name="col_system_scan_start_time_ms">system.scan_start_time_ms</string>
-    <string name="col_system_scan_end_time_ms">system.scan_end_time_ms</string>
-    <string name="col_system_status">system.status</string>
-    <string name="col_VIN">VIN</string>
-    <string name="col_orig_capacity_kWh">car.original_capacity_kWh</string>
-    <string name="col_nom_capacity_kWh">car.nominel_capacity_kWh</string>
-    <string name="col_ELM327_voltage">ELM327.Voltage_V</string>
+    <string name="col_system_scan_start_time_ms" translatable="false">system.scan_start_time_ms</string>
+    <string name="col_system_scan_end_time_ms" translatable="false">system.scan_end_time_ms</string>
+    <string name="col_system_status" translatable="false">system.status</string>
+    <string name="col_VIN" translatable="false">VIN</string>
+    <string name="col_orig_capacity_kWh" translatable="false">car.original_capacity_kWh</string>
+    <string name="col_nom_capacity_kWh" translatable="false">car.nominel_capacity_kWh</string>
+    <string name="col_ELM327_voltage" translatable="false">ELM327.Voltage_V</string>
 
-    <string name="col_route_time_s">route.time_s</string>
-    <string name="col_route_lat_deg">route.lat_deg</string>
-    <string name="col_route_lng_deg">route.lng_deg</string>
-    <string name="col_route_elevation_m">route.elevation_m</string>
-    <string name="col_route_speed_mps">route.speed_mps</string>
+    <string name="col_route_time_s" translatable="false">route.time_s</string>
+    <string name="col_route_lat_deg" translatable="false">route.lat_deg</string>
+    <string name="col_route_lng_deg" translatable="false">route.lng_deg</string>
+    <string name="col_route_elevation_m" translatable="false">route.elevation_m</string>
+    <string name="col_route_speed_mps" translatable="false">route.speed_mps</string>
 
-    <string name="col_car_ambient_C">car.ambient_C</string>
-    <string name="col_car_speed_kph">car.speed_kph</string>
-    <string name="col_car_odo_km">car.odo_km</string>
-    <string name="col_car_lights_status">car.lights</string>
-    <string name="col_car_wipers_status">car.wipers</string>
+    <string name="col_car_ambient_C" translatable="false">car.ambient_C</string>
+    <string name="col_car_speed_kph" translatable="false">car.speed_kph</string>
+    <string name="col_car_odo_km" translatable="false">car.odo_km</string>
+    <string name="col_car_lights_status" translatable="false">car.lights</string>
+    <string name="col_car_wipers_status" translatable="false">car.wipers</string>
 
-    <string name="col_ldc_enabled">ldc.is_enabled</string>
-    <string name="col_ldc_out_DC_voltage_V">ldc.out_DC_V</string>
-    <string name="col_ldc_out_DC_current_A">ldc.out_DC_A</string>
-    <string name="col_ldc_in_DC_voltage_V">ldc.in_DC_V</string>
-    <string name="col_ldc_temperature_C">ldc.temperature_C</string>
+    <string name="col_ldc_enabled" translatable="false">ldc.is_enabled</string>
+    <string name="col_ldc_out_DC_voltage_V" translatable="false">ldc.out_DC_V</string>
+    <string name="col_ldc_out_DC_current_A" translatable="false">ldc.out_DC_A</string>
+    <string name="col_ldc_in_DC_voltage_V" translatable="false">ldc.in_DC_V</string>
+    <string name="col_ldc_temperature_C" translatable="false">ldc.temperature_C</string>
 
-    <string name="col_obc_ac_in_V">obc.in_AC_V</string>
-    <string name="col_obc_dc_out_V">obc.out_DC_V</string>
-    <string name="col_obc_ac_in_A">obc.in_AC_A</string>
-    <string name="col_obc_pilot_duty_cycle">obc.pilot_duty_cycle</string>
-    <string name="col_obc_temp_1_C">obc.temp_1_C</string>
-    <string name="col_obc_temp_2_C">obc.temp_2_C</string>
-    <string name="col_obc_temp_3_C">obc.temp_3_C</string>
+    <string name="col_obc_ac_in_V" translatable="false">obc.in_AC_V</string>
+    <string name="col_obc_dc_out_V" translatable="false">obc.out_DC_V</string>
+    <string name="col_obc_ac_in_A" translatable="false">obc.in_AC_A</string>
+    <string name="col_obc_pilot_duty_cycle" translatable="false">obc.pilot_duty_cycle</string>
+    <string name="col_obc_temp_1_C" translatable="false">obc.temp_1_C</string>
+    <string name="col_obc_temp_2_C" translatable="false">obc.temp_2_C</string>
+    <string name="col_obc_temp_3_C" translatable="false">obc.temp_3_C</string>
 
-    <string name="col_vmcu_gear_state">vmcu.gear_state</string>
-    <string name="col_vmcu_eco_off_switch">vmcu.eco_off_switch</string>
-    <string name="col_vmcu_brake_lamp_on_switch">vmcu.brake_lamp_on_switch</string>
-    <string name="col_vmcu_brake_off_switch">vmcu.brake_off_switch</string>
-    <string name="col_vmcu_ldc_inhibit">vmcu.LDC_inhibit</string>
-    <string name="col_vmcu_fault_flag_of_mcu">vmcu.fault_flag_of_MCU</string>
-    <string name="col_vmcu_warning_flag_of_mcu">vmcu.warning_flag_of_MCU</string>
-    <string name="col_vmcu_radiator_fan_request_of_motor">vmcu.radiator_fan_request_of_motor</string>
-    <string name="col_vmcu_ignition_1">vmcu.ignition_1</string>
-    <string name="col_vmcu_accel_pedal_depth_pct">vmcu.accel_pedal_depth_pct</string>
-    <string name="col_vmcu_vehicle_speed_kph">vmcu.vehicle_speed_kph</string>
-    <string name="col_vmcu_aux_battery_V">vmcu.aux_battery_V</string>
-    <string name="col_vmcu_aux_battery_A">vmcu.aux_battery_current_A</string>
-    <string name="col_vmcu_aux_battery_SOC_pct">vmcu.aux_battery_SOC_pct</string>
-    <string name="col_vmcu_inverter_input_V">vmcu.inverter_input_V</string>
-    <string name="col_vmcu_motor_actual_speed_rpm">vmcu.motor_actual_speed_rpm</string>
-    <string name="col_vmcu_motor_torque_command_Nm">vmcu.motor_torque_command_Nm</string>
-    <string name="col_vmcu_estimated_motor_torque_Nm">vmcu.estimated_motor_torque_Nm</string>
-    <string name="col_vmcu_motor_phase_current_RMS_A">vmcu.motor_phase_current_RMS_A</string>
-    <string name="col_vmcu_temp_motor_C">vmcu.motor_temp_C</string>
-    <string name="col_vmcu_temp_mcu_C">vmcu.mcu_temp_C</string>
-    <string name="col_vmcu_temp_heatsink_C">vmcu.heatsink_temp_C</string>
+    <string name="col_vmcu_gear_state" translatable="false">vmcu.gear_state</string>
+    <string name="col_vmcu_eco_off_switch" translatable="false">vmcu.eco_off_switch</string>
+    <string name="col_vmcu_brake_lamp_on_switch" translatable="false">vmcu.brake_lamp_on_switch</string>
+    <string name="col_vmcu_brake_off_switch" translatable="false">vmcu.brake_off_switch</string>
+    <string name="col_vmcu_ldc_inhibit" translatable="false">vmcu.LDC_inhibit</string>
+    <string name="col_vmcu_fault_flag_of_mcu" translatable="false">vmcu.fault_flag_of_MCU</string>
+    <string name="col_vmcu_warning_flag_of_mcu" translatable="false">vmcu.warning_flag_of_MCU</string>
+    <string name="col_vmcu_radiator_fan_request_of_motor" translatable="false">vmcu.radiator_fan_request_of_motor</string>
+    <string name="col_vmcu_ignition_1" translatable="false">vmcu.ignition_1</string>
+    <string name="col_vmcu_accel_pedal_depth_pct" translatable="false">vmcu.accel_pedal_depth_pct</string>
+    <string name="col_vmcu_vehicle_speed_kph" translatable="false">vmcu.vehicle_speed_kph</string>
+    <string name="col_vmcu_aux_battery_V" translatable="false">vmcu.aux_battery_V</string>
+    <string name="col_vmcu_aux_battery_A" translatable="false">vmcu.aux_battery_current_A</string>
+    <string name="col_vmcu_aux_battery_SOC_pct" translatable="false">vmcu.aux_battery_SOC_pct</string>
+    <string name="col_vmcu_inverter_input_V" translatable="false">vmcu.inverter_input_V</string>
+    <string name="col_vmcu_motor_actual_speed_rpm" translatable="false">vmcu.motor_actual_speed_rpm</string>
+    <string name="col_vmcu_motor_torque_command_Nm" translatable="false">vmcu.motor_torque_command_Nm</string>
+    <string name="col_vmcu_estimated_motor_torque_Nm" translatable="false">vmcu.estimated_motor_torque_Nm</string>
+    <string name="col_vmcu_motor_phase_current_RMS_A" translatable="false">vmcu.motor_phase_current_RMS_A</string>
+    <string name="col_vmcu_temp_motor_C" translatable="false">vmcu.motor_temp_C</string>
+    <string name="col_vmcu_temp_mcu_C" translatable="false">vmcu.mcu_temp_C</string>
+    <string name="col_vmcu_temp_heatsink_C" translatable="false">vmcu.heatsink_temp_C</string>
 
-    <string name="col_battery_is_charging">battery.is_charging</string>
-    <string name="col_battery_ChaDeMo_is_plugged">battery.ChaDeMo_is_plugged</string>
-    <string name="col_battery_J1772_is_plugged">battery.J1772_is_plugged</string>
-    <string name="col_battery_SOC">battery.SOC_pct</string>
-    <string name="col_battery_display_SOC">battery.SOC_display_pct</string>
-    <string name="col_battery_decimal_SOC">battery.SOC_decimal_pct</string>
-    <string name="col_battery_precise_SOC">battery.SOC_precise_pct</string>
-    <string name="col_battery_DC_current_A">battery.DC_current_A</string>
-    <string name="col_battery_DC_voltage_V">battery.DC_V</string>
-    <string name="col_battery_available_charge_power_kW">battery.available_charge_power_kW</string>
-    <string name="col_battery_available_discharge_power_kW">battery.available_discharge_power_kW</string>
-    <string name="col_battery_accumulative_charge_current_Ah">battery.accumulative_charge_current_Ah</string>
-    <string name="col_battery_accumulative_discharge_current_Ah">battery.accumulative_discharge_current_Ah</string>
-    <string name="col_battery_accumulative_charge_power_kWh">battery.accumulative_charge_power_kWh</string>
-    <string name="col_battery_accumulative_discharge_power_kWh">battery.accumulative_discharge_power_kWh</string>
-    <string name="col_battery_accumulative_operating_time_s">battery.accumulative_operating_time_s</string>
-    <string name="col_battery_drive_motor_rpm">battery.drive_motor_speed_rpm</string>
-    <string name="col_battery_inlet_temperature_C">battery.inlet_temperature_C</string>
-    <string name="col_battery_max_temperature_C">battery.max_temperature_C</string>
-    <string name="col_battery_min_temperature_C">battery.min_temperature_C</string>
-    <string name="col_battery_heat1_temperature_C">battery.heat1_temperature_C</string>
-    <string name="col_battery_heat2_temperature_C">battery.heat2_temperature_C</string>
-    <string name="col_battery_module_temperature">battery.module_temperature</string>
-    <string name="col_battery_cooling_water_temperature_C">battery.cooling_water_temperature_C</string>
-    <string name="col_battery_cell_voltage">battery.cell_voltage</string>
-    <string name="col_battery_max_cell_voltage_V">battery.max_cell_voltage_V</string>
-    <string name="col_battery_max_cell_voltage_n">battery.max_cell_voltage_n</string>
-    <string name="col_battery_min_cell_voltage_V">battery.min_cell_voltage_V</string>
-    <string name="col_battery_min_cell_voltage_n">battery.min_cell_voltage_n</string>
-    <string name="col_battery_state_of_health_pct">battery.state_of_health_pct</string>
-    <string name="col_battery_max_cell_deterioration_pct">battery.max_cell_deterioration_pct</string>
-    <string name="col_battery_max_cell_deterioration_n">battery.max_cell_deterioration_n</string>
-    <string name="col_battery_min_cell_deterioration_pct">battery.min_cell_deterioration_pct</string>
-    <string name="col_battery_min_cell_deterioration_n">battery.min_cell_deterioration_n</string>
-    <string name="col_battery_max_cell_soh_pct">battery.max_cell_SOH_pct</string>
-    <string name="col_battery_max_cell_soh_n">battery.max_cell_SOH_n</string>
-    <string name="col_battery_min_cell_soh_pct">battery.min_cell_SOH_pct</string>
-    <string name="col_battery_min_cell_soh_n">battery.min_cell_SOH_n</string>
-    <string name="col_battery_auxiliaryVoltage_V">battery.auxiliaryVoltage_V</string>
-    <string name="col_battery_fan_status">battery.fan_status</string>
-    <string name="col_battery_fan_feedback_signal">battery.fan_feedback_signal</string>
-    <string name="col_battery_airbag_hwire_duty">battery.airbag_hwire_duty</string>
+    <string name="col_battery_is_charging" translatable="false">battery.is_charging</string>
+    <string name="col_battery_ChaDeMo_is_plugged" translatable="false">battery.ChaDeMo_is_plugged</string>
+    <string name="col_battery_J1772_is_plugged" translatable="false">battery.J1772_is_plugged</string>
+    <string name="col_battery_SOC" translatable="false">battery.SOC_pct</string>
+    <string name="col_battery_display_SOC" translatable="false">battery.SOC_display_pct</string>
+    <string name="col_battery_decimal_SOC" translatable="false">battery.SOC_decimal_pct</string>
+    <string name="col_battery_precise_SOC" translatable="false">battery.SOC_precise_pct</string>
+    <string name="col_battery_DC_current_A" translatable="false">battery.DC_current_A</string>
+    <string name="col_battery_DC_voltage_V" translatable="false">battery.DC_V</string>
+    <string name="col_battery_available_charge_power_kW" translatable="false">battery.available_charge_power_kW</string>
+    <string name="col_battery_available_discharge_power_kW" translatable="false">battery.available_discharge_power_kW</string>
+    <string name="col_battery_accumulative_charge_current_Ah" translatable="false">battery.accumulative_charge_current_Ah</string>
+    <string name="col_battery_accumulative_discharge_current_Ah" translatable="false">battery.accumulative_discharge_current_Ah</string>
+    <string name="col_battery_accumulative_charge_power_kWh" translatable="false">battery.accumulative_charge_power_kWh</string>
+    <string name="col_battery_accumulative_discharge_power_kWh" translatable="false">battery.accumulative_discharge_power_kWh</string>
+    <string name="col_battery_accumulative_operating_time_s" translatable="false">battery.accumulative_operating_time_s</string>
+    <string name="col_battery_drive_motor_rpm" translatable="false">battery.drive_motor_speed_rpm</string>
+    <string name="col_battery_inlet_temperature_C" translatable="false">battery.inlet_temperature_C</string>
+    <string name="col_battery_max_temperature_C" translatable="false">battery.max_temperature_C</string>
+    <string name="col_battery_min_temperature_C" translatable="false">battery.min_temperature_C</string>
+    <string name="col_battery_heat1_temperature_C" translatable="false">battery.heat1_temperature_C</string>
+    <string name="col_battery_heat2_temperature_C" translatable="false">battery.heat2_temperature_C</string>
+    <string name="col_battery_module_temperature" translatable="false">battery.module_temperature</string>
+    <string name="col_battery_cooling_water_temperature_C" translatable="false">battery.cooling_water_temperature_C</string>
+    <string name="col_battery_cell_voltage" translatable="false">battery.cell_voltage</string>
+    <string name="col_battery_max_cell_voltage_V" translatable="false">battery.max_cell_voltage_V</string>
+    <string name="col_battery_max_cell_voltage_n" translatable="false">battery.max_cell_voltage_n</string>
+    <string name="col_battery_min_cell_voltage_V" translatable="false">battery.min_cell_voltage_V</string>
+    <string name="col_battery_min_cell_voltage_n" translatable="false">battery.min_cell_voltage_n</string>
+    <string name="col_battery_state_of_health_pct" translatable="false">battery.state_of_health_pct</string>
+    <string name="col_battery_max_cell_deterioration_pct" translatable="false">battery.max_cell_deterioration_pct</string>
+    <string name="col_battery_max_cell_deterioration_n" translatable="false">battery.max_cell_deterioration_n</string>
+    <string name="col_battery_min_cell_deterioration_pct" translatable="false">battery.min_cell_deterioration_pct</string>
+    <string name="col_battery_min_cell_deterioration_n" translatable="false">battery.min_cell_deterioration_n</string>
+    <string name="col_battery_max_cell_soh_pct" translatable="false">battery.max_cell_SOH_pct</string>
+    <string name="col_battery_max_cell_soh_n" translatable="false">battery.max_cell_SOH_n</string>
+    <string name="col_battery_min_cell_soh_pct" translatable="false">battery.min_cell_SOH_pct</string>
+    <string name="col_battery_min_cell_soh_n" translatable="false">battery.min_cell_SOH_n</string>
+    <string name="col_battery_auxiliaryVoltage_V" translatable="false">battery.auxiliaryVoltage_V</string>
+    <string name="col_battery_fan_status" translatable="false">battery.fan_status</string>
+    <string name="col_battery_fan_feedback_signal" translatable="false">battery.fan_feedback_signal</string>
+    <string name="col_battery_airbag_hwire_duty" translatable="false">battery.airbag_hwire_duty</string>
 
-    <string name="col_charging_power_kW">charging.power_kW</string>
+    <string name="col_charging_power_kW" translatable="false">charging.power_kW</string>
 
-    <string name="col_range_estimate_km">range.estimate_km</string>
-    <string name="col_range_estimate_for_climate_km">range.estimate_for_climate_km</string>
+    <string name="col_range_estimate_km" translatable="false">range.estimate_km</string>
+    <string name="col_range_estimate_for_climate_km" translatable="false">range.estimate_for_climate_km</string>
 
-    <string name="col_tire_pressure_psi">tire.pressure</string>
-    <string name="col_tire_temperature_C">tire.temperature</string>
+    <string name="col_tire_pressure_psi" translatable="false">tire.pressure</string>
+    <string name="col_tire_temperature_C" translatable="false">tire.temperature</string>
 
-    <string name="col_calc_battery_soh_pct">calc.battery_SOH_pct</string>
+    <string name="col_calc_battery_soh_pct" translatable="false">calc.battery_SOH_pct</string>
 
-    <string name="col_watcher_consumption">calc.consumption</string>
+    <string name="col_watcher_consumption" translatable="false">calc.consumption</string>
 
-    <string name="col_chargers_locations">chargers.locations</string>
+    <string name="col_chargers_locations" translatable="false">chargers.locations</string>
 
 
     <!-- Cellmap voltages -->
@@ -285,11 +295,53 @@
     <string name="_temp" translatable="false">temp</string>
     <string name="_amps" translatable="false">amps</string>
 
+    <!-- Texts refactored from hardcoded values -->
+    <!-- Preferences -->
+    <string name="enable_bluetooth_on_phone">Enable bluetooth on phone</string>
 
-    <!-- Debug (generic) -->
+    <!-- DC chargers page -->
+    <string name="from_charger_locations_provider">From goingelectric.de: </string>
+    <string name="click_to_see_details_in_browser">Click text to see details in browser</string>
+    <string name="car_estimated_remaining_range_km">Car estimated remaining range (km)</string>
+    <string name="below_are_out_of_range">Below are out of range!</string>
+    <string name="charge_point_verified">Verified</string>
+    <string name="straight_dist">Straight dist:</string>
+    <string name="no_chargers_nearby">No DC-chargers nearby!</string>
 
-    <string name="header_Debug">Debugging info</string>
-    <string name="label_debug">Debug\u0020</string>
-    <string name="default_debug">#Debug</string>
+    <!-- Car page -->
+    <string name="battery_soh_pct">Battery SOH %</string>
+    <string name="unknown_deterioration">unknown deterioration</string>
+    <string name="aux_battery">Aux battery</string>
+    <string name="ambient_temperature">Ambient Temperature</string>
+    <string name="odometer">Odometer</string>
+    <string name="vehicle_identification_number">Vehicle Identification Number</string>
+    <string name="unable_to_process_vin_response">Unable to process VIN response</string>
+    <string name="codes">codes</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="trim">Trim</string>
+    <string name="engine">Engine</string>
+    <string name="year">Year</string>
+    <string name="sequential_number">Sequential Number</string>
+    <string name="production_plant">Production Plant</string>
+
+    <!-- Energy and power page -->
+    <string name="speed">Speed</string>
+    <string name="car">car</string>
+    <string name="gps">gps</string>
+    <string name="car_estimated_remaining_range">Car estimated remaining range</string>
+    <string name="ac_off_extra">AC off extra</string>
+
+    <!-- GPS page -->
+    <string name="action_gps">GPS information</string>
+    <string name="lattitude">Lattitude</string>
+    <string name="longtitude">Longtitude</string>
+    <string name="deg">deg</string>
+    <string name="altitude">Altitude</string>
+
+    <!-- Contributors page -->
+
+    <string name="action_contributors">Contributors</string>
+    <string name="anonymous">Anonymous</string>
 
 </resources>

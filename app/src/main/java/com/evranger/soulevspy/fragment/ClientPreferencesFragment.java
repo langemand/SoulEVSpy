@@ -123,7 +123,7 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
                     // Do nothing, we will set the default summary instead
                 }
             } else {
-                btSummary = "Enable bluetooth on phone";
+                btSummary = getString(R.string.enable_bluetooth_on_phone);
             }
         }
 

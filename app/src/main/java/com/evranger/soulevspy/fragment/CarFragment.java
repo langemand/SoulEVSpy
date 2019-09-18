@@ -59,22 +59,22 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
         mItems.clear();
         Object SOH_pct = mValues.get(R.string.col_calc_battery_soh_pct);
         if (SOH_pct != null) {
-            mItems.add(new ListViewItem("Battery SOH %", new DecimalFormat("0.0").format(SOH_pct)));
+            mItems.add(new ListViewItem(mValues.getString(R.string.battery_soh_pct), new DecimalFormat("0.0").format(SOH_pct)));
         } else {
-            mItems.add(new ListViewItem("Battery SOH %", "unknown deterioration"));
+            mItems.add(new ListViewItem(mValues.getString(R.string.battery_soh_pct), mValues.getString(R.string.unknown_deterioration)));
         }
 
         Object DC_V = mValues.get(R.string.col_ELM327_voltage);
         if (DC_V != null) {
-            mItems.add(new ListViewItem("Aux battery", new String(DC_V.toString())));
+            mItems.add(new ListViewItem(mValues.getString(R.string.aux_battery), new String(DC_V.toString())));
         }
         Object amb = mValues.get(R.string.col_car_ambient_C);
         if (amb != null) {
-            mItems.add(new ListViewItem("Ambient Temperature", new DecimalFormat("0.0").format(unit.convertTemp((double)amb))+" "+unit.mTempUnit));
+            mItems.add(new ListViewItem(mValues.getString(R.string.ambient_temperature), new DecimalFormat("0.0").format(unit.convertTemp((double)amb))+" "+unit.mTempUnit));
         }
         Object odo = mValues.get(R.string.col_car_odo_km);
         if (odo != null) {
-            mItems.add(new ListViewItem("Odometer", new DecimalFormat("0.0").format(unit.convertDist((double)odo))+" "+unit.mDistUnit));
+            mItems.add(new ListViewItem(mValues.getString(R.string.odometer), new DecimalFormat("0.0").format(unit.convertDist((double)odo))+" "+unit.mDistUnit));
         }
         // ECU name(s)
         Map<String, Object> ecuNames = mValues.find("ECU.name.");
@@ -90,7 +90,7 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
             String codes = (String)dtcCodes.get(key);
             if (codes != null) {
                 int num = (codes.length() + 1) / 6;
-                mItems.add(new ListViewItem(key + " : " + num + " codes", codes));
+                mItems.add(new ListViewItem(key + " : " + num + " " + mValues.getString(R.string.codes), codes));
             }
         }
         Object vin_str = mValues.get(R.string.col_VIN);
@@ -98,18 +98,18 @@ public class CarFragment extends ListFragment implements CurrentValuesSingleton.
             KiaVinParser vin = new KiaVinParser(getContext(), vin_str.toString()); //"KNDJX3AEXG7123456");
             String str = vin.getVIN();
             if (str != null) {
-                mItems.add(new ListViewItem("Vehicle Identification Number", str));
+                mItems.add(new ListViewItem(mValues.getString(R.string.vehicle_identification_number), str));
                 if (!str.startsWith("error")) {
-                    mItems.add(new ListViewItem("Brand", vin.getBrand()));
-                    mItems.add(new ListViewItem("Model", vin.getModel()));
-                    mItems.add(new ListViewItem("Trim", vin.getTrim()));
-                    mItems.add(new ListViewItem("Engine", vin.getEngine()));
-                    mItems.add(new ListViewItem("Year", vin.getYear()));
-                    mItems.add(new ListViewItem("Sequential Number", vin.getSequentialNumber()));
-                    mItems.add(new ListViewItem("Production Plant", vin.getProductionPlant()));
+                    mItems.add(new ListViewItem(mValues.getString(R.string.brand), vin.getBrand()));
+                    mItems.add(new ListViewItem(mValues.getString(R.string.model), vin.getModel()));
+                    mItems.add(new ListViewItem(mValues.getString(R.string.trim), vin.getTrim()));
+                    mItems.add(new ListViewItem(mValues.getString(R.string.engine), vin.getEngine()));
+                    mItems.add(new ListViewItem(mValues.getString(R.string.year), vin.getYear()));
+                    mItems.add(new ListViewItem(mValues.getString(R.string.sequential_number), vin.getSequentialNumber()));
+                    mItems.add(new ListViewItem(mValues.getString(R.string.production_plant), vin.getProductionPlant()));
                 }
             } else {
-                mItems.add(new ListViewItem("Unable to process VIN response", vin_str.toString()));
+                mItems.add(new ListViewItem(mValues.getString(R.string.unable_to_process_vin_response), vin_str.toString()));
             }
         }
 

@@ -25,7 +25,7 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
     private List<ListViewItem> mItems = new ArrayList<>();
     private List<ListViewItem> mListItems = new ArrayList<>();
     private CurrentValuesSingleton mValues = null;
-    Unit unit = new Unit();
+    private Unit unit = new Unit();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,10 +60,11 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         int speedCount=0;
         Object carSpeed = mValues.get(R.string.col_car_speed_kph);
         StringBuilder speedHeader = new StringBuilder();
-        speedHeader.append("Speed ("+unit.mDistUnit+"/h)");
+        speedHeader.append(mValues.getString(R.string.speed) + " ("+unit.mDistUnit+"/h)");
         StringBuilder speedValue = new StringBuilder();
         if (carSpeed != null) {
-            speedHeader.append(" car");
+            speedHeader.append(" ");
+            speedHeader.append(mValues.getString(R.string.car));
             speedValue.append(new DecimalFormat("0.0").format(unit.convertDist((double)carSpeed)));
             ++speedCount;
         }
@@ -74,7 +75,8 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
                 speedHeader.append(" /");
                 speedValue.append(" / ");
             }
-            speedHeader.append(" gps");
+            speedHeader.append(" ");
+            speedHeader.append(mValues.getString(R.string.gps));
             speedValue.append(new DecimalFormat("0.0").format(unit.convertDist(gpsSpeedKmh)) + " " + unit.mDistUnit + "/h");
             ++speedCount;
         }
@@ -106,9 +108,9 @@ public class EnergyFragment extends ListFragment implements CurrentValuesSinglet
         Object remainingRange = mValues.get(R.string.col_range_estimate_km);
         Object extraWithClimateOff = mValues.get(R.string.col_range_estimate_for_climate_km);
         if (remainingRange != null && extraWithClimateOff != null) {
-            mItems.add(new ListViewItem("Car estimated remaining range ("+unit.mDistUnit+")",
+            mItems.add(new ListViewItem(mValues.getString(R.string.car_estimated_remaining_range) + " ("+unit.mDistUnit+")",
                     new DecimalFormat("0.0").format(unit.convertDist((int)remainingRange))+" "+unit.mDistUnit+
-                            ", AC off extra: " + new DecimalFormat("0.0").format(unit.convertDist((double)extraWithClimateOff)) + " "+unit.mDistUnit));
+                            ", " + mValues.getString(R.string.ac_off_extra) + ": " + new DecimalFormat("0.0").format(unit.convertDist((double)extraWithClimateOff)) + " "+unit.mDistUnit));
         }
 
         Map<String, Object> consumptions = mValues.find(mValues.getPreferences().getContext().getString(R.string.col_watcher_consumption));
