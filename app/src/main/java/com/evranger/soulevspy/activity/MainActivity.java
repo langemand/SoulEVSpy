@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private EnergyWatcher mEnergyWatcher = null;
     private FirebaseAnalytics mFirebaseAnalytics;
     private ModelSpecificCommands mModelSpecificCommands;
-
+    private int currentDialog;
 
     private boolean isPhoneCharging() {
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -218,6 +218,11 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         warningDialog(R.string.dialog_lite_splash_title, R.string.dialog_lite_splash_message);
 
         verifyLocationPermissions();
+
+        // Check if car model has been selected
+        if (mSharedPreferences.getCarModelStringValue().length() == 0) {// No car model selected
+            warningDialog(R.string.dialog_select_car_model_title, R.string.dialog_select_car_model_message);
+        }
 
         // Listen to GPS location updates
         mPosition = new Position(this);
@@ -302,6 +307,13 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private OnCheckedChangeListener mOnCheckedBluetoothDevice = new OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                if (mSharedPreferences.getBluetoothDeviceStringValue().length() == 0) {// No device selected
+                    warningDialog(R.string.dialog_select_bluetooth_dongle_title, R.string.dialog_select_bluetooth_dongle_message);
+                    buttonView.setChecked(false);
+                    return;
+                }
+            }
             if( !bluetoothDeviceConnect(isChecked) )
             {
                 buttonView.setChecked(false);
@@ -584,6 +596,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     public void warningDialog(int titleId, int messageId) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 mSharedPreferences.getContext());
+        MainActivity activity = (MainActivity)(mSharedPreferences.getContext());
+        activity.currentDialog=titleId;
 
         // set title
         alertDialogBuilder.setTitle(titleId);
@@ -597,6 +611,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         // if this button is clicked, just close
                         // the dialog box and do nothing
                         dialog.cancel();
+                        MainActivity activity = (MainActivity)(mSharedPreferences.getContext());
+                        activity.onDialogClosed();
                     }
                 });
 
@@ -605,6 +621,15 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
         // show it
         alertDialog.show();
+    }
+
+    private void onDialogClosed() {
+        if (currentDialog == R.string.dialog_authenticate_to_upload_title) {
+            authenticate();
+        } else if (currentDialog == R.string.dialog_select_car_model_title || currentDialog == R.string.dialog_select_bluetooth_dongle_title) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            MainActivity.this.startActivity(intent);
+        }
     }
 
     private void zipAndUpload(String fullpath) {

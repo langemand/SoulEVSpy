@@ -54,7 +54,7 @@ public class ClientSharedPreferences {
         PREF_SAVE_IN_DOWNLOADS = context.getString(R.string.key_check_storage_save_in_downloads_dir);
 
         // Load default values
-        DEFAULT_CAR_MODEL = context.getString(R.string.list_car_model_SoulEV2015);
+        DEFAULT_CAR_MODEL = "";
         DEFAULT_UNITS_DISTANCE = context.getString(R.string.list_distance_km);
         DEFAULT_UNITS_ENERGY_CONSUMPTION = context.getString(R.string.list_energy_consumption_kwh_100km);
         DEFAULT_UNITS_TEMPERATURE = context.getString(R.string.list_temperature_c);
