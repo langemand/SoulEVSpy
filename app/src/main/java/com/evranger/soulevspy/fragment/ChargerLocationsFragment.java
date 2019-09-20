@@ -71,9 +71,15 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
 //
 // TODO: average Wh/km for last n minutes, and remaining range at that rate
 //
-        Double remainingRange = (Double) mValues.get(R.string.col_range_estimate_km);
-        if (remainingRange != null) {
-            mItems.add(new ListViewItem(mValues.getString(R.string.car_estimated_remaining_range_km), new DecimalFormat("0.0").format(remainingRange)));
+        Object remainingRange = mValues.get(R.string.col_range_estimate_km);
+        Double range = null;
+        if (remainingRange instanceof Integer) {
+            range = (Integer)remainingRange + 0.0;
+        } else if (remainingRange instanceof Double) {
+            range =(Double)remainingRange;
+        }
+        if (range != null) {
+            mItems.add(new ListViewItem(mValues.getString(R.string.car_estimated_remaining_range_km), new DecimalFormat("0.0").format(range)));
         } else {
             remainingRange = 452.0;
         }
@@ -100,7 +106,7 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
                     ChargeLocation charger = nearChargers.get(i);
                     double dist_m = charger.get_distFromLookupPos();
 
-                    if (remainingRange != null && !warningAdded && dist_m > remainingRange * 1000) {
+                    if (range != null && !warningAdded && dist_m > range * 1000) {
                         warningAdded = true;
                         mItems.add(new ListViewItem("-------------------------------------------------------------------------------",
                                 mValues.getString(R.string.below_are_out_of_range)));
@@ -113,7 +119,7 @@ public class ChargerLocationsFragment extends ListFragment implements View.OnCli
                     } catch (Exception ex) {
                         //ignore
                     }
-                    String infoStr = mValues.getString(R.string.straight_dist) + " " + Double.toString(unit.convertDist(dist_km)) + " " + unit.mDistUnit + " " + (verified ? mValues.get(R.string.charge_point_verified) : "") + ":";
+                    String infoStr = mValues.getString(R.string.straight_dist) + " " + unit.convertDist(dist_km) + " " + unit.mDistUnit + " " + (verified ? mValues.getString(R.string.charge_point_verified) : "") + ":";
                     mItems.add(new ListLocationItem(infoStr, charger.get_readableName(), charger));
                 }
             } else if (nearChargers.size() == 0) {
