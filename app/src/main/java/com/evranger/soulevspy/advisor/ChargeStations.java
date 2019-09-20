@@ -37,6 +37,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     private boolean mDCChademo;
     private boolean mDCCcs;
     private double mFullRange;
+    private long mLastRequestSentTime = Long.MIN_VALUE;
     // Instantiate the RequestQueue.
     RequestQueue requestQueue = null;
 
@@ -96,7 +97,13 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
         if (mLastPosReDist.isDefined() && curPos.isDefined()) {
             redist = curPos.distance(mLastPosReDist);
         }
-        Double remainingRange = (Double) mValues.get("range_estimate_km");
+        Object range = mValues.get(R.string.col_range_estimate_km);
+        Double remainingRange = null;
+        if (range instanceof Integer) {
+            remainingRange = (Integer)range + 0.0;
+        } else if (range instanceof Double) {
+            remainingRange =(Double)range;
+        }
         if (remainingRange == null) {
             remainingRange = 200 * 1000.0;
         } else {
@@ -175,6 +182,14 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
     }
 
     private void getJSONFromMobileDe(Pos pos, double range) {
+        // If a request was sent within the last 165 minutes, and has not been answered yet, don't send a new request
+        Object recTimeObj = CurrentValuesSingleton.getInstance().get(R.string.charger_locations_update_time_ms);
+        if (recTimeObj instanceof Long) {
+            long lastRecTime = (long)recTimeObj;
+            if (lastRecTime <= mLastRequestSentTime && lastRecTime > (mLastRequestSentTime - 15 * 60 * 1000)) {
+                return;
+            }
+        }
         StringBuilder plugs = new StringBuilder();
         if (mDCChademo) {
             plugs.append("CHAdeMO");
@@ -194,6 +209,7 @@ public class ChargeStations implements CurrentValuesSingleton.CurrentValueListen
 
         logChargeStationsRequestEvent(pos, range);
 
+        mLastRequestSentTime = System.currentTimeMillis();
 // Request a string response from the URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
