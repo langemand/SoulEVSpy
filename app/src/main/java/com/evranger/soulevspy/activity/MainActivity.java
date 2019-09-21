@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private Drawer mDrawer;
     private BackButtonDialog backButtonDialog = null;
     private SwitchDrawerItem bluetoothEnable = null;
-    private ReplayLoop mReplayLoop;
+    private ReplayLoop mReplayLoop = null;
 
 
     // Storage Permissions
@@ -454,6 +454,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
     private boolean bluetoothDeviceConnect(boolean connect){
         if (mReplayLoop != null) {
             mReplayLoop.stop();
+            CurrentValuesSingleton.getInstance().clear();
+            mReplayLoop = null;
             mPosition.listen(true);
 
         }

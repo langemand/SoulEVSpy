@@ -83,11 +83,14 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                 lastModule = i;
                 lastTemperature[i] = value;
                 meantemp += value;
+            } else {
+                lastTemperature[i] = 0;
             }
         }
         meantemp /= (lastModule+1);
 
         mean = 0;
+        lastCell = 0;
         double lowest = 5;
         double highest = 3;
         for (int j = 0; j < 100; ++j) {
@@ -106,16 +109,14 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
             if (lastVoltage[j] > highest) highest = lastVoltage[j];
         }
 
-        if (mean != 0) {
-            mean /= (lastCell + 1);
-            cutoff = lowest < 3.712 ? mean - (highest - mean) * 1.5 - 0.0199 : 2;
+        mean /= (lastCell + 1);
+        cutoff = lowest < 3.712 ? mean - (highest - mean) * 1.5 - 0.0199 : 2;
 
-            viewmean = mean;
-            viewmeantemp = meantemp;
-            viewlastCell = lastCell;
-            viewlastModule = lastModule;
-            viewcutoff = cutoff;
-        }
+        viewmean = mean;
+        viewmeantemp = meantemp;
+        viewlastCell = lastCell;
+        viewlastModule = lastModule;
+        viewcutoff = cutoff;
 
         // the update has to be done in a separate thread
         // otherwise the UI will not be repainted
@@ -127,11 +128,14 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                     for (int i = 1; i <= 8; ++i) {
                         int value = lastTemperature[i-1];
                         TextView tv = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_module_" + i + "_temperature", "id", packageName));
-                        if (tv == null || value == 0) {
+                        if (tv == null) {
                             break;
                         }
                         int color = (int) (100 * (value - viewmeantemp));
-                        if (i <= viewlastModule+1) {
+                        if (value == 0 || i > viewlastModule+1) {
+                            tv.setText("");
+                            color = 0xffc0c0c0;
+                        } else {
                             tv.setText(new DecimalFormat("0.0").format(unit.convertTemp(value)));
 
                             if (color > 62) {
@@ -143,20 +147,20 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                             } else {
                                 color = 0xffc0c0ff;
                             }
-                        } else {
-                            tv.setText("");
-                            color = 0xffc0c0c0;
                         }
                         tv.setBackgroundColor(color);
                     }
                     // Cell voltages
                     for (int i = 0; i < 100; i++) {
                         TextView tv = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("text_cell_" + (i+1) + "_voltage", "id", packageName));
-                        if (tv == null || viewmean == 0) {
+                        if (tv == null) {
                             break;
                         }
                         int color = (int) (2500 * (lastVoltage[i] - viewmean)); // color is temp minus mean. 1mV difference is 5 color ticks
-                        if (i <= viewlastCell) {
+                        if (viewmean == 0 || i > viewlastCell) {
+                            tv.setText("");
+                            color = 0xffc0c0c0;
+                        } else {
                             tv.setText(String.format(Locale.getDefault(), "%.2f", lastVoltage[i]));
                             if (lastVoltage[i] <= viewcutoff) {
                                 color = 0xffff4040;
@@ -169,9 +173,6 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                             } else {
                                 color = 0xffc0c0ff;
                             }
-                        } else {
-                            tv.setText("");
-                            color = 0xffc0c0c0;
                         }
                         tv.setBackgroundColor(color);
                     }

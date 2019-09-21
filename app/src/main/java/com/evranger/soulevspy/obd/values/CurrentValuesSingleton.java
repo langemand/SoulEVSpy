@@ -162,6 +162,7 @@ public class CurrentValuesSingleton {
             for (String key : mValues.keySet()) {
                 mValues.put(key, null);
             }
+            set(R.string.col_system_scan_end_time_ms, System.currentTimeMillis());
         } finally {
             mLock.unlock();
         }
