@@ -31,18 +31,18 @@ import com.evranger.soulevspy.car_model.ModelSpecificCommands;
 import com.evranger.soulevspy.fragment.BatteryCellmapFragment;
 import com.evranger.soulevspy.fragment.EnergyFragment;
 import com.evranger.soulevspy.io.Position;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
+//import com.firebase.ui.auth.AuthUI;
+//import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseUser;
+//import com.google.firebase.storage.FirebaseStorage;
+//import com.google.firebase.storage.OnProgressListener;
+//import com.google.firebase.storage.StorageReference;
+//import com.google.firebase.storage.StorageTask;
+//import com.google.firebase.storage.UploadTask;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
@@ -77,9 +77,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -559,20 +557,20 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
             }
             mReplayLoop = new ReplayLoop(selectedFile, this);
         }
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                // ...
-            } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-            }
-        }
+//        if (requestCode == RC_SIGN_IN) {
+//            IdpResponse response = IdpResponse.fromResultIntent(data);
+//
+//            if (resultCode == RESULT_OK) {
+//                // Successfully signed in
+//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                // ...
+//            } else {
+//                // Sign in failed. If response is null the user canceled the
+//                // sign-in flow using the back button. Otherwise check
+//                // response.getError().getErrorCode() and handle the error.
+//                // ...
+//            }
+//        }
     }
 
 
@@ -627,7 +625,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
 
     private void onDialogClosed() {
         if (currentDialog == R.string.dialog_authenticate_to_upload_title) {
-            authenticate();
+//            authenticate();
         } else if (currentDialog == R.string.dialog_select_car_model_title || currentDialog == R.string.dialog_select_bluetooth_dongle_title) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             MainActivity.this.startActivity(intent);
@@ -660,7 +658,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                 String abspath = zipFile.getAbsolutePath();
                 zip(fullpath, abspath);
                 // Upload Zipped File to cloud
-                upload(abspath);
+//                upload(abspath);
             } catch (Exception ex) {
                 // ?
             }
@@ -684,65 +682,65 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         fos.close();
     }
 
-    public void upload(String path) {
-        // Create a storage reference from our app
-        //Firebase
-        FirebaseStorage storage;
-        StorageReference storageReference;
-        storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
+//    public void upload(String path) {
+//        // Create a storage reference from our app
+//        //Firebase
+//        FirebaseStorage storage;
+//        StorageReference storageReference;
+//        storage = FirebaseStorage.getInstance();
+//        StorageReference storageRef = storage.getReference();
+//
+//        Uri filePath = Uri.fromFile(new File(path));
+//
+//// Create a reference to 'data/temp.zip'
+//        StorageReference tempDataRef = storageRef.child("data/temp.zip");
+//
+//        final ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.setTitle("Uploading...");
+//        progressDialog.show();
+//
+//        StorageTask task = tempDataRef.putFile(filePath)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        progressDialog.dismiss();
+//                        Toast.makeText(MainActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        progressDialog.dismiss();
+//                        Toast.makeText(MainActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                        double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+//                                .getTotalByteCount());
+//                        progressDialog.setMessage("Uploaded "+(int)progress+"%");
+//                    }
+//                });
+//int i = 0;
+//    }
 
-        Uri filePath = Uri.fromFile(new File(path));
-
-// Create a reference to 'data/temp.zip'
-        StorageReference tempDataRef = storageRef.child("data/temp.zip");
-
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading...");
-        progressDialog.show();
-
-        StorageTask task = tempDataRef.putFile(filePath)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-                        Toast.makeText(MainActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(MainActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                .getTotalByteCount());
-                        progressDialog.setMessage("Uploaded "+(int)progress+"%");
-                    }
-                });
-int i = 0;
-    }
-
-    void authenticate() {
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
-//                new AuthUI.IdpConfig.FacebookBuilder().build(),
-//                new AuthUI.IdpConfig.TwitterBuilder().build());
-
-// Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
-
-    }
+//    void authenticate() {
+//        // Choose authentication providers
+//        List<AuthUI.IdpConfig> providers = Arrays.asList(
+//                new AuthUI.IdpConfig.EmailBuilder().build(),
+//                new AuthUI.IdpConfig.PhoneBuilder().build(),
+//                new AuthUI.IdpConfig.GoogleBuilder().build());
+////                new AuthUI.IdpConfig.FacebookBuilder().build(),
+////                new AuthUI.IdpConfig.TwitterBuilder().build());
+//
+//// Create and launch sign-in intent
+//        startActivityForResult(
+//                AuthUI.getInstance()
+//                        .createSignInIntentBuilder()
+//                        .setAvailableProviders(providers)
+//                        .build(),
+//                RC_SIGN_IN);
+//
+//    }
 }
