@@ -1,0 +1,386 @@
+<resources>
+
+    <string name="app_name">Soul EV Spy</string>
+
+
+
+    <!-- Navigation Drawer -->
+
+    <string name="action_bluetooth">Verbindung via Bluetooth</string>
+
+    <string name="action_car_information">Auto</string>
+
+    <string name="action_vmcu_information">Motorkontrolle</string>
+
+    <string name="action_obc_information">Onboard-Ladegerät</string>
+
+    <string name="action_energy">Energie und Power</string>
+
+    <string name="action_charger_locations">DC-Lader (klicken für Details)</string>
+
+    <string name="action_ldc">LDC 12 V Aux-Ladegerät</string>
+
+    <string name="action_tires">Reifendaten</string>
+
+    <string name="action_dashboard">Dashboard</string>
+
+    <string name="action_dtc">DTC Codes</string>
+
+    <string name="action_battery_cellmap">Batteriezellenzuordnung</string>
+
+    <string name="action_battery">Batterie Management System</string>
+
+    <string name="action_settings">Einstellungen</string>
+
+    <string name="action_replay">Aufgezeichnete Daten wiedergeben</string>
+
+    <string name="action_demo">Demodaten abspielen</string>
+
+    <string name="action_help">Hilfe &amp; Feedback</string>
+
+
+
+   <!-- SettingsActivity -->
+
+    <string name="title_activity_settings">Einstellungen</string>
+
+
+
+    <string name="title_pref_car_models">Automodelle</string>
+
+    <string name="pref_car_model">Modell</string>
+
+    <string name="list_car_model_RayEV">Kia Ray EV</string>
+
+    <string name="list_car_model_SoulEV2015">Kia Soul EV 2015-2019</string>
+
+    <string name="list_car_model_eNiro">Kia e-Niro</string>
+
+    <string name="list_car_model_eSoul">Kia e-Soul 2020-</string>
+
+    <string name="list_car_model_BlueOnEV">Hyundai BlueOn EV</string>
+
+    <string name="list_car_model_IoniqEV">Hyundai Ioniq</string>
+
+    <string name="list_car_model_KonaEV">Hyundai Kona</string>
+
+    <string name="list_car_model_MonitorMode">Monitor Modus</string>
+
+
+
+    <string name="title_pref_units">Einheiten</string>
+
+    <string name="pref_distance">Entfernung</string>
+
+    <string name="list_distance_km">Kilometer (km)</string>
+
+    <string name="list_distance_mi">Miles (mi)</string>
+
+
+
+    <string name="pref_energy_consumption">Energieverbrauch</string>
+
+    <string name="list_energy_consumption_kwh_100km">kWh/100 km</string>
+
+    <string name="list_energy_consumption_km_kwh">km/kWh</string>
+
+    <string name="list_energy_consumption_kwh_100mi">kWh/100 mi</string>
+
+    <string name="list_energy_consumption_mi_kwh">mi/kWh</string>
+
+
+
+    <string name="pref_temperature">Temperatur</string>
+
+    <string name="list_temperature_c">Celsius (\u2103)</string>
+
+    <string name="list_temperature_f">Fahrenheit (\u2109)</string>
+
+    <string name="pref_pressure">Druck</string>
+    <string name="list_pressure_psi">Pfund pro Quadratzoll (psi)</string>
+    <string name="list_pressure_bar">Bar (bar)</string>
+    <string name="list_pressure_kpa">kilopascal (kPa)</string>
+
+    <string name="title_pref_bluetooth">Bluetooth</string>
+    <string name="pref_bluetooth_device">Bluetooth-Gerät</string>
+    <string name="pref_bluetooth_device_summary">Wählen Sie Ihr OBD-II Bluetooth-Gerät</string>
+    <string name="pref_auto_reconnect">Automatische Wiederherstellung</string>
+    <string name="pref_scan_interval">Zeitintervall zwischen Scans (Sekunden)</string>
+    <string name="pref_default_scan_interval">3.0</string>
+
+    <string name="title_pref_storage">Storage</string>
+    <string name="pref_storage_upload_to_cloud">Daten in die Cloud hochladen (kann Gebühren verursachen!)</string>
+    <string name="pref_storage_save_in_downloads_dir">Daten in Downloadsverzeichnis speichern</string>
+
+    <string name="title_pref_about">Über</string>
+    <string name="pref_about">Über Soul EV Spy</string>
+
+    <string name="pref_licenses">Open Source-Lizenzen</string>
+
+    <string name="pref_licenses_summary">Lizenzdetails für Open Source-Software</string>
+
+    <string name="pref_version_summary">Version %1$s</string>
+
+    <string name="pref_privacy_policy">Datenschutzrichtlinie</string>
+
+    <string name="pref_privacy_policy_summary">Datenschutzrichtlinie für diese App</string>
+
+
+
+    <string name="dialog_back_button_message">Beenden von SoulEVSpy?</string>
+
+    <string name="dialog_back_button_terminate">Beenden</string>
+
+    <string name="dialog_back_button_background">Hintergrund</string>
+
+    <string name="dialog_back_button_cancel">Abbrechen</string>
+
+
+
+    <string name="dialog_warn_data_not_saved_title">"WARNUNG: Daten werden nicht gespeichert!"</string>
+
+    <string name="dialog_warn_data_not_saved_message">Keine dieser Einstellungen ist aktiviert:\n
+
+        \n
+
+        - Daten in die Cloud hochladen (kann Gebühren verursachen!)\n
+
+        - Daten in Downloadsverzeichnis speichern\n
+
+        \n
+
+        Die Daten werden aus dem Auto gelesen und auf dem Bildschirm angezeigt, aber nicht gespeichert!\n
+
+        Klicken Sie auf OK zum fortfahren</string>
+
+    <string name="dialog_Ok">Ok</string>
+
+
+
+    <string name="dialog_authenticate_to_upload_title">Authentifizierung erforderlich</string>
+
+    <string name="dialog_authenticate_to_upload_message">Sie müssen sich authentifizieren, um Daten hochzuladen Daten. Sie werden aufgefordert, sich als nächstes anzumelden.</string>
+
+
+
+    <string name="dialog_select_bluetooth_dongle_title">OBD-II-Dongle auswählen</string>
+
+    <string name="dialog_select_bluetooth_dongle_message">Bitte wählen Sie Ihren gekoppelten OBD-II Bluetooth-Dongle in den App-Einstellungen aus</string>
+
+
+
+    <string name="dialog_select_car_model_title">Wählen Sie Ihr Automodell</string>
+
+    <string name="dialog_select_car_model_message">Bitte wählen Sie Ihr Automodell in den App-Einstellungen</string>
+
+
+
+    <!-- Main Activity -->
+
+    <string name="dongle_connecting">SoulEVSpy Verbindung aufbauen...</string>
+
+    <string name="dongle_disconnecting">SoulEVSpy Verbindung trennen...</string>
+
+    <string name="dongle_connected">SoulEVSpy verbunden</string>
+
+    <string name="dongle_disconnected">SoulEVSpy getrennt</string>
+
+
+
+    <!-- Error messages -->
+
+    <string name="error_bluetooth_not_available">Bluetooth ist nicht verfügbar</string>
+
+    <string name="error_no_bluetooth_device">Kein Bluetooth-Gerät ausgewählt</string>
+
+    <string name="error_bluetooth_service_not_available">Bluetooth-Dienst ist nicht verfügbar</string>
+
+
+
+    <!-- Information messages -->
+
+    <string name="info_disconnect_bluetooth_to_start_replay">Bitte Bluetooth zuerst trennen</string>
+
+    <string name="info_data_will_not_be_saved">Daten werden nicht gespeichert!</string>
+
+
+
+    <!-- File names -->
+
+
+
+
+
+    <!-- ChargerLocations -->
+
+
+
+    <!-- Car Information (VIN decoding) -->
+
+
+
+
+
+
+
+    <string name="car_trim_base">Base</string>
+
+    <string name="car_trim_eniro_first_edition_base">First Edition Base</string>
+
+    <string name="car_trim_ioniq_trend">Trend</string>
+
+    <string name="car_trim_ioniq_se">SE</string>
+
+    <string name="car_trim_plus">Plus/Luxury</string>
+
+    <string name="car_trim_exclusive">Exclusive</string>
+
+    <string name="car_unknown">Unknown</string>
+
+
+
+
+
+    <string name="car_south_korea">Süd Korea</string>
+
+
+
+    <!-- Data column labels -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Cellmap voltages -->
+
+
+
+    <string name="title_activity_cellmap_cellvoltage">Spannung der Zellen (Volt)</string>
+
+    <string name="button_CellmapVoltage">Spannung der Zellen (Volt)</string>
+
+
+
+    <!-- Texts refactored from hardcoded values -->
+
+    <!-- Preferences -->
+
+    <string name="enable_bæluetooth_on_phone">Bluetooth am Telefon aktivieren</string>
+
+
+
+    <!-- DC chargers page -->
+
+    <string name="from_charger_locations_provider">Von goingelectric.de: </string>
+
+    <string name="click_to_see_details_in_browser">Klicken Sie auf Text, um Details im Browser anzuzeigen</string>
+
+    <string name="car_estimated_remaining_range_km">Geschätzte verbleibende Reichweite (km)</string>
+
+    <string name="below_are_out_of_range">unterhalb des Bereiches!</string>
+
+    <string name="charge_point_verified">Verifiziert</string>
+
+    <string name="straight_dist">Luftlinie:</string>
+
+    <string name="no_chargers_nearby">Keine DC-Lader in der Nähe!</string>
+
+
+
+    <!-- Car page -->
+
+    <string name="battery_soh_pct">Batterie SOH %</string>
+
+    <string name="unknown_deterioration">unbekannte Verschlechterung</string>
+
+    <string name="aux_battery">12V batterie</string>
+
+    <string name="ambient_temperature">Umgebungstemperatur</string>
+
+    <string name="odometer">Kilometerzähler</string>
+
+    <string name="vehicle_identification_number">Fahrzeugidentificationsnummer (FIN)</string>
+
+    <string name="unable_to_process_vin_response">FIN-Nummer kann nicht verarbeitet werden</string>
+
+    <string name="codes">Code</string>
+
+    <string name="brand">Marke</string>
+
+    <string name="model">Modell</string>
+
+    <string name="trim">Variante</string>
+
+    <string name="engine">Energie</string>
+
+    <string name="year">Jahr</string>
+
+    <string name="sequential_number">Sequenzielle Nummer</string>
+
+    <string name="production_plant">Produktionsfabrik</string>string>
+
+
+
+    <!-- Energy and power page -->
+
+    <string name="speed">Geschindigkeit</string>
+
+    <string name="car">Auto</string>
+
+    <string name="gps">gps</string>
+
+    <string name="car_estimated_remaining_range">Geschätzte verbleibende Reichweite</string>
+
+    <string name="ac_off_extra">Ohne Klimaanlage zusätzliche Reichweite</string>
+
+
+
+    <!-- GPS page -->
+
+    <string name="action_gps">"GPS informationen"</string>
+
+    <string name="lattitude">Breite</string>
+
+    <string name="longtitude">Länge</string>
+
+    <string name="deg">Grad</string>
+
+    <string name="altitude">Höhe</string>
+
+
+
+    <!-- Contributors page -->
+
+
+
+    <string name="action_contributors">Mitwirkende</string>
+
+    <string name="anonymous">Anonym</string>
+
+
+
+</resources>
