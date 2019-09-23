@@ -99,7 +99,7 @@
     <string name="pref_pressure">Druck</string>
     <string name="list_pressure_psi">Pfund pro Quadratzoll (psi)</string>
     <string name="list_pressure_bar">Bar (bar)</string>
-    <string name="list_pressure_kpa">kilopascal (kPa)</string>
+<!--    <string name="list_pressure_kpa">kilopascal (kPa)</string> -->
 
     <string name="title_pref_bluetooth">Bluetooth</string>
     <string name="pref_bluetooth_device">Bluetooth-Gerät</string>
@@ -161,6 +161,8 @@
 
     <string name="dialog_authenticate_to_upload_message">Sie müssen sich authentifizieren, um Daten hochzuladen Daten. Sie werden aufgefordert, sich als nächstes anzumelden.</string>
 
+    <string name="dialog_lite_splash_title">Notice</string>
+    <string name="dialog_lite_splash_message">This free app (Soul EV Spy Lite) no longer save data-files in the Download dir, and will no longer be improved. Please consider upgrading to the paid app (Soul EV Spy).</string>
 
 
     <string name="dialog_select_bluetooth_dongle_title">OBD-II-Dongle auswählen</string>
@@ -289,7 +291,7 @@
 
     <!-- Preferences -->
 
-    <string name="enable_bæluetooth_on_phone">Bluetooth am Telefon aktivieren</string>
+    <string name="enable_bluetooth_on_phone">Bluetooth am Telefon aktivieren</string>
 
 
 
