@@ -241,7 +241,9 @@ public class BatteryCellmapFragment extends Fragment implements CurrentValuesSin
                         }
                     }
                     TextView tv = (TextView) ((MainActivity) mValues.getPreferences().getContext()).findViewById(getResources().getIdentifier("title_temperatures", "id", packageName));
-                    tv.setText(mValues.getString(R.string._temp)+" "+unit.mTempUnit);
+                    if (tv != null) {
+                        tv.setText(mValues.getString(R.string._temp) + " " + unit.mTempUnit);
+                    }
                 } catch (IllegalStateException ex) {
                     // Probably the fragment was closed when user selected another
                     int j = 5;
