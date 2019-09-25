@@ -85,6 +85,12 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
             return true;
         }
 
+        if (preference.getKey().equals(getString(R.string.key_application_version)))
+        {
+            displayContributors();
+            return true;
+        }
+
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
@@ -245,5 +251,21 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
         ab.setView(mWebview)
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
+    }
+
+    private void displayContributors() {
+// TODO
+//        Context c = getActivity();
+//
+//        // Prepare the view
+//        WebView view = (WebView) LayoutInflater.from(c).inflate(R.layout.dialog_contributors, null);
+//        view.loadUrl("file:///android_asset/contributors.html");
+//
+//        // Show the dialog
+//        AlertDialog.Builder ab = new AlertDialog.Builder(c, R.style.Theme_AppCompat_Light_Dialog_Alert);
+//        ab.setTitle(R.string.pref_about);
+//        ab.setView(view)
+//                .setPositiveButton(android.R.string.ok, null)
+//                .show();
     }
 }
