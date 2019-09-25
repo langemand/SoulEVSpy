@@ -161,9 +161,8 @@
 
     <string name="dialog_authenticate_to_upload_message">Sie müssen sich authentifizieren, um Daten hochzuladen Daten. Sie werden aufgefordert, sich als nächstes anzumelden.</string>
 
-    <string name="dialog_lite_splash_title">Notice</string>
-    <string name="dialog_lite_splash_message">This free app (Soul EV Spy Lite) no longer save data-files in the Download dir, and will no longer be improved. Please consider upgrading to the paid app (Soul EV Spy).</string>
-
+    <string name="dialog_lite_splash_title">Zur Information</string>
+    <string name="dialog_lite_splash_message">Diese kostenlose App (Soul EV Spy Lite) speichert keine Datendateien mehr im Download-Verzeichnis und wird nicht mehr verbessert. Bitte erwägen Sie ein Upgrade auf die kostenpflichtige App (Soul EV Spy).</string>
 
     <string name="dialog_select_bluetooth_dongle_title">OBD-II-Dongle auswählen</string>
 
