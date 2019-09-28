@@ -51,10 +51,11 @@
     <string name="pref_pressure">Lufttryk</string>
     <string name="list_pressure_psi">Psi (psi)</string>
     <string name="list_pressure_bar">Bar (bar)</string>
+    <string name="list_pressure_kpa">kilopascal (kPa)</string>
 
     <string name="title_pref_bluetooth">Bluetooth</string>
     <string name="pref_bluetooth_device">Bluetooth enhed</string>
-    <string name="pref_bluetooth_device_summary">Vælg din parrede ELM327 Bluetooth enhed</string>
+    <string name="pref_bluetooth_device_summary">Vælg din parrede OBD-II Bluetooth enhed</string>
     <string name="pref_auto_reconnect">Gen-forbind automatisk</string>
     <string name="pref_scan_interval">Interval mellem scan (sekunder)</string>
     <string name="pref_default_scan_interval">3.0</string>
@@ -149,7 +150,7 @@
     <!-- Car page -->
     <string name="battery_soh_pct">Batteri SOH %</string>
     <string name="unknown_deterioration">ukendt deterioration</string>
-    <string name="aux_battery">Start batteri</string>
+    <string name="aux_battery">12V batteri</string>
     <string name="ambient_temperature">Udendørs Temperatur</string>
     <string name="odometer">Kilometertæller</string>
     <string name="vehicle_identification_number">Serienummer (VIN)</string>

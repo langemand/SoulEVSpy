@@ -51,10 +51,11 @@
     <string name="pref_pressure">Pressure</string>
     <string name="list_pressure_psi">Pounds per Square Inch (psi)</string>
     <string name="list_pressure_bar">Bar (bar)</string>
+    <string name="list_pressure_kpa">kilopascal (kPa)</string>
 
     <string name="title_pref_bluetooth">Bluetooth</string>
     <string name="pref_bluetooth_device">Bluetooth device</string>
-    <string name="pref_bluetooth_device_summary">Select your ELM327 Bluetooth device</string>
+    <string name="pref_bluetooth_device_summary">Select your OBD-II Bluetooth device</string>
     <string name="pref_auto_reconnect">Re-connect automatically</string>
     <string name="pref_scan_interval">Interval between scans (seconds)</string>
     <string name="pref_default_scan_interval">3.0</string>
@@ -220,6 +221,8 @@
     <string name="col_battery_is_charging" translatable="false">battery.is_charging</string>
     <string name="col_battery_ChaDeMo_is_plugged" translatable="false">battery.ChaDeMo_is_plugged</string>
     <string name="col_battery_J1772_is_plugged" translatable="false">battery.J1772_is_plugged</string>
+    <string name="col_battery_main_relay_is_on" translatable="false">battery.main_relay_is_on</string>
+    <string name="col_battery_car_is_ignition_on" translatable="false">battery.car_is_ignition_on</string>
     <string name="col_battery_SOC" translatable="false">battery.SOC_pct</string>
     <string name="col_battery_display_SOC" translatable="false">battery.SOC_display_pct</string>
     <string name="col_battery_decimal_SOC" translatable="false">battery.SOC_decimal_pct</string>
@@ -234,6 +237,7 @@
     <string name="col_battery_accumulative_discharge_power_kWh" translatable="false">battery.accumulative_discharge_power_kWh</string>
     <string name="col_battery_accumulative_operating_time_s" translatable="false">battery.accumulative_operating_time_s</string>
     <string name="col_battery_drive_motor_rpm" translatable="false">battery.drive_motor_speed_rpm</string>
+    <string name="col_battery_capacitor_v" translatable="false">battery.capcitor_v</string>
     <string name="col_battery_inlet_temperature_C" translatable="false">battery.inlet_temperature_C</string>
     <string name="col_battery_max_temperature_C" translatable="false">battery.max_temperature_C</string>
     <string name="col_battery_min_temperature_C" translatable="false">battery.min_temperature_C</string>

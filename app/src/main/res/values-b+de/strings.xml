@@ -99,7 +99,7 @@
     <string name="pref_pressure">Druck</string>
     <string name="list_pressure_psi">Pfund pro Quadratzoll (psi)</string>
     <string name="list_pressure_bar">Bar (bar)</string>
-<!--    <string name="list_pressure_kpa">kilopascal (kPa)</string> -->
+    <string name="list_pressure_kpa">kilopascal (kPa)</string>
 
     <string name="title_pref_bluetooth">Bluetooth</string>
     <string name="pref_bluetooth_device">Bluetooth-Gerät</string>
@@ -237,9 +237,6 @@
     <string name="car_trim_exclusive">Exclusive</string>
 
     <string name="car_unknown">Unknown</string>
-
-
-
 
 
     <string name="car_south_korea">Süd Korea</string>
