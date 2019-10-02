@@ -183,10 +183,11 @@ public class ReadLoop {
                     mService.getProtocol().addCommand(command);
                 }
                 SystemClock.sleep(2000L);
-                if (vals.get(R.string.col_system_scan_start_time_ms) != null) {
-                    while (vals.get(R.string.col_system_scan_end_time_ms) == null || vals.get(R.string.col_system_scan_start_time_ms) == null ||
-                            (Long) vals.get(R.string.col_system_scan_end_time_ms) < (Long) vals.get(R.string.col_system_scan_start_time_ms) ||
-                            (Long) vals.get(R.string.col_system_scan_start_time_ms) == last_log_time) {
+                Object startTime = vals.get(R.string.col_system_scan_start_time_ms);
+                if (startTime != null) {
+                    while (vals.get(R.string.col_system_scan_end_time_ms) == null ||
+                            (Long) vals.get(R.string.col_system_scan_end_time_ms) < (Long)startTime ||
+                            (Long)startTime == last_log_time) {
                         SystemClock.sleep(100L);
                     }
                 }
