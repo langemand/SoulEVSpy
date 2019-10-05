@@ -185,9 +185,12 @@ public class ReadLoop {
                 SystemClock.sleep(2000L);
                 Object startTime = vals.get(R.string.col_system_scan_start_time_ms);
                 if (startTime != null) {
-                    while (vals.get(R.string.col_system_scan_end_time_ms) == null ||
-                            (Long) vals.get(R.string.col_system_scan_end_time_ms) < (Long)startTime ||
-                            (Long)startTime == last_log_time) {
+                    Object endTime;
+                    while (!mLoopThread.isInterrupted() &&
+                            ((endTime = vals.get(R.string.col_system_scan_end_time_ms)) == null ||
+                                    (startTime = vals.get(R.string.col_system_scan_start_time_ms)) == null ||
+                                    (Long)endTime < (Long)startTime ||
+                                    (Long)startTime == last_log_time)) {
                         SystemClock.sleep(100L);
                     }
                 }
