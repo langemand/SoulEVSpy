@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Soul EV Spy</string>
     <string name="app_name_lite">Soul EV Spy Lite</string>
-
+    
     <!-- Navigation Drawer -->
 
     <string name="action_bluetooth">Connection Bluetooth</string>
@@ -130,58 +130,108 @@
 
     <string name="car_south_korea">Corée du Sud</string>
 
-    <!-- Cellmap voltages -->
 
-    <string name="title_activity_cellmap_cellvoltage">Voltage cellmap</string>
-    <string name="button_CellmapVoltage">Voltage cellmap</string>
+
+    <!-- Texts refactored from hardcoded values -->
 
     <!-- Preferences -->
-    <string name="enable_bluetooth_on_phone">Enable bluetooth on phone</string>
+
+    <string name="enable_bluetooth_on_phone">Activer bluetooth sur le tÈlÈphone</string>
+
+
+    <!-- Cellmap voltages -->
+
+    <string name="title_activity_cellmap_cellvoltage">Carte de tension</string>
+    <string name="button_CellmapVoltage">Carte de tension</string>
+
 
     <!-- DC chargers page -->
+
     <string name="from_charger_locations_provider">From goingelectric.de: </string>
-    <string name="click_to_see_details_in_browser">Click text to see details in browser</string>
-    <string name="car_estimated_remaining_range_km">Car estimated remaining range (km)</string>
-    <string name="below_are_out_of_range">Below are out of range!</string>
-    <string name="charge_point_verified">Verified</string>
-    <string name="straight_dist">Straight dist:</string>
-    <string name="no_chargers_nearby">No DC-chargers nearby!</string>
+
+    <string name="click_to_see_details_in_browser">Cliquer pour voir les dÈtails dans le navigateur</string>
+
+    <string name="car_estimated_remaining_range_km">Estimation de l\'autonomie restante (km)</string>
+
+    <string name="below_are_out_of_range">Ci-dessous, hors de portÈe!</string>
+
+    <string name="charge_point_verified">VÈrifiÈ</string>
+
+    <string name="straight_dist">Distance droite:</string>
+
+    <string name="no_chargers_nearby">Pas de chargeurs DC ‡ proximitÈ!</string>
+
+
 
     <!-- Car page -->
-    <string name="battery_soh_pct">Battery SOH %</string>
-    <string name="unknown_deterioration">unknown deterioration</string>
-    <string name="aux_battery">Aux battery</string>
-    <string name="ambient_temperature">Ambient Temperature</string>
-    <string name="odometer">Odometer</string>
-    <string name="vehicle_identification_number">Vehicle Identification Number</string>
-    <string name="unable_to_process_vin_response">Unable to process VIN response</string>
-    <string name="codes">codes</string>
-    <string name="brand">Brand</string>
-    <string name="model">Model</string>
-    <string name="trim">Trim</string>
-    <string name="engine">Engine</string>
-    <string name="year">Year</string>
-    <string name="sequential_number">Sequential Number</string>
-    <string name="production_plant">Production Plant</string>
+
+    <string name="battery_soh_pct">SOH% de la batterie</string>
+
+    <string name="unknown_deterioration">DÈtÈrioration inconnue</string>
+
+    <string name="aux_battery">Batterie auxiliaire</string>
+
+    <string name="ambient_temperature">TempÈrature ambiante</string>
+
+    <string name="odometer">OdomËtre</string>
+
+    <string name="vehicle_identification_number">NumÈro d\'identification du vÈhicule</string>
+
+    <string name="unable_to_process_vin_response">Impossible de traiter la rÈponse du NIV</string>
+
+    <string name="codes">Codes</string>
+
+    <string name="brand">Marque</string>
+
+    <string name="model">ModËle</string>
+
+    <string name="trim">Couleur</string>
+
+    <string name="engine">Moteur</string>
+
+    <string name="year">AnnÈe</string>
+
+    <string name="sequential_number">NumÈro sÈquentiel</string>
+
+    <string name="production_plant">Usine de production</string>string>
+
+
 
     <!-- Energy and power page -->
-    <string name="speed">Speed</string>
-    <string name="car">car</string>
-    <string name="gps">gps</string>
-    <string name="car_estimated_remaining_range">Car estimated remaining range</string>
+
+    <string name="speed">Vitesse</string>
+
+    <string name="car">Auto</string>
+
+    <string name="gps">GPS</string>
+
+    <string name="car_estimated_remaining_range">Autonomie restante de la voiture</string>
+
     <string name="ac_off_extra">AC off extra</string>
 
+
+
     <!-- GPS page -->
-    <string name="action_gps">GPS information</string>
+
+    <string name="action_gps">Information GPS</string>
+
     <string name="lattitude">Lattitude</string>
-    <string name="longtitude">Longtitude</string>
-    <string name="deg">deg</string>
+
+    <string name="longtitude">Longitude</string>
+
+    <string name="deg">DegrÈ</string>
+
     <string name="altitude">Altitude</string>
+
+
 
     <!-- Contributors page -->
 
-    <string name="action_contributors">Contributors</string>
-    <string name="anonymous">Anonymous</string>
+
+
+    <string name="action_contributors">Contribueurs</string>
+
+    <string name="anonymous">Anonyme</string>
 
 
 </resources>
