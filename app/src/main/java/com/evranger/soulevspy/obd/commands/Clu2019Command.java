@@ -18,7 +18,7 @@ public class Clu2019Command extends AbstractMultiCommand {
 
     public Clu2019Command() {
         addCommand(new BasicCommand("AT SH 7C6"));
-//        addCommand(new BasicCommand("AT CRA 7CE"));
+        addCommand(new BasicCommand("AT CRA 7CE"));
         mCmd22B002 = new BasicCommand("22 B0 02");
         addCommand(mCmd22B002);
 

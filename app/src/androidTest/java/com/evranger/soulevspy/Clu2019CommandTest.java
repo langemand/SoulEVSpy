@@ -41,6 +41,7 @@ public class Clu2019CommandTest  {
     public void test_eSoul2020CluCommand() {
         List<Pair<String, String>> reqres = Arrays.asList(
                 new Pair<String, String>("AT SH 7C6", msgOk),
+                new Pair<String, String>("AT CRA 7CE", msgOk),
                 new Pair<String, String>("22 B0 02", eSoul2020Clu22b002)
         );
         Responder responder = new Responder(reqres);

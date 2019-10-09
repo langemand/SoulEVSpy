@@ -23,7 +23,7 @@ public class Mcu2019Command extends AbstractMultiCommand {
 
     public Mcu2019Command() {
         addCommand(new BasicCommand("AT SH 7E3"));
-//        addCommand(new BasicCommand("AT CRA 7EB"));
+        addCommand(new BasicCommand("AT CRA 7EB"));
         mCmd2101 = new BasicCommand("21 01");
         mCmd2102 = new BasicCommand("21 02");
         mCmd2103 = new BasicCommand("21 03");
