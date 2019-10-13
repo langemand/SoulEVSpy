@@ -339,10 +339,10 @@
 
     <!-- GPS page -->
     <string name="action_gps">GPS information</string>
-    <string name="lattitude">Lattitude</string>
-    <string name="longtitude">Longtitude</string>
-    <string name="deg">deg</string>
+    <string name="lattitude">Lattitude degrees</string>
+    <string name="longtitude">Longtitude degrees</string>
     <string name="altitude">Altitude</string>
+    <string name="time">Time</string>
 
     <!-- Contributors page -->
 

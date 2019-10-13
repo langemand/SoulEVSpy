@@ -215,13 +215,13 @@
 
     <string name="action_gps">Information GPS</string>
 
-    <string name="lattitude">Lattitude</string>
+    <string name="lattitude">Lattitude DegrÈ</string>
 
-    <string name="longtitude">Longitude</string>
-
-    <string name="deg">DegrÈ</string>
+    <string name="longtitude">Longitude DegrÈ</string>
 
     <string name="altitude">Altitude</string>
+
+    <string name="time">Heure</string>
 
 
 

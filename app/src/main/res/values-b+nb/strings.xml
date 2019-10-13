@@ -349,13 +349,13 @@
 
     <string name="action_gps">GPS informasjon</string>
 
-    <string name="lattitude">Breddegrad (lat)</string>
+    <string name="lattitude">Breddegrad (lat) grader</string>
 
-    <string name="longtitude">Lengdegrad (long)</string>
-
-    <string name="deg">grader</string>
+    <string name="longtitude">Lengdegrad (long) grader</string>
 
     <string name="altitude">Høyde</string>
+
+    <string name="time">Tid</string>
 
 
 

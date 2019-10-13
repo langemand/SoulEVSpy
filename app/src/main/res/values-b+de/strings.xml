@@ -29,7 +29,7 @@
 
     <string name="action_battery_cellmap">Batteriezellenzuordnung</string>
 
-    <string name="action_battery">Batterie Management System</string>
+    <string name="action_battery">Batterie-Management-System</string>
 
     <string name="action_settings">Einstellungen</string>
 
@@ -316,13 +316,13 @@
 
     <string name="unknown_deterioration">unbekannte Verschlechterung</string>
 
-    <string name="aux_battery">12V batterie</string>
+    <string name="aux_battery">12-V-Batterie</string>
 
     <string name="ambient_temperature">Umgebungstemperatur</string>
 
     <string name="odometer">Kilometerzähler</string>
 
-    <string name="vehicle_identification_number">Fahrzeugidentificationsnummer (FIN)</string>
+    <string name="vehicle_identification_number">Fahrzeugidentifikationsnummer (FIN)</string>
 
     <string name="unable_to_process_vin_response">FIN-Nummer kann nicht verarbeitet werden</string>
 
@@ -338,7 +338,7 @@
 
     <string name="year">Jahr</string>
 
-    <string name="sequential_number">Sequenzielle Nummer</string>
+    <string name="sequential_number">Seriennummer</string>
 
     <string name="production_plant">Produktionsfabrik</string>string>
 
@@ -346,7 +346,7 @@
 
     <!-- Energy and power page -->
 
-    <string name="speed">Geschindigkeit</string>
+    <string name="speed">Geschwindigkeit</string>
 
     <string name="car">Auto</string>
 
@@ -360,16 +360,15 @@
 
     <!-- GPS page -->
 
-    <string name="action_gps">"GPS informationen"</string>
+    <string name="action_gps">"GPS-Informationen"</string>
 
-    <string name="lattitude">Breite</string>
+    <string name="lattitude">Geographische Breite</string>
 
-    <string name="longtitude">Länge</string>
-
-    <string name="deg">Grad</string>
+    <string name="longtitude">Geographische Länge</string>
 
     <string name="altitude">Höhe</string>
 
+    <string name="time">Zeit</string>
 
 
     <!-- Contributors page -->

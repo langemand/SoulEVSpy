@@ -64,8 +64,8 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
         Object tim = mValues.get(res.getString(R.string.col_route_time_s));
         mItems.clear();
         if (lat != null && lng != null && alt != null && tim != null && spd != null) {
-            mItems.add(new ListViewItem(mValues.getString(R.string.lattitude) + " " + mValues.getString(R.string.deg), lat.toString()));
-            mItems.add(new ListViewItem(mValues.getString(R.string.longtitude) + " " + mValues.getString(R.string.deg), lng.toString()));
+            mItems.add(new ListViewItem(mValues.getString(R.string.lattitude), lat.toString()));
+            mItems.add(new ListViewItem(mValues.getString(R.string.longtitude), lng.toString()));
             mItems.add(new ListViewItem(mValues.getString(R.string.altitude) + " (m)", alt.toString()));
             mItems.add(new ListViewItem(mValues.getString(R.string.speed) + " (m/s)", spd.toString()));
             Long utim = (Long) tim;
@@ -73,7 +73,7 @@ public class GpsFragment extends ListFragment implements CurrentValuesSingleton.
                 DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 Date date = new Date(utim);
                 String formatted = format.format(date);
-                mItems.add(new ListViewItem("Time", formatted));
+                mItems.add(new ListViewItem(mValues.getString(R.string.time), formatted));
             }
         }
 

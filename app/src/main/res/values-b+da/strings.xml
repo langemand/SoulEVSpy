@@ -174,10 +174,10 @@
 
     <!-- GPS page -->
     <string name="action_gps">GPS information</string>
-    <string name="lattitude">Breddegrad (lat)</string>
-    <string name="longtitude">Længdegrad (long)</string>
-    <string name="deg">grader</string>
+    <string name="lattitude">Breddegrad (lat) grader</string>
+    <string name="longtitude">Længdegrad (long) grader</string>
     <string name="altitude">Højde</string>
+    <string name="time">Tidspunkt</string>
 
     <!-- Contributors page -->
 
