@@ -1,0 +1,369 @@
+<resources>
+
+    <string name="app_name">Soul EV Spy</string>
+
+    <string name="app_name_lite">Soul EV Spy Lite</string>
+
+
+
+    <!-- Navigation Drawer -->
+
+    <string name="action_bluetooth">Подключение через Bluetooth</string>
+
+    <string name="action_car_information">Авто</string>
+
+    <string name="action_vmcu_information">Управление Мотором</string>
+
+    <string name="action_obc_information">Бортовой зарядник</string>
+
+    <string name="action_energy">Энергия</string>
+
+    <string name="action_charger_locations">DC-зарядные устройства (Нажмите для инфо)</string>
+
+    <string name="action_ldc">12V Аккумулятор</string>
+
+    <string name="action_tires">Данные с шин</string>
+
+    <string name="action_dashboard">Приборная панель</string>
+
+    <string name="action_dtc">DTC коды</string>
+
+    <string name="action_battery_cellmap">Карта ячеек батареи</string>
+
+    <string name="action_battery">Система Управления Батарей</string>
+
+    <string name="action_settings">Настройки</string>
+
+    <string name="action_replay">Воспроизведение записанных данных</string>
+
+    <string name="action_demo">Воспроизведение демо данных</string>
+
+    <string name="action_help">Помощь</string>
+
+
+
+    <!-- SettingsActivity -->
+
+    <string name="title_activity_settings">Настройки</string>
+
+
+
+    <string name="title_pref_car_models">Модели авто</string>
+
+    <string name="pref_car_model">Авто модель</string>
+
+    <string name="list_car_model_RayEV">Kia Ray EV</string>
+
+    <string name="list_car_model_SoulEV2015">Kia Soul EV 2015-2019</string>
+
+    <string name="list_car_model_eNiro">Kia e-Niro</string>
+
+    <string name="list_car_model_eSoul">Kia e-Soul 2020-</string>
+
+    <string name="list_car_model_BlueOnEV">Hyundai BlueOn EV</string>
+
+    <string name="list_car_model_IoniqEV">Hyundai Ioniq</string>
+
+    <string name="list_car_model_KonaEV">Hyundai Kona</string>
+
+    <string name="list_car_model_MonitorMode">Monitor Mode</string>
+
+
+
+    <string name="title_pref_units">Единицы</string>
+
+    <string name="pref_distance">Дистанция</string>
+
+    <string name="list_distance_km">Километры (km)</string>
+
+    <string name="list_distance_mi">Мили (mi)</string>
+
+
+
+    <string name="pref_energy_consumption">Расход Энергии</string>
+
+    <string name="list_energy_consumption_kwh_100km">kWh/100 km</string>
+
+    <string name="list_energy_consumption_km_kwh">km/kWh</string>
+
+    <string name="list_energy_consumption_kwh_100mi">kWh/100 mi</string>
+
+    <string name="list_energy_consumption_mi_kwh">mi/kWh</string>
+
+
+
+    <string name="pref_temperature">Температура</string>
+
+    <string name="list_temperature_c">Цельсий (\u2103)</string>
+
+    <string name="list_temperature_f">Фаренгейт (\u2109)</string>
+
+
+
+    <string name="pref_pressure">Давление</string>
+
+    <string name="list_pressure_psi">PSI (psi)</string>
+
+    <string name="list_pressure_bar">Aтм (bar)</string>
+
+    <string name="list_pressure_kpa">КPa (kPa)</string>
+
+
+
+    <string name="title_pref_bluetooth">Bluetooth</string>
+
+    <string name="pref_bluetooth_device">Устройство Bluetooth</string>
+
+    <string name="pref_bluetooth_device_summary">Выбери свой Bluetooth OBD-II адаптер </string>
+
+    <string name="pref_auto_reconnect">Автоматическое подключение</string>
+
+    <string name="pref_scan_interval">Интервал между сканированием (секунды)</string>
+
+    <string name="pref_default_scan_interval">3.0</string>
+
+
+
+    <string name="title_pref_storage">Хранение данных</string>
+
+    <string name="pref_storage_upload_to_cloud">Загрузить данные на облако (возможно платно!)</string>
+
+    <string name="pref_storage_save_in_downloads_dir">Сохранить данные в папке Загрузки</string>
+
+
+
+    <string name="title_pref_about">Информация</string>
+
+    <string name="pref_about">Информация о Soul EV Spy</string>
+
+    <string name="pref_licenses">Лицензии с открытым исходным кодом</string>
+
+    <string name="pref_licenses_summary">Сведения о лицензии на программное обеспечение с открытым исходным кодом</string>
+
+    <string name="pref_version_summary">Версия %1$s</string>
+
+    <string name="pref_privacy_policy">Правила конфиденциальности</string>
+
+    <string name="pref_privacy_policy_summary">Privacy policy for this app</string>
+
+
+
+    <string name="dialog_back_button_message">Отключить SoulEVSpy?</string>
+
+    <string name="dialog_back_button_terminate">Отключить</string>
+
+    <string name="dialog_back_button_background">Оставить на фоне</string>
+
+    <string name="dialog_back_button_cancel">Отменить</string>
+
+
+
+    <string name="dialog_warn_data_not_saved_title">"Осторожно: Данные не будут сохранены!"</string>
+
+    <string name="dialog_warn_data_not_saved_message">Не отмеченно где сохранить:\n
+
+        \n
+
+        - Upload data to cloud (may incur charges!)\n
+
+        - Save data in Downloads dir\n
+
+        \n
+
+        Data will be read from car and displayed on screen, but not saved in files!\n
+
+        Click Ok to continue</string>
+
+    <string name="dialog_Ok">Ok</string>
+
+
+
+    <string name="dialog_authenticate_to_upload_title">Авторизация необходима</string>
+
+    <string name="dialog_authenticate_to_upload_message">Нужно авторизироваться чтоб загрузить данные.</string>
+
+
+
+    <string name="dialog_lite_splash_title">Уведомления</string>
+
+    <string name="dialog_lite_splash_message">Бесплатная версия (Soul EV Spy Lite) не сохранит данные. Купите полную версию (Soul EV Spy).</string>
+
+
+
+    <string name="dialog_select_bluetooth_dongle_title">Выберите OBD-II адаптер</string>
+
+    <string name="dialog_select_bluetooth_dongle_message">Пожалуйста выберите OBD-II Bluetooth адаптер в настройках</string>
+
+
+
+    <string name="dialog_select_car_model_title">Выберите модель автомобиля</string>
+
+    <string name="dialog_select_car_model_message">Пожалуйста выберите модель автомобила в настройках</string>
+
+
+
+    <!-- Main Activity -->
+
+
+
+    <string name="dongle_connecting">SoulEVSpy Подключение...</string>
+
+    <string name="dongle_disconnecting">SoulEVSpy Отключение...</string>
+
+    <string name="dongle_connected">SoulEVSpy Подключено</string>
+
+    <string name="dongle_disconnected">SoulEVSpy Отключено</string>
+
+
+
+    <!-- Error messages -->
+
+    <string name="error_bluetooth_not_available">Bluetooth недоступен</string>
+
+    <string name="error_no_bluetooth_device"> Bluetooth адаптер не выбран</string>
+
+    <string name="error_bluetooth_service_not_available">Bluetooth подключение не доступно</string>
+
+
+
+    <!-- Information messages -->
+
+    <string name="info_disconnect_bluetooth_to_start_replay">Отключите Bluetooth</string>
+
+    <string name="info_data_will_not_be_saved">Данные не будут сохранены!</string>
+
+
+    <!-- File names -->
+
+
+    <!-- ChargerLocations -->
+
+
+    <!-- Car Information (VIN decoding) -->
+
+    <string name="car_trim_base">Base</string>
+
+    <string name="car_trim_eniro_first_edition_base">First Edition Base</string>
+
+    <string name="car_trim_ioniq_trend">Trend</string>
+
+    <string name="car_trim_ioniq_se">SE</string>
+
+    <string name="car_trim_plus">Plus/Luxury</string>
+
+    <string name="car_trim_exclusive">Exclusive</string>
+
+    <string name="car_unknown">Unknown</string>
+
+    <string name="car_south_korea">South Korea</string>
+
+    <!-- Temoerature signs -->
+
+    <!-- Data column labels -->
+
+
+    <!-- Cellmap voltages -->
+
+    <string name="title_activity_cellmap_cellvoltage">Карта напряжения ячеек</string>
+
+    <string name="button_CellmapVoltage">Карта напряжения ячеек</string>
+
+
+    <!-- Texts refactored from hardcoded values -->
+
+    <!-- Preferences -->
+
+    <string name="enable_bluetooth_on_phone">Включите Bluetooth на телефоне</string>
+
+
+
+    <!-- DC chargers page -->
+
+    <string name="from_charger_locations_provider">От elmobil.ru: </string>
+
+    <string name="click_to_see_details_in_browser">Нажмите на текст чтоб открыть в браузере</string>
+
+    <string name="car_estimated_remaining_range_km">Расчетный запас хода (km)</string>
+
+    <string name="below_are_out_of_range">Ниже станции вне зоны запаса хода</string>
+
+    <string name="charge_point_verified">Проверенная станция</string>
+
+    <string name="straight_dist">Расстояние до станции:</string>
+
+    <string name="no_chargers_nearby">Нет быстрых зарядок!</string>
+
+
+
+    <!-- Car page -->
+
+    <string name="battery_soh_pct">Остаточная емкость батареи %</string>
+
+    <string name="unknown_deterioration">Неизвестное ухудшение свойств батареи</string>
+
+    <string name="aux_battery">12В Батарея</string>
+
+    <string name="ambient_temperature">Уличная температура</string>
+
+    <string name="odometer">Одометр</string>
+
+    <string name="vehicle_identification_number">Идентификационный номер</string>
+
+    <string name="unable_to_process_vin_response">Невозможно считать идентификационный номер</string>
+
+    <string name="codes">Код</string>
+
+    <string name="brand">Марка</string>
+
+    <string name="model">Модель</string>
+
+    <string name="trim">Комплектация</string>
+
+    <string name="engine">Мотор</string>
+
+    <string name="year">Год</string>
+
+    <string name="sequential_number">Порядковый номер</string>
+
+    <string name="production_plant">Завод производитель</string>
+
+
+
+    <!-- Energy and power page -->
+
+    <string name="speed">Скорость</string>
+
+    <string name="car">Автомобиль</string>
+
+    <string name="gps">GPS</string>
+
+    <string name="car_estimated_remaining_range">Расчетный запас хода</string>
+
+    <string name="ac_off_extra">Доп.запас хода при выключенном кондиционере</string>
+
+
+
+    <!-- GPS page -->
+
+    <string name="action_gps">Информация GPS</string>
+
+    <string name="lattitude">Широта</string>
+
+    <string name="longtitude">Долгота</string>
+
+    <string name="time">время</string>
+
+    <string name="altitude">Высота над уровнем моря</string>
+
+
+
+    <!-- Contributors page -->
+
+
+
+    <string name="action_contributors">Авторы</string>
+
+    <string name="anonymous">Аноним</string>
+
+
+</resources>
