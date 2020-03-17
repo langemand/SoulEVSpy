@@ -39,6 +39,8 @@
 
     <string name="action_help">Hilfe &amp; Feedback</string>
 
+    <string name="action_climate">Aircon</string>
+    <string name="action_users_guide">Bedienungsanleitung</string>
 
 
    <!-- SettingsActivity -->
@@ -106,6 +108,7 @@
     <string name="pref_bluetooth_device">Bluetooth-Gerät</string>
     <string name="pref_bluetooth_device_summary">Wählen Sie Ihr OBD-II Bluetooth-Gerät</string>
     <string name="pref_auto_reconnect">Automatische Wiederherstellung</string>
+    <string name="pref_auto_connect_limit">Fehlergrenze, bevor der Versuch abgebrochen wird</string>
     <string name="pref_scan_interval">Zeitintervall zwischen Scans (Sekunden)</string>
     <string name="pref_default_scan_interval">3.0</string>
 
@@ -125,6 +128,8 @@
     <string name="pref_privacy_policy">Datenschutzrichtlinie</string>
 
     <string name="pref_privacy_policy_summary">Datenschutzrichtlinie für diese App</string>
+    <string name="pref_contributors">Mitwirkende</string>
+    <string name="pref_contributors_summary">Diejenigen, die zu dieser App beigetragen haben</string>
 
 
 
@@ -209,39 +214,30 @@
 
     <!-- File names -->
 
-
-
-
-
     <!-- ChargerLocations -->
-
-
 
     <!-- Car Information (VIN decoding) -->
 
-
-
-
-
-
-
     <string name="car_trim_base">Base</string>
-
     <string name="car_trim_eniro_first_edition_base">First Edition Base</string>
-
     <string name="car_trim_ioniq_trend">Trend</string>
-
     <string name="car_trim_ioniq_se">SE</string>
-
     <string name="car_trim_plus">Plus/Luxury</string>
-
     <string name="car_trim_exclusive">Exclusive</string>
-
+    <string name="car_trim_ultimate">Ultimate</string>
     <string name="car_unknown">Unknown</string>
 
 
     <string name="car_south_korea">Süd Korea</string>
 
+    // Background info for SOH display
+    <string name="calc_soh_source_pid_unknown">Still unknown for car model year</string>
+    <string name="calc_soh_source_awaiting">Awaiting data</string> // TODO
+    <string name="calc_soh_source_bms_not_read">Awaiting read of BMS data</string>  //TODO
+    <string name="calc_soh_source_deterioration_bms_not_set">BMS has no deterioration value yet</string> //TODO
+    <string name="calc_soh_source_deterioration">Calculated from BMS deterioration min/max</string> //TODO
+    <string name="calc_soh_source_pid_scaled_bms_not_set">BMS has no SOH value yet</string> //TODO
+    <string name="calc_soh_source_pid_scaled">BMS SOH value</string>
 
 
     <!-- Data column labels -->
@@ -311,6 +307,8 @@
 
 
     <!-- Car page -->
+
+    <string name="battery_soh_source">Battery SOH source</string> // TODO
 
     <string name="battery_soh_pct">Batterie SOH %</string>
 

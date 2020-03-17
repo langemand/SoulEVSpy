@@ -40,6 +40,8 @@
 
     <string name="action_help">Помощь</string>
 
+    <string name="action_climate">Кондиционер</string>
+    <string name="action_users_guide">Руководство пользователя</string>
 
 
     <!-- SettingsActivity -->
@@ -118,6 +120,8 @@
 
     <string name="pref_auto_reconnect">Автоматическое подключение</string>
 
+    <string name="pref_auto_connect_limit">Failure limit before stop retrying</string> // TODO
+
     <string name="pref_scan_interval">Интервал между сканированием (секунды)</string>
 
     <string name="pref_default_scan_interval">3.0</string>
@@ -144,7 +148,9 @@
 
     <string name="pref_privacy_policy">Правила конфиденциальности</string>
 
-    <string name="pref_privacy_policy_summary">Privacy policy for this app</string>
+    <string name="pref_privacy_policy_summary">Privacy policy for this app, in english</string>
+    <string name="pref_contributors">Авторы</string>
+    <string name="pref_contributors_summary">Те, кто способствовал этому приложению</string>
 
 
 
@@ -242,22 +248,26 @@
     <!-- Car Information (VIN decoding) -->
 
     <string name="car_trim_base">Base</string>
-
     <string name="car_trim_eniro_first_edition_base">First Edition Base</string>
-
     <string name="car_trim_ioniq_trend">Trend</string>
-
     <string name="car_trim_ioniq_se">SE</string>
-
     <string name="car_trim_plus">Plus/Luxury</string>
-
     <string name="car_trim_exclusive">Exclusive</string>
-
+    <string name="car_trim_ultimate">Ultimate</string>
     <string name="car_unknown">Unknown</string>
 
     <string name="car_south_korea">South Korea</string>
 
-    <!-- Temoerature signs -->
+    // Background info for SOH display
+    <string name="calc_soh_source_pid_unknown">Still unknown for car model year</string>
+    <string name="calc_soh_source_awaiting">Awaiting data</string> // TODO
+    <string name="calc_soh_source_bms_not_read">Awaiting read of BMS data</string>  //TODO
+    <string name="calc_soh_source_deterioration_bms_not_set">BMS has no deterioration value yet</string> //TODO
+    <string name="calc_soh_source_deterioration">Calculated from BMS min/max deterioration</string> //TODO
+    <string name="calc_soh_source_pid_scaled_bms_not_set">BMS has no SOH value yet</string> //TODO
+    <string name="calc_soh_source_pid_scaled">BMS SOH value</string>
+
+    <!-- Temperature signs -->
 
     <!-- Data column labels -->
 
@@ -296,6 +306,7 @@
 
 
     <!-- Car page -->
+    <string name="battery_soh_source">Battery SOH source</string> // TODO
 
     <string name="battery_soh_pct">Остаточная емкость батареи %</string>
 

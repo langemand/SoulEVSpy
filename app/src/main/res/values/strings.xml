@@ -19,6 +19,8 @@
     <string name="action_replay">Replay recorded data</string>
     <string name="action_demo">Play demo data</string>
     <string name="action_help">Help &amp; Feedback</string>
+    <string name="action_climate">Aircon</string>
+    <string name="action_users_guide">Users\' guide</string>
 
    <!-- SettingsActivity -->
     <string name="title_activity_settings">Settings</string>
@@ -58,6 +60,8 @@
     <string name="pref_bluetooth_device">Bluetooth device</string>
     <string name="pref_bluetooth_device_summary">Select your OBD-II Bluetooth device</string>
     <string name="pref_auto_reconnect">Re-connect automatically</string>
+    <string name="pref_auto_connect_limit">Failure limit before stop retrying</string>
+    <string name="pref_default_auto_connect_limit" translatable="false">10</string>
     <string name="pref_scan_interval">Interval between scans (seconds)</string>
     <string name="pref_default_scan_interval">3.0</string>
 
@@ -72,6 +76,9 @@
     <string name="pref_version_summary">Version %1$s</string>
     <string name="pref_privacy_policy">Privacy policy</string>
     <string name="pref_privacy_policy_summary">Privacy policy for this app</string>
+    <string name="pref_contributors">Contributors</string>
+    <string name="pref_contributors_summary">Who contributed to this app</string>
+    <string name="pref_users_guide">Users\' guide</string>
 
     <string name="dialog_back_button_message">Terminate SoulEVSpy?</string>
     <string name="dialog_back_button_terminate">Terminate</string>
@@ -135,6 +142,7 @@
     <string name="car_konaev" translatable="false">Kona EV</string>
 
     <string name="car_engine_e" translatable="false">Battery [LiPB 350 V, 75 Ah] + Motor [3-phase AC 80 kW]</string>
+    <string name="car_engine_30kWh" translatable="false">Battery [LiPB 375 V, 80 Ah] + Motor [3-phase AC 80 kW]</string>
     <string name="car_engine_150kw" translatable="false">Battery [LiPo 356 V, 180 Ah] + Motor [3-phase AC 150 kW]</string>
     <string name="car_engine_100kw" translatable="false">Battery [LiPo 327 V, 120 Ah] + Motor [3-phase AC 100 kW]</string>
     <string name="car_engine_ioniq_88kW" translatable="false">Battery [LiPB 360 V, 78 Ah] + Motor [3-phase AC 88 kW]</string>
@@ -147,6 +155,7 @@
     <string name="car_trim_ioniq_se">SE</string>
     <string name="car_trim_plus">Plus/Luxury</string>
     <string name="car_trim_exclusive">Exclusive</string>
+    <string name="car_trim_ultimate">Ultimate</string>
     <string name="car_unknown">Unknown</string>
 
     <string name="car_plant_hwaseong" translatable="false">Hwaseong</string>
@@ -156,6 +165,16 @@
     <string name="car_plant_ulsan" translatable="false">Ulsan</string>
 
     <string name="car_south_korea">South Korea</string>
+
+    // Background info for SOH display
+    <string name="calc_soh_source_pid_unknown">Still unknown for car model year</string>
+    <string name="calc_soh_source_awaiting">Awaiting data</string>
+    <string name="calc_soh_source_bms_not_read">Awaiting read of BMS data</string>
+    <string name="calc_soh_source_deterioration_bms_not_set">BMS has no deterioration value yet</string>
+    <string name="calc_soh_source_deterioration">Calculated from BMS deterioration min/max</string>
+    <string name="calc_soh_source_pid_scaled_bms_not_set">BMS has no SOH value yet</string>
+    <string name="calc_soh_source_pid_scaled">BMS SOH value</string>
+
 
     <!-- Temoerature signs -->
     <string name="sign_temperature_c" translatable="false">\u2103</string>
@@ -273,7 +292,16 @@
     <string name="col_tire_pressure_psi" translatable="false">tire.pressure</string>
     <string name="col_tire_temperature_C" translatable="false">tire.temperature</string>
 
+    <string name="col_ac_cabin_temp_C" translatable="false">aircon.cabin_front_temp_C</string>
+    <string name="col_ac_ambient_temp_C" translatable="false">aircon.ambient_temp_C</string>
+    <string name="col_ac_evaporator_temp_C" translatable="false">aircon.evaporator_temp_C</string>
+    <string name="col_ac_coolant_1_temp_C" translatable="false">aircon.coolant_1_temp_C</string>
+    <string name="col_ac_coolant_2_temp_C" translatable="false">aircon.coolant_2_temp_C</string>
+    <string name="col_ac_absolute_air_pressure_kgpcm2" translatable="false">aircon.absolute_air_pressure_kgpcm2</string>
+    <string name="col_ac_absolute_air_pressure_psi" translatable="false">aircon.absolute_air_pressure_psi</string>
+
     <string name="col_calc_battery_soh_pct" translatable="false">calc.battery_SOH_pct</string>
+    <string name="col_calc_battery_soh_source" translatable="false">calc.battery_SOH_source</string>
 
     <string name="col_watcher_consumption" translatable="false">calc.consumption</string>
 
@@ -314,6 +342,7 @@
     <string name="no_chargers_nearby">No DC-chargers nearby!</string>
 
     <!-- Car page -->
+    <string name="battery_soh_source">Battery SOH source</string>
     <string name="battery_soh_pct">Battery SOH %</string>
     <string name="unknown_deterioration">unknown deterioration</string>
     <string name="aux_battery">Aux battery</string>
@@ -339,8 +368,8 @@
 
     <!-- GPS page -->
     <string name="action_gps">GPS information</string>
-    <string name="lattitude">Lattitude degrees</string>
-    <string name="longtitude">Longtitude degrees</string>
+    <string name="lattitude">Latitude degrees</string>
+    <string name="longtitude">Longitude degrees</string>
     <string name="altitude">Altitude</string>
     <string name="time">Time</string>
 

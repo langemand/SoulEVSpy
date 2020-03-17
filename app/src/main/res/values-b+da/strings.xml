@@ -19,6 +19,8 @@
     <string name="action_replay">Afspil datafil fra tidligere</string>
     <string name="action_demo">Afspil demo data</string>
     <string name="action_help">Hjælp &amp; Feedback</string>
+    <string name="action_climate">Aircon</string>
+    <string name="action_users_guide">Brugervejledning</string>
 
         <!-- SettingsActivity -->
     <string name="title_activity_settings">Indstillinger</string>
@@ -58,6 +60,7 @@
     <string name="pref_bluetooth_device">Bluetooth enhed</string>
     <string name="pref_bluetooth_device_summary">Vælg din parrede OBD-II Bluetooth enhed</string>
     <string name="pref_auto_reconnect">Gen-forbind automatisk</string>
+    <string name="pref_auto_connect_limit">Max fejlende gen-forbindelses-forsøg</string>
     <string name="pref_scan_interval">Interval mellem scan (sekunder)</string>
     <string name="pref_default_scan_interval">3.0</string>
 
@@ -72,6 +75,8 @@
     <string name="pref_version_summary">Version %1$s</string>
     <string name="pref_privacy_policy">Fortrolighedspolitik</string>
     <string name="pref_privacy_policy_summary">Fortrolighedspolitik på engelsk for denne app</string>
+    <string name="pref_contributors">Frivillige</string>
+    <string name="pref_contributors_summary">De der har bidraget til denne app</string>
 
     <string name="dialog_back_button_message">Afslut SoulEVSpy?</string>
     <string name="dialog_back_button_terminate">Afslut</string>
@@ -124,10 +129,19 @@
     <string name="car_trim_ioniq_se">SE</string>
     <string name="car_trim_plus">Plus/Luxury</string>
     <string name="car_trim_exclusive">Exclusive</string>
+    <string name="car_trim_ultimate">Ultimate</string>
     <string name="car_unknown">Unknown</string>
 
     <string name="car_south_korea">Syd Korea</string>
 
+    // Background info for SOH display
+    <string name="calc_soh_source_pid_unknown">Endnu ukendt for model/år</string> //TODO
+    <string name="calc_soh_source_awaiting">Afventer data</string> // TODO
+    <string name="calc_soh_source_bms_not_read">Afventer BMS data</string>  //TODO
+    <string name="calc_soh_source_deterioration_bms_not_set">BMS har endnu ikke deterioration værdi</string> //TODO
+    <string name="calc_soh_source_deterioration">Beregnet fra BMS deterioration min/max værdi</string> //TODO
+    <string name="calc_soh_source_pid_scaled_bms_not_set">BMS har endnu ikke SOH værdi</string> //TODO
+    <string name="calc_soh_source_pid_scaled">BMS SOH værdi</string>
 
     <!-- Cellmap voltages -->
 
@@ -149,6 +163,8 @@
     <string name="no_chargers_nearby">Ingen DC-ladere i nærheden!</string>
 
     <!-- Car page -->
+    <string name="battery_soh_source">Kilde for SOH værdi</string>
+
     <string name="battery_soh_pct">Batteri SOH %</string>
     <string name="unknown_deterioration">ukendt deterioration</string>
     <string name="aux_battery">12V batteri</string>
