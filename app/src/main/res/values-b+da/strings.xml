@@ -77,6 +77,7 @@
     <string name="pref_privacy_policy_summary">Fortrolighedspolitik på engelsk for denne app</string>
     <string name="pref_contributors">Frivillige</string>
     <string name="pref_contributors_summary">De der har bidraget til denne app</string>
+    <string name="pref_users_guide">Brugervejledning</string>
 
     <string name="dialog_back_button_message">Afslut SoulEVSpy?</string>
     <string name="dialog_back_button_terminate">Afslut</string>

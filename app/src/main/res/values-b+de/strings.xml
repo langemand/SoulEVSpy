@@ -130,7 +130,7 @@
     <string name="pref_privacy_policy_summary">Datenschutzrichtlinie für diese App</string>
     <string name="pref_contributors">Mitwirkende</string>
     <string name="pref_contributors_summary">Diejenigen, die zu dieser App beigetragen haben</string>
-
+    <string name="pref_users_guide">Bedienungsanleitung</string>
 
 
     <string name="dialog_back_button_message">Beenden von SoulEVSpy?</string>

@@ -78,6 +78,7 @@
     <string name="pref_privacy_policy_summary">Politique de confidentialité pour cette application</string>
     <string name="pref_contributors">Contributeurs</string>
     <string name="pref_contributors_summary">Ceux qui ont contribué à cette application</string>
+    <string name="pref_users_guide">Guide de l'utilisateur</string>
 
     <string name="dialog_back_button_message">Fermer SoulEVSpy?</string>
     <string name="dialog_back_button_terminate">Fermer</string>

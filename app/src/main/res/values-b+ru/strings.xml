@@ -151,7 +151,7 @@
     <string name="pref_privacy_policy_summary">Privacy policy for this app, in english</string>
     <string name="pref_contributors">Авторы</string>
     <string name="pref_contributors_summary">Те, кто способствовал этому приложению</string>
-
+    <string name="pref_users_guide">Руководство пользователя</string>
 
 
     <string name="dialog_back_button_message">Отключить SoulEVSpy?</string>
