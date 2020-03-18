@@ -3,30 +3,30 @@
     <string name="app_name_lite">Soul EV Spy Lite</string>
 
     <!-- Navigation Drawer -->
-    <string name="action_bluetooth">Koble til OBD-II dongle</string>
+    <string name="action_bluetooth">Koble til med Bluetooth</string>
     <string name="action_car_information">Bil</string>
-    <string name="action_vmcu_information">Motor Styring</string>
-    <string name="action_obc_information">Innebygget AC-lader</string>
+    <string name="action_vmcu_information">Motorstyring</string>
+    <string name="action_obc_information">Ombordlader (OBC)</string>
     <string name="action_energy">Energi og effekt</string>
-    <string name="action_charger_locations">DC-ladere (Klikk for detaljer)</string>
-    <string name="action_ldc">LDC 12 V batterilader</string>
-    <string name="action_tires">Hjul data</string>
+    <string name="action_charger_locations">Hurtigladere i nærheten</string>
+    <string name="action_ldc">LDC 12 V-batterilader</string>
+    <string name="action_tires">Hjuldata</string>
     <string name="action_dashboard">Dashboard</string>
-    <string name="action_dtc">DTC koder</string>
-    <string name="action_battery_cellmap">Batteri-celle spenninger</string>
+    <string name="action_dtc">DTC-koder</string>
+    <string name="action_battery_cellmap">Spenning på battericeller</string>
     <string name="action_battery">Batteri Management System</string>
     <string name="action_settings">Innstillinger</string>
     <string name="action_replay">Avspill datafil fra tidligere</string>
-    <string name="action_demo">Avspill demo data</string>
-    <string name="action_help">Hjelp &amp; Feedback</string>
+    <string name="action_demo">Avspill demo-data</string>
+    <string name="action_help">Hjelp &amp; Tilbakemelding</string>
     <string name="action_climate">Aircon</string>
     <string name="action_users_guide">Brukermanual</string>
 
     <!-- SettingsActivity -->
     <string name="title_activity_settings">Innstillinger</string>
 
-    <string name="title_pref_car_models">Bil modeller</string>
-    <string name="pref_car_model">Bil modell</string>
+    <string name="title_pref_car_models">Bilmodeller</string>
+    <string name="pref_car_model">Bilmodell</string>
     <string name="list_car_model_RayEV">Kia Ray EV</string>
     <string name="list_car_model_SoulEV2015">Kia Soul EV 2015-2019</string>
     <string name="list_car_model_eNiro">Kia e-Niro</string>
@@ -41,7 +41,7 @@
     <string name="list_distance_km">Kilometer (km)</string>
     <string name="list_distance_mi">Miles (mi)</string>
 
-    <string name="pref_energy_consumption">Energi forbruk</string>
+    <string name="pref_energy_consumption">Energiforbruk</string>
     <string name="list_energy_consumption_kwh_100km">kWh/100 km</string>
     <string name="list_energy_consumption_km_kwh">km/kWh</string>
     <string name="list_energy_consumption_kwh_100mi">kWh/100 mi</string>
@@ -57,21 +57,21 @@
     <string name="list_pressure_kpa">kilopascal (kPa)</string>
 
     <string name="title_pref_bluetooth">Bluetooth</string>
-    <string name="pref_bluetooth_device">Bluetooth enhet</string>
-    <string name="pref_bluetooth_device_summary">Velg din parrede OBD-II Bluetooth enhet</string>
-    <string name="pref_auto_reconnect">Gjeninnkobling automatisk</string>
-    <string name="pref_auto_connect_limit">Maks. Mislykket tilkoblingsforsøk</string>
-    <string name="pref_scan_interval">Interval mellom scan (sekunder)</string>
+    <string name="pref_bluetooth_device">Bluetooth-enhet</string>
+    <string name="pref_bluetooth_device_summary">Velg din OBD-II Bluetooth-enhet</string>
+    <string name="pref_auto_reconnect">Automatisk gjeninnkobling</string>
+    <string name="pref_auto_connect_limit">Maks. mislykkede tilkoblingsforsøk</string>
+    <string name="pref_scan_interval">Intervall mellom skanninger (sek)</string>
     <string name="pref_default_scan_interval">3.0</string>
 
     <string name="title_pref_storage">Datafiler</string>
-    <string name="pref_storage_upload_to_cloud">Last opp filer til skyen (potensielle omkostninger!)</string>
-    <string name="pref_storage_save_in_downloads_dir">Lagre data ukrypteret i Downloads katalogen</string>
+    <string name="pref_storage_upload_to_cloud">Last opp filer til skyen (potensielle kostnader!)</string>
+    <string name="pref_storage_save_in_downloads_dir">Lagre data i Downloads-mappen</string>
 
     <string name="title_pref_about">Om Soul EV Spy</string>
     <string name="pref_about">Om Soul EV Spy</string>
-    <string name="pref_licenses">Open source lisenser</string>
-    <string name="pref_licenses_summary">Lisens-detaljer for open source software</string>
+    <string name="pref_licenses">Open source-lisenser</string>
+    <string name="pref_licenses_summary">Lisensdetaljer for open source-programvare</string>
     <string name="pref_version_summary">Versjon %1$s</string>
     <string name="pref_privacy_policy">Bruksvilkår for personvern</string>
     <string name="pref_privacy_policy_summary">Bruksvilkår for personvern på engelsk for denne appen</string>
@@ -87,8 +87,8 @@
     <string name="dialog_warn_data_not_saved_title">ADVARSEL: Data blir ikke lagret!</string>
     <string name="dialog_warn_data_not_saved_message">Ingen av disse innstillingene ble lagret:\n
         \n
-        - Laste opp filer til skyen (potensielle omkostninger!)\n
-        - Lagre data ukrypteret i Downloads katalogen\n
+        - Laste opp filer til skyen (potensielle kostnader!)\n
+        - Lagre data ukrypteret i Downloads-mappen\n
         \n
         Data vil bli innlest fra bilen og vist på skjermen, men vil ikke bli lagret i filer!\n
         Klikk Ok for å fortsette</string>
@@ -98,28 +98,28 @@
     <string name="dialog_authenticate_to_upload_message">Du er nødt til at registrere deg og logge inn, for å kunne sende data til skyen. Derfor vil du bli bedt om å logge inn som neste trinn.</string>
 
     <string name="dialog_lite_splash_title">Bemerk</string>
-    <string name="dialog_lite_splash_message">Denne gratis appen (Soul EV Spy Lite) skriver ikke lengere data-filer i Download katalogen, og blir ikke lenger lagret. Du bør vurdere å oppgradere til den betalte appen (Soul EV Spy).</string>
+    <string name="dialog_lite_splash_message">Denne gratis-appen (Soul EV Spy Lite) skriver ikke lengere datafiler i Download-mappen, og blir ikke lenger lagret. Du bør vurdere å oppgradere til den betalte appen (Soul EV Spy).</string>
 
-    <string name="dialog_select_bluetooth_dongle_title">Velg OBD-II enhet</string>
-    <string name="dialog_select_bluetooth_dongle_message">Velg din OBD-II bluetooth enhet i app innstillingene</string>
+    <string name="dialog_select_bluetooth_dongle_title">Velg OBD-II-enhet</string>
+    <string name="dialog_select_bluetooth_dongle_message">Velg din OBD-II Bluetooth-enhet i innstillingene</string>
 
-    <string name="dialog_select_car_model_title">Velg din bil modell</string>
-    <string name="dialog_select_car_model_message">Vennligst velg din bilmodell i Settings</string>
+    <string name="dialog_select_car_model_title">Velg din bilmodell</string>
+    <string name="dialog_select_car_model_message">Vennligst velg din bilmodell i innstillingene</string>
 
     <!-- Main Activity -->
 
-    <string name="dongle_connecting">SoulEVSpy Forbindelse opprettes...</string>
-    <string name="dongle_disconnecting">SoulEVSpy Forbindelse avbrytes...</string>
-    <string name="dongle_connected">SoulEVSpy Tilkoblet</string>
-    <string name="dongle_disconnected">SoulEVSpy Frakoblet</string>
+    <string name="dongle_connecting">SoulEVSpy kobler til...</string>
+    <string name="dongle_disconnecting">SoulEVSpy kobler fra...</string>
+    <string name="dongle_connected">SoulEVSpy tilkoblet</string>
+    <string name="dongle_disconnected">SoulEVSpy frakoblet</string>
 
     <!-- Error messages -->
     <string name="error_bluetooth_not_available">Bluetooth er ikke tilgjengelig</string>
-    <string name="error_no_bluetooth_device">Ingen Bluetooth enhet valgt</string>
-    <string name="error_bluetooth_service_not_available">Bluetooth service er ikke tilgjengelig</string>
+    <string name="error_no_bluetooth_device">Ingen Bluetooth-enhet valgt</string>
+    <string name="error_bluetooth_service_not_available">Bluetooth-tjeneste er ikke tilgjengelig</string>
 
     <!-- Information messages -->
-    <string name="info_disconnect_bluetooth_to_start_replay">Avbryt bluetooth forbindelsen først</string>
+    <string name="info_disconnect_bluetooth_to_start_replay">Avbryt Bluetooth-tilkoblingen først</string>
     <string name="info_data_will_not_be_saved">Data vil ikke bli lagret!</string>
 
     <string name="car_trim_base">Base</string>
@@ -129,18 +129,18 @@
     <string name="car_trim_plus">Plus/Luxury</string>
     <string name="car_trim_exclusive">Exclusive</string>
     <string name="car_trim_ultimate">Ultimate</string>
-    <string name="car_unknown">Unknown</string>
+    <string name="car_unknown">Ukjent</string>
 
-    <string name="car_south_korea">Syd Korea</string>
+    <string name="car_south_korea">Sør-Korea</string>
 
     <!-- Background info for SOH display -->
-    <string name="calc_soh_source_pid_unknown">Still unknown for car model year</string>
-    <string name="calc_soh_source_awaiting">Awaiting data</string> // TODO
-    <string name="calc_soh_source_bms_not_read">Awaiting read of BMS data</string>  //TODO
-    <string name="calc_soh_source_deterioration_bms_not_set">BMS has no deterioration value yet</string> //TODO
-    <string name="calc_soh_source_deterioration">Calculated from BMS deterioration min/max</string> //TODO
-    <string name="calc_soh_source_pid_scaled_bms_not_set">BMS has no SOH value yet</string> //TODO
-    <string name="calc_soh_source_pid_scaled">BMS SOH value</string>
+    <string name="calc_soh_source_pid_unknown">Fortsatt ukjent for bilmodellåret</string>
+    <string name="calc_soh_source_awaiting">Venter på data</string>
+    <string name="calc_soh_source_bms_not_read">Venter på lesing av BMS-data</string>
+    <string name="calc_soh_source_deterioration_bms_not_set">BMS har ingen forringelsesverdi enda</string>
+    <string name="calc_soh_source_deterioration">Kalkulert fra BMS sin min/maks forringelsesverdi</string>
+    <string name="calc_soh_source_pid_scaled_bms_not_set">BMS har ingen SOH-verdi enda</string>
+    <string name="calc_soh_source_pid_scaled">BMS SOH-verdi</string>
 
 
     <!-- Cellmap voltages -->
@@ -149,23 +149,23 @@
 
     <!-- Texts refactored from hardcoded values -->
     <!-- Preferences -->
-    <string name="enable_bluetooth_on_phone">Aktiver bluetooth på denne enheten</string>
+    <string name="enable_bluetooth_on_phone">Aktiver Bluetooth på denne enheten</string>
 
     <!-- DC chargers page -->
     <string name="from_charger_locations_provider">Fra goingelectric.de: </string>
-    <string name="click_to_see_details_in_browser">For detaljer, klikk på teksten nedenfor</string>
+    <string name="click_to_see_details_in_browser">Klikk på teksten for å se detaljer i nettleser</string>
     <string name="car_estimated_remaining_range_km">Bilens estimerte rekkevidde (km)</string>
     <string name="below_are_out_of_range">Følgende er utenfor rekkevidde!</string>
     <string name="charge_point_verified">Verifisert</string>
-    <string name="straight_dist">Direkte avstand:</string>
-    <string name="no_chargers_nearby">Ingen DC-ladere i nærheten!</string>
+    <string name="straight_dist">Luftlinje:</string>
+    <string name="no_chargers_nearby">Ingen hurtigladere i nærheten!</string>
 
     <!-- Car page -->
-    <string name="battery_soh_source">Battery SOH source</string> // TODO
-    <string name="battery_soh_pct">Batteri SOH %</string>
+    <string name="battery_soh_source">Kilde for batteriets SOH</string>
+    <string name="battery_soh_pct">Batteriets SOH %</string>
     <string name="unknown_deterioration">ukjent forringelse</string>
-    <string name="aux_battery">12V batteri</string>
-    <string name="ambient_temperature">Utendørs Temperatur</string>
+    <string name="aux_battery">12 V-batteri</string>
+    <string name="ambient_temperature">Utetemperatur</string>
     <string name="odometer">Kilometerteller</string>
     <string name="vehicle_identification_number">Serienummer (VIN)</string>
     <string name="unable_to_process_vin_response">Kan ikke prosessere VIN</string>
@@ -188,9 +188,9 @@
     <string name="ac_off_extra">Ekstra uten AC</string>
 
     <!-- GPS page -->
-    <string name="action_gps">GPS informasjon</string>
-    <string name="lattitude">Breddegrad (lat) grader</string>
-    <string name="longtitude">Lengdegrad (long) grader</string>
+    <string name="action_gps">GPS-informasjon</string>
+    <string name="lattitude">Breddegrad (lat)</string>
+    <string name="longtitude">Lengdegrad (long)</string>
     <string name="altitude">Høyde</string>
     <string name="time">Tid</string>
 
