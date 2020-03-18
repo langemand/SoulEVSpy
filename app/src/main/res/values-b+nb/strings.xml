@@ -3,7 +3,7 @@
     <string name="app_name_lite">Soul EV Spy Lite</string>
 
     <!-- Navigation Drawer -->
-    <string name="action_bluetooth">Koble til med Bluetooth</string>
+    <string name="action_bluetooth">Koble til OBD-II-dongle</string>
     <string name="action_car_information">Bil</string>
     <string name="action_vmcu_information">Motorstyring</string>
     <string name="action_obc_information">Ombordlader (OBC)</string>
@@ -56,9 +56,9 @@
     <string name="list_pressure_bar">Bar (bar)</string>
     <string name="list_pressure_kpa">kilopascal (kPa)</string>
 
-    <string name="title_pref_bluetooth">Bluetooth</string>
+    <string name="title_pref_bluetooth">Bluetooth (OBD-II)</string>
     <string name="pref_bluetooth_device">Bluetooth-enhet</string>
-    <string name="pref_bluetooth_device_summary">Velg din OBD-II Bluetooth-enhet</string>
+    <string name="pref_bluetooth_device_summary">Velg din OBD-II-dongle</string>
     <string name="pref_auto_reconnect">Automatisk gjeninnkobling</string>
     <string name="pref_auto_connect_limit">Maks. mislykkede tilkoblingsforsøk</string>
     <string name="pref_scan_interval">Intervall mellom skanninger (sek)</string>
@@ -137,7 +137,7 @@
     <string name="calc_soh_source_pid_unknown">Fortsatt ukjent for bilmodellåret</string>
     <string name="calc_soh_source_awaiting">Venter på data</string>
     <string name="calc_soh_source_bms_not_read">Venter på lesing av BMS-data</string>
-    <string name="calc_soh_source_deterioration_bms_not_set">BMS har ingen forringelsesverdi enda</string>
+    <string name="calc_soh_source_deterioration_bms_not_set">BMS har ingen verdi for enda</string>
     <string name="calc_soh_source_deterioration">Kalkulert fra BMS sin min/maks forringelsesverdi</string>
     <string name="calc_soh_source_pid_scaled_bms_not_set">BMS har ingen SOH-verdi enda</string>
     <string name="calc_soh_source_pid_scaled">BMS SOH-verdi</string>
