@@ -14,7 +14,7 @@
     <string name="action_dashboard">Dashboard</string>
     <string name="action_dtc">DTC-koder</string>
     <string name="action_battery_cellmap">Spenning på battericeller</string>
-    <string name="action_battery">Batteri Management System</string>
+    <string name="action_battery">Batteristyringssystem (BMS)</string>
     <string name="action_settings">Innstillinger</string>
     <string name="action_replay">Avspill datafil fra tidligere</string>
     <string name="action_demo">Avspill demo-data</string>
