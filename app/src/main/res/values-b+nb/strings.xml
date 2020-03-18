@@ -137,8 +137,8 @@
     <string name="calc_soh_source_pid_unknown">Fortsatt ukjent for bilmodellåret</string>
     <string name="calc_soh_source_awaiting">Venter på data</string>
     <string name="calc_soh_source_bms_not_read">Venter på lesing av BMS-data</string>
-    <string name="calc_soh_source_deterioration_bms_not_set">BMS har ingen verdi for enda</string>
-    <string name="calc_soh_source_deterioration">Kalkulert fra BMS sin min/maks forringelsesverdi</string>
+    <string name="calc_soh_source_deterioration_bms_not_set">BMS har ingen verdi for deterioation enda</string>
+    <string name="calc_soh_source_deterioration">Kalkulert fra BMS sin min/maks deterioation</string>
     <string name="calc_soh_source_pid_scaled_bms_not_set">BMS har ingen SOH-verdi enda</string>
     <string name="calc_soh_source_pid_scaled">BMS SOH-verdi</string>
 
