@@ -22,7 +22,7 @@
     <string name="action_climate">Aircon</string>
     <string name="action_users_guide">Users\' guide</string>
 
-   <!-- SettingsActivity -->
+    <!-- SettingsActivity -->
     <string name="title_activity_settings">Settings</string>
 
     <string name="title_pref_car_models">Car models</string>
@@ -166,7 +166,7 @@
 
     <string name="car_south_korea">South Korea</string>
 
-    // Background info for SOH display
+    <!-- Background info for SOH display -->
     <string name="calc_soh_source_pid_unknown">Still unknown for car model year</string>
     <string name="calc_soh_source_awaiting">Awaiting data</string>
     <string name="calc_soh_source_bms_not_read">Awaiting read of BMS data</string>
