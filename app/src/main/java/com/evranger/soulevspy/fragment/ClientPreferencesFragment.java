@@ -85,7 +85,8 @@ public class ClientPreferencesFragment extends PreferenceFragment implements Sha
             return true;
         }
 
-        if (preference.getKey().equals(getString(R.string.key_application_version)))
+        if (preference.getKey().equals(getString(R.string.key_contributors))
+                || preference.getKey().equals(getString(R.string.key_application_version)))
         {
             displayContributors();
             return true;

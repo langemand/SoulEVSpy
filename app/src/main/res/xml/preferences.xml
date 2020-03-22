@@ -65,6 +65,10 @@
     <!-- About -->
     <PreferenceCategory android:title="@string/title_pref_about">
         <Preference
+            android:key="@string/key_contributors"
+            android:title="@string/pref_contributors"
+            android:summary="@string/pref_contributors_summary" />
+        <Preference
             android:key="@string/key_privacy_policy"
             android:title="@string/pref_privacy_policy"
             android:summary="@string/pref_privacy_policy_summary" />

@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         Settings,
         Replay,
         Demo,
-        HelpFeedback
+        UserGuide
 //        ,Debug
     }
     private Position mPosition;
@@ -277,7 +277,8 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Settings.ordinal()).withName(R.string.action_settings).withSelectable(false).withIcon(GoogleMaterial.Icon.gmd_settings),
 //                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Replay.ordinal()).withName(R.string.action_replay).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay),
-                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Demo.ordinal()).withName(R.string.action_demo).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay)
+                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Demo.ordinal()).withName(R.string.action_demo).withSelectable(!mDevice.isConnected()).withIcon(GoogleMaterial.Icon.gmd_replay),
+                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.UserGuide.ordinal()).withName(R.string.action_users_guide).withIcon(GoogleMaterial.Icon.gmd_help)
 //                        , new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.Debug.ordinal()).withName("Debug").withIcon(GoogleMaterial.Icon.gmd_assessment)
 
 //                        new SecondaryDrawerItem().withIdentifier(NavigationDrawerItem.HelpFeedback.ordinal()).withName(R.string.action_help).withIcon(GoogleMaterial.Icon.gmd_help).withEnabled(false)
@@ -419,6 +420,9 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
                                 }
                             });
                         }
+                        break;
+                    case UserGuide:
+                        displayUsersGuide();
                         break;
 //                    case Debug:
 //                        fragment = new DebugFragment();
@@ -680,6 +684,21 @@ public class MainActivity extends AppCompatActivity implements Drawer.OnDrawerIt
         zipOut.close();
         fis.close();
         fos.close();
+    }
+
+    private void displayUsersGuide() {
+        Uri uri = null;
+// Open Users' guide link:
+        try {
+            String uriStr = getBaseContext().getString(R.string.link_users_guide);
+            uri = Uri.parse(uriStr);
+        } catch (Exception e) {
+            // Do Nothing?
+        }
+
+        if (uri != null) {
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        }
     }
 
 //    public void upload(String path) {

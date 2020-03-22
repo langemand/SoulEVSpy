@@ -8,12 +8,14 @@
     <string name="key_list_units_pressure" translatable="false">list_pressure</string>
     <string name="key_list_bluetooth_device" translatable="false">list_bluetooth_device</string>
     <string name="key_check_auto_reconnect" translatable="false">check_auto_reconnect</string>
+    <string name="key_edit_auto_connect_limit" translatable="false">edit_auto_connect_limit</string>
     <string name="key_edit_scan_interval" translatable="false">edit_scan_interval</string>
     <string name="key_check_storage_upload_to_cloud" translatable="false">check_storage_upload</string>
     <string name="key_check_storage_save_in_downloads_dir" translatable="false">check_storage_save</string>
     <string name="key_open_source_licenses" translatable="false">key_open_source_licenses</string>
     <string name="key_application_version" translatable="false">application_version</string>
     <string name="key_privacy_policy" translatable="false">key_privacy_policy</string>
+    <string name="key_contributors" translatable="false">key_contributors</string>
 
     <!-- arrays.xml values -->
     <string name="list_car_model_value_RayEV" translatable="false">RayEV</string>
@@ -23,6 +25,7 @@
     <string name="list_car_model_value_KonaEV" translatable="false">KonaEV</string>
     <string name="list_car_model_value_eNiro" translatable="false">eNiro</string>
     <string name="list_car_model_value_eSoul" translatable="false">eSoul2020</string>
+    <string name="list_car_model_value_choose" translatable="false">ChooseAnother</string>
     <string name="list_car_model_value_MonitorMode" translatable="false">MonitorMode</string>
 
     <string name="list_distance_value_km" translatable="false">km</string>
@@ -38,4 +41,8 @@
 
     <string name="list_pressure_value_psi" translatable="false">psi</string>
     <string name="list_pressure_value_bar" translatable="false">bar</string>
+    <string name="list_pressure_value_kpa" translatable="false">kPa</string>
+
+    <!--External links -->
+    <string name="link_users_guide" translatable="false">https://evranger.com/soul-ev-spy-users%27-guide.html</string>
 </resources>
