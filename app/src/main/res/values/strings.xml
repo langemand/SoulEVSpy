@@ -32,7 +32,7 @@
     <string name="list_car_model_eNiro">Kia e-Niro</string>
     <string name="list_car_model_eSoul">Kia e-Soul 2020-</string>
     <string name="list_car_model_BlueOnEV">Hyundai BlueOn EV</string>
-    <string name="list_car_model_IoniqEV" translatable="false"">Hyundai Ioniq</string>
+    <string name="list_car_model_IoniqEV" translatable="false">Hyundai Ioniq</string>
     <string name="list_car_model_KonaEV">Hyundai Kona</string>
     <string name="list_car_model_MonitorMode">Monitor Mode</string>
 
