@@ -140,7 +140,7 @@
     <string name="calc_soh_source_deterioration_bms_not_set">BMS har ingen verdi for deterioration enda</string>
     <string name="calc_soh_source_deterioration">Kalkulert fra BMS sin min/maks deterioration</string>
     <string name="calc_soh_source_pid_scaled_bms_not_set">BMS har ingen SOH-verdi enda</string>
-    <string name="calc_soh_source_pid_scaled">BMS SOH-verdi</string>
+    <string name="calc_soh_source_pid_scaled">Kopiert fra BMS sin SOH</string>
 
 
     <!-- Cellmap voltages -->
